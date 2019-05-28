@@ -1,4 +1,4 @@
-package main.java.si.matjazcerkvenik.alertmonitor;
+package si.matjazcerkvenik.alertmonitor;
 
 import javax.inject.Named;
 
