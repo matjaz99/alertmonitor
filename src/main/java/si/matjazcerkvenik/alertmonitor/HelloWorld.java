@@ -1,8 +1,8 @@
 package si.matjazcerkvenik.alertmonitor;
 
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
 
-@Named
+@ManagedBean
 public class HelloWorld {
 
     private String firstName = "John";

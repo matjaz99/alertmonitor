@@ -1,0 +1,46 @@
+<ui:composition template="/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="messagesTable" value="#{webhookBean.messages}" var="m"
+						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{m.formatedTimestamp}" />
+						</h:column>
+
+						<h:column headerClass="col0">
+							<f:facet name="header">From</f:facet>
+							<h:outputText value="#{m.remoteHost}:#{m.remotePort}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Method</f:facet>
+							<h:outputText value="#{m.method}" />
+						</h:column>
+
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Body</f:facet>
+							<h:outputText value="#{m.body}" styleClass="codeStyle" />
+						</h:column>
+
+					</h:dataTable>
+				</h:panelGrid>
+				
+				<hr/>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

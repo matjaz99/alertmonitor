@@ -1,0 +1,98 @@
+<ui:composition template="/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:form>
+					<h:dataTable id="messagesTable" value="#{webhookBean.activeAlarms}" var="n"
+						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{n.formatedTimestamp}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Source</f:facet>
+							<h:outputText value="#{n.source}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">user-agent</f:facet>
+							<h:outputText value="#{n.userAgent}" />
+						</h:column>
+
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Alert name</f:facet>
+							<h:outputText value="#{n.alertname}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Alert domain</f:facet>
+							<h:outputText value="#{n.alertdomain}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Event type</f:facet>
+							<h:outputText value="#{n.alerttype}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Instance</f:facet>
+							<h:outputText value="#{n.instance}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Nodename</f:facet>
+							<h:outputText value="#{n.nodename}" />
+						</h:column>
+
+						<h:column headerClass="col0">
+							<f:facet name="header">Icon</f:facet>
+							<p:graphicImage library="#{userBean.cssTheme}" name="img/#{webhookBean.getSeverityStatusIcon(n.severity)}" title="#{n.severity}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Severity</f:facet>
+							<h:outputText value="#{n.severity}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Priority</f:facet>
+							<h:outputText value="#{n.priority}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Counter</f:facet>
+							<h:outputText value="#{n.counter}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Summary</f:facet>
+							<h:outputText value="#{n.summary}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Description</f:facet>
+							<h:outputText value="#{n.description}" />
+						</h:column>
+
+					</h:dataTable>
+					<p:poll interval="15" update="messagesTable" />
+				</h:form>
+			</h:panelGrid>
+				
+			<hr/>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
