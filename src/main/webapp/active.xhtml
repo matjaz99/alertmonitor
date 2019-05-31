@@ -1,6 +1,5 @@
 <ui:composition template="/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" >
@@ -11,63 +10,60 @@
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
 					<p:dataTable id="messagesTable" value="#{webhookBean.activeAlarms}" var="n"
+						rowStyleClass="#{n.severity}"
 						cellpadding="0" cellspacing="0" width="100%">
 
-						<h:column headerText="Date">
+						<p:column headerText="Date">
 							<h:outputText value="#{n.formatedTimestamp}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Source">
+						<p:column headerText="Source">
 							<h:outputText value="#{n.source}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="User-agent">
+						<p:column headerText="User-agent">
 							<h:outputText value="#{n.userAgent}" />
-						</h:column>
+						</p:column>
 
-						<h:column headerText="Alert name">
+						<p:column headerText="Alert name">
 							<h:outputText value="#{n.alertname}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Alert domain">
+						<p:column headerText="Alert domain">
 							<h:outputText value="#{n.alertdomain}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Event type">
+						<p:column headerText="Event type">
 							<h:outputText value="#{n.alerttype}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Instance">
+						<p:column headerText="Instance">
 							<h:outputText value="#{n.instance}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Nodename">
+						<p:column headerText="Nodename">
 							<h:outputText value="#{n.nodename}" />
-						</h:column>
-
-						<h:column headerText="Icon">
-							<p:graphicImage library="#{userBean.cssTheme}" name="img/#{webhookBean.getSeverityStatusIcon(n.severity)}" title="#{n.severity}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Severity">
+						<p:column headerText="Severity">
 							<h:outputText value="#{n.severity}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Priority">
+						<p:column headerText="Priority">
 							<h:outputText value="#{n.priority}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Counter">
+						<p:column headerText="Counter">
 							<h:outputText value="#{n.counter}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Summary">
+						<p:column headerText="Summary">
 							<h:outputText value="#{n.summary}" />
-						</h:column>
+						</p:column>
 						
-						<h:column headerText="Description">
+						<p:column headerText="Description">
 							<h:outputText value="#{n.description}" />
-						</h:column>
+						</p:column>
 
 					</p:dataTable>
 					<p:poll interval="15" update="messagesTable" />

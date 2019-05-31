@@ -231,15 +231,18 @@ public class WebhookServlet extends HttpServlet {
 			}
 			if (activeAlerts.containsKey(n.getNid())) {
 				if (n.getSeverity().equalsIgnoreCase("clear")) {
+					System.out.println("Removing active alarm: " + n.getNid());
 					activeAlerts.remove(n.getNid());
 				} else {
 					activeAlerts.get(n.getNid()).setLastTimestamp(n.getTimestamp());
 					activeAlerts.get(n.getNid()).setCounter(n.getCounter() + 1);
+					System.out.println("Updating active alarm: " + n.getNid());
 				}
 			} else {
 				// if clear comes to here, then it means there is no such NID to be deleted. Such clear can be ignored.
 				if (!n.getSeverity().equalsIgnoreCase("clear")) {
 					activeAlerts.put(n.getNid(), n);
+					System.out.println("Adding active alarm: " + n.getNid());
 				}
 			}
 		}

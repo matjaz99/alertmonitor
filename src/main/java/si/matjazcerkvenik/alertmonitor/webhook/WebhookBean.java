@@ -52,6 +52,7 @@ public class WebhookBean {
 		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
 		    }
 		});
+		System.out.println("Active alarm list size: " + list.size());
 		return list;
 	}
 	
