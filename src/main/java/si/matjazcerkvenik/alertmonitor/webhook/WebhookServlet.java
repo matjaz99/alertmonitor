@@ -275,12 +275,6 @@ public class WebhookServlet extends HttpServlet {
 				n.setAlertdomain("unknown");
 			}
 			
-			if (a.getLabels().containsKey("alerttype")) {
-				n.setAlerttype(a.getLabels().get("alerttype"));
-			} else {
-				n.setAlerttype("unknown");
-			}
-			
 			if (a.getLabels().containsKey("instance")) {
 				n.setInstance(a.getLabels().get("instance"));
 			} else {
@@ -327,12 +321,12 @@ public class WebhookServlet extends HttpServlet {
 			n.setStatus(a.getStatus());
 			n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
 				+ n.getPriority() + n.getAlertname() + n.getAlertdomain() 
-				+ n.getAlerttype() + n.getInstance() + n.getSummary() 
+				+ n.getInstance() + n.getSummary()
 				+ n.getDescription() + new Random().nextInt(9999999) + n.getSource()
 				+ n.getUserAgent()));
 			
 			n.setNid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain() 
-			+ n.getAlerttype() + n.getInstance() + n.getSummary()));
+				 + n.getInstance() + n.getSummary()));
 			
 //			DNotification found = null;
 //			for (Iterator<DNotification> it1 = dNotifs.iterator(); it1.hasNext();) {

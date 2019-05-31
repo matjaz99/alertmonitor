@@ -27,7 +27,6 @@ public class DNotification {
 	private String userAgent;
 	private String alertdomain;
 	private String alertname;
-	private String alerttype;
 	
 	/** IP address of node */
 	private String instance;
@@ -128,14 +127,6 @@ public class DNotification {
 
 	public void setAlertname(String alertname) {
 		this.alertname = alertname;
-	}
-
-	public String getAlerttype() {
-		return alerttype;
-	}
-
-	public void setAlerttype(String alerttype) {
-		this.alerttype = alerttype;
 	}
 
 	public String getInstance() {
