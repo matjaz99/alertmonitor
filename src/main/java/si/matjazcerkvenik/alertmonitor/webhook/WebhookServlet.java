@@ -266,19 +266,19 @@ public class WebhookServlet extends HttpServlet {
 			if (m.getHeaderMap().containsKey("user-agent")) {
 				n.setUserAgent(m.getHeaderMap().get("user-agent"));
 			} else {
-				n.setUserAgent("unknown");
+				n.setUserAgent("-");
 			}
 
 			if (a.getLabels().containsKey("alertdomain")) {
 				n.setAlertdomain(a.getLabels().get("alertdomain"));
 			} else {
-				n.setAlertdomain("unknown");
+				n.setAlertdomain("-");
 			}
 			
 			if (a.getLabels().containsKey("instance")) {
 				n.setInstance(a.getLabels().get("instance"));
 			} else {
-				n.setInstance("unknown");
+				n.setInstance("-");
 			}
 			
 			if (a.getLabels().containsKey("nodename")) {

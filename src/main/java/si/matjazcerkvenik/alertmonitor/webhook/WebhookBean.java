@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -55,25 +56,23 @@ public class WebhookBean {
 		System.out.println("Active alarm list size: " + list.size());
 		return list;
 	}
-	
-	public String getSeverityStatusIcon(String severity) {
-		
-		if (severity.equalsIgnoreCase("critical")) {
-			return "bullet_red.png";
-		} else if (severity.equalsIgnoreCase("major")) {
-			return "bullet_orange.png";
-		} else if (severity.equalsIgnoreCase("minor")) {
-			return "bullet_orange.png";
-		} else if (severity.equalsIgnoreCase("warning")) {
-			return "bullet_yellow.png";
-		} else if (severity.equalsIgnoreCase("clear")) {
-			return "bullet_green.png";
-		} else if (severity.equalsIgnoreCase("informational")) {
-			return "bullet_blue.png";
-		} else {
-			return "bullet_black.png";
-		}
-		
+
+	public int getActiveAlarmsCount(String severity) {
+
+//		List<String> lines = Arrays.asList("spring", "node", "mkyong");
+//
+//		List<String> result = lines.stream()                // convert list to stream
+//				.filter(line -> !"mkyong".equals(line))     // we dont like mkyong
+//				.collect(Collectors.toList());              // collect the output and convert streams to a List
+//
+//		result.forEach(System.out::println);                //output : spring, node
+
+		List<DNotification> list = WebhookServlet.activeAlerts.values().stream()
+				.filter(notif -> notif.getSeverity().equals(severity))
+				.collect(Collectors.toList());
+
+		return list.size();
+
 	}
 	
 }
