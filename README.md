@@ -1,5 +1,7 @@
 # Alertmonitor
 
+[![Build Status](https://semaphoreci.com/api/v1/matjaz99/alertmonitor/branches/master/badge.svg)](https://semaphoreci.com/matjaz99/alertmonitor)
+
 Alertmonitor is a GUI for displaying alerts from Prometheus Alertmanager.
 
 A generic webhook in Alertmonitor accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
