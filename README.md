@@ -1,6 +1,6 @@
 # Alertmonitor
 
-[![Build Status](https://semaphoreci.com/api/v1/matjaz99/alertmonitor/branches/master/badge.svg)](https://semaphoreci.com/matjaz99/alertmonitor)
+[![Build Status](https://semaphoreci.com/api/v1/matjaz99/alertmonitor/branches/master/shields_badge.svg)](https://semaphoreci.com/matjaz99/alertmonitor)
 
 Alertmonitor is a GUI for displaying alerts from Prometheus Alertmanager.
 
