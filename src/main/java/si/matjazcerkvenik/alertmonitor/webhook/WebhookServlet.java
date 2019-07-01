@@ -23,7 +23,7 @@ public class WebhookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4274913262329715396L;
 	
-	public static List<HttpMessage> messages = new LinkedList<HttpMessage>();
+	public static List<RawHttpMessage> messages = new LinkedList<RawHttpMessage>();
 	public static List<AmAlertMessage> amMessages = new LinkedList<AmAlertMessage>();
 	public static List<DNotification> dNotifs = new LinkedList<DNotification>();
 	public static Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
@@ -62,7 +62,7 @@ public class WebhookServlet extends HttpServlet {
 		System.out.println("doGet(): parameterMap: " + getReqParams(req));
 		System.out.println("doGet(): headers: " + getReqHeaders(req));
 		
-		HttpMessage m = new HttpMessage();
+		RawHttpMessage m = new RawHttpMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -115,7 +115,7 @@ public class WebhookServlet extends HttpServlet {
 		System.out.println("doPost(): body: " + body);
 		System.out.println("doPost(): headers: " + getReqHeaders(req));
 		
-		HttpMessage m = new HttpMessage();
+		RawHttpMessage m = new RawHttpMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -210,7 +210,7 @@ public class WebhookServlet extends HttpServlet {
 		
 	}
 	
-	private void processAlertmanagerMessage(HttpMessage m) {
+	private void processAlertmanagerMessage(RawHttpMessage m) {
 		
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
@@ -251,7 +251,7 @@ public class WebhookServlet extends HttpServlet {
 		
 	}
 	
-	private List<DNotification> convertToDNotif(HttpMessage m, AmAlertMessage am) {
+	private List<DNotification> convertToDNotif(RawHttpMessage m, AmAlertMessage am) {
 		
 		List<DNotification> notifs = new ArrayList<DNotification>();
 		

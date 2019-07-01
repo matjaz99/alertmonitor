@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 
-public class HttpMessage {
+public class RawHttpMessage {
 
 	private long timestamp;
 	private int contentLength;

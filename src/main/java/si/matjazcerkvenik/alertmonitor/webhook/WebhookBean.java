@@ -32,7 +32,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class WebhookBean {
 	
-	public List<HttpMessage> getMessages() {
+	public List<RawHttpMessage> getMessages() {
 		return WebhookServlet.messages;
 	}
 	
