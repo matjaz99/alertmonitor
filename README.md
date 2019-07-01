@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/releases/)
 [![Github all releases](https://img.shields.io/github/downloads/matjaz99/alertmonitor/total.svg)](https://GitHub.com/matjaz99/alertmonitor/releases/)
 [![HitCount](http://hits.dwyl.io/matjaz99/alertmonitor.svg)](http://hits.dwyl.io/matjaz99/alertmonitor)
-[![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg?maxAge=604800)]
+https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg?maxAge=604800
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
 Alertmonitor is a GUI for displaying alerts from Prometheus Alertmanager.
