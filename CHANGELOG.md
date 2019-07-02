@@ -9,7 +9,7 @@
 
 Release includes:
 
-* [FEATURE] Pagination
+* [FEATURE] Pagination (#1)
 
 ## 1.0.0 / 2019-07-30
 
