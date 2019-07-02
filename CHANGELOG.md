@@ -5,6 +5,12 @@
 * [ENHANCEMENT] Enchancement
 * [BUGFIX] Bug fixing
 
+## 1.0.1 / 2019-xx-xx
+
+Release includes:
+
+* [FEATURE] Pagination
+
 ## 1.0.0 / 2019-07-30
 
 This is first release. Release includes:

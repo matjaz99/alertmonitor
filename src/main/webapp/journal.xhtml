@@ -1,5 +1,6 @@
 <ui:composition template="/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -9,55 +10,72 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
-					<p:dataTable id="messagesTable" value="#{webhookBean.DNotifs}" var="n"
-						rowStyleClass="#{n.severity}"
-						cellpadding="0" cellspacing="0" width="100%">
 
-						<p:column headerText="Date">
+
+
+					<p:dataTable id="messagesTable" widgetVar="notifsTable"
+								 value="#{webhookBean.DNotifs}" var="n"
+								 rows="100"
+								 paginator="true"
+								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								 rowsPerPageTemplate="100,500,1000"
+								 stickyHeader="true" stickyTopAt=".layout-topbar"
+								 sortMode="multiple"
+								 rowStyleClass="#{n.severity}"
+								 cellpadding="0" cellspacing="0" width="100%">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Search all fields: " />
+								<p:inputText id="globalFilter" onkeyup="PF('notifsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column headerText="Time" sortBy="#{n.formatedTimestamp}">
 							<h:outputText value="#{n.formatedTimestamp}" />
 						</p:column>
-						
-						<p:column headerText="Source">
+
+						<p:column headerText="Source" sortBy="#{n.source}">
 							<h:outputText value="#{n.source}" />
 						</p:column>
-						
-						<p:column headerText="User-agent">
+
+						<p:column headerText="User-agent" sortBy="#{n.userAgent}">
 							<h:outputText value="#{n.userAgent}" />
 						</p:column>
 
-						<p:column headerText="Alert name">
+						<p:column headerText="Alert name" sortBy="#{n.alertname}">
 							<h:outputText value="#{n.alertname}" />
 						</p:column>
-						
-						<p:column headerText="Alert domain">
+
+						<p:column headerText="Alert domain" sortBy="#{n.alertdomain}">
 							<h:outputText value="#{n.alertdomain}" />
 						</p:column>
-						
-						<p:column headerText="Instance">
+
+						<p:column headerText="Instance" sortBy="#{n.instance}">
 							<h:outputText value="#{n.instance}" />
 						</p:column>
-						
-						<p:column headerText="Nodename">
+
+						<p:column headerText="Nodename" sortBy="#{n.nodename}">
 							<h:outputText value="#{n.nodename}" />
 						</p:column>
-						
-						<p:column headerText="Severity">
+
+						<p:column headerText="Severity" sortBy="#{n.severity}">
 							<h:outputText value="#{n.severity}" />
 						</p:column>
-						
-						<p:column headerText="Priority">
+
+						<p:column headerText="Priority" sortBy="#{n.priority}">
 							<h:outputText value="#{n.priority}" />
 						</p:column>
-						
-						<p:column headerText="Status">
+
+						<p:column headerText="Status" sortBy="#{n.status}">
 							<h:outputText value="#{n.status}" />
 						</p:column>
-						
-						<p:column headerText="Summary">
+
+						<p:column headerText="Summary" sortBy="#{n.summary}">
 							<h:outputText value="#{n.summary}" />
 						</p:column>
-						
-						<p:column headerText="Description">
+
+						<p:column headerText="Description" sortBy="#{n.description}">
 							<h:outputText value="#{n.description}" />
 						</p:column>
 
@@ -65,9 +83,9 @@
 					<p:poll interval="15" update="messagesTable" />
 				</h:form>
 			</p:panelGrid>
-				
+
 			<hr/>
-				
+
 
 		</ui:define>
 	</div>

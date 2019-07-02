@@ -31,6 +31,8 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class WebhookBean {
+
+	private String columnTemplate = "id brand year";
 	
 	public List<RawHttpMessage> getMessages() {
 		return WebhookServlet.messages;
