@@ -1,5 +1,6 @@
 <ui:composition template="/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" >
@@ -9,13 +10,23 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
-					<p:dataTable id="messagesTable" value="#{webhookBean.activeAlarms}" var="n"
+					<p:dataTable id="messagesTable" widgetVar="notifsTable"
+								 value="#{webhookBean.activeAlarms}" var="n"
 								 rows="100"
 								 paginator="true"
 								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								 rowsPerPageTemplate="100,500,1000"
+								 stickyHeader="true" stickyTopAt=".layout-topbar"
+								 sortMode="multiple"
 								 rowStyleClass="#{n.severity}"
 								 cellpadding="0" cellspacing="0" width="100%">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Search all fields: " />
+								<p:inputText id="globalFilter" onkeyup="PF('notifsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+							</p:outputPanel>
+						</f:facet>
 
 						<p:column headerText="Time">
 							<h:outputText value="#{n.formatedTimestamp}" />
@@ -66,7 +77,7 @@
 						</p:column>
 
 					</p:dataTable>
-					<p:poll interval="15" update="messagesTable" />
+					<p:poll interval="60" update="messagesTable" />
 				</h:form>
 			</p:panelGrid>
 				

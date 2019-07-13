@@ -10,9 +10,6 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
-
-
-
 					<p:dataTable id="messagesTable" widgetVar="notifsTable"
 								 value="#{webhookBean.DNotifs}" var="n"
 								 rows="100"
@@ -80,7 +77,7 @@
 						</p:column>
 
 					</p:dataTable>
-					<p:poll interval="15" update="messagesTable" />
+					<p:poll interval="60" update="messagesTable" />
 				</h:form>
 			</p:panelGrid>
 

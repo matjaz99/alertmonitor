@@ -5,11 +5,12 @@
 * [ENHANCEMENT] Enchancement
 * [BUGFIX] Bug fixing
 
-## 1.0.1 / 2019-xx-xx
+## 1.0.1-SNAPSHOT / 2019-xx-xx
 
 Release includes:
 
 * [FEATURE] Pagination (#1)
+* [FEATURE] Sorting by multiple columns (hold command key) (#2)
 
 ## 1.0.0 / 2019-07-30
 
