@@ -51,7 +51,7 @@ But for correlation to work, the alerts in Prometheus rules should have properly
 
 Enrich alert rules with additional labels.
 
-Alertmonitor supports the following labels:
+Alertmonitor recognizes the following labels:
 
 | Label       |      Description        |
 |-------------|-------------------------|
