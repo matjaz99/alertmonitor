@@ -8,19 +8,24 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:panelGrid columns="1" cellspacing="5" width="100%">
-				<h3>Active alerts</h3>
-				<p:outputLabel value="Critical: #{webhookBean.getActiveAlarmsCount('critical')}" />
-				<p:outputLabel value="Major: #{webhookBean.getActiveAlarmsCount('major')}" />
-				<p:outputLabel value="Minor: #{webhookBean.getActiveAlarmsCount('minor')}" />
-				<p:outputLabel value="Warning: #{webhookBean.getActiveAlarmsCount('warning')}" />
-			</p:panelGrid>
+			<p:panelGrid columns="5" cellpadding="15" cellspacing="15" width="100%" style="border: none">
 
-			<p:panelGrid columns="1" cellspacing="5" width="100%">
-				<h3>Statistics</h3>
-				<p:outputLabel value="WH msg count: #{webhookBean.rawMsgCount}" />
-				<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
-				<p:outputLabel value="Notifs count: #{webhookBean.dNotifCount}" />
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+					<h3>Active alerts</h3>
+					<p:outputLabel value="Critical: #{webhookBean.getActiveAlarmsCount('critical')}" />
+					<p:outputLabel value="Major: #{webhookBean.getActiveAlarmsCount('major')}" />
+					<p:outputLabel value="Minor: #{webhookBean.getActiveAlarmsCount('minor')}" />
+					<p:outputLabel value="Warning: #{webhookBean.getActiveAlarmsCount('warning')}" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+					<h3>Statistics</h3>
+					<p:outputLabel value="WH msg count: #{webhookBean.rawMsgCount}" />
+					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
+					<p:outputLabel value="Notifs count: #{webhookBean.notifCount}" />
+					<p:outputLabel value="Active count: #{webhookBean.activeAlarms.size()}" />
+				</p:panelGrid>
+
 			</p:panelGrid>
 				
 			<hr/>

@@ -42,7 +42,7 @@ public class WebhookBean {
 		return WebhookServlet.amMessagesReceivedCount;
 	}
 
-	public int getDNotifCount() {
+	public int getNotifCount() {
 		return WebhookServlet.dNotifsReceivedCount;
 	}
 	

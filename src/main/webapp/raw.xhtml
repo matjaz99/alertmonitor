@@ -25,6 +25,8 @@
 
 						<p:column headerText="From">
 							<h:outputText value="#{m.remoteHost}:#{m.remotePort}" />
+							<br/>
+							<h:outputText value="user-agent: #{m.headerMap.get('user-agent')}" />
 						</p:column>
 
 						<p:column headerText="Request URI">
