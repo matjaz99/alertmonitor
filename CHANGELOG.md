@@ -2,7 +2,7 @@
 
 * [CHANGE] What will be changed
 * [FEATURE] New feature
-* [ENHANCEMENT] Enchancement
+* [ENHANCEMENT] Enhancement
 * [BUGFIX] Bug fixing
 
 ## 1.0.1-SNAPSHOT / 2019-xx-xx

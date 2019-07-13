@@ -71,12 +71,7 @@ public class DNotification {
 	public String getFormatedTimestamp() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(timestamp);
-		String format;
-		if (System.currentTimeMillis() - timestamp > 1 * 60 * 60 * 1000) {
-			format = "yyyy/MM/dd H:mm:ss";
-		} else {
-			format = "H:mm:ss";
-		}
+		String format = "yyyy/MM/dd H:mm:ss";
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(cal.getTime());
 	}

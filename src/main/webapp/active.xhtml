@@ -28,51 +28,51 @@
 							</p:outputPanel>
 						</f:facet>
 
-						<p:column headerText="Time">
+						<p:column headerText="Time" sortBy="#{n.formatedTimestamp}">
 							<h:outputText value="#{n.formatedTimestamp}" />
 						</p:column>
 						
-						<p:column headerText="Source">
+						<p:column headerText="Source" sortBy="#{n.source}">
 							<h:outputText value="#{n.source}" />
 						</p:column>
 						
-						<p:column headerText="User-agent">
+						<p:column headerText="User-agent" sortBy="#{n.userAgent}">
 							<h:outputText value="#{n.userAgent}" />
 						</p:column>
 
-						<p:column headerText="Alert name">
+						<p:column headerText="Alert name" sortBy="#{n.alertname}">
 							<h:outputText value="#{n.alertname}" />
 						</p:column>
 						
-						<p:column headerText="Alert domain">
+						<p:column headerText="Alert domain" sortBy="#{n.alertdomain}">
 							<h:outputText value="#{n.alertdomain}" />
 						</p:column>
 						
-						<p:column headerText="Instance">
+						<p:column headerText="Instance" sortBy="#{n.instance}">
 							<h:outputText value="#{n.instance}" />
 						</p:column>
 						
-						<p:column headerText="Nodename">
+						<p:column headerText="Nodename" sortBy="#{n.nodename}">
 							<h:outputText value="#{n.nodename}" />
 						</p:column>
 						
-						<p:column headerText="Severity">
+						<p:column headerText="Severity" sortBy="#{n.severity}">
 							<h:outputText value="#{n.severity}" />
 						</p:column>
 						
-						<p:column headerText="Priority">
+						<p:column headerText="Priority" sortBy="#{n.priority}">
 							<h:outputText value="#{n.priority}" />
 						</p:column>
 						
-						<p:column headerText="Counter">
+						<p:column headerText="Counter" sortBy="#{n.counter}">
 							<h:outputText value="#{n.counter}" />
 						</p:column>
 						
-						<p:column headerText="Summary">
+						<p:column headerText="Summary" sortBy="#{n.summary}">
 							<h:outputText value="#{n.summary}" />
 						</p:column>
 						
-						<p:column headerText="Description">
+						<p:column headerText="Description" sortBy="#{n.description}">
 							<h:outputText value="#{n.description}" />
 						</p:column>
 
