@@ -18,6 +18,9 @@
 
 package si.matjazcerkvenik.alertmonitor.webhook;
 
+import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

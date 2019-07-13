@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 
 public class WebhookServlet extends HttpServlet {
@@ -262,8 +265,8 @@ public class WebhookServlet extends HttpServlet {
 		
 		List<DNotification> notifs = new ArrayList<DNotification>();
 		
-		for (Iterator<Alert> it = am.getAlerts().iterator(); it.hasNext();) {
-			Alert a = it.next();
+		for (Iterator<AmAlert> it = am.getAlerts().iterator(); it.hasNext();) {
+			AmAlert a = it.next();
 			
 			DNotification n = new DNotification();
 			n.setTimestamp(System.currentTimeMillis());
@@ -326,6 +329,7 @@ public class WebhookServlet extends HttpServlet {
 			}
 			
 			n.setStatus(a.getStatus());
+
 			n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
 				+ n.getPriority() + n.getAlertname() + n.getAlertdomain() 
 				+ n.getInstance() + n.getSummary()

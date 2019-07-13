@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

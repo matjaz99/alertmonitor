@@ -1,4 +1,6 @@
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.model.alertmanager;
+
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +9,7 @@ public class AmAlertMessage {
 	
 	private String receiver;
 	private String status;
-	private List<Alert> alerts;
+	private List<AmAlert> alerts;
 	private Map<String, String> groupLabels;
 	private Map<String, String> commonLabels;
 	private Map<String, String> commonAnnotations;
@@ -78,11 +80,12 @@ public class AmAlertMessage {
 	public void setGroupKey(String groupKey) {
 		this.groupKey = groupKey;
 	}
-	public List<Alert> getAlerts() {
+
+	public List<AmAlert> getAlerts() {
 		return alerts;
 	}
 
-	public void setAlerts(List<Alert> alerts) {
+	public void setAlerts(List<AmAlert> alerts) {
 		this.alerts = alerts;
 	}
 

@@ -1,8 +1,8 @@
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 
 import java.util.Map;
 
-public class Alert {
+public class AmAlert {
 	
 	private String status;
 	private Map<String, String> labels;
@@ -63,7 +63,7 @@ public class Alert {
 
 	@Override
 	public String toString() {
-		return "Alert [status=" + status + ", labels=" + labels + ", annotations="
+		return "AmAlert [status=" + status + ", labels=" + labels + ", annotations="
 				+ annotations + ", startsAt=" + startsAt + ", endsAt=" + endsAt + ", generatorURL="
 				+ generatorURL + "]";
 	}
