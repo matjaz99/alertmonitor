@@ -33,6 +33,18 @@ import javax.faces.bean.SessionScoped;
 public class WebhookBean {
 
 	private String columnTemplate = "id brand year";
+
+	public int getRawMsgCount() {
+		return WebhookServlet.rawMessagesReceivedCount;
+	}
+
+	public int getAmMsgCount() {
+		return WebhookServlet.amMessagesReceivedCount;
+	}
+
+	public int getDNotifCount() {
+		return WebhookServlet.dNotifsReceivedCount;
+	}
 	
 	public List<RawHttpMessage> getMessages() {
 		return WebhookServlet.messages;
@@ -42,8 +54,16 @@ public class WebhookBean {
 		return WebhookServlet.amMessages;
 	}
 	
-	public List<DNotification> getDNotifs() {
-		return WebhookServlet.dNotifs;
+	public List<DNotification> getNotifs() {
+		List<DNotification> list = WebhookServlet.dNotifs;
+		Collections.sort(list, new Comparator<DNotification>() {
+			@Override
+			public int compare(DNotification lhs, DNotification rhs) {
+				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+			}
+		});
+		return list;
 	}
 	
 	public List<DNotification> getActiveAlarms() {

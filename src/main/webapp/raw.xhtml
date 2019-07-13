@@ -26,13 +26,9 @@
 						<p:column headerText="From">
 							<h:outputText value="#{m.remoteHost}:#{m.remotePort}" />
 						</p:column>
-						
-						<p:column headerText="Method">
-							<h:outputText value="#{m.method}" />
-						</p:column>
 
 						<p:column headerText="Request URI">
-							<h:outputText value="#{m.requestUri}" />
+							<h:outputText value="#{m.method} #{m.requestUri}" />
 						</p:column>
 
 						<p:column headerText="Header">

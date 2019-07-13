@@ -28,6 +28,10 @@ public class WebhookServlet extends HttpServlet {
 	public static List<DNotification> dNotifs = new LinkedList<DNotification>();
 	public static Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
 
+	public static int rawMessagesReceivedCount = 0;
+	public static int amMessagesReceivedCount = 0;
+	public static int dNotifsReceivedCount = 0;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -78,6 +82,7 @@ public class WebhookServlet extends HttpServlet {
 		m.setParameterMap(generateParamMap(req));
 		
 		messages.add(m);
+		rawMessagesReceivedCount++;
 
 	}
 
@@ -130,6 +135,7 @@ public class WebhookServlet extends HttpServlet {
 		m.setParameterMap(generateParamMap(req));
 		
 		messages.add(m);
+		rawMessagesReceivedCount++;
 		
 		if (m.getHeaderMap().containsKey("user-agent")) {
 			String userAgent = m.getHeaderMap().get("user-agent");
@@ -221,7 +227,8 @@ public class WebhookServlet extends HttpServlet {
 		
 		List<DNotification> dn = convertToDNotif(m, am);
 		dNotifs.addAll(dn);
-		
+		amMessagesReceivedCount++;
+		dNotifsReceivedCount = dNotifsReceivedCount + dn.size();
 		
 		// resynchronization
 		

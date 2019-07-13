@@ -11,6 +11,7 @@ Release includes:
 
 * [FEATURE] Pagination (#1)
 * [FEATURE] Sorting by multiple columns (hold command key) (#2)
+* [BUGFIX] Minor bug fixes
 
 ## 1.0.0 / 2019-07-30
 

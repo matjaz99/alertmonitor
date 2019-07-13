@@ -61,6 +61,8 @@ Alertmonitor recognizes the following labels:
 | instance    | Instance which fired the alert by means of Prometheus. Usually IP address and port of exporter |
 | nodename    | Descriptive name of instance. Eg. hostname |
 
+> Unique `alertId` is defined by: `alertname`, `alertdomain`, `instance` and `summary`. Clear event should produce the same `alertId` to correlate it with alarm.
+
 Example of alert rule in Prometheus (note the labels):
 
 ```yaml
