@@ -5,7 +5,7 @@
 * [ENHANCEMENT] Enhancement
 * [BUGFIX] Bug fixing
 
-## 1.0.1-SNAPSHOT / 2019-xx-xx
+## 1.1.0 / 2019-07-15
 
 Release includes:
 
@@ -16,7 +16,7 @@ Release includes:
 * [ENHANCEMENT] Added support for labels: job, tags, sourceinfo; alertdomain is now deprecated
 * [BUGFIX] Bug fixes and refactoring
 
-## 1.0.0 / 2019-07-30
+## 1.0.0 / 2019-06-30
 
 This is first release. Release includes:
 
