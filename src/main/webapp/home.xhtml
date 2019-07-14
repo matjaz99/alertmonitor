@@ -16,14 +16,18 @@
 					<p:outputLabel value="Major: #{webhookBean.getActiveAlarmsCount('major')}" />
 					<p:outputLabel value="Minor: #{webhookBean.getActiveAlarmsCount('minor')}" />
 					<p:outputLabel value="Warning: #{webhookBean.getActiveAlarmsCount('warning')}" />
+					<p:outputLabel value="Total alerts: #{webhookBean.activeAlarms.size()}" />
+					<p:outputLabel value="Balance factor: #{webhookBean.balanceFactor}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Statistics</h3>
 					<p:outputLabel value="WH msg count: #{webhookBean.rawMsgCount}" />
 					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
-					<p:outputLabel value="Notifs count: #{webhookBean.notifCount}" />
-					<p:outputLabel value="Active count: #{webhookBean.activeAlarms.size()}" />
+					<p:outputLabel value="Journal count: #{webhookBean.journalCount}" />
+					<p:outputLabel value="Journal size: #{webhookBean.journalSize}" />
+					<p:outputLabel value="Alerts count: #{webhookBean.alarmsCount}" />
+					<p:outputLabel value="Clears count: #{webhookBean.clearsCount}" />
 				</p:panelGrid>
 
 			</p:panelGrid>

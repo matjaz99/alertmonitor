@@ -8,7 +8,7 @@ networks:
 services:
 
   alertmonitor:
-    image: matjaz99/alertmonitor:1.0.0
+    image: matjaz99/alertmonitor:latest
     ports:
       - 7070:8080
     networks:

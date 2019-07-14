@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
@@ -25,15 +27,6 @@ import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 public class WebhookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4274913262329715396L;
-	
-	public static List<RawHttpMessage> messages = new LinkedList<RawHttpMessage>();
-	public static List<AmAlertMessage> amMessages = new LinkedList<AmAlertMessage>();
-	public static List<DNotification> dNotifs = new LinkedList<DNotification>();
-	public static Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
-
-	public static int rawMessagesReceivedCount = 0;
-	public static int amMessagesReceivedCount = 0;
-	public static int dNotifsReceivedCount = 0;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -84,8 +77,8 @@ public class WebhookServlet extends HttpServlet {
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
 		
-		messages.add(m);
-		rawMessagesReceivedCount++;
+		DAO.getInstance().addRawMessage(m);
+		DAO.rawMessagesReceivedCount++;
 
 	}
 
@@ -137,8 +130,8 @@ public class WebhookServlet extends HttpServlet {
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
 		
-		messages.add(m);
-		rawMessagesReceivedCount++;
+		DAO.getInstance().addRawMessage(m);
+		DAO.rawMessagesReceivedCount++;
 		
 		if (m.getHeaderMap().containsKey("user-agent")) {
 			String userAgent = m.getHeaderMap().get("user-agent");
@@ -147,7 +140,7 @@ public class WebhookServlet extends HttpServlet {
 				
 				// headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json, 
 				
-				processAlertmanagerMessage(m);
+				AlertmanagerProcessor.processAlertmanagerMessage(m);
 				
 			}
 			
@@ -218,147 +211,4 @@ public class WebhookServlet extends HttpServlet {
 		return body;
 		
 	}
-	
-	private void processAlertmanagerMessage(RawHttpMessage m) {
-		
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
-		System.out.println(am.toString());
-		System.out.println("Number of alerts: " + am.getAlerts().size());
-		amMessages.add(am);
-		
-		List<DNotification> dn = convertToDNotif(m, am);
-		dNotifs.addAll(dn);
-		amMessagesReceivedCount++;
-		dNotifsReceivedCount = dNotifsReceivedCount + dn.size();
-		
-		// resynchronization
-		
-		for (DNotification n : dn) {
-			if (n.getSeverity().equalsIgnoreCase("informational")) {
-				continue;
-			}
-			if (activeAlerts.containsKey(n.getNid())) {
-				if (n.getSeverity().equalsIgnoreCase("clear")) {
-					System.out.println("Removing active alarm: " + n.getNid());
-					activeAlerts.remove(n.getNid());
-				} else {
-					activeAlerts.get(n.getNid()).setLastTimestamp(n.getTimestamp());
-					activeAlerts.get(n.getNid()).setCounter(n.getCounter() + 1);
-					System.out.println("Updating active alarm: " + n.getNid());
-				}
-			} else {
-				// if clear comes to here, then it means there is no such NID to be deleted. Such clear can be ignored.
-				if (!n.getSeverity().equalsIgnoreCase("clear")) {
-					activeAlerts.put(n.getNid(), n);
-					System.out.println("Adding active alarm: " + n.getNid());
-				}
-			}
-		}
-		
-		
-		
-	}
-	
-	private List<DNotification> convertToDNotif(RawHttpMessage m, AmAlertMessage am) {
-		
-		List<DNotification> notifs = new ArrayList<DNotification>();
-		
-		for (Iterator<AmAlert> it = am.getAlerts().iterator(); it.hasNext();) {
-			AmAlert a = it.next();
-			
-			DNotification n = new DNotification();
-			n.setTimestamp(System.currentTimeMillis());
-			n.setSource(m.getRemoteHost());
-			n.setAlertname(a.getLabels().get("alertname"));
-			
-			if (m.getHeaderMap().containsKey("user-agent")) {
-				n.setUserAgent(m.getHeaderMap().get("user-agent"));
-			} else {
-				n.setUserAgent("-");
-			}
-
-			if (a.getLabels().containsKey("alertdomain")) {
-				n.setAlertdomain(a.getLabels().get("alertdomain"));
-			} else {
-				n.setAlertdomain("-");
-			}
-			
-			if (a.getLabels().containsKey("instance")) {
-				n.setInstance(a.getLabels().get("instance"));
-			} else {
-				n.setInstance("-");
-			}
-			
-			if (a.getLabels().containsKey("nodename")) {
-				n.setNodename(a.getLabels().get("nodename"));
-			} else {
-				n.setNodename(n.getInstance());
-			}
-			
-			if (a.getLabels().containsKey("severity")) {
-				n.setSeverity(a.getLabels().get("severity"));
-			} else {
-				n.setSeverity("indeterminate");
-			}
-			
-			if (a.getLabels().containsKey("priority")) {
-				n.setPriority(a.getLabels().get("priority"));
-			} else {
-				n.setPriority("low");
-			}
-			
-			if (a.getStatus().equalsIgnoreCase("resolved")) {
-				// set severity=clear for all events that have status=resolved, but not for those with severity=informational
-				if (!n.getSeverity().equalsIgnoreCase("informational")) {
-					n.setSeverity("clear");
-				}
-			}
-			
-			if (a.getAnnotations().containsKey("summary")) {
-				n.setSummary(a.getAnnotations().get("summary"));
-			} else {
-				n.setSummary("-");
-			}
-			
-			if (a.getAnnotations().containsKey("description")) {
-				n.setDescription(a.getAnnotations().get("description"));
-			} else {
-				n.setDescription("-");
-			}
-			
-			n.setStatus(a.getStatus());
-
-			n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
-				+ n.getPriority() + n.getAlertname() + n.getAlertdomain() 
-				+ n.getInstance() + n.getSummary()
-				+ n.getDescription() + new Random().nextInt(9999999) + n.getSource()
-				+ n.getUserAgent()));
-			
-			n.setNid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain() 
-				 + n.getInstance() + n.getSummary()));
-			
-//			DNotification found = null;
-//			for (Iterator<DNotification> it1 = dNotifs.iterator(); it1.hasNext();) {
-//				DNotification dn = it1.next();
-//				if (dn.getUid().equalsIgnoreCase(n.getUid())) {
-//					found = dn;
-//					if (n.getSeverity().equalsIgnoreCase("clear")) {
-//						
-//					}
-//					break;
-//				}
-//			}
-//			if (found == null) {
-//				notifs.add(n);
-//			}
-			notifs.add(n);
-			
-		}
-		
-		return notifs;
-		
-	}
-
 }

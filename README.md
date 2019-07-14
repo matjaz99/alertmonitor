@@ -31,7 +31,7 @@ The easiest way to start using Alertmonitor is to deploy it on Docker.
 Deploy container:
 
 ```
-docker run -d -p 7070:8080 matjaz99/alertmonitor:1.0.0
+docker run -d -p 7070:8080 matjaz99/alertmonitor:latest
 ```
 
 There is also `docker-compose.yml` file for deployment in Swarm cluster.

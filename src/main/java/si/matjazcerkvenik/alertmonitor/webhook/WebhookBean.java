@@ -18,12 +18,10 @@
 
 package si.matjazcerkvenik.alertmonitor.webhook;
 
+import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,46 +36,63 @@ public class WebhookBean {
 	private String columnTemplate = "id brand year";
 
 	public int getRawMsgCount() {
-		return WebhookServlet.rawMessagesReceivedCount;
+		return DAO.rawMessagesReceivedCount;
 	}
 
 	public int getAmMsgCount() {
-		return WebhookServlet.amMessagesReceivedCount;
+		return DAO.amMessagesReceivedCount;
 	}
 
-	public int getNotifCount() {
-		return WebhookServlet.dNotifsReceivedCount;
+	public int getJournalCount() {
+		return DAO.journalReceivedCount;
+	}
+
+	public int getAlarmsCount() {
+		return DAO.alertEventCount;
+	}
+
+	public int getClearsCount() {
+		return DAO.clearEventCount;
+	}
+
+	public double getBalanceFactor() {
+		double d = (5 * getActiveAlarmsCount("critical")
+			+ 4 * getActiveAlarmsCount("major")
+			+ 3 * getActiveAlarmsCount("minor")
+			+ 2 * getActiveAlarmsCount("warning")) * 1.0 / getActiveAlarms().size();
+		return d;
+	}
+
+	public int getJournalSize() {
+		return DAO.getInstance().getJournal().size();
 	}
 	
 	public List<RawHttpMessage> getMessages() {
-		return WebhookServlet.messages;
+		return DAO.getInstance().getRawMessages();
 	}
+
 	
-	public List<AmAlertMessage> getAmMessages() {
-		return WebhookServlet.amMessages;
-	}
-	
-	public List<DNotification> getNotifs() {
-		List<DNotification> list = WebhookServlet.dNotifs;
-		Collections.sort(list, new Comparator<DNotification>() {
-			@Override
-			public int compare(DNotification lhs, DNotification rhs) {
-				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-			}
-		});
+	public List<DNotification> getJournal() {
+		List<DNotification> list = DAO.getInstance().getJournal();
+//		Collections.sort(list, new Comparator<DNotification>() {
+//			@Override
+//			public int compare(DNotification lhs, DNotification rhs) {
+//				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+//				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+//			}
+//		});
 		return list;
 	}
 	
 	public List<DNotification> getActiveAlarms() {
-		List<DNotification> list = new ArrayList<DNotification>(WebhookServlet.activeAlerts.values());
-		Collections.sort(list, new Comparator<DNotification>() {
-		    @Override
-		    public int compare(DNotification lhs, DNotification rhs) {
-		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-		    }
-		});
+		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
+//		Collections.sort(list, new Comparator<DNotification>() {
+//		    @Override
+//		    public int compare(DNotification lhs, DNotification rhs) {
+//		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+//		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+//		    }
+//		});
 		System.out.println("Active alarm list size: " + list.size());
 		return list;
 	}
@@ -92,7 +107,7 @@ public class WebhookBean {
 //
 //		result.forEach(System.out::println);                //output : spring, node
 
-		List<DNotification> list = WebhookServlet.activeAlerts.values().stream()
+		List<DNotification> list = DAO.getInstance().getActiveAlerts().values().stream()
 				.filter(notif -> notif.getSeverity().equals(severity))
 				.collect(Collectors.toList());
 
