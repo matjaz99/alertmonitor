@@ -10,8 +10,8 @@ import java.util.Map;
 public class DAO {
 
     private static DAO instance;
-    private static int RAW_MSG_TABLE_SIZE = 10;
-    private static int JOURNAL_TABLE_SIZE = 10;
+    private static int RAW_MSG_TABLE_SIZE = 5000;
+    private static int JOURNAL_TABLE_SIZE = 5000;
 
     private List<RawHttpMessage> rawMessages = new LinkedList<RawHttpMessage>();
     private List<DNotification> journal = new LinkedList<DNotification>();
@@ -62,17 +62,17 @@ public class DAO {
     }
 
     public void addActiveAlert(DNotification n) {
-        activeAlerts.put(n.getNid(), n);
+        activeAlerts.put(n.getAlertId(), n);
     }
 
     public void updateActiveAlert(DNotification newNotif) {
 
-        activeAlerts.get(newNotif.getNid()).setLastTimestamp(newNotif.getTimestamp());
-        int c = activeAlerts.get(newNotif.getNid()).getCounter();
-        activeAlerts.get(newNotif.getNid()).setCounter(c + 1);
+        activeAlerts.get(newNotif.getAlertId()).setLastTimestamp(newNotif.getTimestamp());
+        int c = activeAlerts.get(newNotif.getAlertId()).getCounter();
+        activeAlerts.get(newNotif.getAlertId()).setCounter(c + 1);
     }
 
     public void removeActiveAlert(DNotification n) {
-        activeAlerts.remove(n.getNid());
+        activeAlerts.remove(n.getAlertId());
     }
 }

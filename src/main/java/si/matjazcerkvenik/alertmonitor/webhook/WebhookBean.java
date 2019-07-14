@@ -22,6 +22,8 @@ import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,26 +88,18 @@ public class WebhookBean {
 	
 	public List<DNotification> getActiveAlarms() {
 		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
-//		Collections.sort(list, new Comparator<DNotification>() {
-//		    @Override
-//		    public int compare(DNotification lhs, DNotification rhs) {
-//		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-//		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-//		    }
-//		});
+		Collections.sort(list, new Comparator<DNotification>() {
+		    @Override
+		    public int compare(DNotification lhs, DNotification rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+		    }
+		});
 		System.out.println("Active alarm list size: " + list.size());
 		return list;
 	}
 
 	public int getActiveAlarmsCount(String severity) {
-
-//		List<String> lines = Arrays.asList("spring", "node", "mkyong");
-//
-//		List<String> result = lines.stream()                // convert list to stream
-//				.filter(line -> !"mkyong".equals(line))     // we dont like mkyong
-//				.collect(Collectors.toList());              // collect the output and convert streams to a List
-//
-//		result.forEach(System.out::println);                //output : spring, node
 
 		List<DNotification> list = DAO.getInstance().getActiveAlerts().values().stream()
 				.filter(notif -> notif.getSeverity().equals(severity))

@@ -8,8 +8,8 @@ public class DNotification {
 	/** Unique ID of notification */
 	private String uid;
 	
-	/** Notification ID identifies the same events */
-	private String nid;
+	/** Alert ID identifies the same events */
+	private String alertId;
 	
 	/** timestamp of first occurence */
 	private long timestamp;
@@ -25,8 +25,9 @@ public class DNotification {
 	
 	/** user-agent from http header */
 	private String userAgent;
-	private String alertdomain;
+	private String sourceinfo;
 	private String alertname;
+	private String job;
 	
 	/** IP address of node */
 	private String instance;
@@ -39,6 +40,7 @@ public class DNotification {
 	
 	/** Urgency of notification */
 	private String priority;
+	private String tags;
 	private String summary;
 	private String description;
 	private String status;
@@ -52,12 +54,12 @@ public class DNotification {
 		this.uid = uid;
 	}
 
-	public String getNid() {
-		return nid;
+	public String getAlertId() {
+		return alertId;
 	}
 
-	public void setNid(String nid) {
-		this.nid = nid;
+	public void setAlertId(String alertId) {
+		this.alertId = alertId;
 	}
 
 	public long getTimestamp() {
@@ -108,12 +110,12 @@ public class DNotification {
 		this.userAgent = userAgent;
 	}
 
-	public String getAlertdomain() {
-		return alertdomain;
+	public String getSourceinfo() {
+		return sourceinfo;
 	}
 
-	public void setAlertdomain(String alertdomain) {
-		this.alertdomain = alertdomain;
+	public void setSourceinfo(String sourceinfo) {
+		this.sourceinfo = sourceinfo;
 	}
 
 	public String getAlertname() {
@@ -122,6 +124,14 @@ public class DNotification {
 
 	public void setAlertname(String alertname) {
 		this.alertname = alertname;
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
 	}
 
 	public String getInstance() {
@@ -154,6 +164,14 @@ public class DNotification {
 
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 	public String getSummary() {

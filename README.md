@@ -57,11 +57,12 @@ Alertmonitor recognizes the following labels:
 |-------------|-------------------------|
 | severity    | Severity is the weight of event. Possible values: critical, major, minor, warning, clear and informational |
 | priority    | Priority tells how urgent is alarm. Possible values: high, medium, low |
-| alertdomain | Domain which covers the alert or context of alert. Eg. hardware or network |
-| instance    | Instance which fired the alert by means of Prometheus. Usually IP address and port of exporter |
+| sourceinfo | Exact location of the alert. Eg. GE port 1/1/7 |
+| instance    | Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
 | nodename    | Descriptive name of instance. Eg. hostname |
+| tags        | Custom tags that describe the alert (comma separated)
 
-> Unique `alertId` is defined by: `alertname`, `alertdomain`, `instance` and `summary`. Clear event should produce the same `alertId` to correlate it with alarm.
+> Unique `alertId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `alertId` to correlate it with alarm.
 
 Example of alert rule in Prometheus (note the labels):
 
@@ -75,7 +76,8 @@ groups:
     labels:
       severity: critical
       priority: low
-      alertdomain: cpu
+      sourceinfo: CPU 1
+      tags: hardware, cpu, overload
       instance: '{{$labels.instance}}'
       nodename: '{{$labels.node_name}}'
     annotations:

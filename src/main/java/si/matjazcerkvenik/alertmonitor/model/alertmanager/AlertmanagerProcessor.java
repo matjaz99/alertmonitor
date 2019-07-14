@@ -34,20 +34,20 @@ public class AlertmanagerProcessor {
             if (n.getSeverity().equalsIgnoreCase("informational")) {
                 continue;
             }
-            if (DAO.getInstance().getActiveAlerts().containsKey(n.getNid())) {
+            if (DAO.getInstance().getActiveAlerts().containsKey(n.getAlertId())) {
                 if (n.getSeverity().equalsIgnoreCase("clear")) {
-                    System.out.println("Removing active alarm: " + n.getNid());
+                    System.out.println("Removing active alarm: " + n.getAlertId());
                     DAO.getInstance().removeActiveAlert(n);
                     DAO.clearEventCount++;
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
-                    System.out.println("Updating active alarm: " + n.getNid());
+                    System.out.println("Updating active alarm: " + n.getAlertId());
                 }
             } else {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
                     DAO.alertEventCount++;
-                    System.out.println("Adding active alarm: " + n.getNid());
+                    System.out.println("Adding active alarm: " + n.getAlertId());
                 }
             }
         }
@@ -74,10 +74,10 @@ public class AlertmanagerProcessor {
                 n.setUserAgent("-");
             }
 
-            if (a.getLabels().containsKey("alertdomain")) {
-                n.setAlertdomain(a.getLabels().get("alertdomain"));
+            if (a.getLabels().containsKey("sourceinfo")) {
+                n.setSourceinfo(a.getLabels().get("sourceinfo"));
             } else {
-                n.setAlertdomain("-");
+                n.setSourceinfo("-");
             }
 
             if (a.getLabels().containsKey("instance")) {
@@ -90,6 +90,18 @@ public class AlertmanagerProcessor {
                 n.setNodename(a.getLabels().get("nodename"));
             } else {
                 n.setNodename(n.getInstance());
+            }
+
+            if (a.getLabels().containsKey("job")) {
+                n.setJob(a.getLabels().get("job"));
+            } else {
+                n.setJob("-");
+            }
+
+            if (a.getLabels().containsKey("tags")) {
+                n.setTags(a.getLabels().get("tags"));
+            } else {
+                n.setTags("");
             }
 
             if (a.getLabels().containsKey("severity")) {
@@ -127,11 +139,11 @@ public class AlertmanagerProcessor {
 
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
                     + n.getPriority() + n.getAlertname() + new Random().nextInt(9999999)
-                    + n.getAlertdomain() + n.getInstance() + n.getSummary()
+                    + n.getSourceinfo() + n.getInstance() + n.getSummary()
                     + n.getDescription() + new Random().nextInt(9999999) + n.getSource()
                     + n.getUserAgent()));
 
-            n.setNid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain()
+            n.setAlertId(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getSourceinfo()
                     + n.getInstance() + n.getSummary()));
 
 //			DNotification found = null;

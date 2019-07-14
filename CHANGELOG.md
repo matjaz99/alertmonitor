@@ -12,7 +12,9 @@ Release includes:
 * [FEATURE] Pagination (#1)
 * [FEATURE] Sorting by multiple columns (hold command key) (#2)
 * [ENHANCEMENT] Changed base image from tomcat:8.5.37-jre8 to tomcat:8.5-jre8-alpine (because it's smaller)
-* [BUGFIX] Minor bug fixes
+* [ENHANCEMENT] Updated Primefaces from 6.1 to 6.2
+* [ENHANCEMENT] Added support for labels: job, tags, sourceinfo; alertdomain is now deprecated
+* [BUGFIX] Bug fixes and refactoring
 
 ## 1.0.0 / 2019-07-30
 

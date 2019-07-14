@@ -1,7 +1,7 @@
 # TODOs
 
 - add support for grafana alerts
-- replace alertdomain with tags
+- replace sourceinfo with tags
 - add labels: job, team
 - put back eventType label (event | alarm), then also events can have severities
 
@@ -16,3 +16,13 @@ https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml
 						<p:commandButton update="messagesTable" action="#{dtColumnsView.updateColumns}" value="Update" process="@parent" icon="pi pi-refresh" oncomplete="PF('notifsTable').clearFilters()"/>
 					</h:panelGrid>
 
+
+Search
+Daj v datatable
+
+<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Search all fields: " />
+								<p:inputText id="globalFilter" onkeyup="PF('activeTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+							</p:outputPanel>
+						</f:facet>

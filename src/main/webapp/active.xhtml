@@ -10,7 +10,7 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
-					<p:dataTable id="messagesTable" widgetVar="notifsTable"
+					<p:dataTable id="messagesTable" widgetVar="activeTable"
 								 value="#{webhookBean.activeAlarms}" var="n"
 								 rows="100"
 								 paginator="true"
@@ -20,13 +20,6 @@
 								 sortMode="multiple"
 								 rowStyleClass="#{n.severity}"
 								 cellpadding="0" cellspacing="0" width="100%">
-
-						<f:facet name="header">
-							<p:outputPanel>
-								<h:outputText value="Search all fields: " />
-								<p:inputText id="globalFilter" onkeyup="PF('notifsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-							</p:outputPanel>
-						</f:facet>
 
 						<p:column headerText="Time" sortBy="#{n.formatedTimestamp}">
 							<h:outputText value="#{n.formatedTimestamp}" />
@@ -44,8 +37,12 @@
 							<h:outputText value="#{n.alertname}" />
 						</p:column>
 						
-						<p:column headerText="Alert domain" sortBy="#{n.alertdomain}">
-							<h:outputText value="#{n.alertdomain}" />
+						<p:column headerText="Source info" sortBy="#{n.sourceinfo}">
+							<h:outputText value="#{n.sourceinfo}" />
+						</p:column>
+
+						<p:column headerText="Job" sortBy="#{n.job}">
+							<h:outputText value="#{n.job}" />
 						</p:column>
 						
 						<p:column headerText="Instance" sortBy="#{n.instance}">
