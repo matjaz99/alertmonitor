@@ -23,6 +23,8 @@ public class DAO {
     public static int alertEventCount = 0;
     public static int clearEventCount = 0;
 
+    private Map<String, DTag> tagMap = new HashMap<String, DTag>();
+
     private DAO() {
     }
 
@@ -74,5 +76,21 @@ public class DAO {
 
     public void removeActiveAlert(DNotification n) {
         activeAlerts.remove(n.getAlertId());
+    }
+
+    public void parseTags(String tags) {
+
+        String[] array = tags.split(",");
+
+        // TODO color tags
+
+        for (int i = 0; i < array.length; i++) {
+            String tagName = array[i].trim();
+            if (tagName.length() > 0 && !tagMap.containsKey(tagName)) {
+                DTag t = new DTag(tagName, "#7ab1d3");
+                tagMap.put(tagName, t);
+            }
+        }
+
     }
 }
