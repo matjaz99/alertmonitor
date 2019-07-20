@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class DAO {
 
+    public static long startUpTime = System.currentTimeMillis();
+
     private static DAO instance;
     private static int RAW_MSG_TABLE_SIZE = 5000;
     private static int JOURNAL_TABLE_SIZE = 5000;

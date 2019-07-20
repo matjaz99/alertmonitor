@@ -5,6 +5,10 @@
 * [ENHANCEMENT] Enhancement
 * [BUGFIX] Bug fixing
 
+## 1.1.1-SNAPSHOT
+
+* [FEATURE] Added startUpTime
+
 ## 1.1.0 / 2019-07-15
 
 Release includes:

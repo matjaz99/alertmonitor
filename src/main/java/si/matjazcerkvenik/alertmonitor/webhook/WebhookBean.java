@@ -68,6 +68,11 @@ public class WebhookBean {
 	public int getJournalSize() {
 		return DAO.getInstance().getJournal().size();
 	}
+
+	public String getStartUpTime() {
+		long now = System.currentTimeMillis();
+		return (now - DAO.startUpTime) / 1000 + " seconds";
+	}
 	
 	public List<RawHttpMessage> getMessages() {
 		return DAO.getInstance().getRawMessages();
