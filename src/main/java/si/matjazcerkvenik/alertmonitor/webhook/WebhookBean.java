@@ -70,8 +70,15 @@ public class WebhookBean {
 	}
 
 	public String getStartUpTime() {
-		long now = System.currentTimeMillis();
-		return (now - DAO.startUpTime) / 1000 + " seconds";
+		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
+		int minUp = secUp / 60;
+		int hourUp = minUp / 60;
+		int dayUp = hourUp / 24;
+		// TODO finish this
+		System.out.println(secUp + "s = " + minUp + "m + " + minUp % 60 + "s");
+		System.out.println(minUp + "m = " + hourUp + "h + " + minUp % 60 + "m + " + minUp % 60 + "s");
+		String resp = "";
+		return secUp + " seconds";
 	}
 	
 	public List<RawHttpMessage> getMessages() {

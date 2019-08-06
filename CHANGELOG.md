@@ -7,7 +7,7 @@
 
 ## 1.1.1-SNAPSHOT
 
-* [FEATURE] Added startUpTime
+* [FEATURE] Added startUpTime (OnStart listener)
 
 ## 1.1.0 / 2019-07-15
 

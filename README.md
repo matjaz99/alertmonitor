@@ -115,7 +115,7 @@ Run the project with maven:
 mvn tomcat7:run
 ```
 
-Manually build docker image and push to docker hub:
+Build docker image and push to docker hub:
 
 ```
 docker build -t matjaz99/alertmonitor:1.0.0 .

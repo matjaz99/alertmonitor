@@ -29,4 +29,8 @@
         <servlet-name>Webhook Servlet</servlet-name>
         <url-pattern>/webhook/*</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>si.matjazcerkvenik.alertmonitor.util.OnStart</listener-class>
+    </listener>
 </web-app>
