@@ -22,6 +22,7 @@ import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 
 public class WebhookServlet extends HttpServlet {
@@ -80,6 +81,8 @@ public class WebhookServlet extends HttpServlet {
 		DAO.getInstance().addRawMessage(m);
 		DAO.rawMessagesReceivedCount++;
 
+		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "GET").inc();
+
 	}
 
 	@Override
@@ -132,6 +135,8 @@ public class WebhookServlet extends HttpServlet {
 		
 		DAO.getInstance().addRawMessage(m);
 		DAO.rawMessagesReceivedCount++;
+
+		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "POST").inc();
 		
 		if (m.getHeaderMap().containsKey("user-agent")) {
 			String userAgent = m.getHeaderMap().get("user-agent");
