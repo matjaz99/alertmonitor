@@ -113,11 +113,7 @@ public class WebhookBean {
 
 	public int getActiveAlarmsCount(String severity) {
 
-		List<DNotification> list = DAO.getInstance().getActiveAlerts().values().stream()
-				.filter(notif -> notif.getSeverity().equals(severity))
-				.collect(Collectors.toList());
-
-		return list.size();
+		return DAO.getInstance().getActiveAlarmsCount(severity);
 
 	}
 	

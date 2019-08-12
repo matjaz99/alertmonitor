@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DAO {
 
@@ -93,6 +94,16 @@ public class DAO {
                 tagMap.put(tagName, t);
             }
         }
+
+    }
+
+    public int getActiveAlarmsCount(String severity) {
+
+        List<DNotification> list = activeAlerts.values().stream()
+                .filter(notif -> notif.getSeverity().equals(severity))
+                .collect(Collectors.toList());
+
+        return list.size();
 
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.RawHttpMessage;
 
@@ -28,6 +29,8 @@ public class AlertmanagerProcessor {
         DAO.amMessagesReceivedCount++;
         DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
 
+        AmMetrics.alertmonitor_journal_messages_total.labels("journal").inc(dn.size());
+
         // resynchronization
 
         for (DNotification n : dn) {
@@ -39,6 +42,7 @@ public class AlertmanagerProcessor {
                     System.out.println("Removing active alarm: " + n.getAlertId());
                     DAO.getInstance().removeActiveAlert(n);
                     DAO.clearEventCount++;
+                    AmMetrics.alertmonitor_alerts_total.labels("clearing").inc();
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
                     System.out.println("Updating active alarm: " + n.getAlertId());
@@ -47,6 +51,7 @@ public class AlertmanagerProcessor {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
                     DAO.alertEventCount++;
+                    AmMetrics.alertmonitor_alerts_total.labels("raising").inc();
                     System.out.println("Adding active alarm: " + n.getAlertId());
                 }
             }

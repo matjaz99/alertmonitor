@@ -27,12 +27,14 @@ public class PrometheusMetricsServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("PrometheusMetricsServlet:doGet()");
-
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(TextFormat.CONTENT_TYPE_004);
 
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", "Version x.y", "os", DAO.startUpTime + "").set(1);
+        AmMetrics.alertmonitor_active_alerts_count.labels("critical").set(DAO.getInstance().getActiveAlarmsCount("critical"));
+        AmMetrics.alertmonitor_active_alerts_count.labels("major").set(DAO.getInstance().getActiveAlarmsCount("major"));
+        AmMetrics.alertmonitor_active_alerts_count.labels("minor").set(DAO.getInstance().getActiveAlarmsCount("minor"));
+        AmMetrics.alertmonitor_active_alerts_count.labels("warning").set(DAO.getInstance().getActiveAlarmsCount("warning"));
 
         Writer writer = resp.getWriter();
         try {

@@ -20,4 +20,22 @@ public class AmMetrics {
             .labelNames("remoteHost", "method")
             .register();
 
+    public static final Counter alertmonitor_journal_messages_total = Counter.build()
+            .name("alertmonitor_journal_messages_total")
+            .help("Number of messages in journal.")
+            .labelNames("log")
+            .register();
+
+    public static final Gauge alertmonitor_active_alerts_count = Gauge.build()
+            .name("alertmonitor_active_alerts_count")
+            .help("Number of active alerts by severity")
+            .labelNames("severity")
+            .register();
+
+    public static final Counter alertmonitor_alerts_total = Counter.build()
+            .name("alertmonitor_alerts_total")
+            .help("Number of alerts raised or cleared.")
+            .labelNames("state")
+            .register();
+
 }
