@@ -30,7 +30,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(TextFormat.CONTENT_TYPE_004);
 
-        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", "Version x.y", "os", DAO.startUpTime + "").set(1);
+        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", "Version x.y", "os").set(DAO.startUpTime);
         AmMetrics.alertmonitor_active_alerts_count.labels("critical").set(DAO.getInstance().getActiveAlarmsCount("critical"));
         AmMetrics.alertmonitor_active_alerts_count.labels("major").set(DAO.getInstance().getActiveAlarmsCount("major"));
         AmMetrics.alertmonitor_active_alerts_count.labels("minor").set(DAO.getInstance().getActiveAlarmsCount("minor"));
