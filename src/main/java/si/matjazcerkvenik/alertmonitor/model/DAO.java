@@ -2,6 +2,7 @@ package si.matjazcerkvenik.alertmonitor.model;
 
 import si.matjazcerkvenik.alertmonitor.webhook.RawHttpMessage;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,5 +106,13 @@ public class DAO {
 
         return list.size();
 
+    }
+
+    public double calculateAlertsBalanceFactor() {
+        double d = (5 * getActiveAlarmsCount("critical")
+                + 4 * getActiveAlarmsCount("major")
+                + 3 * getActiveAlarmsCount("minor")
+                + 2 * getActiveAlarmsCount("warning")) * 1.0 / activeAlerts.size();
+        return d;
     }
 }

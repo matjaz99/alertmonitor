@@ -38,4 +38,9 @@ public class AmMetrics {
             .labelNames("state")
             .register();
 
+    public static final Gauge alertmonitor_alerts_balance_factor = Gauge.build()
+            .name("alertmonitor_alerts_balance_factor")
+            .help("Balance factor of active alerts")
+            .register();
+
 }

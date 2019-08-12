@@ -21,6 +21,7 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -57,12 +58,9 @@ public class WebhookBean {
 		return DAO.clearEventCount;
 	}
 
-	public double getBalanceFactor() {
-		double d = (5 * getActiveAlarmsCount("critical")
-			+ 4 * getActiveAlarmsCount("major")
-			+ 3 * getActiveAlarmsCount("minor")
-			+ 2 * getActiveAlarmsCount("warning")) * 1.0 / getActiveAlarms().size();
-		return d;
+	public String getBalanceFactor() {
+		DecimalFormat df2 = new DecimalFormat("#.##");
+		return df2.format(DAO.getInstance().calculateAlertsBalanceFactor());
 	}
 
 	public int getJournalSize() {
