@@ -67,7 +67,7 @@ public class WebhookBean {
 		return DAO.getInstance().getJournal().size();
 	}
 
-	public String getStartUpTime() {
+	public String getUpTime() {
 		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
 		int minUp = secUp / 60;
 		int hourUp = minUp / 60;
@@ -78,7 +78,12 @@ public class WebhookBean {
 		String resp = "";
 		return secUp + " seconds";
 	}
-	
+
+	public String getLastEventTimestamp() {
+		int secUp = (int) ((System.currentTimeMillis() - DAO.lastEventTimestamp) / 1000);
+		return secUp + " seconds ago";
+	}
+
 	public List<RawHttpMessage> getMessages() {
 		return DAO.getInstance().getRawMessages();
 	}
