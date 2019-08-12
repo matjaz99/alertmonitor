@@ -55,6 +55,7 @@ public class AlertmanagerProcessor {
                     System.out.println("Adding active alarm: " + n.getAlertId());
                 }
             }
+            DAO.lastEventTimestamp = System.currentTimeMillis();
         }
 
 

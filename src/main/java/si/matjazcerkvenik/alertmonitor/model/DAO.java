@@ -26,6 +26,7 @@ public class DAO {
     public static int journalReceivedCount = 0;
     public static int alertEventCount = 0;
     public static int clearEventCount = 0;
+    public static long lastEventTimestamp = 0;
 
     private Map<String, DTag> tagMap = new HashMap<String, DTag>();
 

@@ -43,4 +43,9 @@ public class AmMetrics {
             .help("Balance factor of active alerts")
             .register();
 
+    public static final Gauge alertmonitor_last_event_timestamp = Gauge.build()
+            .name("alertmonitor_last_event_timestamp")
+            .help("Timestamp of last event (raise, clear or update")
+            .register();
+
 }

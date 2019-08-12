@@ -36,6 +36,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
         AmMetrics.alertmonitor_active_alerts_count.labels("minor").set(DAO.getInstance().getActiveAlarmsCount("minor"));
         AmMetrics.alertmonitor_active_alerts_count.labels("warning").set(DAO.getInstance().getActiveAlarmsCount("warning"));
         AmMetrics.alertmonitor_alerts_balance_factor.set(DAO.getInstance().calculateAlertsBalanceFactor());
+        AmMetrics.alertmonitor_last_event_timestamp.set(DAO.lastEventTimestamp);
 
         Writer writer = resp.getWriter();
         try {
