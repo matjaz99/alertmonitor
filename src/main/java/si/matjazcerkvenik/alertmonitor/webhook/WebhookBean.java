@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -38,8 +37,8 @@ public class WebhookBean {
 
 	private String columnTemplate = "id brand year";
 
-	public int getRawMsgCount() {
-		return DAO.rawMessagesReceivedCount;
+	public int getWhMsgCount() {
+		return DAO.webhookMessagesReceivedCount;
 	}
 
 	public int getAmMsgCount() {
@@ -50,12 +49,41 @@ public class WebhookBean {
 		return DAO.journalReceivedCount;
 	}
 
+	public int getJournalSize() {
+		return DAO.getInstance().getJournal().size();
+	}
+
 	public int getAlarmsCount() {
-		return DAO.alertEventCount;
+		return DAO.raisingEventCount;
 	}
 
 	public int getClearsCount() {
-		return DAO.clearEventCount;
+		return DAO.clearingEventCount;
+	}
+
+	public List<WebhookMessage> getWebhookMessages() {
+		return DAO.getInstance().getWebhookMessages();
+	}
+
+	public List<DNotification> getJournal() {
+		return DAO.getInstance().getJournal();
+	}
+
+	public List<DNotification> getActiveAlarms() {
+		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
+		Collections.sort(list, new Comparator<DNotification>() {
+			@Override
+			public int compare(DNotification lhs, DNotification rhs) {
+				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+			}
+		});
+		System.out.println("Active alarm list size: " + list.size());
+		return list;
+	}
+
+	public int getActiveAlarmsCount(String severity) {
+		return DAO.getInstance().getActiveAlarmsCount(severity);
 	}
 
 	public String getBalanceFactor() {
@@ -63,8 +91,8 @@ public class WebhookBean {
 		return df2.format(DAO.getInstance().calculateAlertsBalanceFactor());
 	}
 
-	public int getJournalSize() {
-		return DAO.getInstance().getJournal().size();
+	public String getStartTime() {
+		return DAO.getInstance().getFormatedTimestamp(DAO.startUpTime);
 	}
 
 	public String getUpTime() {
@@ -79,45 +107,13 @@ public class WebhookBean {
 		return secUp + " seconds";
 	}
 
-	public String getLastEventTimestamp() {
+	public String getLastEventTime() {
+		return DAO.getInstance().getFormatedTimestamp(DAO.lastEventTimestamp);
+	}
+
+	public String getTimeSinceLastEvent() {
 		int secUp = (int) ((System.currentTimeMillis() - DAO.lastEventTimestamp) / 1000);
-		return secUp + " seconds ago";
+		return secUp + " seconds";
 	}
 
-	public List<RawHttpMessage> getMessages() {
-		return DAO.getInstance().getRawMessages();
-	}
-
-	
-	public List<DNotification> getJournal() {
-		List<DNotification> list = DAO.getInstance().getJournal();
-//		Collections.sort(list, new Comparator<DNotification>() {
-//			@Override
-//			public int compare(DNotification lhs, DNotification rhs) {
-//				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-//				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-//			}
-//		});
-		return list;
-	}
-	
-	public List<DNotification> getActiveAlarms() {
-		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
-		Collections.sort(list, new Comparator<DNotification>() {
-		    @Override
-		    public int compare(DNotification lhs, DNotification rhs) {
-		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-		    }
-		});
-		System.out.println("Active alarm list size: " + list.size());
-		return list;
-	}
-
-	public int getActiveAlarmsCount(String severity) {
-
-		return DAO.getInstance().getActiveAlarmsCount(severity);
-
-	}
-	
 }

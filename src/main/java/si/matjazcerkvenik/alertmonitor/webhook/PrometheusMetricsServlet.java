@@ -2,6 +2,7 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 
 import javax.servlet.ServletException;

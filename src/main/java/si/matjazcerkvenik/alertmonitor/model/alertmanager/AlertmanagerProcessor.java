@@ -6,7 +6,7 @@ import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
-import si.matjazcerkvenik.alertmonitor.webhook.RawHttpMessage;
+import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class AlertmanagerProcessor {
 
-    public static void processAlertmanagerMessage(RawHttpMessage m) {
+    public static void processAlertmanagerMessage(WebhookMessage m) {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -29,7 +29,7 @@ public class AlertmanagerProcessor {
         DAO.amMessagesReceivedCount++;
         DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
 
-        AmMetrics.alertmonitor_journal_messages_total.labels("journal").inc(dn.size());
+        AmMetrics.alertmonitor_journal_messages_total.inc(dn.size());
 
         // resynchronization
 
@@ -41,7 +41,7 @@ public class AlertmanagerProcessor {
                 if (n.getSeverity().equalsIgnoreCase("clear")) {
                     System.out.println("Removing active alarm: " + n.getAlertId());
                     DAO.getInstance().removeActiveAlert(n);
-                    DAO.clearEventCount++;
+                    DAO.clearingEventCount++;
                     AmMetrics.alertmonitor_alerts_total.labels("clearing").inc();
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
@@ -50,7 +50,7 @@ public class AlertmanagerProcessor {
             } else {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
-                    DAO.alertEventCount++;
+                    DAO.raisingEventCount++;
                     AmMetrics.alertmonitor_alerts_total.labels("raising").inc();
                     System.out.println("Adding active alarm: " + n.getAlertId());
                 }
@@ -62,7 +62,7 @@ public class AlertmanagerProcessor {
 
     }
 
-    private static List<DNotification> convertToDNotif(RawHttpMessage m, AmAlertMessage am) {
+    private static List<DNotification> convertToDNotif(WebhookMessage m, AmAlertMessage am) {
 
         List<DNotification> notifs = new ArrayList<DNotification>();
 

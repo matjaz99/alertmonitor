@@ -1,12 +1,9 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
-import si.matjazcerkvenik.alertmonitor.webhook.RawHttpMessage;
+import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DAO {
@@ -14,18 +11,18 @@ public class DAO {
     public static long startUpTime = 0;
 
     private static DAO instance;
-    private static int RAW_MSG_TABLE_SIZE = 5000;
+    private static int WEBHOOK_TABLE_SIZE = 5000;
     private static int JOURNAL_TABLE_SIZE = 5000;
 
-    private List<RawHttpMessage> rawMessages = new LinkedList<RawHttpMessage>();
+    private List<WebhookMessage> webhookMessages = new LinkedList<WebhookMessage>();
     private List<DNotification> journal = new LinkedList<DNotification>();
     private Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
 
-    public static int rawMessagesReceivedCount = 0;
+    public static int webhookMessagesReceivedCount = 0;
     public static int amMessagesReceivedCount = 0;
     public static int journalReceivedCount = 0;
-    public static int alertEventCount = 0;
-    public static int clearEventCount = 0;
+    public static int raisingEventCount = 0;
+    public static int clearingEventCount = 0;
     public static long lastEventTimestamp = 0;
 
     private Map<String, DTag> tagMap = new HashMap<String, DTag>();
@@ -38,17 +35,15 @@ public class DAO {
         return instance;
     }
 
-    public void addRawMessage(RawHttpMessage message) {
-        while (rawMessages.size() > RAW_MSG_TABLE_SIZE) {
-            RawHttpMessage m = rawMessages.remove(0);
-            if (m != null) System.out.println("Removing rawMsg");
-            if (m == null) System.out.println("Couldnt remove rawMsg");
+    public void addWebhookMessage(WebhookMessage message) {
+        while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {
+            WebhookMessage m = webhookMessages.remove(0);
         }
-        rawMessages.add(message);
+        webhookMessages.add(message);
     }
 
-    public List<RawHttpMessage> getRawMessages() {
-        return rawMessages;
+    public List<WebhookMessage> getWebhookMessages() {
+        return webhookMessages;
     }
 
     public List<DNotification> getJournal() {
@@ -58,8 +53,6 @@ public class DAO {
     public void addToJournal(List<DNotification> notifList) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
             DNotification m = journal.remove(0);
-            if (m != null) System.out.println("Removing notif");
-            if (m == null) System.out.println("Couldnt remove notif");
         }
         this.journal.addAll(notifList);
     }
@@ -73,7 +66,6 @@ public class DAO {
     }
 
     public void updateActiveAlert(DNotification newNotif) {
-
         activeAlerts.get(newNotif.getAlertId()).setLastTimestamp(newNotif.getTimestamp());
         int c = activeAlerts.get(newNotif.getAlertId()).getCounter();
         activeAlerts.get(newNotif.getAlertId()).setCounter(c + 1);
@@ -99,17 +91,24 @@ public class DAO {
 
     }
 
-    public int getActiveAlarmsCount(String severity) {
+    public String getFormatedTimestamp(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        String format = "yyyy/MM/dd H:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(cal.getTime());
+    }
 
+    public int getActiveAlarmsCount(String severity) {
         List<DNotification> list = activeAlerts.values().stream()
                 .filter(notif -> notif.getSeverity().equals(severity))
                 .collect(Collectors.toList());
-
         return list.size();
 
     }
 
     public double calculateAlertsBalanceFactor() {
+        if (activeAlerts.size() == 0) return 0;
         double d = (5 * getActiveAlarmsCount("critical")
                 + 4 * getActiveAlarmsCount("major")
                 + 3 * getActiveAlarmsCount("minor")

@@ -69,13 +69,10 @@ public class DNotification {
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
+	// TODO put this method somewhere else
 	public String getFormatedTimestamp() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(timestamp);
-		String format = "yyyy/MM/dd H:mm:ss";
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		return sdf.format(cal.getTime());
+		return DAO.getInstance().getFormatedTimestamp(timestamp);
 	}
 
 	public int getCounter() {

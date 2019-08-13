@@ -1,29 +1,19 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 
 public class WebhookServlet extends HttpServlet {
 
@@ -63,7 +53,7 @@ public class WebhookServlet extends HttpServlet {
 		System.out.println("doGet(): parameterMap: " + getReqParams(req));
 		System.out.println("doGet(): headers: " + getReqHeaders(req));
 		
-		RawHttpMessage m = new RawHttpMessage();
+		WebhookMessage m = new WebhookMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -78,8 +68,8 @@ public class WebhookServlet extends HttpServlet {
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
 		
-		DAO.getInstance().addRawMessage(m);
-		DAO.rawMessagesReceivedCount++;
+		DAO.getInstance().addWebhookMessage(m);
+		DAO.webhookMessagesReceivedCount++;
 
 		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "GET").inc();
 
@@ -119,7 +109,7 @@ public class WebhookServlet extends HttpServlet {
 		System.out.println("doPost(): body: " + body);
 		System.out.println("doPost(): headers: " + getReqHeaders(req));
 		
-		RawHttpMessage m = new RawHttpMessage();
+		WebhookMessage m = new WebhookMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -133,8 +123,8 @@ public class WebhookServlet extends HttpServlet {
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
 		
-		DAO.getInstance().addRawMessage(m);
-		DAO.rawMessagesReceivedCount++;
+		DAO.getInstance().addWebhookMessage(m);
+		DAO.webhookMessagesReceivedCount++;
 
 		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "POST").inc();
 		

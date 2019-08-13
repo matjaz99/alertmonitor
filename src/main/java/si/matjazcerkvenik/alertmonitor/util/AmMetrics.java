@@ -23,7 +23,6 @@ public class AmMetrics {
     public static final Counter alertmonitor_journal_messages_total = Counter.build()
             .name("alertmonitor_journal_messages_total")
             .help("Number of messages in journal.")
-            .labelNames("log")
             .register();
 
     public static final Gauge alertmonitor_active_alerts_count = Gauge.build()
