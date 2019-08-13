@@ -31,12 +31,10 @@ The easiest way to start using Alertmonitor is to deploy it on Docker.
 Deploy container:
 
 ```
-docker run -d -p 7070:8080 matjaz99/alertmonitor:latest
+docker run -d -p 8080:8080 matjaz99/alertmonitor:latest
 ```
 
 There is also `docker-compose.yml` file for deployment in Swarm cluster.
-
-> Remark: The port mapping 7070:8080 means that alertmonitor is available from outside on port 7070, but other services in Swarm cluster can communicate with alertmonitor on port 8080. Anyway you can change this to whatever you like.
 
 ## Docker images
 
@@ -57,12 +55,12 @@ Alertmonitor recognizes the following labels:
 |-------------|-------------------------|
 | severity    | Severity is the weight of event. Possible values: critical, major, minor, warning, clear and informational |
 | priority    | Priority tells how urgent is alarm. Possible values: high, medium, low |
-| sourceinfo | Exact location of the alert. Eg. GE port 1/1/7 |
+| sourceinfo  | Exact location of the alert. Eg. GE port 1/1/7 |
 | instance    | Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
 | nodename    | Descriptive name of instance. Eg. hostname |
 | tags        | Custom tags that describe the alert (comma separated)
 
-> Unique `alertId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `alertId` to correlate it with alarm.
+> `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId` to correlate it with alarm. Putting a variable value (eg. current temperature) in these fields is not recommended.
 
 Example of alert rule in Prometheus (note the labels):
 
@@ -85,8 +83,6 @@ groups:
       summary: CPU alert for Node '{{ $labels.node_name }}'
 ```
 
-
-> Never put a metric value in labels. Why? Alerts are also stored in Prometheus as time-series data and using value in label will generate a new time-series for each alert. Consequently `for` condition will never be met, and the alert will never be sent.
 
 #### Configure webhook receiver in Alertmanager
 
@@ -118,7 +114,7 @@ mvn tomcat7:run
 Build docker image and push to docker hub:
 
 ```
-docker build -t matjaz99/alertmonitor:1.0.0 .
-docker push matjaz99/alertmonitor:1.0.0
+docker build -t {{namespace}}/{{image}}:{{tag}} .
+docker push {{namespace}}/{{image}}:{{tag}}
 ```
 

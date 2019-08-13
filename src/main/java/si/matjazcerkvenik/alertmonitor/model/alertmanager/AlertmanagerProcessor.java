@@ -8,10 +8,7 @@ import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AlertmanagerProcessor {
 
@@ -37,22 +34,22 @@ public class AlertmanagerProcessor {
             if (n.getSeverity().equalsIgnoreCase("informational")) {
                 continue;
             }
-            if (DAO.getInstance().getActiveAlerts().containsKey(n.getAlertId())) {
+            if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                 if (n.getSeverity().equalsIgnoreCase("clear")) {
-                    System.out.println("Removing active alarm: " + n.getAlertId());
+                    System.out.println("Removing active alarm: " + n.getCorrelationId());
                     DAO.getInstance().removeActiveAlert(n);
                     DAO.clearingEventCount++;
                     AmMetrics.alertmonitor_alerts_total.labels("clearing").inc();
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
-                    System.out.println("Updating active alarm: " + n.getAlertId());
+                    System.out.println("Updating active alarm: " + n.getCorrelationId());
                 }
             } else {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
                     DAO.raisingEventCount++;
                     AmMetrics.alertmonitor_alerts_total.labels("raising").inc();
-                    System.out.println("Adding active alarm: " + n.getAlertId());
+                    System.out.println("Adding active alarm: " + n.getCorrelationId());
                 }
             }
             DAO.lastEventTimestamp = System.currentTimeMillis();
@@ -73,83 +70,34 @@ public class AlertmanagerProcessor {
             n.setTimestamp(System.currentTimeMillis());
             n.setSource(m.getRemoteHost());
             n.setAlertname(a.getLabels().get("alertname"));
+            n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
+            n.setSourceinfo(a.getLabels().getOrDefault("sourceinfo", "-"));
+            n.setInstance(a.getLabels().getOrDefault("instance", "-"));
+            n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
+            n.setJob(a.getLabels().getOrDefault("job", "-"));
+            n.setTags(a.getLabels().getOrDefault("tags", "-"));
+            n.setSeverity(a.getLabels().getOrDefault("severity", "indeterminate"));
+            n.setPriority(a.getLabels().getOrDefault("priority", "low"));
+            n.setSummary(a.getAnnotations().getOrDefault("summary", "-"));
+            n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
+            n.setStatus(a.getStatus());
 
-            if (m.getHeaderMap().containsKey("user-agent")) {
-                n.setUserAgent(m.getHeaderMap().get("user-agent"));
-            } else {
-                n.setUserAgent("-");
-            }
-
-            if (a.getLabels().containsKey("sourceinfo")) {
-                n.setSourceinfo(a.getLabels().get("sourceinfo"));
-            } else {
-                n.setSourceinfo("-");
-            }
-
-            if (a.getLabels().containsKey("instance")) {
-                n.setInstance(a.getLabels().get("instance"));
-            } else {
-                n.setInstance("-");
-            }
-
-            if (a.getLabels().containsKey("nodename")) {
-                n.setNodename(a.getLabels().get("nodename"));
-            } else {
-                n.setNodename(n.getInstance());
-            }
-
-            if (a.getLabels().containsKey("job")) {
-                n.setJob(a.getLabels().get("job"));
-            } else {
-                n.setJob("-");
-            }
-
-            if (a.getLabels().containsKey("tags")) {
-                n.setTags(a.getLabels().get("tags"));
-            } else {
-                n.setTags("");
-            }
-
-            if (a.getLabels().containsKey("severity")) {
-                n.setSeverity(a.getLabels().get("severity"));
-            } else {
-                n.setSeverity("indeterminate");
-            }
-
-            if (a.getLabels().containsKey("priority")) {
-                n.setPriority(a.getLabels().get("priority"));
-            } else {
-                n.setPriority("low");
-            }
-
+            // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
-                // set severity=clear for all events that have status=resolved, but not for those with severity=informational
                 if (!n.getSeverity().equalsIgnoreCase("informational")) {
                     n.setSeverity("clear");
                 }
             }
 
-            if (a.getAnnotations().containsKey("summary")) {
-                n.setSummary(a.getAnnotations().get("summary"));
-            } else {
-                n.setSummary("-");
-            }
-
-            if (a.getAnnotations().containsKey("description")) {
-                n.setDescription(a.getAnnotations().get("description"));
-            } else {
-                n.setDescription("-");
-            }
-
-            n.setStatus(a.getStatus());
-
+            // set unique ID of event
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
                     + n.getPriority() + n.getAlertname() + new Random().nextInt(9999999)
                     + n.getSourceinfo() + n.getInstance() + n.getSummary()
                     + n.getDescription() + new Random().nextInt(9999999) + n.getSource()
                     + n.getUserAgent()));
 
-            n.setAlertId(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getSourceinfo()
+            // set correlation ID
+            n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getSourceinfo()
                     + n.getInstance() + n.getSummary()));
 
 //			DNotification found = null;

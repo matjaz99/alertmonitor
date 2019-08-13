@@ -62,17 +62,17 @@ public class DAO {
     }
 
     public void addActiveAlert(DNotification n) {
-        activeAlerts.put(n.getAlertId(), n);
+        activeAlerts.put(n.getCorrelationId(), n);
     }
 
     public void updateActiveAlert(DNotification newNotif) {
-        activeAlerts.get(newNotif.getAlertId()).setLastTimestamp(newNotif.getTimestamp());
-        int c = activeAlerts.get(newNotif.getAlertId()).getCounter();
-        activeAlerts.get(newNotif.getAlertId()).setCounter(c + 1);
+        activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
+        int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
+        activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
     }
 
     public void removeActiveAlert(DNotification n) {
-        activeAlerts.remove(n.getAlertId());
+        activeAlerts.remove(n.getCorrelationId());
     }
 
     public void parseTags(String tags) {

@@ -44,7 +44,7 @@ public class AmMetrics {
 
     public static final Gauge alertmonitor_last_event_timestamp = Gauge.build()
             .name("alertmonitor_last_event_timestamp")
-            .help("Timestamp of last event (raise, clear or update")
+            .help("Timestamp of last event (raise, clear or update)")
             .register();
 
 }

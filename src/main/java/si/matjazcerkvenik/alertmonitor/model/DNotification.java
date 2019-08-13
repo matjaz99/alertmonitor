@@ -1,15 +1,12 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 public class DNotification {
 	
 	/** Unique ID of notification */
 	private String uid;
 	
-	/** Alert ID identifies the same events */
-	private String alertId;
+	/** Correlation ID identifies the same type of events */
+	private String correlationId;
 	
 	/** timestamp of first occurence */
 	private long timestamp;
@@ -54,12 +51,12 @@ public class DNotification {
 		this.uid = uid;
 	}
 
-	public String getAlertId() {
-		return alertId;
+	public String getCorrelationId() {
+		return correlationId;
 	}
 
-	public void setAlertId(String alertId) {
-		this.alertId = alertId;
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
 	}
 
 	public long getTimestamp() {

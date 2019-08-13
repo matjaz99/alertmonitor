@@ -10,7 +10,7 @@ services:
   alertmonitor:
     image: matjaz99/alertmonitor:latest
     ports:
-      - 7070:8080
+      - 8080:8080
     networks:
       - monitoring-network
     deploy:
