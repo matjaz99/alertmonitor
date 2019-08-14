@@ -21,6 +21,7 @@ public class DAO {
     public static int webhookMessagesReceivedCount = 0;
     public static int amMessagesReceivedCount = 0;
     public static int journalReceivedCount = 0;
+    // TODO remove these two, it can be calculated from number of alerts by severity
     public static int raisingEventCount = 0;
     public static int clearingEventCount = 0;
     public static long lastEventTimestamp = 0;

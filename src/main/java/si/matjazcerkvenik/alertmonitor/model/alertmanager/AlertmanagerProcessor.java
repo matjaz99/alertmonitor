@@ -26,7 +26,9 @@ public class AlertmanagerProcessor {
         DAO.amMessagesReceivedCount++;
         DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
 
-        AmMetrics.alertmonitor_journal_messages_total.inc(dn.size());
+        for (DNotification a : dn) {
+            AmMetrics.alertmonitor_journal_messages_total.labels(a.getSeverity()).inc();
+        }
 
         // resynchronization
 
@@ -39,7 +41,6 @@ public class AlertmanagerProcessor {
                     System.out.println("Removing active alarm: " + n.getCorrelationId());
                     DAO.getInstance().removeActiveAlert(n);
                     DAO.clearingEventCount++;
-                    AmMetrics.alertmonitor_alerts_total.labels("clearing").inc();
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
                     System.out.println("Updating active alarm: " + n.getCorrelationId());
@@ -48,7 +49,6 @@ public class AlertmanagerProcessor {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
                     DAO.raisingEventCount++;
-                    AmMetrics.alertmonitor_alerts_total.labels("raising").inc();
                     System.out.println("Adding active alarm: " + n.getCorrelationId());
                 }
             }
