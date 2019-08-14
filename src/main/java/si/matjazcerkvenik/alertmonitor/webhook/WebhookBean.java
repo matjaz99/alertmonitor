@@ -97,14 +97,19 @@ public class WebhookBean {
 
 	public String getUpTime() {
 		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
+		return secUp + " seconds";
+	}
+
+	public String getUpTimeTest() {
+		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
 		int minUp = secUp / 60;
 		int hourUp = minUp / 60;
 		int dayUp = hourUp / 24;
 		// TODO finish this
 		System.out.println(secUp + "s = " + minUp + "m + " + minUp % 60 + "s");
 		System.out.println(minUp + "m = " + hourUp + "h + " + minUp % 60 + "m + " + minUp % 60 + "s");
-		String resp = "";
-		return secUp + " seconds";
+		String resp = hourUp + "h + " + minUp % 60 + "m + " + minUp % 60 + "s";
+		return resp;
 	}
 
 	public String getLastEventTime() {

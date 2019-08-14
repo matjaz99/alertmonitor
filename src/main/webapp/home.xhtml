@@ -31,13 +31,13 @@
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
-					<h3>Statistics</h3>
+					<h3>Timers</h3>
 					<p:outputLabel value="Start time: #{webhookBean.startTime}" />
 					<p:outputLabel value="Up time: #{webhookBean.upTime}" />
 					<p:outputLabel value="Last event time: #{webhookBean.lastEventTime}" />
-					<p:outputLabel value="Since last event: #{webhookBean.timeSinceLastEvent}" />
-					<p:outputLabel value="" />
-					<p:outputLabel value="" />
+					<p:outputLabel value="Time since last event: #{webhookBean.timeSinceLastEvent}" />
+					<p:outputLabel value="Test: #{webhookBean.upTimeTest}" />
+					<p:outputLabel value="&nbsp;" />
 				</p:panelGrid>
 
 			</p:panelGrid>
