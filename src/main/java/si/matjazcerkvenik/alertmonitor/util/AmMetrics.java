@@ -29,7 +29,7 @@ public class AmMetrics {
     public static final Gauge alertmonitor_active_alerts_count = Gauge.build()
             .name("alertmonitor_active_alerts_count")
             .help("Number of active alerts by severity")
-            .labelNames("severity")
+            .labelNames("alertname", "severity")
             .register();
 
     public static final Gauge alertmonitor_alerts_balance_factor = Gauge.build()

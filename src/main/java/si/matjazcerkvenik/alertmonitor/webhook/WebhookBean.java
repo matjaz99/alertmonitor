@@ -83,7 +83,7 @@ public class WebhookBean {
 	}
 
 	public int getActiveAlarmsCount(String severity) {
-		return DAO.getInstance().getActiveAlarmsCount(severity);
+		return DAO.getInstance().getActiveAlarmsList(severity).size();
 	}
 
 	public String getBalanceFactor() {

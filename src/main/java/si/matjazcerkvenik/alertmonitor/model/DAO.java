@@ -100,20 +100,20 @@ public class DAO {
         return sdf.format(cal.getTime());
     }
 
-    public int getActiveAlarmsCount(String severity) {
+    public List<DNotification> getActiveAlarmsList(String severity) {
         List<DNotification> list = activeAlerts.values().stream()
                 .filter(notif -> notif.getSeverity().equals(severity))
                 .collect(Collectors.toList());
-        return list.size();
+        return list;
 
     }
 
     public double calculateAlertsBalanceFactor() {
         if (activeAlerts.size() == 0) return 0;
-        double d = (5 * getActiveAlarmsCount("critical")
-                + 4 * getActiveAlarmsCount("major")
-                + 3 * getActiveAlarmsCount("minor")
-                + 2 * getActiveAlarmsCount("warning")) * 1.0 / activeAlerts.size();
+        double d = (5 * getActiveAlarmsList("critical").size()
+                + 4 * getActiveAlarmsList("major").size()
+                + 3 * getActiveAlarmsList("minor").size()
+                + 2 * getActiveAlarmsList("warning").size()) * 1.0 / activeAlerts.size();
         return d;
     }
 }
