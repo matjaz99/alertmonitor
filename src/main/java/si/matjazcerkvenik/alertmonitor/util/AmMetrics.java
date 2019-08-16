@@ -17,7 +17,7 @@ public class AmMetrics {
     public static final Counter alertmonitor_webhook_messages_received_total = Counter.build()
             .name("alertmonitor_webhook_messages_received_total")
             .help("Total number of received webhook messages.")
-            .labelNames("remoteHost", "method")
+            .labelNames("remotehost", "method")
             .register();
 
     public static final Counter alertmonitor_journal_messages_total = Counter.build()
@@ -28,7 +28,7 @@ public class AmMetrics {
 
     public static final Gauge alertmonitor_active_alerts_count = Gauge.build()
             .name("alertmonitor_active_alerts_count")
-            .help("Number of active alerts by severity")
+            .help("Currently active alerts by severity and alertname")
             .labelNames("alertname", "severity")
             .register();
 

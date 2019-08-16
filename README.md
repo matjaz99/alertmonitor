@@ -103,6 +103,22 @@ receivers:
     send_resolved: true
 ```
 
+## Metrics
+
+Alertmonitor supports Prometheus metrics:
+- `alertmonitor_build_info`
+- `alertmonitor_webhook_messages_received_total`
+- `alertmonitor_journal_messages_total`
+- `alertmonitor_active_alerts_count`
+- `alertmonitor_alerts_balance_factor`
+- `alertmonitor_last_event_timestamp`
+
+Metrics are available at URI endpoint:
+
+```
+GET /alertmonitor/metrics
+```
+
 ## For developers
 
 Run the project with maven:

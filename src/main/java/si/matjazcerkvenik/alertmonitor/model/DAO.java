@@ -64,6 +64,7 @@ public class DAO {
 
     public void addActiveAlert(DNotification n) {
         activeAlerts.put(n.getCorrelationId(), n);
+        raisingEventCount++;
     }
 
     public void updateActiveAlert(DNotification newNotif) {
@@ -74,6 +75,7 @@ public class DAO {
 
     public void removeActiveAlert(DNotification n) {
         activeAlerts.remove(n.getCorrelationId());
+        clearingEventCount++;
     }
 
     public void parseTags(String tags) {

@@ -25,9 +25,6 @@ public class PrometheusMetricsServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.setContentType(TextFormat.CONTENT_TYPE_004);
-
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", "Version 1.2.0", System.getProperty("os.name")).set(DAO.startUpTime);
         AmMetrics.alertmonitor_active_alerts_count.clear();
         for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
@@ -39,6 +36,9 @@ public class PrometheusMetricsServlet extends HttpServlet {
 //        AmMetrics.alertmonitor_active_alerts_count.labels("warning").set(DAO.getInstance().getActiveAlarmsList("warning").size());
         AmMetrics.alertmonitor_alerts_balance_factor.set(DAO.getInstance().calculateAlertsBalanceFactor());
         AmMetrics.alertmonitor_last_event_timestamp.set(DAO.lastEventTimestamp);
+
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType(TextFormat.CONTENT_TYPE_004);
 
         Writer writer = resp.getWriter();
         try {

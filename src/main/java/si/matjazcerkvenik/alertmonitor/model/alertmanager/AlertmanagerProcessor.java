@@ -19,28 +19,27 @@ public class AlertmanagerProcessor {
         AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
         System.out.println(am.toString());
         System.out.println("Number of alerts: " + am.getAlerts().size());
-        //amMessages.add(am);
 
         List<DNotification> dn = convertToDNotif(m, am);
         DAO.getInstance().addToJournal(dn);
         DAO.amMessagesReceivedCount++;
         DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
 
-        for (DNotification a : dn) {
-            AmMetrics.alertmonitor_journal_messages_total.labels(a.getSeverity()).inc();
-        }
+        DAO.lastEventTimestamp = System.currentTimeMillis();
 
-        // resynchronization
-
+        // correlation
         for (DNotification n : dn) {
+
+            AmMetrics.alertmonitor_journal_messages_total.labels(n.getSeverity()).inc();
+
             if (n.getSeverity().equalsIgnoreCase("informational")) {
                 continue;
             }
+
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                 if (n.getSeverity().equalsIgnoreCase("clear")) {
-                    System.out.println("Removing active alarm: " + n.getCorrelationId());
                     DAO.getInstance().removeActiveAlert(n);
-                    DAO.clearingEventCount++;
+                    System.out.println("Removing active alarm: " + n.getCorrelationId());
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
                     System.out.println("Updating active alarm: " + n.getCorrelationId());
@@ -48,14 +47,10 @@ public class AlertmanagerProcessor {
             } else {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
-                    DAO.raisingEventCount++;
                     System.out.println("Adding active alarm: " + n.getCorrelationId());
                 }
             }
-            DAO.lastEventTimestamp = System.currentTimeMillis();
         }
-
-
 
     }
 

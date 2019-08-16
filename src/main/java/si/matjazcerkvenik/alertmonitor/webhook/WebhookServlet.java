@@ -25,109 +25,15 @@ public class WebhookServlet extends HttpServlet {
 		// $ curl http://localhost:8080/DTools/api/webhook/blablabla
 		// $ curl 'http://localhost:8080/DTools/api/webhook/blablabla?a=1&b=2'
 
-		System.out.println("doGet(): getAuthType: " + req.getAuthType());
-		System.out.println("doGet(): getCharacterEncoding: " + req.getCharacterEncoding());
-		System.out.println("doGet(): getContentLength: " + req.getContentLength());
-		System.out.println("doGet(): getContentType: " + req.getContentType());
-		System.out.println("doGet(): getContextPath: " + req.getContextPath());
-		System.out.println("doGet(): getLocalAddr: " + req.getLocalAddr());
-		System.out.println("doGet(): getLocalName: " + req.getLocalName());
-		System.out.println("doGet(): getLocalPort: " + req.getLocalPort());
-		System.out.println("doGet(): getMethod: " + req.getMethod());
-		System.out.println("doGet(): getParameter: " + req.getParameter("aaa"));
-		System.out.println("doGet(): getPathInfo: " + req.getPathInfo());
-		System.out.println("doGet(): getPathTranslated: " + req.getPathTranslated());
-		System.out.println("doGet(): getProtocol: " + req.getProtocol());
-		System.out.println("doGet(): getQueryString: " + req.getQueryString());
-		System.out.println("doGet(): getRemoteAddr: " + req.getRemoteAddr());
-		System.out.println("doGet(): getRemoteHost: " + req.getRemoteHost());
-		System.out.println("doGet(): getRemotePort: " + req.getRemotePort());
-		System.out.println("doGet(): getRemoteUser: " + req.getRemoteUser());
-		System.out.println("doGet(): getRequestedSessionId: " + req.getRequestedSessionId());
-		System.out.println("doGet(): getRequestURI: " + req.getRequestURI());
-		System.out.println("doGet(): getScheme: " + req.getScheme());
-		System.out.println("doGet(): getServerName: " + req.getServerName());
-		System.out.println("doGet(): getServerPort: " + req.getServerPort());
-		System.out.println("doGet(): getServletPath: " + req.getServletPath());
-		
-		System.out.println("doGet(): parameterMap: " + getReqParams(req));
-		System.out.println("doGet(): headers: " + getReqHeaders(req));
-		
-		WebhookMessage m = new WebhookMessage();
-		m.setTimestamp(System.currentTimeMillis());
-		m.setContentLength(req.getContentLength());
-		m.setContentType(req.getContentType());
-		m.setMethod(req.getMethod());
-		m.setPathInfo(req.getPathInfo());
-		m.setProtocol(req.getProtocol());
-		m.setRemoteHost(req.getRemoteHost());
-		m.setRemotePort(req.getRemotePort());
-		m.setRequestUri(req.getRequestURI());
-		
-		m.setBody(req.getPathInfo() + " " + generateParamMap(req));
-		m.setHeaderMap(generateHeaderMap(req));
-		m.setParameterMap(generateParamMap(req));
-		
-		DAO.getInstance().addWebhookMessage(m);
-		DAO.webhookMessagesReceivedCount++;
-
-		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "GET").inc();
-
+		WebhookMessage m = instantiateWebhookMessage(req);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		System.out.println("doPost(): getAuthType: " + req.getAuthType());
-		System.out.println("doPost(): getCharacterEncoding: " + req.getCharacterEncoding());
-		System.out.println("doPost(): getContentLength: " + req.getContentLength());
-		System.out.println("doPost(): getContentType: " + req.getContentType());
-		System.out.println("doPost(): getContextPath: " + req.getContextPath());
-		System.out.println("doPost(): getLocalAddr: " + req.getLocalAddr());
-		System.out.println("doPost(): getLocalName: " + req.getLocalName());
-		System.out.println("doPost(): getLocalPort: " + req.getLocalPort());
-		System.out.println("doPost(): getMethod: " + req.getMethod());
-		System.out.println("doPost(): getParameter: " + req.getParameter("aaa"));
-		System.out.println("doPost(): getPathInfo: " + req.getPathInfo());
-		System.out.println("doPost(): getPathTranslated: " + req.getPathTranslated());
-		System.out.println("doPost(): getProtocol: " + req.getProtocol());
-		System.out.println("doPost(): getQueryString: " + req.getQueryString());
-		System.out.println("doPost(): getRemoteAddr: " + req.getRemoteAddr());
-		System.out.println("doPost(): getRemoteHost: " + req.getRemoteHost());
-		System.out.println("doPost(): getRemotePort: " + req.getRemotePort());
-		System.out.println("doPost(): getRemoteUser: " + req.getRemoteUser());
-		System.out.println("doPost(): getRequestedSessionId: " + req.getRequestedSessionId());
-		System.out.println("doPost(): getRequestURI: " + req.getRequestURI());
-		System.out.println("doPost(): getScheme: " + req.getScheme());
-		System.out.println("doPost(): getServerName: " + req.getServerName());
-		System.out.println("doPost(): getServerPort: " + req.getServerPort());
-		System.out.println("doPost(): getServletPath: " + req.getServletPath());
-		
-		String body = getReqBody(req);
-		System.out.println("doGet(): parameterMap: " + getReqParams(req));
-		System.out.println("doPost(): body: " + body);
-		System.out.println("doPost(): headers: " + getReqHeaders(req));
-		
-		WebhookMessage m = new WebhookMessage();
-		m.setTimestamp(System.currentTimeMillis());
-		m.setContentLength(req.getContentLength());
-		m.setContentType(req.getContentType());
-		m.setMethod(req.getMethod());
-		m.setPathInfo(req.getPathInfo());
-		m.setProtocol(req.getProtocol());
-		m.setRemoteHost(req.getRemoteHost());
-		m.setRemotePort(req.getRemotePort());
-		m.setRequestUri(req.getRequestURI());
-		m.setBody(body);
-		m.setHeaderMap(generateHeaderMap(req));
-		m.setParameterMap(generateParamMap(req));
-		
-		DAO.getInstance().addWebhookMessage(m);
-		DAO.webhookMessagesReceivedCount++;
+		WebhookMessage m = instantiateWebhookMessage(req);
 
-		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), "POST").inc();
-		
 		if (m.getHeaderMap().containsKey("user-agent")) {
 			String userAgent = m.getHeaderMap().get("user-agent");
 			
@@ -141,6 +47,60 @@ public class WebhookServlet extends HttpServlet {
 			
 		}
 
+	}
+
+	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
+
+		System.out.println("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
+		System.out.println("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
+		System.out.println("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
+		System.out.println("instantiateWebhookMessage(): getContentType: " + req.getContentType());
+		System.out.println("instantiateWebhookMessage(): getContextPath: " + req.getContextPath());
+		System.out.println("instantiateWebhookMessage(): getLocalAddr: " + req.getLocalAddr());
+		System.out.println("instantiateWebhookMessage(): getLocalName: " + req.getLocalName());
+		System.out.println("instantiateWebhookMessage(): getLocalPort: " + req.getLocalPort());
+		System.out.println("instantiateWebhookMessage(): getMethod: " + req.getMethod());
+		System.out.println("instantiateWebhookMessage(): getParameter: " + req.getParameter("aaa"));
+		System.out.println("instantiateWebhookMessage(): getPathInfo: " + req.getPathInfo());
+		System.out.println("instantiateWebhookMessage(): getPathTranslated: " + req.getPathTranslated());
+		System.out.println("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
+		System.out.println("instantiateWebhookMessage(): getQueryString: " + req.getQueryString());
+		System.out.println("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
+		System.out.println("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
+		System.out.println("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
+		System.out.println("instantiateWebhookMessage(): getRemoteUser: " + req.getRemoteUser());
+		System.out.println("instantiateWebhookMessage(): getRequestedSessionId: " + req.getRequestedSessionId());
+		System.out.println("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
+		System.out.println("instantiateWebhookMessage(): getScheme: " + req.getScheme());
+		System.out.println("instantiateWebhookMessage(): getServerName: " + req.getServerName());
+		System.out.println("instantiateWebhookMessage(): getServerPort: " + req.getServerPort());
+		System.out.println("instantiateWebhookMessage(): getServletPath: " + req.getServletPath());
+
+		System.out.println("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
+		System.out.println("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
+		String body = getReqBody(req);
+		System.out.println("instantiateWebhookMessage(): body: " + body);
+
+		WebhookMessage m = new WebhookMessage();
+		m.setTimestamp(System.currentTimeMillis());
+		m.setContentLength(req.getContentLength());
+		m.setContentType(req.getContentType());
+		m.setMethod(req.getMethod());
+		m.setPathInfo(req.getPathInfo());
+		m.setProtocol(req.getProtocol());
+		m.setRemoteHost(req.getRemoteHost());
+		m.setRemotePort(req.getRemotePort());
+		m.setRequestUri(req.getRequestURI());
+		m.setBody(body);
+		m.setHeaderMap(generateHeaderMap(req));
+		m.setParameterMap(generateParamMap(req));
+
+		DAO.getInstance().addWebhookMessage(m);
+		DAO.webhookMessagesReceivedCount++;
+
+		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), req.getMethod().toUpperCase()).inc();
+
+		return m;
 	}
 	
 	
@@ -170,7 +130,7 @@ public class WebhookServlet extends HttpServlet {
 	}
 	
 	
-	private String getReqHeaders(HttpServletRequest req) {
+	private String getReqHeadersAsString(HttpServletRequest req) {
 		
 		String headers = "";
 		Enumeration<String> headerNames = req.getHeaderNames();
@@ -184,7 +144,7 @@ public class WebhookServlet extends HttpServlet {
 		
 	}
 	
-	private String getReqParams(HttpServletRequest req) {
+	private String getReqParamsAsString(HttpServletRequest req) {
 		Map<String, String[]> parameterMap = req.getParameterMap();
 		String params = "";
 		for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();) {
@@ -195,7 +155,11 @@ public class WebhookServlet extends HttpServlet {
 	}
 	
 	private String getReqBody(HttpServletRequest req) throws IOException {
-		
+
+		if (req.getMethod().equalsIgnoreCase("get")) {
+			return req.getPathInfo() + " " + generateParamMap(req);
+		}
+
 		String body = "";
 		String s = req.getReader().readLine();
 		while (s != null) {

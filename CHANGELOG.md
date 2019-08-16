@@ -8,6 +8,8 @@
 ## 1.1.1-SNAPSHOT
 
 * [FEATURE] Added startUpTime (OnStart listener)
+* [FEATURE] Supported prometheus metrics: `alertmonitor_build_info`, `alertmonitor_webhook_messages_received_total`, `alertmonitor_journal_messages_total`, `alertmonitor_active_alerts_count`, `alertmonitor_alerts_balance_factor`, `alertmonitor_last_event_timestamp`
+* [ENHANCEMENT] A lot of refactoring
 
 ## 1.1.0 / 2019-07-15
 
@@ -17,7 +19,7 @@ Release includes:
 * [FEATURE] Sorting by multiple columns (hold command key) (#2)
 * [ENHANCEMENT] Changed base image from tomcat:8.5.37-jre8 to tomcat:8.5-jre8-alpine (because it's smaller)
 * [ENHANCEMENT] Updated Primefaces from 6.1 to 6.2
-* [ENHANCEMENT] Added support for labels: job, tags, sourceinfo; alertdomain is now deprecated
+* [ENHANCEMENT] Added support for labels: `job`, `tags`, `sourceinfo`; `alertdomain` label is now deprecated
 * [BUGFIX] Bug fixes and refactoring
 
 ## 1.0.0 / 2019-06-30
