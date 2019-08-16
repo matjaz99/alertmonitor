@@ -37,6 +37,10 @@ public class WebhookBean {
 
 	private String columnTemplate = "id brand year";
 
+	public String getVersion() {
+		return DAO.version;
+	}
+
 	public int getWhMsgCount() {
 		return DAO.webhookMessagesReceivedCount;
 	}

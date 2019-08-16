@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class DAO {
 
     public static long startUpTime = 0;
+    public static String version = "n/a";
 
     private static DAO instance;
     private static int WEBHOOK_TABLE_SIZE = 5000;
