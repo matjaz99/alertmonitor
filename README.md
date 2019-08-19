@@ -9,7 +9,7 @@
 
 Alertmonitor is a GUI for displaying alerts from Prometheus Alertmanager.
 
-A generic webhook in Alertmonitor accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
+A generic webhook accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
 
 If the request is recognized to come from Alertmanager, it will be processed and displayed as alarm.
 
@@ -18,11 +18,11 @@ Alertmonitor provides three views:
 - Journal - history of all alerts
 - Active - only active alerts
 
-Alertmonitor correlates alarms and clears to display only active alarms (ie. alarms which haven't received clear yet).
+Alertmonitor correlates alarms and clears to display active alarms (ie. alarms which haven't received clear yet).
 
-Alertmonitor GUI is reachable on: http://hostname:7070/alertmonitor/
+Alertmonitor GUI is reachable on: http://hostname:8080/alertmonitor/
 
-> Alertmonitor does not support any persistence. Alerts are stored in memory. After restart alerts are gone.
+> Currently Alertmonitor does not support any persistence. Alerts are stored in memory. After restart alerts are gone.
 
 ## Install
 
@@ -42,12 +42,9 @@ Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/al
 
 ## Configuration
 
-The Alertmonitor application itself doesn't support any configuration options.
-But for correlation to work, the alerts in Prometheus rules should have properly configured labels.
+The Alertmonitor application itself doesn't support any configuration, BUT for correlation to work correctly, the alert rules in Prometheus should have properly configured labels.
 
 #### Labeling alerts
-
-Enrich alert rules with additional labels.
 
 Alertmonitor recognizes the following labels:
 
@@ -58,7 +55,7 @@ Alertmonitor recognizes the following labels:
 | sourceinfo  | Exact location of the alert. Eg. GE port 1/1/7 |
 | instance    | Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
 | nodename    | Descriptive name of instance. Eg. hostname |
-| tags        | Custom tags that describe the alert (comma separated)
+| tags        | Custom tags that describe the alert (comma separated) |
 
 > `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId` to correlate it with alarm. Putting a variable value (eg. current temperature) in these fields is not recommended.
 
