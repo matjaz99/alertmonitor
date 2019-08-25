@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
@@ -12,7 +13,7 @@ import java.util.*;
 
 public class AlertmanagerProcessor {
 
-    public static void processAlertmanagerMessage(WebhookMessage m) {
+    public static void processWebhookMessage(WebhookMessage m) {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -70,7 +71,7 @@ public class AlertmanagerProcessor {
             n.setInstance(a.getLabels().getOrDefault("instance", "-"));
             n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
             n.setJob(a.getLabels().getOrDefault("job", "-"));
-            n.setTags(a.getLabels().getOrDefault("tags", "-"));
+            n.setTags(a.getLabels().getOrDefault("tags", ""));
             n.setSeverity(a.getLabels().getOrDefault("severity", "indeterminate"));
             n.setPriority(a.getLabels().getOrDefault("priority", "low"));
             n.setSummary(a.getAnnotations().getOrDefault("summary", "-"));
@@ -84,31 +85,39 @@ public class AlertmanagerProcessor {
                 }
             }
 
+            // read tags
+            String[] array = n.getTags().split(",");
+            for (int i = 0; i < array.length; i++) {
+                String tagName = array[i].trim();
+                if (tagName.length() > 0) {
+                    DTag t = new DTag(tagName, "#7ab1d3");
+                    DAO.getInstance().addTag(t);
+                }
+            }
+
+            // additional tags
+            DAO.getInstance().addTag(new DTag(n.getSeverity(), "#dd4123"));
+
             // set unique ID of event
-            n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode()
-                    + n.getPriority() + n.getAlertname() + new Random().nextInt(9999999)
-                    + n.getSourceinfo() + n.getInstance() + n.getSummary()
-                    + n.getDescription() + new Random().nextInt(9999999) + n.getSource()
+            n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
+                    + n.hashCode()
+                    + n.getPriority()
+                    + n.getAlertname()
+                    + new Random().nextInt(9999999)
+                    + n.getSourceinfo()
+                    + n.getInstance()
+                    + n.getSummary()
+                    + n.getDescription()
+                    + new Random().nextInt(9999999)
+                    + n.getSource()
                     + n.getUserAgent()));
 
             // set correlation ID
-            n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getSourceinfo()
-                    + n.getInstance() + n.getSummary()));
+            n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
+                    + n.getSourceinfo()
+                    + n.getInstance()
+                    + n.getSummary()));
 
-//			DNotification found = null;
-//			for (Iterator<DNotification> it1 = dNotifs.iterator(); it1.hasNext();) {
-//				DNotification dn = it1.next();
-//				if (dn.getUid().equalsIgnoreCase(n.getUid())) {
-//					found = dn;
-//					if (n.getSeverity().equalsIgnoreCase("clear")) {
-//
-//					}
-//					break;
-//				}
-//			}
-//			if (found == null) {
-//				notifs.add(n);
-//			}
             notifs.add(n);
 
         }

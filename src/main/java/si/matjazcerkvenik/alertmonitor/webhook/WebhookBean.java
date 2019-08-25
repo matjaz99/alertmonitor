@@ -82,7 +82,6 @@ public class WebhookBean {
 				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
 			}
 		});
-		System.out.println("Active alarm list size: " + list.size());
 		return list;
 	}
 
@@ -100,20 +99,8 @@ public class WebhookBean {
 	}
 
 	public String getUpTime() {
-		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
-		return secUp + " seconds";
-	}
-
-	public String getUpTimeTest() {
-		int secUp = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
-		int minUp = secUp / 60;
-		int hourUp = minUp / 60;
-		int dayUp = hourUp / 24;
-		// TODO finish this
-		System.out.println(secUp + "s = " + minUp + "m + " + minUp % 60 + "s");
-		System.out.println(minUp + "m = " + hourUp + "h + " + minUp % 60 + "m + " + minUp % 60 + "s");
-		String resp = hourUp + "h + " + minUp % 60 + "m + " + minUp % 60 + "s";
-		return resp;
+		int secUpTotal = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
+		return convertToDHMSFormat(secUpTotal);
 	}
 
 	public String getLastEventTime() {
@@ -122,7 +109,31 @@ public class WebhookBean {
 
 	public String getTimeSinceLastEvent() {
 		int secUp = (int) ((System.currentTimeMillis() - DAO.lastEventTimestamp) / 1000);
-		return secUp + " seconds";
+		return convertToDHMSFormat(secUp);
+	}
+
+	private String convertToDHMSFormat(int secUpTotal) {
+		int secUpRemain = secUpTotal % 60;
+		int minUpTotal = secUpTotal / 60;
+		int minUpRemain = minUpTotal % 60;
+		int hourUpTotal = minUpTotal / 60;
+		int hourUpRemain = hourUpTotal % 60;
+		int dayUpTotal = hourUpTotal / 24;
+		int dayUpRemain = hourUpTotal % 24;
+
+		String resp = minUpRemain + "m " + secUpRemain + "s";
+
+		if (dayUpTotal == 0) {
+			if (hourUpRemain > 0) {
+				resp = hourUpTotal + "h " + resp;
+			}
+		}
+
+		if (dayUpTotal > 0) {
+			resp = dayUpTotal + "d " + dayUpRemain + "h " + resp;
+		}
+
+		return resp;
 	}
 
 }

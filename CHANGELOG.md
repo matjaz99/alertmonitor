@@ -1,17 +1,12 @@
-## Next release
-
-* [CHANGE] What will be changed
-* [FEATURE] New feature
-* [ENHANCEMENT] Enhancement
-* [BUGFIX] Bug fixing
-
 ## 1.2.0-SNAPSHOT
 
 * [FEATURE] Added startUpTime (OnStart listener)
-* [FEATURE] Supported prometheus metrics: `alertmonitor_build_info`, `alertmonitor_webhook_messages_received_total`, `alertmonitor_journal_messages_total`, `alertmonitor_active_alerts_count`, `alertmonitor_alerts_balance_factor`, `alertmonitor_last_event_timestamp`
-* [FEATURE] Show version in GUI
-* [ENHANCEMENT] Added example Grafana dashboard (docs/grafana_dashboards)
+* [FEATURE] Exporter endpoint for prometheus
+* [FEATURE] Supported metrics: `alertmonitor_build_info`, `alertmonitor_webhook_messages_received_total`, `alertmonitor_journal_messages_total`, `alertmonitor_active_alerts_count`, `alertmonitor_alerts_balance_factor`, `alertmonitor_last_event_timestamp`
+* [FEATURE] Show version in GUI (in footer)
+* [ENHANCEMENT] Added example Grafana dashboard (see docs/grafana_dashboards)
 * [ENHANCEMENT] A lot of refactoring
+* [BUGFIX] fixed calculation of up time
 
 ## 1.1.0 / 2019-07-15
 

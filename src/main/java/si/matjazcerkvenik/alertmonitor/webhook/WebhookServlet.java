@@ -34,17 +34,14 @@ public class WebhookServlet extends HttpServlet {
 
 		WebhookMessage m = instantiateWebhookMessage(req);
 
-		if (m.getHeaderMap().containsKey("user-agent")) {
-			String userAgent = m.getHeaderMap().get("user-agent");
-			
-			if (userAgent.startsWith("Alertmanager")) {
-				
-				// headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json, 
-				
-				AlertmanagerProcessor.processAlertmanagerMessage(m);
-				
-			}
-			
+		String userAgent = m.getHeaderMap().getOrDefault("user-agent", "-");
+
+		if (userAgent.startsWith("Alertmanager")) {
+
+			// example headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json,
+
+			AlertmanagerProcessor.processWebhookMessage(m);
+
 		}
 
 	}

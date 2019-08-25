@@ -79,20 +79,8 @@ public class DAO {
         clearingEventCount++;
     }
 
-    public void parseTags(String tags) {
-
-        String[] array = tags.split(",");
-
-        // TODO color tags
-
-        for (int i = 0; i < array.length; i++) {
-            String tagName = array[i].trim();
-            if (tagName.length() > 0 && !tagMap.containsKey(tagName)) {
-                DTag t = new DTag(tagName, "#7ab1d3");
-                tagMap.put(tagName, t);
-            }
-        }
-
+    public void addTag(DTag tag) {
+        tagMap.putIfAbsent(tag.getName(), tag);
     }
 
     public String getFormatedTimestamp(long timestamp) {
