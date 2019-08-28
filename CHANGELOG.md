@@ -1,4 +1,8 @@
-## 1.2.0-SNAPSHOT
+## 1.2.1-SNAPSHOT
+
+
+
+## 1.2.0 / 2019-08-28
 
 * [FEATURE] Added startUpTime (OnStart listener)
 * [FEATURE] Exporter endpoint for prometheus
