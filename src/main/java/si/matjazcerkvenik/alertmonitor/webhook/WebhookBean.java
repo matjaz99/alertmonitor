@@ -20,6 +20,7 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class WebhookBean {
 
 	public List<DNotification> getJournal() {
 		return DAO.getInstance().getJournal();
+	}
+
+	public List<DTag> getTags() {
+		return DAO.getInstance().getTags();
 	}
 
 	public List<DNotification> getActiveAlarms() {

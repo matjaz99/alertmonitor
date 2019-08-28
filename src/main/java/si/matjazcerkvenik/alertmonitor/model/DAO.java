@@ -83,6 +83,10 @@ public class DAO {
         tagMap.putIfAbsent(tag.getName(), tag);
     }
 
+    public List<DTag> getTags() {
+        return new ArrayList<DTag>(tagMap.values());
+    }
+
     public String getFormatedTimestamp(long timestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
