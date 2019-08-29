@@ -1,6 +1,7 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -28,6 +29,12 @@ public class OnStart implements ServletContextListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        DAO.getInstance().addTag(new DTag("critical", "red"));
+        DAO.getInstance().addTag(new DTag("left", "violet"));
+        DAO.getInstance().addTag(new DTag("right", "green"));
+        DAO.getInstance().addTag(new DTag("normal", "orange"));
+        DAO.getInstance().addTag(new DTag("banana", "yellow"));
 
     }
 
