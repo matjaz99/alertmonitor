@@ -2,7 +2,8 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
 
 
 	<div id="contentFrame">
@@ -41,12 +42,34 @@
 				</p:panelGrid>
 
 			</p:panelGrid>
-				
+
+			<hr/>
+
+			<am:tags></am:tags>
+
 			<hr/>
 
 			<h:outputLink value="/alertmonitor/metrics" >
 				Metrics
 			</h:outputLink>
+
+			<hr/>
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+				<p:dataTable id="tagsTable"
+							 value="#{webhookBean.tags}" var="t"
+							 cellpadding="0" cellspacing="0" width="100%">
+					<p:column headerText="Name">
+						<am:tag name="#{t.name}"></am:tag>
+					</p:column>
+
+					<p:column headerText="Color">
+						<h:outputText value="#{t.color}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:panelGrid>
+
 
 		</ui:define>
 	</div>

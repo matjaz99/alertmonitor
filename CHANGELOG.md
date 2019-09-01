@@ -1,11 +1,13 @@
 ## 1.2.1-SNAPSHOT
 
-
+* [FEATURE] Custom component for rendering tags
+* [FEATURE] Filtering active alerts by tags
+* [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
 
 ## 1.2.0 / 2019-08-28
 
 * [FEATURE] Added startUpTime (OnStart listener)
-* [FEATURE] Exporter endpoint for prometheus
+* [FEATURE] Metrics endpoint for prometheus (#5)
 * [FEATURE] Supported metrics: `alertmonitor_build_info`, `alertmonitor_webhook_messages_received_total`, `alertmonitor_journal_messages_total`, `alertmonitor_active_alerts_count`, `alertmonitor_alerts_balance_factor`, `alertmonitor_last_event_timestamp`
 * [FEATURE] Show version in GUI (in footer)
 * [ENHANCEMENT] Added example Grafana dashboard (see docs/grafana_dashboards)
@@ -27,9 +29,9 @@ Release includes:
 
 This is first release. Release includes:
 
-* [FEATURE] Correlate alarm and clear pairs (active alerts)
+* [FEATURE] Correlate alarm and clear pairs (selected alerts)
 * [FEATURE] Color alerts according to severity
-* [FEATURE] GUI showing active alerts, journal (history) and requests in raw format
+* [FEATURE] GUI showing selected alerts, journal (history) and requests in raw format
 * [FEATURE] Recognize alertmanager alerts and process alerts in json format
 * [FEATURE] Generic webhook - it accepts GET and POST requests in raw format (http headers, url parameters, body)
 * [FEATURE] The application is written in Java and runs in Apache Tomcat with JSF 2.2 and Primefaces

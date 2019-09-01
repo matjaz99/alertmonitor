@@ -76,6 +76,7 @@ public class DAO {
 
     public void removeActiveAlert(DNotification n) {
         activeAlerts.remove(n.getCorrelationId());
+        removeObsoleteTags();
         clearingEventCount++;
     }
 
@@ -85,6 +86,10 @@ public class DAO {
 
     public List<DTag> getTags() {
         return new ArrayList<DTag>(tagMap.values());
+    }
+
+    private void removeObsoleteTags() {
+        // TODO
     }
 
     public String getFormatedTimestamp(long timestamp) {

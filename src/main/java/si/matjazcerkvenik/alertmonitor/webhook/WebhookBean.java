@@ -23,10 +23,8 @@ import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -37,6 +35,8 @@ import javax.faces.bean.SessionScoped;
 public class WebhookBean {
 
 	private String columnTemplate = "id brand year";
+
+	private List<DTag> tagList = new ArrayList<DTag>();
 
 	public String getVersion() {
 		return DAO.version;
@@ -75,19 +75,71 @@ public class WebhookBean {
 	}
 
 	public List<DTag> getTags() {
-		return DAO.getInstance().getTags();
+		List<DTag> daoTagList = DAO.getInstance().getTags();
+		// add all from daoTagList to tagList which are not present yet
+		for (DTag dt : daoTagList) {
+			boolean found = false;
+			for (DTag t: tagList) {
+				if (t.getName().equals(dt.getName())) found = true;
+			}
+			if (!found) {
+			    if (getNumberOfSelectedTags() == tagList.size()) {
+			        dt.setSelected(true);
+                } else {
+			        dt.setSelected(false);
+                }
+				tagList.add(dt);
+			}
+		}
+		// remove all from tagList that are no more in daoTagList
+		for (Iterator<DTag> it = tagList.iterator(); it.hasNext();) {
+			DTag t = it.next();
+			boolean found = false;
+			for (DTag dt: daoTagList) {
+				if (dt.getName().equals(t.getName())) found = true;
+			}
+			if (!found) {
+				it.remove();
+			}
+		}
+		return tagList;
 	}
 
 	public List<DNotification> getActiveAlarms() {
 		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
-		Collections.sort(list, new Comparator<DNotification>() {
+		List<DNotification> result = list.stream()
+				.filter(notif -> checkIfNotifTagsMatchToSelectedTag(notif))
+				.collect(Collectors.toList());
+		Collections.sort(result, new Comparator<DNotification>() {
 			@Override
 			public int compare(DNotification lhs, DNotification rhs) {
 				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
 				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
 			}
 		});
-		return list;
+		return result;
+	}
+
+	private boolean checkIfNotifTagsMatchToSelectedTag(DNotification notif) {
+		// read tags
+		String[] array = notif.getTags().split(",");
+		for (int i = 0; i < array.length; i++) {
+			String tagName = array[i].trim();
+
+			for (DTag t : tagList) {
+				if (t.getName().equals(tagName) && t.isSelected()) {
+					return true;
+				}
+				if (t.getName().equals(notif.getSeverity()) && t.isSelected()) {
+					return true;
+				}
+				if (t.getName().equals(notif.getPriority()) && t.isSelected()) {
+					return true;
+				}
+			}
+
+		}
+		return false;
 	}
 
 	public int getActiveAlarmsCount(String severity) {
@@ -139,6 +191,75 @@ public class WebhookBean {
 		}
 
 		return resp;
+	}
+
+	public void tagAction(DTag tag) {
+		System.out.println("tag action called: " + tag.getName());
+
+		int numberOfSelectedTags = getNumberOfSelectedTags();
+
+		System.out.println("numberOfSelectedTags: " + numberOfSelectedTags + "/" + tagList.size());
+
+		if (numberOfSelectedTags == tagList.size()) {
+			// all tags are enabled
+			// first tag to be selected
+			// deselect all except this one
+			for (DTag t : tagList) {
+				if (t.getName().equals(tag.getName())) {
+					t.setSelected(true);
+				} else {
+					t.setSelected(false);
+				}
+			}
+			return;
+		}
+
+		if (numberOfSelectedTags == 1) {
+			// exactly one tag is selected, others are disabled
+			// find which tag is selected
+			DTag theOnlySelectedTag = null;
+			for (DTag t : tagList) {
+				if (t.isSelected()) {
+					theOnlySelectedTag = t;
+					break;
+				}
+			}
+			// if this is the same tag, then select all
+			if (theOnlySelectedTag.getName().equals(tag.getName())) {
+				for (DTag t : tagList) {
+					t.setSelected(true);
+				}
+			} else {
+				for (DTag t : tagList) {
+					if (t.getName().equals(tag.getName())) {
+						t.setSelected(true);
+					}
+				}
+			}
+			return;
+		}
+
+		if (numberOfSelectedTags > 0) {
+            DTag selectedTag = null;
+            for (DTag t : tagList) {
+                if (t.getName().equals(tag.getName())) {
+                    t.setSelected(!t.isSelected());
+                    break;
+                }
+            }
+        }
+
+
+	}
+
+	private int getNumberOfSelectedTags() {
+		int numberOfSelectedTags = 0;
+		for (DTag t : tagList) {
+			if (t.isSelected()) {
+				numberOfSelectedTags++;
+			}
+		}
+		return numberOfSelectedTags;
 	}
 
 }

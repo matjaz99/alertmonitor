@@ -7,7 +7,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a GUI for displaying alerts from Prometheus Alertmanager.
+Alertmonitor is a web GUI for displaying alerts from Prometheus Alertmanager.
 
 A generic webhook accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
 
@@ -16,9 +16,11 @@ If the request is recognized to come from Alertmanager, it will be processed and
 Alertmonitor provides three views:
 - Raw - anything that is received on webhook
 - Journal - history of all alerts
-- Active - only active alerts
+- Active - only selected alerts
 
-Alertmonitor correlates alarms and clears to display active alarms (ie. alarms which haven't received clear yet).
+Alertmonitor correlates alarms and clears to display selected alarms (ie. alarms which haven't received clear yet).
+
+Easily filter alerts by tags.
 
 Alertmonitor GUI is reachable on: http://hostname:8080/alertmonitor/
 
@@ -40,9 +42,9 @@ There is also `docker-compose.yml` file for deployment in Swarm cluster.
 
 Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/alertmonitor](https://hub.docker.com/r/matjaz99/alertmonitor)
 
-## Configuration
+## Configure alerts in Prometheus
 
-The Alertmonitor application itself doesn't support any configuration, BUT for correlation to work correctly, the alert rules in Prometheus should have properly configured labels.
+Alert rules in Prometheus should have properly configured labels.
 
 #### Labeling alerts
 
@@ -50,12 +52,12 @@ Alertmonitor recognizes the following labels:
 
 | Label       |      Description        |
 |-------------|-------------------------|
-| severity    | Severity is the weight of event. Possible values: critical, major, minor, warning, clear and informational |
-| priority    | Priority tells how urgent is alarm. Possible values: high, medium, low |
+| severity    | Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
+| priority    | Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
 | sourceinfo  | Exact location of the alert. Eg. GE port 1/1/7 |
 | instance    | Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
 | nodename    | Descriptive name of instance. Eg. hostname |
-| tags        | Custom tags that describe the alert (comma separated) |
+| tags        | Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
 
 > `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId` to correlate it with alarm. Putting a variable value (eg. current temperature) in these fields is not recommended.
 
@@ -66,7 +68,7 @@ groups:
 - name: my-alerts
   rules:
   - alert: CPU usage
-    expr: 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[1m]) * ON(instance) GROUP_LEFT(node_name) node_meta * 100) BY (node_name)) > 80
+    expr: sum(rate(process_cpu_seconds_total[5m])) by (instance) * 100 > 80
     for: 1m
     labels:
       severity: critical
@@ -102,7 +104,7 @@ receivers:
 
 ## Metrics
 
-Alertmonitor supports Prometheus metrics:
+Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_build_info`
 - `alertmonitor_webhook_messages_received_total`
 - `alertmonitor_journal_messages_total`

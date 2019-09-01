@@ -129,7 +129,7 @@ Good monitoring system always shows actual current alarm state. What if all conn
 
 But when the connections restore you cannot be 100% sure that current alarm state is still up-to-date. What if we missed some critical events?
 
-To update current alarm state, monitoring system should periodically synchronize alarms with devices. This is not always a straightforward process. First question is weather the device supports re-sending of all currently active alerts? Then how can I get them?
+To update current alarm state, monitoring system should periodically synchronize alarms with devices. This is not always a straightforward process. First question is weather the device supports re-sending of all currently selected alerts? Then how can I get them?
 
 
 

@@ -30,11 +30,11 @@ public class OnStart implements ServletContextListener {
             e.printStackTrace();
         }
 
-        DAO.getInstance().addTag(new DTag("critical", "red"));
-        DAO.getInstance().addTag(new DTag("left", "violet"));
-        DAO.getInstance().addTag(new DTag("right", "green"));
-        DAO.getInstance().addTag(new DTag("normal", "orange"));
-        DAO.getInstance().addTag(new DTag("banana", "yellow"));
+//        DAO.getInstance().addTag(new DTag("critical", "red"));
+//        DAO.getInstance().addTag(new DTag("left", "violet"));
+//        DAO.getInstance().addTag(new DTag("right", "green"));
+//        DAO.getInstance().addTag(new DTag("normal", "orange"));
+//        DAO.getInstance().addTag(new DTag("banana", "yellow"));
 
     }
 

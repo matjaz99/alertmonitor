@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.model.TagColors;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
@@ -89,14 +90,17 @@ public class AlertmanagerProcessor {
             String[] array = n.getTags().split(",");
             for (int i = 0; i < array.length; i++) {
                 String tagName = array[i].trim();
-                if (tagName.length() > 0) {
-                    DTag t = new DTag(tagName, "#7ab1d3");
+                if (tagName.length() > 1) {
+                    DTag t = new DTag(tagName, TagColors.getColor(tagName));
                     DAO.getInstance().addTag(t);
                 }
             }
 
             // additional tags
-            DAO.getInstance().addTag(new DTag(n.getSeverity(), "#dd4123"));
+            if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
+                DAO.getInstance().addTag(new DTag(n.getSeverity(), TagColors.getColor(n.getSeverity())));
+            }
+            DAO.getInstance().addTag(new DTag(n.getPriority(), TagColors.getColor(null)));
 
             // set unique ID of event
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
@@ -106,6 +110,7 @@ public class AlertmanagerProcessor {
                     + new Random().nextInt(9999999)
                     + n.getSourceinfo()
                     + n.getInstance()
+                    + new Random().nextInt(9999999)
                     + n.getSummary()
                     + n.getDescription()
                     + new Random().nextInt(9999999)

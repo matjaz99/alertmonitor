@@ -4,6 +4,7 @@ public class DTag {
 
     private String name;
     private String color;
+    private boolean selected = true;
 
     public DTag(String name, String color) {
         this.name = name;
@@ -24,5 +25,13 @@ public class DTag {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
