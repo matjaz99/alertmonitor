@@ -22,6 +22,7 @@
 								</p:commandLink>
 							</am:singletag>
 							</div>
+							<div style="clear: both"></div>
 						</ui:repeat>
 
 						</p:panelGrid>
@@ -68,10 +69,6 @@
 						
 						<p:column headerText="Counter" sortBy="#{n.counter}">
 							<h:outputText value="#{n.counter}" />
-						</p:column>
-
-						<p:column headerText="Tags" sortBy="#{n.tags}">
-							<h:outputText value="#{n.tags}" />
 						</p:column>
 
 						<p:column headerText="Job" sortBy="#{n.job}" >
