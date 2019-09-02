@@ -89,7 +89,22 @@ public class DAO {
     }
 
     private void removeObsoleteTags() {
-        // TODO
+        Map<String, Object> allTags = new HashMap<String, Object>();
+        for (DNotification n : activeAlerts.values()) {
+            String[] array = n.getTags().split(",");
+            for (int i = 0; i < array.length; i++) {
+                String tagName = array[i].trim();
+                if (tagName.length() > 1) {
+                    allTags.putIfAbsent(tagName, null);
+                }
+            }
+        }
+        for (String n : tagMap.keySet()) {
+            if (!allTags.containsKey(n)) {
+                tagMap.remove(n);
+            }
+        }
+
     }
 
     public String getFormatedTimestamp(long timestamp) {
