@@ -18,7 +18,7 @@ public class TagColors {
             "D3", "8A", "CE", "D5", "FC",
             "E9", "EC", "B6", "AA", "83",
             "F9", "BF", "88", "9F", "B1", "C6"
-    };
+};
 
     public static String getColor(String tagName) {
 
