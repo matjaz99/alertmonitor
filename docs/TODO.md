@@ -1,10 +1,9 @@
 # TODOs
 
 - add support for grafana alerts
-- replace sourceinfo with tags
 - add labels: job, team
 - put back eventType label (event | alarm), then also events can have severities
-
+- server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 
 
 https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml

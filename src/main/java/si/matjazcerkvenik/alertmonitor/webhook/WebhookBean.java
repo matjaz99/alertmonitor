@@ -106,8 +106,7 @@ public class WebhookBean {
 	}
 
 	public int getActiveAlarmsCount() {
-		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
-		return list.size();
+		return DAO.getInstance().getActiveAlerts().size();
 	}
 
 	public List<DNotification> getActiveAlarms() {

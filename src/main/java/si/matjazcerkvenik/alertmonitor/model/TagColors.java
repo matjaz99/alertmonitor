@@ -9,7 +9,7 @@ public class TagColors {
             "#EDBB99", "#AEB6BF",
             "#83F1D7", "#AAC6F9", "#FC9B7A", "#B393CD", "#A09FE2", "#E2E086", "#FCECC6",
             "#F9B386", "#F97583", "#B283D7", "#E0BFAA", "#DAE086", "#E286DA", "#FC99D5",
-            "#C68F7F"};
+            "#C68F7F", "#B1C6D7", "#B1F1DA", "#DC7FF1"};
 
     private static String[] niances = {
             "7A", "F1", "7F", "A0", "DA",
