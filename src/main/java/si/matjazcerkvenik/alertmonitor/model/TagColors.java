@@ -4,12 +4,13 @@ import java.util.Random;
 
 public class TagColors {
 
-    private static String[] colors = {"violet", "#7AB1D3", "#F1948A", "#BB8FCE", "#7FB3D5",
-            "#85C1E9", "#76D7C4", "#73C6B6", "#82E0AA", "#F7DC6F", "#F8C471", "#F0B27A",
-            "#EDBB99", "#AEB6BF",
+    private static String[] colors = {"violet",
+            "#7AB1D3", "#F1948A", "#BB8FCE", "#7FB3D5", "#EDBB99", "#AEB6BF", "#F0B27A",
+            "#85C1E9", "#76D7C4", "#73C6B6", "#82E0AA", "#F7DC6F", "#F8C471",
             "#83F1D7", "#AAC6F9", "#FC9B7A", "#B393CD", "#A09FE2", "#E2E086", "#FCECC6",
             "#F9B386", "#F97583", "#B283D7", "#E0BFAA", "#DAE086", "#E286DA", "#FC99D5",
-            "#C68F7F"};
+            "#C68F7F", "#F9DCF1", "#9585A3", "#BFB38F", "#AEFCE0", "#D7B2F9", "#94E9C0",
+            "#8FFC9F", "#9495E0", "#95C0D3", "#CDCDD7", "#D7AEB1", "#F2B694", "#E9B388"};
 
     private static String[] niances = {
             "7A", "F1", "7F", "A0", "DA",

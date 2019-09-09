@@ -7,6 +7,7 @@ import javax.servlet.ServletContextListener;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class OnStart implements ServletContextListener {
 
@@ -27,6 +28,15 @@ public class OnStart implements ServletContextListener {
             DAO.version = textBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        System.out.println("JAVA_HOME:=" + System.getenv("JAVA_HOME"));
+
+        System.out.println("\nRead All Variables:-\n");
+
+        Map<String, String> map = System.getenv();
+        for (Map.Entry <String, String> entry: map.entrySet()) {
+            System.out.println("Variable Name:- " + entry.getKey() + " Value:- " + entry.getValue());
         }
 
     }
