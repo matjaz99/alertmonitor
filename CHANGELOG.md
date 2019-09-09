@@ -1,5 +1,6 @@
 ## 1.2.1-SNAPSHOT
 
+* [FEATURE] Introducing tags
 * [FEATURE] Custom component for rendering tags
 * [FEATURE] Filtering active alerts by tags
 * [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
