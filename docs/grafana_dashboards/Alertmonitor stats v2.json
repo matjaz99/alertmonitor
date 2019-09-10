@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 37,
+  "id": 25,
   "links": [],
   "panels": [
     {
@@ -59,6 +59,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -142,6 +143,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -225,6 +227,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -308,6 +311,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -379,6 +383,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -470,6 +475,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -569,6 +575,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -651,6 +658,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -726,6 +734,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -818,6 +827,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -918,6 +928,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -971,48 +982,50 @@
       "id": 6,
       "links": [],
       "options": {
-        "maxValue": "5",
-        "minValue": 0,
+        "fieldOptions": {
+          "calcs": [
+            "last"
+          ],
+          "defaults": {
+            "decimals": 2,
+            "max": "5",
+            "min": 0,
+            "unit": "none"
+          },
+          "mappings": [],
+          "thresholds": [
+            {
+              "color": "red",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "index": 1,
+              "value": 1
+            },
+            {
+              "color": "green",
+              "index": 2,
+              "value": 2
+            },
+            {
+              "color": "yellow",
+              "index": 3,
+              "value": 3
+            },
+            {
+              "color": "red",
+              "index": 4,
+              "value": 4
+            }
+          ]
+        },
         "orientation": "auto",
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "thresholds": [
-          {
-            "color": "red",
-            "index": 0,
-            "value": null
-          },
-          {
-            "color": "yellow",
-            "index": 1,
-            "value": 1
-          },
-          {
-            "color": "green",
-            "index": 2,
-            "value": 2
-          },
-          {
-            "color": "yellow",
-            "index": 3,
-            "value": 3
-          },
-          {
-            "color": "red",
-            "index": 4,
-            "value": 4
-          }
-        ],
-        "valueMappings": [],
-        "valueOptions": {
-          "decimals": 2,
-          "prefix": "",
-          "stat": "last",
-          "suffix": "",
-          "unit": "none"
-        }
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "6.1.3",
+      "pluginVersion": "6.2.5",
       "targets": [
         {
           "expr": "alertmonitor_alerts_balance_factor",
@@ -1060,6 +1073,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1152,6 +1166,7 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1191,6 +1206,7 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1245,6 +1261,7 @@
       "links": [],
       "maxDataPoints": 3,
       "nullPointMode": "connected",
+      "options": {},
       "pieType": "pie",
       "strokeWidth": 1,
       "targets": [
@@ -1275,7 +1292,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
