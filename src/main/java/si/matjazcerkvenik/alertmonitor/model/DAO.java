@@ -66,6 +66,22 @@ public class DAO {
     public void addActiveAlert(DNotification n) {
         activeAlerts.put(n.getCorrelationId(), n);
         raisingEventCount++;
+
+        // parse tags from tags label
+        String[] array = n.getTags().split(",");
+        for (int i = 0; i < array.length; i++) {
+            String tagName = array[i].trim();
+            if (tagName.length() > 1) {
+                DTag t = new DTag(tagName, TagColors.getColor(tagName));
+                addTag(t);
+            }
+        }
+
+        // add more tags: severity (but not clear and info), priority
+        if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
+            addTag(new DTag(n.getSeverity(), TagColors.getColor(n.getSeverity())));
+        }
+        addTag(new DTag(n.getPriority(), TagColors.getColor(null)));
     }
 
     public void updateActiveAlert(DNotification newNotif) {
