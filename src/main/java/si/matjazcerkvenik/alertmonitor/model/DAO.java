@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class DAO {
 
+//    private static SimpleLogger logger = null;
+
     public static long startUpTime = 0;
     public static String version = "n/a";
 
@@ -36,6 +38,18 @@ public class DAO {
         if (instance == null) instance = new DAO();
         return instance;
     }
+
+//    public static SimpleLogger getLogger() {
+//        if (logger == null) {
+//            logger = new SimpleLogger("/opt/alertmonitor/log");
+//            logger.setAppend(true);
+//            logger.setVerbose(true);
+//            logger.setLogLevel(LEVEL.INFO);
+//            logger.setBackup(5);
+//            logger.setMaxSizeMb(10);
+//        }
+//        return logger;
+//    }
 
     public void addWebhookMessage(WebhookMessage message) {
         while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {

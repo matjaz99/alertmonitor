@@ -66,6 +66,13 @@
             <artifactId>simpleclient_common</artifactId>
             <version>0.6.0</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>si.matjazcerkvenik.simplelogger</groupId>-->
+            <!--<artifactId>simple-logger</artifactId>-->
+            <!--<version>1.6.4</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${basedir}/WEB-INF/lib/simple-logger-1.6.4.jar</systemPath>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>

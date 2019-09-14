@@ -9,15 +9,16 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class OnStart implements ServletContextListener {
+public class OnStartListener implements ServletContextListener {
 
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         DAO.startUpTime = System.currentTimeMillis();
-        InputStream inputStream = servletContextEvent.getServletContext().getResourceAsStream("/WEB-INF/version.txt");
 
+        // read version file
+        InputStream inputStream = servletContextEvent.getServletContext().getResourceAsStream("/WEB-INF/version.txt");
         StringBuilder textBuilder = new StringBuilder();
         try (Reader reader = new BufferedReader(new InputStreamReader
                 (inputStream, Charset.forName(StandardCharsets.UTF_8.name())))) {
@@ -30,13 +31,18 @@ public class OnStart implements ServletContextListener {
             e.printStackTrace();
         }
 
-        System.out.println("JAVA_HOME:=" + System.getenv("JAVA_HOME"));
+//        DAO.getLogger().info("***********************************");
+//        DAO.getLogger().info("*                                 *");
+//        DAO.getLogger().info("*       Alertmonitor started      *");
+//        DAO.getLogger().info("*                                 *");
+//        DAO.getLogger().info("***********************************");
+//
+//        DAO.getLogger().info("VERSION=" + DAO.version);
 
-        System.out.println("\nRead All Variables:-\n");
-
+        // read environment variables
         Map<String, String> map = System.getenv();
         for (Map.Entry <String, String> entry: map.entrySet()) {
-            System.out.println("Variable Name:- " + entry.getKey() + " Value:- " + entry.getValue());
+//            DAO.getLogger().info(entry.getKey() + "=" + entry.getValue());
         }
 
     }
@@ -44,5 +50,8 @@ public class OnStart implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         // no implementation
+//        DAO.getLogger().info("#");
+//        DAO.getLogger().info("# Stopping Alertmonitor");
+//        DAO.getLogger().info("#\n\n\n");
     }
 }
