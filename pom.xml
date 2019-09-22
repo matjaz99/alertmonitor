@@ -90,8 +90,8 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>alertmonitor</warName>
-                    <!--<warSourceDirectory>src/main/webapp</warSourceDirectory>-->
-                    <!--<packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**></packagingIncludes>-->
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**></packagingIncludes>
                     <!--<packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>-->
                     <!--<archive>-->
                         <!--<manifest>-->
