@@ -64,12 +64,12 @@
             <artifactId>simpleclient_common</artifactId>
             <version>0.6.0</version>
         </dependency>
-        <dependency>
-            <groupId>si.matjazcerkvenik.simplelogger</groupId>
-            <artifactId>simple-logger</artifactId>
-            <version>1.6.4</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>si.matjazcerkvenik.simplelogger</groupId>-->
+            <!--<artifactId>simple-logger</artifactId>-->
+            <!--<version>1.6.4</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -91,7 +91,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>alertmonitor</warName>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**></packagingIncludes>
+                    <packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**</packagingIncludes>
                     <!--<packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>-->
                     <!--<archive>-->
                         <!--<manifest>-->
