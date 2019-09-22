@@ -64,12 +64,12 @@
             <artifactId>simpleclient_common</artifactId>
             <version>0.6.0</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>si.matjazcerkvenik.simplelogger</groupId>-->
-            <!--<artifactId>simple-logger</artifactId>-->
-            <!--<version>1.6.4</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>si.matjazcerkvenik.simplelogger</groupId>
+            <artifactId>simple-logger</artifactId>
+            <version>1.6.4</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
