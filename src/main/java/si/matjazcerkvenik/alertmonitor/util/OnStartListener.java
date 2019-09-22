@@ -1,6 +1,8 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.simplelogger.LEVEL;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -41,6 +43,14 @@ public class OnStartListener implements ServletContextListener {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+
+            SimpleLogger logger = new SimpleLogger("./alertmonitor.log");
+            logger.setAppend(true);
+            logger.setVerbose(true);
+            logger.setLogLevel(LEVEL.INFO);
+            logger.setBackup(5);
+            logger.setMaxSizeMb(10);
+            logger.info("ALERTMONITOR_VERSION=" + DAO.version);
 
 //        DAO.getLogger().info("***********************************");
 //        DAO.getLogger().info("*                                 *");
