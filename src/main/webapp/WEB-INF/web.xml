@@ -41,7 +41,7 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>si.matjazcerkvenik.alertmonitor.util.OnStart</listener-class>
+        <listener-class>si.matjazcerkvenik.alertmonitor.util.OnStartListener</listener-class>
     </listener>
 
     <!-- Load custom tag into JSF web application -->

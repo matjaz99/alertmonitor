@@ -1,9 +1,11 @@
 ## 1.2.1-SNAPSHOT
 
-* [FEATURE] Introducing tags
+* [FEATURE] Introducing tags (#6)
 * [FEATURE] Custom component for rendering tags
 * [FEATURE] Filtering active alerts by tags
 * [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
+* [ENHANCEMENT] Install curl in container
+* [ENHANCEMENT] Added healthcheck to docker-compose file
 
 ## 1.2.0 / 2019-08-28
 

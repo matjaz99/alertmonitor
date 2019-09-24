@@ -17,8 +17,6 @@
         <servlet.version>3.1.0</servlet.version>
         <jsf.version>2.2.15</jsf.version>
         <primefaces.version>6.2</primefaces.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -66,6 +64,12 @@
             <artifactId>simpleclient_common</artifactId>
             <version>0.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>si.matjazcerkvenik.simplelogger</groupId>
+            <artifactId>simple-logger</artifactId>
+            <version>1.6.4</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -73,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -84,15 +88,23 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>alertmonitor</warName>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**</packagingIncludes>
+                    <!--<packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>-->
+                    <!--<archive>-->
+                        <!--<manifest>-->
+                            <!--<addClasspath>true</addClasspath>-->
+                        <!--</manifest>-->
+                    <!--</archive>-->
                 </configuration>
             </plugin>
             <!-- tomcat7-maven-plugin -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat7-maven-plugin.version}</version>
+                <version>2.2</version>
                 <configuration>
                     <port>8080</port>
                     <path>/alertmonitor</path>
