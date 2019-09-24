@@ -3,6 +3,7 @@
 * [FEATURE] Introducing tags (#6)
 * [FEATURE] Custom component for rendering tags
 * [FEATURE] Filtering active alerts by tags
+* [FEATURE] Added simple-logger for logging
 * [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
 * [ENHANCEMENT] Install curl in container
 * [ENHANCEMENT] Added healthcheck to docker-compose file

@@ -1,6 +1,8 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.simplelogger.LEVEL;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -8,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class DAO {
 
-//    private static SimpleLogger logger = null;
+    private static SimpleLogger logger = null;
 
     public static long startUpTime = 0;
     public static String version = "n/a";
@@ -39,17 +41,17 @@ public class DAO {
         return instance;
     }
 
-//    public static SimpleLogger getLogger() {
-//        if (logger == null) {
-//            logger = new SimpleLogger("/opt/alertmonitor/log");
-//            logger.setAppend(true);
-//            logger.setVerbose(true);
-//            logger.setLogLevel(LEVEL.INFO);
-//            logger.setBackup(5);
-//            logger.setMaxSizeMb(10);
-//        }
-//        return logger;
-//    }
+    public static SimpleLogger getLogger() {
+        if (logger == null) {
+            logger = new SimpleLogger("alertmonitor.log");
+            logger.setAppend(true);
+            logger.setVerbose(true);
+            logger.setLogLevel(LEVEL.INFO);
+            logger.setBackup(5);
+            logger.setMaxSizeMb(10);
+        }
+        return logger;
+    }
 
     public void addWebhookMessage(WebhookMessage message) {
         while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {

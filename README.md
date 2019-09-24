@@ -15,8 +15,8 @@ If the request is recognized to come from Alertmanager, it will be processed and
 
 Alertmonitor provides three views:
 - Raw - anything that is received on webhook
-- Journal - history of all alerts
-- Active - only selected alerts
+- Journal - history of all events
+- Active - only active alerts
 
 Alertmonitor correlates alarms and clears to display selected alarms (ie. alarms which haven't received clear yet).
 
@@ -59,7 +59,7 @@ Alertmonitor recognizes the following labels:
 | nodename    | Descriptive name of instance. Eg. hostname |
 | tags        | Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
 
-> `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId` to correlate it with alarm. Putting a variable value (eg. current temperature) in these fields is not recommended.
+> `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId`. Putting a variable value (eg. current temperature) in these fields is not recommended.
 
 Example of alert rule in Prometheus (note the labels):
 

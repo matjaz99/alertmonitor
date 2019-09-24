@@ -44,23 +44,14 @@ public class OnStartListener implements ServletContextListener {
 //            e.printStackTrace();
 //        }
 
-            SimpleLogger logger = new SimpleLogger("./alertmonitor.log");
-            logger.setAppend(true);
-            logger.setVerbose(true);
-            logger.setLogLevel(LEVEL.INFO);
-            logger.setBackup(5);
-            logger.setMaxSizeMb(10);
-            logger.info("ALERTMONITOR_VERSION=" + DAO.version);
+        DAO.getLogger().info("***********************************");
+        DAO.getLogger().info("*                                 *");
+        DAO.getLogger().info("*       Alertmonitor started      *");
+        DAO.getLogger().info("*                                 *");
+        DAO.getLogger().info("***********************************");
 
-//        DAO.getLogger().info("***********************************");
-//        DAO.getLogger().info("*                                 *");
-//        DAO.getLogger().info("*       Alertmonitor started      *");
-//        DAO.getLogger().info("*                                 *");
-//        DAO.getLogger().info("***********************************");
-//
-//        DAO.getLogger().info("VERSION=" + DAO.version);
-
-        System.out.println("IP_ADDR=" + getLocalIpAddress());
+        DAO.getLogger().info("ALERTMONITOR_VERSION=" + DAO.version);
+        DAO.getLogger().info("ALERTMONITOR_IP_ADDR=" + getLocalIpAddress());
 
         // read environment variables
         Map<String, String> map = System.getenv();
