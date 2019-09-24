@@ -64,6 +64,14 @@ public class DAO {
     }
 
     public void addActiveAlert(DNotification n) {
+
+        // add other labels directly into tags
+        // eg: severity (but not clear and info), priority
+        if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
+            n.setTags(n.getTags() + "," + n.getSeverity());
+        }
+        n.setTags(n.getTags() + "," + n.getPriority());
+
         activeAlerts.put(n.getCorrelationId(), n);
         raisingEventCount++;
 
@@ -77,11 +85,6 @@ public class DAO {
             }
         }
 
-        // add more tags: severity (but not clear and info), priority
-        if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
-            addTag(new DTag(n.getSeverity(), TagColors.getColor(n.getSeverity())));
-        }
-        addTag(new DTag(n.getPriority(), TagColors.getColor(null)));
     }
 
     public void updateActiveAlert(DNotification newNotif) {
