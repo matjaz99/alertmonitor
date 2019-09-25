@@ -198,11 +198,11 @@ public class WebhookBean {
 	}
 
 	public void tagAction(DTag tag) {
-		System.out.println("tag action called: " + tag.getName());
+		DAO.getLogger().debug("tag action called: " + tag.getName());
 
 		int numberOfSelectedTags = getNumberOfSelectedTags();
 
-		System.out.println("numberOfSelectedTags: " + numberOfSelectedTags + "/" + tagList.size());
+		DAO.getLogger().debug("numberOfSelectedTags: " + numberOfSelectedTags + "/" + tagList.size());
 
 		if (numberOfSelectedTags == tagList.size()) {
 			// all tags are enabled

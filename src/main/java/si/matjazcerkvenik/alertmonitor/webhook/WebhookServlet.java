@@ -48,35 +48,35 @@ public class WebhookServlet extends HttpServlet {
 
 	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
 
-		System.out.println("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
-		System.out.println("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
-		System.out.println("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
-		System.out.println("instantiateWebhookMessage(): getContentType: " + req.getContentType());
-		System.out.println("instantiateWebhookMessage(): getContextPath: " + req.getContextPath());
-		System.out.println("instantiateWebhookMessage(): getLocalAddr: " + req.getLocalAddr());
-		System.out.println("instantiateWebhookMessage(): getLocalName: " + req.getLocalName());
-		System.out.println("instantiateWebhookMessage(): getLocalPort: " + req.getLocalPort());
-		System.out.println("instantiateWebhookMessage(): getMethod: " + req.getMethod());
-		System.out.println("instantiateWebhookMessage(): getParameter: " + req.getParameter("aaa"));
-		System.out.println("instantiateWebhookMessage(): getPathInfo: " + req.getPathInfo());
-		System.out.println("instantiateWebhookMessage(): getPathTranslated: " + req.getPathTranslated());
-		System.out.println("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
-		System.out.println("instantiateWebhookMessage(): getQueryString: " + req.getQueryString());
-		System.out.println("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
-		System.out.println("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
-		System.out.println("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
-		System.out.println("instantiateWebhookMessage(): getRemoteUser: " + req.getRemoteUser());
-		System.out.println("instantiateWebhookMessage(): getRequestedSessionId: " + req.getRequestedSessionId());
-		System.out.println("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
-		System.out.println("instantiateWebhookMessage(): getScheme: " + req.getScheme());
-		System.out.println("instantiateWebhookMessage(): getServerName: " + req.getServerName());
-		System.out.println("instantiateWebhookMessage(): getServerPort: " + req.getServerPort());
-		System.out.println("instantiateWebhookMessage(): getServletPath: " + req.getServletPath());
+		DAO.getLogger().info("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
+		DAO.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
+		DAO.getLogger().info("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
+		DAO.getLogger().info("instantiateWebhookMessage(): getContentType: " + req.getContentType());
+		DAO.getLogger().info("instantiateWebhookMessage(): getContextPath: " + req.getContextPath());
+		DAO.getLogger().info("instantiateWebhookMessage(): getLocalAddr: " + req.getLocalAddr());
+		DAO.getLogger().info("instantiateWebhookMessage(): getLocalName: " + req.getLocalName());
+		DAO.getLogger().info("instantiateWebhookMessage(): getLocalPort: " + req.getLocalPort());
+		DAO.getLogger().info("instantiateWebhookMessage(): getMethod: " + req.getMethod());
+		DAO.getLogger().info("instantiateWebhookMessage(): getParameter: " + req.getParameter("aaa"));
+		DAO.getLogger().info("instantiateWebhookMessage(): getPathInfo: " + req.getPathInfo());
+		DAO.getLogger().info("instantiateWebhookMessage(): getPathTranslated: " + req.getPathTranslated());
+		DAO.getLogger().info("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
+		DAO.getLogger().info("instantiateWebhookMessage(): getQueryString: " + req.getQueryString());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteUser: " + req.getRemoteUser());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRequestedSessionId: " + req.getRequestedSessionId());
+		DAO.getLogger().info("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
+		DAO.getLogger().info("instantiateWebhookMessage(): getScheme: " + req.getScheme());
+		DAO.getLogger().info("instantiateWebhookMessage(): getServerName: " + req.getServerName());
+		DAO.getLogger().info("instantiateWebhookMessage(): getServerPort: " + req.getServerPort());
+		DAO.getLogger().info("instantiateWebhookMessage(): getServletPath: " + req.getServletPath());
 
-		System.out.println("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
-		System.out.println("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
+		DAO.getLogger().info("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
+		DAO.getLogger().info("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
 		String body = getReqBody(req);
-		System.out.println("instantiateWebhookMessage(): body: " + body);
+		DAO.getLogger().info("instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
 		m.setTimestamp(System.currentTimeMillis());

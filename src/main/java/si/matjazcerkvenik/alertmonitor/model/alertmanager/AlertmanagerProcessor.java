@@ -17,8 +17,8 @@ public class AlertmanagerProcessor {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
-        System.out.println(am.toString());
-        System.out.println("Number of alerts: " + am.getAlerts().size());
+        DAO.getLogger().info(am.toString());
+        DAO.getLogger().info("Number of alerts: " + am.getAlerts().size());
 
         List<DNotification> dn = convertToDNotif(m, am);
         DAO.getInstance().addToJournal(dn);
@@ -39,15 +39,15 @@ public class AlertmanagerProcessor {
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                 if (n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().removeActiveAlert(n);
-                    System.out.println("Removing active alarm: " + n.getCorrelationId());
+                    DAO.getLogger().info("Removing active alarm: " + n.getCorrelationId());
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
-                    System.out.println("Updating active alarm: " + n.getCorrelationId());
+                    DAO.getLogger().info("Updating active alarm: " + n.getCorrelationId());
                 }
             } else {
                 if (!n.getSeverity().equalsIgnoreCase("clear")) {
                     DAO.getInstance().addActiveAlert(n);
-                    System.out.println("Adding active alarm: " + n.getCorrelationId());
+                    DAO.getLogger().info("Adding active alarm: " + n.getCorrelationId());
                 }
             }
         }

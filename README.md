@@ -112,7 +112,7 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
 
-Metrics are available at URI endpoint:
+Metrics are available on URI endpoint:
 
 ```
 GET /alertmonitor/metrics
@@ -133,3 +133,4 @@ docker build -t {{namespace}}/{{image}}:{{tag}} .
 docker push {{namespace}}/{{image}}:{{tag}}
 ```
 
+Inside container log files are located in directory `/opt/alertmonitor/log`
