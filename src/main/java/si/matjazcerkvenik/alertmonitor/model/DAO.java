@@ -43,7 +43,7 @@ public class DAO {
 
     public static SimpleLogger getLogger() {
         if (logger == null) {
-            logger = new SimpleLogger("alertmonitor.log");
+            logger = new SimpleLogger("/opt/alertmonitor/log/alertmonitor.log");
             logger.setAppend(true);
             logger.setVerbose(true);
             logger.setLogLevel(LEVEL.INFO);
