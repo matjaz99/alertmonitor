@@ -4,6 +4,8 @@ import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +34,8 @@ public class DAO {
     public static long lastEventTimestamp = 0;
 
     private Map<String, DTag> tagMap = new HashMap<String, DTag>();
+
+    private String localIpAddress;
 
     private DAO() {
     }
@@ -166,4 +170,15 @@ public class DAO {
                 + 2 * getActiveAlarmsList("warning").size()) * 1.0 / activeAlerts.size();
         return d;
     }
+
+    public String getLocalIpAddress() {
+        if (localIpAddress != null) return localIpAddress;
+        try {
+            localIpAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            localIpAddress = "UnknownHost";
+        }
+        return localIpAddress;
+    }
+
 }

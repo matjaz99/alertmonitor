@@ -120,6 +120,14 @@ GET /alertmonitor/metrics
 
 ## For developers
 
+Simple-logger is not available on Maven central repo. You can either build it on your own 
+or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.6.4.jar) 
+and then manually import it into your local repository:
+
+```
+mvn install:install-file -Dfile=simple-logger-1.6.4.jar -DgroupId=si.matjazcerkvenik.simplelogger -DartifactId=simple-logger -Dversion=1.6.4 -Dpackaging=jar
+```
+
 Run the project with maven:
 
 ```

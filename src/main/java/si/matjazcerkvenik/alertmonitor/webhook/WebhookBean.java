@@ -42,6 +42,10 @@ public class WebhookBean {
 		return DAO.version;
 	}
 
+	public String getLocalIpAddress() {
+		return DAO.getInstance().getLocalIpAddress();
+	}
+
 	public int getWhMsgCount() {
 		return DAO.webhookMessagesReceivedCount;
 	}

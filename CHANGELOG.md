@@ -7,6 +7,7 @@
 * [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
 * [ENHANCEMENT] Install curl in container
 * [ENHANCEMENT] Added healthcheck to docker-compose file
+* [ENHANCEMENT] Added local IP address in footer
 
 ## 1.2.0 / 2019-08-28
 

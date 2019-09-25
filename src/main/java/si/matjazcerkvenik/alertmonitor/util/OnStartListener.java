@@ -37,9 +37,8 @@ public class OnStartListener implements ServletContextListener {
         DAO.getLogger().info("*            Alertmonitor started           *");
         DAO.getLogger().info("*                                           *");
         DAO.getLogger().info("*********************************************");
-
         DAO.getLogger().info("ALERTMONITOR_VERSION=" + DAO.version);
-        DAO.getLogger().info("ALERTMONITOR_IP_ADDR=" + getLocalIpAddress());
+        DAO.getLogger().info("ALERTMONITOR_IP_ADDR=" + DAO.getInstance().getLocalIpAddress());
 
         // read all environment variables
         Map<String, String> map = System.getenv();
@@ -58,11 +57,5 @@ public class OnStartListener implements ServletContextListener {
         DAO.getLogger().close();
     }
 
-    public static String getLocalIpAddress() {
-        try {
-            return InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            return "UnknownHost";
-        }
-    }
+
 }
