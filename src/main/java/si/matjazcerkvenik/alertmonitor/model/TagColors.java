@@ -6,7 +6,7 @@ public class TagColors {
 
     private static String[] colors = {"IndianRed", "Salmon", "LightSalmon", "Pink",
             "HotPink", "PaleVioletRed", "Coral", "Tomato", "Gold", "Khaki", "DarkKhaki",
-            "Plum", "Orchid", "MediumOrchid", "MediumPurple", "SlateBlue", "GreenYellow",
+            "Plum", "Orchid", "MediumOrchid", "MediumPurple", "GreenYellow",
             "Chartreuse", "PaleGreen", "SpringGreen", "MediumSeaGreen", "YellowGreen",
             "OliveDrab", "Olive", "MediumAquamarine", "DarkCyan", "Cyan", "Aquamarine",
             "DarkTurquoise", "PaleTurquoise", "SteelBlue", "LightBlue", "SkyBlue",
