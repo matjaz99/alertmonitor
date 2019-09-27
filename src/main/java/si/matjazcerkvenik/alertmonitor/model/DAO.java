@@ -52,8 +52,8 @@ public class DAO {
             logger.setAppend(true);
             logger.setVerbose(true);
             logger.setLogLevel(LEVEL.INFO);
-            logger.setBackup(5);
-            logger.setMaxSizeMb(10);
+            logger.setBackup(1);
+            logger.setMaxSizeMb(1);
         }
         return logger;
     }
