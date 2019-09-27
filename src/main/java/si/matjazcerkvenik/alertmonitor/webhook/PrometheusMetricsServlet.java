@@ -30,10 +30,6 @@ public class PrometheusMetricsServlet extends HttpServlet {
         for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
             AmMetrics.alertmonitor_active_alerts_count.labels(n.getAlertname(), n.getSeverity()).inc();
         }
-//        AmMetrics.alertmonitor_active_alerts_count.labels("critical").set(DAO.getInstance().getActiveAlarmsList("critical").size());
-//        AmMetrics.alertmonitor_active_alerts_count.labels("major").set(DAO.getInstance().getActiveAlarmsList("major").size());
-//        AmMetrics.alertmonitor_active_alerts_count.labels("minor").set(DAO.getInstance().getActiveAlarmsList("minor").size());
-//        AmMetrics.alertmonitor_active_alerts_count.labels("warning").set(DAO.getInstance().getActiveAlarmsList("warning").size());
         AmMetrics.alertmonitor_alerts_balance_factor.set(DAO.getInstance().calculateAlertsBalanceFactor());
         AmMetrics.alertmonitor_last_event_timestamp.set(DAO.lastEventTimestamp);
 
