@@ -1,3 +1,5 @@
+## 1.3.1-SNAPSHOT
+
 ## 1.3.0 / 2019-09-27
 
 * [FEATURE] Introducing tags (#6)
