@@ -1,12 +1,12 @@
-## 1.2.1-SNAPSHOT
+## 1.3.0 / 2019-09-27
 
 * [FEATURE] Introducing tags (#6)
-* [FEATURE] Custom component for rendering tags
+* [FEATURE] Custom JSF component for rendering tags
 * [FEATURE] Filtering active alerts by tags
-* [FEATURE] Added simple-logger for logging
+* [FEATURE] Added simple-logger for logging (#9)
 * [ENHANCEMENT] Upgrade of Grafana dashboard (v2)
 * [ENHANCEMENT] Install curl in container
-* [ENHANCEMENT] Added healthcheck to docker-compose file
+* [ENHANCEMENT] Added healthcheck to docker-compose file (by using curl)
 * [ENHANCEMENT] Added local IP address in footer
 
 ## 1.2.0 / 2019-08-28

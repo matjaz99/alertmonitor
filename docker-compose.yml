@@ -14,7 +14,13 @@ services:
     networks:
       - monitoring-network
     environment:
-      - SIMPLELOGGER_FILENAME: /opt/alertmonitor/log/akertmonitor.log
+      - SIMPLELOGGER_FILENAME: /opt/alertmonitor/log/alertmonitor.log
+      - SIMPLELOGGER_LEVEL: INFO
+      - SIMPLELOGGER_APPEND: true
+      - SIMPLELOGGER_VERBOSE: true
+      - SIMPLELOGGER_MAXFILESIZE: 10
+      - SIMPLELOGGER_MAXBACKUPFILES: 3
+      - SIMPLELOGGER_DATEFORMAT: "yyyy.MM.dd hh:mm:ss:SSS"
     deploy:
       mode: replicated
       replicas: 1

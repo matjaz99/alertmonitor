@@ -36,7 +36,7 @@ public class OnStartListener implements ServletContextListener {
         DAO.getLogger().info("*                                           *");
         DAO.getLogger().info("*            Alertmonitor started           *");
         DAO.getLogger().info("*                                           *");
-        DAO.getLogger().info("*********************************************");
+        DAO.getLogger().info("*********************************************\n");
         DAO.getLogger().info("ALERTMONITOR_VERSION=" + DAO.version);
         DAO.getLogger().info("ALERTMONITOR_IP_ADDR=" + DAO.getInstance().getLocalIpAddress());
 
