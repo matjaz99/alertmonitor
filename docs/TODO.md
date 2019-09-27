@@ -4,6 +4,10 @@
 - add labels: job, team
 - put back eventType label (event | alarm), then also events can have severities
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
+- tags: filter by AND or OR
+- single alert view
+- aggregate by targets
+- about window
 
 
 https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml

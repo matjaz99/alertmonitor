@@ -48,12 +48,13 @@ public class DAO {
 
     public static SimpleLogger getLogger() {
         if (logger == null) {
-            logger = new SimpleLogger("./alertmonitor.log");
-            logger.setAppend(true);
-            logger.setVerbose(true);
-            logger.setLogLevel(LEVEL.INFO);
-            logger.setBackup(1);
-            logger.setMaxSizeMb(1);
+            logger = new SimpleLogger();
+//            logger = new SimpleLogger("./alertmonitor.log");
+//            logger.setAppend(true);
+//            logger.setVerbose(true);
+//            logger.setLogLevel(LEVEL.INFO);
+//            logger.setBackup(1);
+//            logger.setMaxSizeMb(1);
         }
         return logger;
     }
