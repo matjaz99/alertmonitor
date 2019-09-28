@@ -139,9 +139,9 @@ or download jar file from [here](http://matjazcerkvenik.si/download/simple-logge
 and then manually import it into your local repository:
 
 ```
-wget http://matjazcerkvenik.si/download/simple-logger-1.6.4.jar
+wget http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar
 
-mvn install:install-file -Dfile=simple-logger-1.6.4.jar -DgroupId=si.matjazcerkvenik.simplelogger -DartifactId=simple-logger -Dversion=1.6.4 -Dpackaging=jar
+mvn install:install-file -Dfile=simple-logger-1.7.0.jar -DgroupId=si.matjazcerkvenik.simplelogger -DartifactId=simple-logger -Dversion=1.7.0 -Dpackaging=jar
 ```
 
 Run the project with maven:
