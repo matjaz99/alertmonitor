@@ -52,12 +52,17 @@ Alertmonitor recognizes the following labels:
 
 | Label       |      Description        |
 |-------------|-------------------------|
-| severity    | Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
-| priority    | Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| sourceinfo  | Exact location of the alert. Eg. GE port 1/1/7 |
-| instance    | Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
-| nodename    | Descriptive name of instance. Eg. hostname |
-| tags        | Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
+| severity    | :arrow_right: Mandatory. Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
+| priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
+| sourceinfo  | Recommended. Source location of the alert. Eg. GE port 1/1/7 |
+| summary     | Recommended. Summary information |
+| instance    | Mandatory. Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
+| nodename    | Optional. Descriptive name of instance. Eg. hostname |
+| tags        | Optional. Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
+| team        | Optional. Team responsible for such alerts |
+| eventType   | Optional. Event type (compliant with IUT-T X.733 recommendation) |
+| probableCause | Optional. Probable cause (compliant with IUT-T X.733 recommendation) |
+| description | Optional. Additional description. Remark: this is not a label but annotation in rules file. |
 
 > `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId`. Putting a variable value (eg. current temperature) in these fields is not recommended.
 
@@ -77,9 +82,9 @@ groups:
       tags: hardware, cpu, overload
       instance: '{{$labels.instance}}'
       nodename: '{{$labels.node_name}}'
+      summary: CPU alert for Node '{{ $labels.node_name }}'
     annotations:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
-      summary: CPU alert for Node '{{ $labels.node_name }}'
 ```
 
 
@@ -118,6 +123,12 @@ Metrics are available on URI endpoint:
 GET /alertmonitor/metrics
 ```
 
+## Log files
+
+Configure the log file location with environment variable `SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log`
+
+Rolling file policy can be also configured. For complete simple-logger configuration visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
+
 ## For developers
 
 Simple-logger is not available on Maven central repo. You can either build it on your own 
@@ -125,6 +136,8 @@ or download jar file from [here](http://matjazcerkvenik.si/download/simple-logge
 and then manually import it into your local repository:
 
 ```
+wget http://matjazcerkvenik.si/download/simple-logger-1.6.4.jar
+
 mvn install:install-file -Dfile=simple-logger-1.6.4.jar -DgroupId=si.matjazcerkvenik.simplelogger -DartifactId=simple-logger -Dversion=1.6.4 -Dpackaging=jar
 ```
 

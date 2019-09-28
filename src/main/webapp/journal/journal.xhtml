@@ -3,7 +3,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
 
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
@@ -11,62 +12,62 @@
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
 					<p:dataTable id="messagesTable" widgetVar="notifsTable"
-								 value="#{webhookBean.journal}" var="n"
+								 value="#{webhookBean.journal}" var="j"
 								 rows="100"
 								 paginator="true"
 								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								 rowsPerPageTemplate="100,500,1000"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
 								 sortMode="multiple"
-								 rowStyleClass="#{n.severity}"
+								 rowStyleClass="#{j.severity}"
 								 cellpadding="0" cellspacing="0" width="100%">
 
-						<p:column headerText="Time" sortBy="#{n.formatedTimestamp}">
-							<h:outputText value="#{n.formatedTimestamp}" />
+						<p:column headerText="Time" sortBy="#{j.timestamp}">
+							<h:outputText value="#{j.formatedTimestamp}" />
 						</p:column>
 
-						<p:column headerText="Source" sortBy="#{n.source}">
-							<h:outputText value="#{n.source}" />
+						<p:column headerText="Source" sortBy="#{j.source}">
+							<h:outputText value="#{j.source}" />
 						</p:column>
 
-						<p:column headerText="Alert name" sortBy="#{n.alertname}">
-							<h:outputText value="#{n.alertname}" />
+						<p:column headerText="Alert name" sortBy="#{j.alertname}">
+							<h:outputText value="#{j.alertname}" />
 						</p:column>
 
-						<p:column headerText="Source info" sortBy="#{n.sourceinfo}">
-							<h:outputText value="#{n.sourceinfo}" />
+						<p:column headerText="Source info" sortBy="#{j.sourceinfo}">
+							<h:outputText value="#{j.sourceinfo}" />
 						</p:column>
 
-						<p:column headerText="Job" sortBy="#{n.job}">
-							<h:outputText value="#{n.job}" />
+						<p:column headerText="Job" sortBy="#{j.job}">
+							<h:outputText value="#{j.job}" />
 						</p:column>
 
-						<p:column headerText="Instance" sortBy="#{n.instance}">
-							<h:outputText value="#{n.instance}" />
+						<p:column headerText="Instance" sortBy="#{j.instance}">
+							<h:outputText value="#{j.instance}" />
 						</p:column>
 
-						<p:column headerText="Nodename" sortBy="#{n.nodename}">
-							<h:outputText value="#{n.nodename}" />
+						<p:column headerText="Nodename" sortBy="#{j.nodename}">
+							<h:outputText value="#{j.nodename}" />
 						</p:column>
 
-						<p:column headerText="Severity" sortBy="#{n.severity}">
-							<h:outputText value="#{n.severity}" />
+						<p:column headerText="Severity" sortBy="#{j.severity}">
+							<h:outputText value="#{j.severity}" />
 						</p:column>
 
-						<p:column headerText="Priority" sortBy="#{n.priority}">
-							<h:outputText value="#{n.priority}" />
+						<p:column headerText="Priority" sortBy="#{j.priority}">
+							<h:outputText value="#{j.priority}" />
 						</p:column>
 
-						<p:column headerText="Tags" sortBy="#{n.tags}">
-							<h:outputText value="#{n.tags}" />
+						<p:column headerText="Tags" sortBy="#{j.tags}">
+							<h:outputText value="#{j.tags}" />
 						</p:column>
 
-						<p:column headerText="Summary" sortBy="#{n.summary}">
-							<h:outputText value="#{n.summary}" />
+						<p:column headerText="Summary" sortBy="#{j.summary}">
+							<h:outputText value="#{j.summary}" />
 						</p:column>
 
-						<p:column headerText="Description" sortBy="#{n.description}">
-							<h:outputText value="#{n.description}" />
+						<p:column headerText="Description" sortBy="#{j.description}">
+							<h:outputText value="#{j.description}" />
 						</p:column>
 
 					</p:dataTable>

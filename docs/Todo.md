@@ -1,12 +1,12 @@
 # TODOs
 
-- add support for grafana alerts
-- add labels: job, team
+- ~~add support for grafana alerts~~
 - put back eventType label (event | alarm), then also events can have severities
-- move rule annotations to labels (because annotations cannot be retrieved from ALERTS metric)
+- move annotations to labels (because annotations cannot be retrieved from ALERTS metric)
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 - tags: filter by AND or OR
 - single alert view
+- redesigned journal (not table, but a list with show details)
 - aggregate by targets
 - about window
 

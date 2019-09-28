@@ -14,16 +14,22 @@ public class DNotification {
 	/** Counter of identical events (according to NID) */
 	private int counter = 1;
 	
-	/** timestamp of last occurrence */
+	/** Timestamp of last occurrence */
 	private long lastTimestamp;
 	
 	/** Source IP who sent the notification */
 	private String source;
 	
-	/** user-agent from http header */
+	/** User-agent from http header */
 	private String userAgent;
-	private String sourceinfo;
+
+	/** Name of alert */
 	private String alertname;
+
+	/** Source of alert */
+	private String sourceinfo;
+
+	/** Prometheus job scraper name */
 	private String job;
 	
 	/** IP address of node */
@@ -37,9 +43,21 @@ public class DNotification {
 	
 	/** Urgency of notification */
 	private String priority;
+
+	/** Comma-separated list of custom tags (labels) */
 	private String tags;
+
+	/** Summary description of notification */
 	private String summary;
+
+	/** Additional description of notification */
 	private String description;
+
+	private String team;
+	private String eventType;
+	private String probableCause;
+
+	/** Status of alert: firing or resolved */
 	private String status;
 	
 	
@@ -191,5 +209,28 @@ public class DNotification {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public String getProbableCause() {
+		return probableCause;
+	}
+
+	public void setProbableCause(String probableCause) {
+		this.probableCause = probableCause;
+	}
 }

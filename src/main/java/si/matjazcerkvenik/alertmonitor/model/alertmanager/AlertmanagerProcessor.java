@@ -73,7 +73,10 @@ public class AlertmanagerProcessor {
             n.setTags(a.getLabels().getOrDefault("tags", ""));
             n.setSeverity(a.getLabels().getOrDefault("severity", "indeterminate"));
             n.setPriority(a.getLabels().getOrDefault("priority", "low"));
-            n.setSummary(a.getAnnotations().getOrDefault("summary", "-"));
+            n.setSummary(a.getLabels().getOrDefault("summary", "-"));
+            n.setTeam(a.getLabels().getOrDefault("team", "unassigned"));
+            n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
+            n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
             n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
             n.setStatus(a.getStatus());
 

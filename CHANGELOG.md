@@ -2,6 +2,7 @@
 
 * [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
 * [ENHANCEMENT] URLs without .xhtml extension
+* [ENHANCEMENT] Supported additional labels `team`, `eventType`, `probableCause`
 
 ## 1.3.0 / 2019-09-27
 

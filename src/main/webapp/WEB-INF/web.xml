@@ -18,13 +18,12 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <!-- Map following files to the JSF servlet -->
     <servlet-mapping>
         <servlet-name>faces-servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <!-- Define the servlet for webhook messages -->
     <servlet>
         <servlet-name>Webhook Servlet</servlet-name>
         <servlet-class>si.matjazcerkvenik.alertmonitor.webhook.WebhookServlet</servlet-class>
@@ -35,6 +34,7 @@
         <url-pattern>/webhook/*</url-pattern>
     </servlet-mapping>
 
+    <!-- Define the servlet for metrics -->
     <servlet>
         <servlet-name>Metrics Servlet</servlet-name>
         <servlet-class>si.matjazcerkvenik.alertmonitor.webhook.PrometheusMetricsServlet</servlet-class>
@@ -45,6 +45,7 @@
         <url-pattern>/metrics</url-pattern>
     </servlet-mapping>
 
+    <!-- Startup listener -->
     <listener>
         <listener-class>si.matjazcerkvenik.alertmonitor.util.OnStartListener</listener-class>
     </listener>
@@ -55,6 +56,7 @@
         <param-value>/WEB-INF/alertmonitor.taglib.xml</param-value>
     </context-param>
 
+    <!-- Restricted access to resources -->
     <security-constraint>
         <display-name>Restrict direct access to the web folders</display-name>
         <web-resource-collection>
