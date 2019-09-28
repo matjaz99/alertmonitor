@@ -21,6 +21,7 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.model.Target;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -268,6 +269,11 @@ public class WebhookBean {
 			}
 		}
 		return numberOfSelectedTags;
+	}
+
+
+	public List<Target> getTargets() {
+		return DAO.getInstance().getTargets();
 	}
 
 }

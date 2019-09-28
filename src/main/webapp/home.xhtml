@@ -27,8 +27,8 @@
 					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
 					<p:outputLabel value="Journal count: #{webhookBean.journalCount}" />
 					<p:outputLabel value="Journal size: #{webhookBean.journalSize}" />
-					<p:outputLabel value="Raising count: #{webhookBean.alarmsCount}" />
-					<p:outputLabel value="Clearing count: #{webhookBean.clearsCount}" />
+					<p:outputLabel value="Firing count: #{webhookBean.alarmsCount}" />
+					<p:outputLabel value="Resolved count: #{webhookBean.clearsCount}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
@@ -45,7 +45,7 @@
 
 			<hr/>
 
-			<h:outputText value="Active tags" />
+			<p:outputLabel value="Active tags" />
 			<am:tags></am:tags>
 
 			<hr/>

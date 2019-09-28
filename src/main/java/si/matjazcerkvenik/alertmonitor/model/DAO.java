@@ -137,6 +137,10 @@ public class DAO {
                 }
             }
         }
+        if (allTags.isEmpty()) {
+            tagMap.clear();
+            return;
+        }
         for (String n : tagMap.keySet()) {
             if (!allTags.containsKey(n)) {
                 tagMap.remove(n);
@@ -159,6 +163,21 @@ public class DAO {
                 .collect(Collectors.toList());
         return list;
 
+    }
+
+    public List<Target> getTargets() {
+        List<DNotification> list = new ArrayList<DNotification>(getActiveAlerts().values());
+        Map<String, Target> targetsMap = new HashMap<String, Target>();
+
+        for (DNotification n : list) {
+            String instance = n.getInstance().split(":")[0];
+            Target t = targetsMap.getOrDefault(instance, new Target());
+            t.setInstance(instance);
+            t.addAlert(n);
+            targetsMap.put(instance, t);
+        }
+
+        return new ArrayList<Target>(targetsMap.values());
     }
 
     public double calculateAlertsBalanceFactor() {

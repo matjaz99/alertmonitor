@@ -1,0 +1,26 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+				<ui:repeat var="t" value="#{webhookBean.targets}">
+					<div style="float: left; border: 1px solid #555; margin: 5px; padding: 5px;">
+						<h:outputText value="#{t.instance}" style="color: #222222;"/>
+						<br/>
+						<h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
+					</div>
+				</ui:repeat>
+
+			</p:panelGrid>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

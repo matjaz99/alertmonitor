@@ -54,9 +54,9 @@ Alertmonitor recognizes the following labels:
 |-------------|-------------------------|
 | severity    | :arrow_right: Mandatory. Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| sourceinfo  | Recommended. Source location of the alert. Eg. GE port 1/1/7 |
-| summary     | Recommended. Summary information |
-| instance    | Mandatory. Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
+| sourceinfo  | :arrow_right: Recommended. Source location of the alert. Eg. GE port 1/1/7 |
+| summary     | :arrow_right: Recommended. Summary information |
+| instance    | :arrow_right: Mandatory. Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
 | nodename    | Optional. Descriptive name of instance. Eg. hostname |
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
 | team        | Optional. Team responsible for such alerts |
@@ -83,6 +83,9 @@ groups:
       instance: '{{$labels.instance}}'
       nodename: '{{$labels.node_name}}'
       summary: CPU alert for Node '{{ $labels.node_name }}'
+      team: Team1
+      eventType: 5 # equipment
+      probableCause: 1024 # other
     annotations:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
 ```

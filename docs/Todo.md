@@ -7,8 +7,8 @@
 - tags: filter by AND or OR
 - single alert view
 - redesigned journal (not table, but a list with show details)
-- aggregate by targets
 - about window
+- https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml
 
 
 

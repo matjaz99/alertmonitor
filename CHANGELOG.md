@@ -1,8 +1,11 @@
 ## 1.3.1-SNAPSHOT
 
+* [CHANGE] `summary` must be a label (not annotation) in rules file
+* [FEATURE] Target view
 * [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
 * [ENHANCEMENT] URLs without .xhtml extension
 * [ENHANCEMENT] Supported additional labels `team`, `eventType`, `probableCause`
+* [BUGFIX] Fixed exception when removing obsolete tags if there are no more alerts
 
 ## 1.3.0 / 2019-09-27
 
@@ -23,7 +26,7 @@
 * [FEATURE] Show version in GUI (in footer)
 * [ENHANCEMENT] Added example Grafana dashboard (see docs/grafana_dashboards)
 * [ENHANCEMENT] A lot of refactoring
-* [BUGFIX] fixed calculation of up time
+* [BUGFIX] Fixed calculation of up time
 
 ## 1.1.0 / 2019-07-15
 
