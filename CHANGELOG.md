@@ -1,5 +1,8 @@
 ## 1.3.1-SNAPSHOT
 
+* [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
+* [ENHANCEMENT] URLs without .xhtml extension
+
 ## 1.3.0 / 2019-09-27
 
 * [FEATURE] Introducing tags (#6)

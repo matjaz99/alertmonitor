@@ -50,7 +50,7 @@ public class DAO {
         if (logger == null) {
             logger = new SimpleLogger();
             if (logger.getFilename().contains("simple-logger.log")) {
-                logger.setFilename("/opt/alertmonitor/log/alertmonitor.log");
+                logger.setFilename("./alertmonitor.log");
             }
         }
         return logger;

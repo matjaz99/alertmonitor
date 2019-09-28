@@ -1,34 +1,17 @@
-<ui:composition template="/pageTemplate.xhtml"
+<ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:am="http://alertmonitor.io/facelets">
+	xmlns:p="http://primefaces.org/ui">
 
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:form id="activeAlertsForm">
-
-						<p:panelGrid columns="1" cellspacing="0" width="100%">
-
-						<ui:repeat var="tag" value="#{webhookBean.tags}">
-							<div style="float: left;">
-							<am:singletag value="#{tag}">
-								<p:commandLink id="ajax" update="activeAlertsForm" action="#{webhookBean.tagAction(tag)}" style="text-decoration: none;">
-									<h:outputText value="#{tag.name}" style="color: #222222;"/>
-								</p:commandLink>
-							</am:singletag>
-							</div>
-						</ui:repeat>
-
-						</p:panelGrid>
-
-
-					<p:dataTable id="messagesTable" widgetVar="activeTable"
-								 value="#{webhookBean.activeAlarms}" var="n"
+				<h:form>
+					<p:dataTable id="messagesTable" widgetVar="notifsTable"
+								 value="#{webhookBean.journal}" var="n"
 								 rows="100"
 								 paginator="true"
 								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -42,52 +25,57 @@
 							<h:outputText value="#{n.formatedTimestamp}" />
 						</p:column>
 
-						<p:column headerText="Alert name" sortBy="#{n.alertname}">
-							<h:outputText value="#{n.alertname}" />
+						<p:column headerText="Source" sortBy="#{n.source}">
+							<h:outputText value="#{n.source}" />
 						</p:column>
 
-						<p:column headerText="Instance" sortBy="#{n.instance}">
-							<h:outputText value="#{n.instance}" />
-						</p:column>
-						
-						<p:column headerText="Nodename" sortBy="#{n.nodename}">
-							<h:outputText value="#{n.nodename}" />
+						<p:column headerText="Alert name" sortBy="#{n.alertname}">
+							<h:outputText value="#{n.alertname}" />
 						</p:column>
 
 						<p:column headerText="Source info" sortBy="#{n.sourceinfo}">
 							<h:outputText value="#{n.sourceinfo}" />
 						</p:column>
-						
+
+						<p:column headerText="Job" sortBy="#{n.job}">
+							<h:outputText value="#{n.job}" />
+						</p:column>
+
+						<p:column headerText="Instance" sortBy="#{n.instance}">
+							<h:outputText value="#{n.instance}" />
+						</p:column>
+
+						<p:column headerText="Nodename" sortBy="#{n.nodename}">
+							<h:outputText value="#{n.nodename}" />
+						</p:column>
+
 						<p:column headerText="Severity" sortBy="#{n.severity}">
 							<h:outputText value="#{n.severity}" />
 						</p:column>
-						
+
 						<p:column headerText="Priority" sortBy="#{n.priority}">
 							<h:outputText value="#{n.priority}" />
 						</p:column>
-						
-						<p:column headerText="Counter" sortBy="#{n.counter}">
-							<h:outputText value="#{n.counter}" />
+
+						<p:column headerText="Tags" sortBy="#{n.tags}">
+							<h:outputText value="#{n.tags}" />
 						</p:column>
 
-						<p:column headerText="Job" sortBy="#{n.job}" >
-							<h:outputText value="#{n.job}" />
-						</p:column>
-						
 						<p:column headerText="Summary" sortBy="#{n.summary}">
 							<h:outputText value="#{n.summary}" />
 						</p:column>
-						
+
 						<p:column headerText="Description" sortBy="#{n.description}">
 							<h:outputText value="#{n.description}" />
 						</p:column>
 
 					</p:dataTable>
-					<p:poll interval="60" update="activeAlertsForm" />
+					<p:poll interval="60" update="messagesTable" />
 				</h:form>
 			</p:panelGrid>
-				
+
 			<hr/>
+
 
 		</ui:define>
 	</div>

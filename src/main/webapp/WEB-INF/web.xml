@@ -4,7 +4,12 @@
 
     <!-- File(s) appended to a request for a URL that is not mapped to a web component -->
     <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
         <welcome-file>home.xhtml</welcome-file>
+        <welcome-file>active.xhtml</welcome-file>
+        <welcome-file>journal.xhtml</welcome-file>
+        <welcome-file>raw.xhtml</welcome-file>
+        <welcome-file>tags.xhtml</welcome-file>
     </welcome-file-list>
 
     <!-- Define the JSF servlet (manages the request processing life cycle for JavaServer Faces) -->
@@ -49,4 +54,17 @@
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/alertmonitor.taglib.xml</param-value>
     </context-param>
+
+    <security-constraint>
+        <display-name>Restrict direct access to the web folders</display-name>
+        <web-resource-collection>
+            <web-resource-name>The /resources folder</web-resource-name>
+            <url-pattern>/resources/*</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>The /templates folder</web-resource-name>
+            <url-pattern>/templates/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+    </security-constraint>
 </web-app>
