@@ -54,8 +54,8 @@
 							<h:outputText value="#{n.nodename}" />
 						</p:column>
 
-						<p:column headerText="Source info" sortBy="#{n.sourceinfo}">
-							<h:outputText value="#{n.sourceinfo}" />
+						<p:column headerText="Info" sortBy="#{n.info}">
+							<h:outputText value="#{n.info}" />
 						</p:column>
 						
 						<p:column headerText="Severity" sortBy="#{n.severity}">
@@ -68,6 +68,10 @@
 						
 						<p:column headerText="Counter" sortBy="#{n.counter}">
 							<h:outputText value="#{n.counter}" />
+						</p:column>
+
+						<p:column headerText="Value" sortBy="#{n.currentValue}">
+							<h:outputText value="#{n.currentValue}" />
 						</p:column>
 
 						<p:column headerText="Job" sortBy="#{n.job}" >

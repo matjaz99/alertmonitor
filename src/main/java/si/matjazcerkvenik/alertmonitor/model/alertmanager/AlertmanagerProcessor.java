@@ -66,7 +66,7 @@ public class AlertmanagerProcessor {
             n.setSource(m.getRemoteHost());
             n.setAlertname(a.getLabels().get("alertname"));
             n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
-            n.setSourceinfo(a.getLabels().getOrDefault("sourceinfo", "-"));
+            n.setInfo(a.getLabels().getOrDefault("info", "-"));
             n.setInstance(a.getLabels().getOrDefault("instance", "-"));
             n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
             n.setJob(a.getLabels().getOrDefault("job", "-"));
@@ -77,12 +77,19 @@ public class AlertmanagerProcessor {
             n.setTeam(a.getLabels().getOrDefault("team", "unassigned"));
             n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
             n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
-            n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
+            n.setCurrentValue(a.getLabels().getOrDefault("currentValue", "-"));
+            n.setUrl(a.getLabels().getOrDefault("url", "-"));
+            if (a.getLabels().containsKey("description")) {
+                n.setDescription(a.getLabels().getOrDefault("description", "-"));
+            } else {
+                n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
+            }
             n.setStatus(a.getStatus());
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
-                if (!n.getSeverity().equalsIgnoreCase("informational")) {
+                if (!n.getSeverity().equalsIgnoreCase("informational")
+                        && !n.getSeverity().equalsIgnoreCase("indeterminate")) {
                     n.setSeverity("clear");
                 }
             }
@@ -93,7 +100,7 @@ public class AlertmanagerProcessor {
                     + n.getPriority()
                     + n.getAlertname()
                     + new Random().nextInt(9999999)
-                    + n.getSourceinfo()
+                    + n.getInfo()
                     + n.getInstance()
                     + new Random().nextInt(9999999)
                     + n.getSummary()
@@ -104,7 +111,7 @@ public class AlertmanagerProcessor {
 
             // set correlation ID
             n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
-                    + n.getSourceinfo()
+                    + n.getInfo()
                     + n.getInstance()
                     + n.getSummary()));
 

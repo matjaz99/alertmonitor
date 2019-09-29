@@ -26,8 +26,8 @@ public class DNotification {
 	/** Name of alert */
 	private String alertname;
 
-	/** Source of alert */
-	private String sourceinfo;
+	/** Information about alert */
+	private String info;
 
 	/** Prometheus job scraper name */
 	private String job;
@@ -56,6 +56,8 @@ public class DNotification {
 	private String team;
 	private String eventType;
 	private String probableCause;
+	private String currentValue;
+	private String url;
 
 	/** Status of alert: firing or resolved */
 	private String status;
@@ -122,12 +124,12 @@ public class DNotification {
 		this.userAgent = userAgent;
 	}
 
-	public String getSourceinfo() {
-		return sourceinfo;
+	public String getInfo() {
+		return info;
 	}
 
-	public void setSourceinfo(String sourceinfo) {
-		this.sourceinfo = sourceinfo;
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 	public String getAlertname() {
@@ -232,5 +234,21 @@ public class DNotification {
 
 	public void setProbableCause(String probableCause) {
 		this.probableCause = probableCause;
+	}
+
+	public String getCurrentValue() {
+		return currentValue;
+	}
+
+	public void setCurrentValue(String currentValue) {
+		this.currentValue = currentValue;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

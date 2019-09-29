@@ -1,10 +1,12 @@
 ## 1.3.1-SNAPSHOT
 
-* [CHANGE] `summary` must be a label (not annotation) in rules file
+* [CHANGE] Renamed `sourceInfo` label to `info`
+* [CHANGE] `summary` is read from a label (not annotation anymore) in rules file
+* [CHANGE] `description` is read from a label if exists, otherwise from annotation
 * [FEATURE] Target view
 * [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
 * [ENHANCEMENT] URLs without .xhtml extension
-* [ENHANCEMENT] Supported additional labels `team`, `eventType`, `probableCause`
+* [ENHANCEMENT] Supported new labels `team`, `currentValue`, `url`, `eventType`, `probableCause`
 * [BUGFIX] Fixed exception when removing obsolete tags if there are no more alerts
 
 ## 1.3.0 / 2019-09-27
@@ -36,7 +38,7 @@ Release includes:
 * [FEATURE] Sorting by multiple columns (hold command key) (#2)
 * [ENHANCEMENT] Changed base image from tomcat:8.5.37-jre8 to tomcat:8.5-jre8-alpine (because it's smaller)
 * [ENHANCEMENT] Updated Primefaces from 6.1 to 6.2
-* [ENHANCEMENT] Added support for labels: `job`, `tags`, `sourceinfo`; `alertdomain` label is now deprecated
+* [ENHANCEMENT] Added support for labels: `job`, `tags`, `info`; `alertdomain` label is now deprecated
 * [BUGFIX] Bug fixes and refactoring
 
 ## 1.0.0 / 2019-06-30

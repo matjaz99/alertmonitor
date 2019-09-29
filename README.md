@@ -7,22 +7,23 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a web GUI for displaying alerts from Prometheus Alertmanager.
+Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing alerts.
 
-A generic webhook accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
+A webhook in Alertmonitor accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
 
-If the request is recognized to come from Alertmanager, it will be processed and displayed as alarm.
+If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
 Alertmonitor provides three views:
-- Raw - anything that is received on webhook
+- Raw - any http request that is received on webhook
 - Journal - history of all events
 - Active - only active alerts
+- Targets - alerts sorted by targets
 
-Alertmonitor correlates alarms and clears to display selected alarms (ie. alarms which haven't received clear yet).
+Alertmonitor correlates alerts firing and resolving to display active alarms (ie. alarms which haven't received clear yet).
 
-Easily filter alerts by tags.
+Alerts can easily be filtered by tags.
 
-Alertmonitor GUI is reachable on: http://hostname:8080/alertmonitor/
+Alertmonitor GUI is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
 
 > Currently Alertmonitor does not support any persistence. Alerts are stored in memory. After restart alerts are gone.
 
@@ -44,7 +45,7 @@ Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/al
 
 ## Configure alerts in Prometheus
 
-Alert rules in Prometheus should have properly configured labels.
+Alertmonitor relies on properly configured labels in Prometheus alert rules .
 
 #### Labeling alerts
 
@@ -52,19 +53,21 @@ Alertmonitor recognizes the following labels:
 
 | Label       |      Description        |
 |-------------|-------------------------|
-| severity    | :arrow_right: Mandatory. Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
+| severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| sourceinfo  | :arrow_right: Recommended. Source location of the alert. Eg. GE port 1/1/7 |
-| summary     | :arrow_right: Recommended. Summary information |
-| instance    | :arrow_right: Mandatory. Instance is usually already included in metric, but sometimes if alert rule doesn't return instance label, you can provide its value here. Usually IP address and port of exporter |
+| summary     | Mandatory. Summary description. |
+| info        | Mandatory. Information about the alert. |
+| instance    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of instance. Eg. hostname |
-| tags        | Optional. Custom tags that describe the alert (comma separated). Tags will be visible in active alerts view and are used for quick filtering. |
-| team        | Optional. Team responsible for such alerts |
-| eventType   | Optional. Event type (compliant with IUT-T X.733 recommendation) |
-| probableCause | Optional. Probable cause (compliant with IUT-T X.733 recommendation) |
-| description | Optional. Additional description. Remark: this is not a label but annotation in rules file. |
+| currentValue | Recommended. Current metric value. Get it with: `{{ humanize $value }}`. Optionaly you can append units (eg. % or MB).
+| tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
+| team        | Optional. Team responsible for this kind of alerts. |
+| url        | Optional. Custom URL that is related to alert. |
+| eventType   | Optional. Event type compliant with IUT-T X.733 recommendation |
+| probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
+| description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 
-> `correlationId` is defined by: `alertname`, `sourceinfo`, `instance` and `summary`. Clear event should produce the same `correlationId`. Putting a variable value (eg. current temperature) in these fields is not recommended.
+> `correlationId` is defined by: `alertname`, `info`, `instance` and `summary`. Clear event should produce the same `correlationId`.
 
 Example of alert rule in Prometheus (note the labels):
 
@@ -76,24 +79,32 @@ groups:
     expr: sum(rate(process_cpu_seconds_total[5m])) by (instance) * 100 > 80
     for: 1m
     labels:
+      # mandatory
+      instance: '{{$labels.instance}}'
       severity: critical
       priority: low
-      sourceinfo: CPU 1
-      tags: hardware, cpu, overload
-      instance: '{{$labels.instance}}'
-      nodename: '{{$labels.node_name}}'
+      info: CPU 1
       summary: CPU alert for Node '{{ $labels.node_name }}'
+      # optional
+      currentValue: '{{ humanize $value }}'
+      tags: hardware, cpu, overload
+      nodename: '{{$labels.node_name}}'
       team: Team1
-      eventType: 5 # equipment
-      probableCause: 1024 # other
+      url: 'http://grafana/dashboard/'
+      eventType: 5
+      probableCause: 1024
+      description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
     annotations:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
+      summary: CPU alert for Node '{{ $labels.node_name }}'
 ```
+
+> For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
 
 
 #### Configure webhook receiver in Alertmanager
 
-In order to send alerts to Alertmonitor, the receiver endpoint must be configured in `alertmanager.yml` configuration file.
+In order to send alerts to Alertmonitor, configure a receiver endpoint in `alertmanager.yml` configuration file.
 
 ```yaml
 route:
