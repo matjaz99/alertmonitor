@@ -25,6 +25,8 @@ Alerts can easily be filtered by tags.
 
 Alertmonitor GUI is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
 
+![Alertmonitor](docs/overview.png)
+
 > Currently Alertmonitor does not support any persistence. Alerts are stored in memory. After restart alerts are gone.
 
 ## Install
