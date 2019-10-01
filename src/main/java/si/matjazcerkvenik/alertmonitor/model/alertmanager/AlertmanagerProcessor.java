@@ -94,6 +94,14 @@ public class AlertmanagerProcessor {
                 }
             }
 
+            // environment variable substitution
+            n.setNodename(substitute(n.getNodename()));
+            n.setInfo(substitute(n.getInfo()));
+            n.setSummary(substitute(n.getSummary()));
+            n.setDescription(substitute(n.getDescription()));
+            n.setTags(substitute(n.getTags()));
+            n.setUrl(substitute(n.getUrl()));
+
             // set unique ID of event
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
                     + n.hashCode()
@@ -120,6 +128,20 @@ public class AlertmanagerProcessor {
         }
 
         return notifs;
+
+    }
+
+    private static String substitute(String s) {
+
+        if (!s.contains("${")) {
+            return s;
+        }
+
+        Map<String, String> map = System.getenv();
+        for (Map.Entry <String, String> entry: map.entrySet()) {
+            s = s.replace("${" + entry.getKey() + "}", entry.getValue());
+        }
+        return s;
 
     }
 

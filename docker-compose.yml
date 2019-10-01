@@ -15,6 +15,7 @@ services:
       - monitoring-network
     environment:
       - SIMPLELOGGER_FILENAME: /opt/alertmonitor/log/alertmonitor.log
+      - GRAFANA_HOSTNAME: my.grafana.domain
     deploy:
       mode: replicated
       replicas: 1

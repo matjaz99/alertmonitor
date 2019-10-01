@@ -92,7 +92,7 @@ groups:
       tags: hardware, cpu, overload
       nodename: '{{$labels.node_name}}'
       team: Team1
-      url: 'http://grafana/dashboard/'
+      url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
       eventType: 5
       probableCause: 1024
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
@@ -122,6 +122,29 @@ receivers:
   - url: http://alertmonitor:8080/alertmonitor/webhook
     send_resolved: true
 ```
+
+## Environment variable substitution
+
+Prometheus doesn't support substitution of environment variables in alert rules. Alertmonitor does that for you.
+
+Environment variables can be set on system level or directly on docker containers Example in docker-compose file.
+
+```yaml
+    environment:
+      - GRAFANA_HOSTNAME: my.grafana.domain
+```
+
+Template syntax in labels: `${GRAFANA_HOSTNAME}`.
+
+Alertmonitor will replace all occurrences of templates with corresponding environment variables.
+
+You can use environment variable substitution on the following labels:
+- nodename
+- info
+- summary
+- tags
+- url
+- description
 
 ## Metrics
 
