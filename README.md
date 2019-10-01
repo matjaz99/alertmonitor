@@ -127,14 +127,14 @@ receivers:
 
 Prometheus doesn't support substitution of environment variables in alert rules. Alertmonitor does that for you.
 
-Environment variables can be set on system level or directly on docker containers Example in docker-compose file.
+Environment variables can be set on system level or directly on docker containers. Example in docker-compose file.
 
 ```yaml
     environment:
       - GRAFANA_HOSTNAME: my.grafana.domain
 ```
 
-Template syntax in labels: `${GRAFANA_HOSTNAME}`.
+Template syntax in labels to be replaced: `${GRAFANA_HOSTNAME}`.
 
 Alertmonitor will replace all occurrences of templates with corresponding environment variables.
 
