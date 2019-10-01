@@ -34,12 +34,7 @@ public class TagColors {
 
     public static String getColor(String tagName) {
 
-        int r0 = new Random().nextInt(999);
         int r = new Random().nextInt(colors.length);
-        for (int i = -1; i < r0; i++) {
-            r = new Random().nextInt(colors.length); // loop to get even more random color
-        }
-//        int r = new Random().nextInt(colors.length);
 //        int rRed = new Random().nextInt(niances.length);
 //        int rGreen = new Random().nextInt(niances.length);
 //        int rBlue = new Random().nextInt(niances.length);
