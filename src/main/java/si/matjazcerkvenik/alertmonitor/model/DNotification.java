@@ -47,9 +47,6 @@ public class DNotification {
 	/** Comma-separated list of custom tags (labels) */
 	private String tags;
 
-	/** Summary description of notification */
-	private String summary;
-
 	/** Additional description of notification */
 	private String description;
 
@@ -186,14 +183,6 @@ public class DNotification {
 
 	public void setTags(String tags) {
 		this.tags = tags;
-	}
-
-	public String getSummary() {
-		return summary;
-	}
-
-	public void setSummary(String summary) {
-		this.summary = summary;
 	}
 
 	public String getDescription() {

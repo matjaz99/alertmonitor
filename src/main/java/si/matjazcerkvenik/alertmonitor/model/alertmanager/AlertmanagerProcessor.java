@@ -73,7 +73,6 @@ public class AlertmanagerProcessor {
             n.setTags(a.getLabels().getOrDefault("tags", ""));
             n.setSeverity(a.getLabels().getOrDefault("severity", "indeterminate"));
             n.setPriority(a.getLabels().getOrDefault("priority", "low"));
-            n.setSummary(a.getLabels().getOrDefault("summary", "-"));
             n.setTeam(a.getLabels().getOrDefault("team", "unassigned"));
             n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
             n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
@@ -97,7 +96,6 @@ public class AlertmanagerProcessor {
             // environment variable substitution
             n.setNodename(substitute(n.getNodename()));
             n.setInfo(substitute(n.getInfo()));
-            n.setSummary(substitute(n.getSummary()));
             n.setDescription(substitute(n.getDescription()));
             n.setTags(substitute(n.getTags()));
             n.setUrl(substitute(n.getUrl()));
@@ -111,7 +109,6 @@ public class AlertmanagerProcessor {
                     + n.getInfo()
                     + n.getInstance()
                     + new Random().nextInt(9999999)
-                    + n.getSummary()
                     + n.getDescription()
                     + new Random().nextInt(9999999)
                     + n.getSource()
@@ -120,8 +117,7 @@ public class AlertmanagerProcessor {
             // set correlation ID
             n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
                     + n.getInfo()
-                    + n.getInstance()
-                    + n.getSummary()));
+                    + n.getInstance()));
 
             notifs.add(n);
 
@@ -131,6 +127,9 @@ public class AlertmanagerProcessor {
 
     }
 
+    /**
+     * This method does environment variable substitution
+     */
     private static String substitute(String s) {
 
         if (!s.contains("${")) {

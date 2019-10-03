@@ -1,7 +1,7 @@
 ## 1.3.1-SNAPSHOT
 
 * [CHANGE] Renamed `sourceInfo` label to `info`
-* [CHANGE] `summary` is read from a label (not annotation anymore) in rules file
+* [CHANGE] `summary` is ignored, all data should go to `info`
 * [CHANGE] `description` is read from a label if exists, otherwise from annotation
 * [FEATURE] Target view (#10)
 * [FEATURE] Environment variable substitution (#11)

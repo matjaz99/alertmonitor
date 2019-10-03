@@ -57,11 +57,10 @@ Alertmonitor recognizes the following labels:
 |-------------|-------------------------|
 | severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| summary     | Mandatory. Summary description. |
 | info        | Mandatory. Information about the alert. |
 | instance    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of instance. Eg. hostname |
-| currentValue | Recommended. Current metric value. Get it with: `{{ humanize $value }}`. Optionaly you can append units (eg. % or MB).
+| currentValue | Recommended. Current metric value. Get it with: `{{ humanize $value }}`. Optionally you can append units (eg. % or MB).
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
 | url        | Optional. Custom URL that is related to alert. |
@@ -69,7 +68,7 @@ Alertmonitor recognizes the following labels:
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 
-> `correlationId` is defined by: `alertname`, `info`, `instance` and `summary`. Clear event should produce the same `correlationId`.
+> `correlationId` is defined by: `alertname`, `info` and `instance`. Clear event should produce the same `correlationId`.
 
 Example of alert rule in Prometheus (note the labels):
 
@@ -81,16 +80,15 @@ groups:
     expr: sum(rate(process_cpu_seconds_total[5m])) by (instance) * 100 > 80
     for: 1m
     labels:
-      # mandatory
+      # mandatory labels
       instance: '{{$labels.instance}}'
       severity: critical
       priority: low
-      info: CPU 1
-      summary: CPU alert for Node '{{ $labels.node_name }}'
-      # optional
+      info: CPU alert for Node '{{ $labels.node_name }}'
+      # optional labels
       currentValue: '{{ humanize $value }}'
-      tags: hardware, cpu, overload
       nodename: '{{$labels.node_name}}'
+      tags: hardware, cpu, overload
       team: Team1
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
       eventType: 5
@@ -141,7 +139,6 @@ Alertmonitor will replace all occurrences of templates with corresponding enviro
 You can use environment variable substitution on the following labels:
 - nodename
 - info
-- summary
 - tags
 - url
 - description
