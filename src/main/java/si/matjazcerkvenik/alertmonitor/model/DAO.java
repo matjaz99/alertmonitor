@@ -171,6 +171,9 @@ public class DAO {
 
         for (DNotification n : list) {
             String instance = n.getInstance().split(":")[0];
+            if (n.getInstance().startsWith("http")) {
+                 instance = n.getInstance();
+            }
             Target t = targetsMap.getOrDefault(instance, new Target());
             t.setInstance(instance);
             t.addAlert(n);

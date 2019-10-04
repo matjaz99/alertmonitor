@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <div style="float: left; border: 1px solid #555; margin: 5px; padding: 5px;">
+
+        <h:outputLink value="/alertmonitor/instance" >
+            <h:outputText value="#{t.instance}" style="color: #222222;"/>
+        </h:outputLink>
+        <hr/>
+        <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
+    </div>
+</ui:composition>

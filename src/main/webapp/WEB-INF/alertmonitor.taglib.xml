@@ -9,6 +9,10 @@
         <source>tags/tag.xhtml</source>
     </tag>
     <tag>
+        <tag-name>target</tag-name>
+        <source>tags/target.xhtml</source>
+    </tag>
+    <tag>
         <tag-name>singletag</tag-name>
         <component>
             <component-type>SingleTag</component-type>
