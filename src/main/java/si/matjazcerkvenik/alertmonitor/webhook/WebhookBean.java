@@ -276,4 +276,13 @@ public class WebhookBean {
 		return DAO.getInstance().getTargets();
 	}
 
+	public String getTargetHighestPriorityBullet(Target target) {
+		for (DNotification n : target.getAlerts()) {
+			if (n.getSeverity().equalsIgnoreCase("critical")) {
+				return "bullet_red_mini.png";
+			}
+		}
+		return "nothing";
+	}
+
 }
