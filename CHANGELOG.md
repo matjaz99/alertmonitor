@@ -5,6 +5,7 @@
 * [CHANGE] `description` is read from a label if exists, otherwise from annotation
 * [FEATURE] Target view (#10)
 * [FEATURE] Environment variable substitution (#11)
+* [FEATURE] Added small icon representing highest severity on targets
 * [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
 * [ENHANCEMENT] URLs without .xhtml extension
 * [ENHANCEMENT] Supported new labels `team`, `currentValue`, `url`, `eventType`, `probableCause`

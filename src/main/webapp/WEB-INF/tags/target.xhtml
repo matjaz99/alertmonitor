@@ -10,5 +10,6 @@
         </h:outputLink>
         <hr/>
         <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
+        <h:graphicImage library="images" name="/#{webhookBean.getTargetHighestPriorityBullet(t)}" />
     </div>
 </ui:composition>

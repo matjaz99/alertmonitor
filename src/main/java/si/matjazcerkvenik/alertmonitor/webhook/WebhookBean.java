@@ -277,12 +277,29 @@ public class WebhookBean {
 	}
 
 	public String getTargetHighestPriorityBullet(Target target) {
+		int critical = 0;
+		int major = 0;
+		int minor = 0;
+		int warning = 0;
 		for (DNotification n : target.getAlerts()) {
 			if (n.getSeverity().equalsIgnoreCase("critical")) {
-				return "bullet_red_mini.png";
+				critical++;
+			}
+			if (n.getSeverity().equalsIgnoreCase("major")) {
+				major++;
+			}
+			if (n.getSeverity().equalsIgnoreCase("minor")) {
+				minor++;
+			}
+			if (n.getSeverity().equalsIgnoreCase("warning")) {
+				warning++;
 			}
 		}
-		return "nothing";
+
+		if (critical != 0) return "bullet_red_mini.png";
+		if (major >= minor && major >= warning) return "bullet_orange_mini.png";
+		if (minor >= warning) return "bullet_orange_mini.png";
+		return "bullet_yellow_mini.png";
 	}
 
 }
