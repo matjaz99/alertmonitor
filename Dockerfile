@@ -1,6 +1,7 @@
 FROM tomcat:8.5-jre8-alpine
 
 RUN apk --no-cache add curl
+RUN apk add tzdata
 
 COPY target/alertmonitor.war /usr/local/tomcat/webapps/alertmonitor.war
 
