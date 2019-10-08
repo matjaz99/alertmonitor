@@ -18,10 +18,7 @@
 
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
-import si.matjazcerkvenik.alertmonitor.model.DTag;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.*;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -282,23 +279,23 @@ public class WebhookBean {
 		int minor = 0;
 		int warning = 0;
 		for (DNotification n : target.getAlerts()) {
-			if (n.getSeverity().equalsIgnoreCase("critical")) {
+			if (n.getSeverity().equalsIgnoreCase(Severity.CRITICAL)) {
 				critical++;
 			}
-			if (n.getSeverity().equalsIgnoreCase("major")) {
+			if (n.getSeverity().equalsIgnoreCase(Severity.MAJOR)) {
 				major++;
 			}
-			if (n.getSeverity().equalsIgnoreCase("minor")) {
+			if (n.getSeverity().equalsIgnoreCase(Severity.MINOR)) {
 				minor++;
 			}
-			if (n.getSeverity().equalsIgnoreCase("warning")) {
+			if (n.getSeverity().equalsIgnoreCase(Severity.WARNING)) {
 				warning++;
 			}
 		}
 
-		if (critical != 0) return "bullet_red_mini.png";
-		if (major >= minor && major >= warning) return "bullet_orange_mini.png";
-		if (minor >= warning) return "bullet_orange_mini.png";
+		if (critical > 0) return "bullet_red_mini.png";
+		if (major >  0) return "bullet_orange_mini.png";
+		if (minor > 0) return "bullet_orange_mini.png";
 		return "bullet_yellow_mini.png";
 	}
 

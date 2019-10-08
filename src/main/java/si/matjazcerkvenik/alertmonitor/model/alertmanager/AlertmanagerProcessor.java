@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.Severity;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
@@ -32,12 +33,12 @@ public class AlertmanagerProcessor {
 
             AmMetrics.alertmonitor_journal_messages_total.labels(n.getSeverity()).inc();
 
-            if (n.getSeverity().equalsIgnoreCase("informational")) {
+            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)) {
                 continue;
             }
 
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
-                if (n.getSeverity().equalsIgnoreCase("clear")) {
+                if (n.getSeverity().equalsIgnoreCase(Severity.CLEAR)) {
                     DAO.getInstance().removeActiveAlert(n);
                     DAO.getLogger().info("Removing active alarm: " + n.getCorrelationId());
                 } else {
@@ -45,7 +46,7 @@ public class AlertmanagerProcessor {
                     DAO.getLogger().info("Updating active alarm: " + n.getCorrelationId());
                 }
             } else {
-                if (!n.getSeverity().equalsIgnoreCase("clear")) {
+                if (!n.getSeverity().equalsIgnoreCase(Severity.CLEAR)) {
                     DAO.getInstance().addActiveAlert(n);
                     DAO.getLogger().info("Adding active alarm: " + n.getCorrelationId());
                 }
@@ -87,9 +88,9 @@ public class AlertmanagerProcessor {
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
-                if (!n.getSeverity().equalsIgnoreCase("informational")
-                        && !n.getSeverity().equalsIgnoreCase("indeterminate")) {
-                    n.setSeverity("clear");
+                if (!n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
+                        && !n.getSeverity().equalsIgnoreCase(Severity.INDETERMINATE)) {
+                    n.setSeverity(Severity.CLEAR);
                 }
             }
 

@@ -45,16 +45,16 @@ public class TagColors {
         if (tagName == null) {
             return result;
         }
-        if (tagName.equals("critical")) {
+        if (tagName.equalsIgnoreCase(Severity.CRITICAL)) {
             return "#FF0000";
         }
-        if (tagName.equals("major")) {
+        if (tagName.equalsIgnoreCase(Severity.MAJOR)) {
             return "#FF7100";
         }
-        if (tagName.equals("minor")) {
+        if (tagName.equalsIgnoreCase(Severity.MINOR)) {
             return "#FFC900";
         }
-        if (tagName.equals("warning")) {
+        if (tagName.equalsIgnoreCase(Severity.WARNING)) {
             return "#FFE800";
         }
 
