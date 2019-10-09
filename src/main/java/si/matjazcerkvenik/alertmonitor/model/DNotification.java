@@ -13,7 +13,10 @@ public class DNotification {
 	
 	/** Counter of identical events (according to NID) */
 	private int counter = 1;
-	
+
+	/** Timestamp of first occurrence */
+	private long firstTimestamp;
+
 	/** Timestamp of last occurrence */
 	private long lastTimestamp;
 	
@@ -95,6 +98,14 @@ public class DNotification {
 
 	public void setCounter(int counter) {
 		this.counter = counter;
+	}
+
+	public long getFirstTimestamp() {
+		return firstTimestamp;
+	}
+
+	public void setFirstTimestamp(long firstTimestamp) {
+		this.firstTimestamp = firstTimestamp;
 	}
 
 	public long getLastTimestamp() {

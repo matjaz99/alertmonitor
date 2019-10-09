@@ -84,6 +84,8 @@ public class DAO {
 
     public void addActiveAlert(DNotification n) {
 
+        n.setFirstTimestamp(n.getTimestamp());
+
         // add other labels directly into tags
         // eg: severity (but not clear and info), priority
         if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
@@ -110,6 +112,7 @@ public class DAO {
         activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
         int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
         activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
+        activeAlerts.get(newNotif.getCorrelationId()).setCurrentValue(newNotif.getCurrentValue());
     }
 
     public void removeActiveAlert(DNotification n) {
