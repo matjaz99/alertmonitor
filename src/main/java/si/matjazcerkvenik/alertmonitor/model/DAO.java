@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -180,6 +181,7 @@ public class DAO {
             Target t = targetsMap.getOrDefault(instance, new Target());
             t.setInstance(instance);
             t.addAlert(n);
+            t.setId(MD5Checksum.getMd5Checksum(instance));
             targetsMap.put(instance, t);
         }
 

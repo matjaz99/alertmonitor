@@ -11,6 +11,7 @@
         <welcome-file>raw.xhtml</welcome-file>
         <welcome-file>tags.xhtml</welcome-file>
         <welcome-file>targets.xhtml</welcome-file>
+        <welcome-file>instance.xhtml</welcome-file>
     </welcome-file-list>
 
     <!-- Define the JSF servlet (manages the request processing life cycle for JavaServer Faces) -->

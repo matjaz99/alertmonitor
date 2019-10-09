@@ -1,0 +1,21 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+				<h:outputText value="Alerts: #{targetBean.target.instance}" style="color: #222222;"/>
+
+			</p:panelGrid>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

@@ -13,7 +13,7 @@ public class TagColors {
             "CornflowerBlue", "Cornsilk", "BlanchedAlmond", "NavajoWhite", "BurlyWood",
             "RosyBrown", "SandyBrown", "Goldenrod", "Peru", "Chocolate", "AntiqueWhite",
             "#7AB1D3", "#F1948A", "#BB8FCE", "#7FB3D5", "#EDBB99", "#AEB6BF", "#F0B27A",
-            "#85C1E9", "#76D7C4", "#73C6B6", "#82E0AA", "#F7DC6F", "#F8C471", "#BA2411",
+            "#85C1E9", "#76D7C4", "#73C6B6", "#82E0AA", "#F7DC6F", "#F8C471", "#BA4431",
             "#83F1D7", "#AAC6F9", "#FC9B7A", "#B393CD", "#A09FE2", "#E2E086", "#FCECC6",
             "#F9B386", "#F97583", "#B283D7", "#E0BFAA", "#DAE086", "#E286DA", "#FC99D5",
             "#C68F7F", "#F9DCF1", "#9585A3", "#BFB38F", "#AEFCE0", "#D7B2F9", "#94E9C0",

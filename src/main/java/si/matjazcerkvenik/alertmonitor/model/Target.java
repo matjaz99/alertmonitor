@@ -5,8 +5,17 @@ import java.util.List;
 
 public class Target {
 
+    private String id;
     private String instance;
     private List<DNotification> alerts = new ArrayList<DNotification>();
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getInstance() {
         return instance;
@@ -26,5 +35,14 @@ public class Target {
 
     public void addAlert(DNotification notification) {
         alerts.add(notification);
+    }
+
+    @Override
+    public String toString() {
+        return "Target{" +
+                "id='" + id + '\'' +
+                ", instance='" + instance + '\'' +
+                ", alerts=" + alerts +
+                '}';
     }
 }

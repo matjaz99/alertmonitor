@@ -1,13 +1,24 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
     <div style="float: left; border: 1px solid #555; margin: 5px; padding: 5px;">
 
-        <h:outputLink value="/alertmonitor/instance" >
-            <h:outputText value="#{t.instance}" style="color: #222222;"/>
-        </h:outputLink>
+<!--        <h:outputLink value="/alertmonitor/instance" >-->
+<!--            <h:outputText value="#{t.instance}" style="color: #222222;"/>-->
+<!--        </h:outputLink>-->
+<!--        <hr/>-->
+<!--        <h:commandLink action="#{webhookBean}" value="#{t.instance}">-->
+<!--            <f:param name="id" value="#{t.id}" />-->
+<!--        </h:commandLink>-->
+<!--        <p:link outcome="/alertmonitor/instance/instance.xhtml" value="#{t.instance}">-->
+<!--            <f:param name="target_id" value="#{t.id}" />-->
+<!--        </p:link>-->
+        <h:link value = "#{t.instance}" outcome = "/instance/instance">
+            <f:param name="target_id" value="#{t.id}" />
+        </h:link>
         <hr/>
         <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
         <h:graphicImage library="images" name="/#{webhookBean.getTargetHighestPriorityBullet(t)}" />

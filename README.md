@@ -14,7 +14,7 @@ A webhook in Alertmonitor accepts any HTTP GET or POST request that comes on URI
 If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
 Alertmonitor provides three views:
-- Raw - any http request that is received on webhook
+- Webhook - any http get or post request that is received on webhook
 - Journal - history of all events
 - Active - only active alerts
 - Targets - alerts sorted by targets
@@ -27,7 +27,6 @@ Alertmonitor GUI is reachable on: [http://hostname:8080/alertmonitor/](http://ho
 
 ![Alertmonitor](docs/overview.png)
 
-> Currently Alertmonitor does not support any persistence. Alerts are stored in memory. After restart alerts are gone.
 
 ## Install
 
@@ -60,7 +59,7 @@ Alertmonitor recognizes the following labels:
 | info        | Mandatory. Information about the alert. |
 | instance    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of instance. Eg. hostname |
-| currentValue | Recommended. Current metric value. Get it with: `{{ humanize $value }}`. Optionally you can append units (eg. % or MB).
+| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Optionally you can append units (eg. % or MB).
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
 | url        | Optional. Custom URL that is related to alert. |
