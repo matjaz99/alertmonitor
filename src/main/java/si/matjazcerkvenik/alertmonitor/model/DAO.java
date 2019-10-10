@@ -2,7 +2,6 @@ package si.matjazcerkvenik.alertmonitor.model;
 
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
-import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.net.InetAddress;
@@ -174,19 +173,17 @@ public class DAO {
         Map<String, Target> targetsMap = new HashMap<String, Target>();
 
         for (DNotification n : list) {
-            String instance = n.getInstance().split(":")[0];
-            if (n.getInstance().startsWith("http")) {
-                 instance = n.getInstance();
-            }
-            Target t = targetsMap.getOrDefault(instance, new Target());
-            t.setInstance(instance);
+            String host = n.getHostname();
+            Target t = targetsMap.getOrDefault(host, new Target());
+            t.setHostname(host);
             t.addAlert(n);
-            t.setId(MD5Checksum.getMd5Checksum(instance));
-            targetsMap.put(instance, t);
+            t.setId(MD5Checksum.getMd5Checksum(host));
+            targetsMap.put(host, t);
         }
 
-        return new ArrayList<Target>(targetsMap.values());
+        return new ArrayList<>(targetsMap.values());
     }
+
 
     public double calculateAlertsBalanceFactor() {
         if (activeAlerts.size() == 0) return 0;

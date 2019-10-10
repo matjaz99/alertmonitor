@@ -10,7 +10,59 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 
-				<h:outputText value="Alerts: #{targetBean.target.instance}" style="color: #222222;"/>
+				<h:outputText value="Hostname: #{targetBean.target.hostname}" style="color: #222222;"/>
+
+				<h:form>
+				<p:dataTable id="tAlertsTable" widgetVar="notifsTable"
+							 value="#{targetBean.targetActiveAlarms}" var="a"
+							 rows="100"
+							 paginator="true"
+							 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							 rowsPerPageTemplate="100,500,1000"
+							 stickyHeader="true" stickyTopAt=".layout-topbar"
+							 sortMode="multiple"
+							 rowStyleClass="#{a.severity}"
+							 cellpadding="0" cellspacing="0" width="100%">
+
+				<p:column headerText="Time" sortBy="#{a.timestamp}">
+					<h:outputText value="#{a.formatedTimestamp}" />
+				</p:column>
+
+					<p:column headerText="Alert name" sortBy="#{a.alertname}">
+						<h:outputText value="#{a.alertname}" />
+					</p:column>
+
+					<p:column headerText="Info" sortBy="#{a.info}">
+						<h:outputText value="#{a.info}" />
+					</p:column>
+
+					<p:column headerText="Severity" sortBy="#{a.severity}">
+						<h:outputText value="#{a.severity}" />
+					</p:column>
+
+					<p:column headerText="Priority" sortBy="#{a.priority}">
+						<h:outputText value="#{a.priority}" />
+					</p:column>
+
+					<p:column headerText="Counter" sortBy="#{a.counter}">
+						<h:outputText value="#{a.counter}" />
+					</p:column>
+
+					<p:column headerText="Value" sortBy="#{a.currentValue}">
+						<h:outputText value="#{a.currentValue}" />
+					</p:column>
+
+					<p:column headerText="Job" sortBy="#{a.job}" >
+						<h:outputText value="#{a.job}" />
+					</p:column>
+
+					<p:column headerText="Description" sortBy="#{a.description}">
+						<h:outputText value="#{a.description}" />
+					</p:column>
+
+				</p:dataTable>
+
+				</h:form>
 
 			</p:panelGrid>
 

@@ -57,8 +57,8 @@ Alertmonitor recognizes the following labels:
 | severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
 | info        | Mandatory. Information about the alert. |
-| instance    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
-| nodename    | Optional. Descriptive name of instance. Eg. hostname |
+| hostname    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return hostname, you can provide its value here by any other means. Usually IP address and port of exporter. |
+| nodename    | Optional. Descriptive name of hostname. Eg. hostname |
 | currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Optionally you can append units (eg. % or MB).
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
@@ -67,7 +67,7 @@ Alertmonitor recognizes the following labels:
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 
-> `correlationId` is defined by: `alertname`, `info` and `instance`. Clear event should produce the same `correlationId`.
+> `correlationId` is defined by: `alertname`, `info` and `hostname`. Clear event should produce the same `correlationId`.
 
 Example of alert rule in Prometheus (note the labels):
 
@@ -76,11 +76,11 @@ groups:
 - name: my-alerts
   rules:
   - alert: CPU usage
-    expr: sum(rate(process_cpu_seconds_total[5m])) by (instance) * 100 > 80
+    expr: sum(rate(process_cpu_seconds_total[5m])) by (hostname) * 100 > 80
     for: 1m
     labels:
       # mandatory labels
-      instance: '{{$labels.instance}}'
+      hostname: '{{$labels.hostname}}'
       severity: critical
       priority: low
       info: CPU alert for Node '{{ $labels.node_name }}'
@@ -119,6 +119,12 @@ receivers:
   - url: http://alertmonitor:8080/alertmonitor/webhook
     send_resolved: true
 ```
+
+## Target view
+
+Alertmonitor strips protocol and port from hostname label and what remains is target's hostname or IP address or FQDN.
+
+Alertmonitor then filters alerts and displays those who's hostnames match.
 
 ## Environment variable substitution
 

@@ -6,7 +6,7 @@ import java.util.List;
 public class Target {
 
     private String id;
-    private String instance;
+    private String hostname;
     private List<DNotification> alerts = new ArrayList<DNotification>();
 
     public String getId() {
@@ -17,12 +17,12 @@ public class Target {
         this.id = id;
     }
 
-    public String getInstance() {
-        return instance;
+    public String getHostname() {
+        return hostname;
     }
 
-    public void setInstance(String instance) {
-        this.instance = instance;
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
     public List<DNotification> getAlerts() {
@@ -41,7 +41,7 @@ public class Target {
     public String toString() {
         return "Target{" +
                 "id='" + id + '\'' +
-                ", instance='" + instance + '\'' +
+                ", hostname='" + hostname + '\'' +
                 ", alerts=" + alerts +
                 '}';
     }

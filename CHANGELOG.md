@@ -10,6 +10,7 @@
 * [ENHANCEMENT] URLs without .xhtml extension
 * [ENHANCEMENT] Added timestamp of first occurrence of alert
 * [ENHANCEMENT] Update timestamp of last occurrence of alert
+* [ENHANCEMENT] Strip instance down to hostname
 * [ENHANCEMENT] Supported new labels `team`, `currentValue`, `url`, `eventType`, `probableCause`
 * [BUGFIX] Fixed exception when removing obsolete tags if there are no more alerts
 

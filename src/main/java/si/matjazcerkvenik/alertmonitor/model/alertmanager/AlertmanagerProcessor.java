@@ -69,6 +69,7 @@ public class AlertmanagerProcessor {
             n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
             n.setInfo(a.getLabels().getOrDefault("info", "-"));
             n.setInstance(a.getLabels().getOrDefault("instance", "-"));
+            n.setHostname(stripInstance(n.getInstance()));
             n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
             n.setJob(a.getLabels().getOrDefault("job", "-"));
             n.setTags(a.getLabels().getOrDefault("tags", ""));
@@ -126,6 +127,22 @@ public class AlertmanagerProcessor {
 
         return notifs;
 
+    }
+
+    /**
+     * Remove leading protocol (eg. http://) and trailing port (eg. :8080).
+     * @param instance
+     * @return hostname
+     */
+    private static String stripInstance(String instance) {
+        String s = "";
+        // remove protocol
+        if (instance.contains(":\\/\\/")) {
+            s = instance.split(":\\/\\/")[1];
+        }
+        // remove port
+        s = instance.split(":")[0];
+        return s;
     }
 
     /**

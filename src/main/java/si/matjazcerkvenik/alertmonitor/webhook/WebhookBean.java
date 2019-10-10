@@ -254,8 +254,6 @@ public class WebhookBean {
                 }
             }
         }
-
-
 	}
 
 	private int getNumberOfSelectedTags() {

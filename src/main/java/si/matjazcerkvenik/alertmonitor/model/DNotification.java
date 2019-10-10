@@ -40,6 +40,9 @@ public class DNotification {
 	
 	/** Name or hostname of node */
 	private String nodename;
+
+	/** Instance without protocol and port */
+	private String hostname;
 	
 	/** Severity of notification */
 	private String severity;
@@ -170,6 +173,14 @@ public class DNotification {
 
 	public void setNodename(String nodename) {
 		this.nodename = nodename;
+	}
+
+	public String getHostname() {
+		return hostname;
+	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
 	}
 
 	public String getSeverity() {
