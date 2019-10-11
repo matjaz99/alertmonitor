@@ -137,11 +137,11 @@ public class AlertmanagerProcessor {
     private static String stripInstance(String instance) {
         String s = "";
         // remove protocol
-        if (instance.contains(":\\/\\/")) {
-            s = instance.split(":\\/\\/")[1];
+        if (instance.contains("://")) {
+            s = instance.split("://")[1];
         }
         // remove port
-        s = instance.split(":")[0];
+        s = s.split(":")[0];
         return s;
     }
 
