@@ -4,7 +4,7 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
-    <div style="float: left; border: 1px solid #555; margin: 5px; padding: 5px;">
+    <div style="float: left;" class="targetBorder">
 
 <!--        <h:outputLink value="/alertmonitor/hostname" >-->
 <!--            <h:outputText value="#{t.hostname}" style="color: #222222;"/>-->
@@ -16,7 +16,7 @@
 <!--        <p:link outcome="/alertmonitor/hostname/hostname.xhtml" value="#{t.hostname}">-->
 <!--            <f:param name="target_id" value="#{t.id}" />-->
 <!--        </p:link>-->
-        <h:link value = "#{t.hostname}" outcome = "/instance/instance">
+        <h:link value = "#{t.hostname}" outcome = "/targets/instance">
             <f:param name="target_id" value="#{t.id}" />
         </h:link>
         <hr/>

@@ -6,11 +6,11 @@
     <namespace>http://alertmonitor.io/facelets</namespace>
     <tag>
         <tag-name>tag</tag-name>
-        <source>tags/tag.xhtml</source>
+        <source>taglib/tag.xhtml</source>
     </tag>
     <tag>
         <tag-name>target</tag-name>
-        <source>tags/target.xhtml</source>
+        <source>taglib/target.xhtml</source>
     </tag>
     <tag>
         <tag-name>singletag</tag-name>

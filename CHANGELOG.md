@@ -1,18 +1,18 @@
-## 1.3.1-SNAPSHOT
+## 1.4.0
 
 * [CHANGE] Renamed label `sourceInfo` to `info`
 * [CHANGE] Annotation `summary` is ignored, all data should go to label `info`
 * [CHANGE] `description` is read from a label if exists, otherwise from annotation
-* [FEATURE] Target view (#10)
+* [FEATURE] Target view, strip instance down to hostname (#10)
+* [FEATURE] Show active alerts by targets
 * [FEATURE] Environment variable substitution (#11)
 * [FEATURE] Added small icon representing highest severity on targets
 * [ENHANCEMENT] Added security constraints for restricted access to some directories (web.xml)
 * [ENHANCEMENT] URLs without .xhtml extension
 * [ENHANCEMENT] Added timestamp of first occurrence of alert
 * [ENHANCEMENT] Update timestamp of last occurrence of alert
-* [ENHANCEMENT] Strip instance down to hostname
 * [ENHANCEMENT] Supported new labels `team`, `currentValue`, `url`, `eventType`, `probableCause`
-* [BUGFIX] Fixed exception when removing obsolete tags if there are no more alerts
+* [BUGFIX] Fixed exception when removing obsolete tags if there are no more active alerts
 
 ## 1.3.0 / 2019-09-27
 
