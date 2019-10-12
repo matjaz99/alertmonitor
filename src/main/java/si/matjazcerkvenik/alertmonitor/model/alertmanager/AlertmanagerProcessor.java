@@ -119,7 +119,8 @@ public class AlertmanagerProcessor {
             // set correlation ID
             n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
                     + n.getInfo()
-                    + n.getInstance()));
+                    + n.getInstance()
+                    + n.getJob()));
 
             notifs.add(n);
 

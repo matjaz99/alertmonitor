@@ -9,7 +9,7 @@
 
 Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing alerts.
 
-A webhook in Alertmonitor accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
+A built-in webhook accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
 
 If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
@@ -67,7 +67,7 @@ Alertmonitor recognizes the following labels:
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 
-> `correlationId` is defined by: `alertname`, `info` and `hostname`. Clear event should produce the same `correlationId`.
+> `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
 
 Example of alert rule in Prometheus (note the labels):
 

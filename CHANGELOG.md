@@ -1,3 +1,7 @@
+## 1.5.0-SNAPSHOT
+
+* [CHANGE] Added label `job` to calculate `correlationId`
+
 ## 1.4.0
 
 * [CHANGE] Renamed label `sourceInfo` to `info`
