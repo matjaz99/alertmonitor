@@ -110,6 +110,7 @@ public class DAO {
 
     public void updateActiveAlert(DNotification newNotif) {
         activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
+        activeAlerts.get(newNotif.getCorrelationId()).setUid(newNotif.getUid());
         int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
         activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
         activeAlerts.get(newNotif.getCorrelationId()).setCurrentValue(newNotif.getCurrentValue());
@@ -119,6 +120,13 @@ public class DAO {
         activeAlerts.remove(n.getCorrelationId());
         removeObsoleteTags();
         clearingEventCount++;
+    }
+
+    public DNotification getNotification(String id) {
+        for (DNotification n : journal) {
+            if (n.getUid().equals(id)) return n;
+        }
+        return null;
     }
 
     public void addTag(DTag tag) {

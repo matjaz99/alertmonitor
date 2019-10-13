@@ -1,0 +1,89 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="2" cellspacing="5" width="100%">
+
+				<h:outputText value="Alertname" />
+				<h:outputText value="#{alertBean.notif.alertname}" />
+
+				<h:outputText value="UID" />
+				<h:outputText value="#{alertBean.notif.uid}" />
+
+				<h:outputText value="correlationId" />
+				<h:outputText value="#{alertBean.notif.correlationId}" />
+
+				<h:outputText value="severity" />
+				<h:outputText value="#{alertBean.notif.severity}" />
+
+				<h:outputText value="priority" />
+				<h:outputText value="#{alertBean.notif.priority}" />
+
+				<h:outputText value="info" />
+				<h:outputText value="#{alertBean.notif.info}" />
+
+				<h:outputText value="job" />
+				<h:outputText value="#{alertBean.notif.job}" />
+
+				<h:outputText value="instance" />
+				<h:outputText value="#{alertBean.notif.instance}" />
+
+				<h:outputText value="nodename" />
+				<h:outputText value="#{alertBean.notif.nodename}" />
+
+				<h:outputText value="tags" />
+				<h:outputText value="#{alertBean.notif.tags}" />
+
+				<h:outputText value="description" />
+				<h:outputText value="#{alertBean.notif.description}" />
+
+				<h:outputText value="team" />
+				<h:outputText value="#{alertBean.notif.team}" />
+
+				<h:outputText value="eventType" />
+				<h:outputText value="#{alertBean.notif.eventType}" />
+
+				<h:outputText value="probableCause" />
+				<h:outputText value="#{alertBean.notif.probableCause}" />
+
+				<h:outputText value="currentValue" />
+				<h:outputText value="#{alertBean.notif.currentValue}" />
+
+				<h:outputText value="url" />
+				<h:outputText value="#{alertBean.notif.url}" />
+
+				<h:outputText value="userAgent" />
+				<h:outputText value="#{alertBean.notif.userAgent}" />
+
+				<h:outputText value="source" />
+				<h:outputText value="#{alertBean.notif.source}" />
+
+				<h:outputText value="firstTimestamp" />
+				<h:outputText value="#{alertBean.getFormatedTimestamp(notif.firstTimestamp)}" />
+
+				<h:outputText value="lastTimestamp" />
+				<h:outputText value="#{alertBean.getFormatedTimestamp(notif.lastTimestamp)}" />
+
+				<h:outputText value="counter" />
+				<h:outputText value="#{alertBean.notif.counter}" />
+
+				<h:outputText value="timestamp" />
+				<h:outputText value="#{alertBean.getFormatedTimestamp(notif.timestamp)}" />
+
+			</p:panelGrid>
+
+			<hr/>
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
