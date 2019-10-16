@@ -42,7 +42,6 @@ public class DAO {
 
     public static DAO getInstance() {
         if (instance == null) instance = new DAO();
-
         return instance;
     }
 

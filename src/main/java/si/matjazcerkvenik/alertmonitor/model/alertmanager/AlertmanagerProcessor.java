@@ -23,9 +23,9 @@ public class AlertmanagerProcessor {
 
         List<DNotification> dn = convertToDNotif(m, am);
         DAO.getInstance().addToJournal(dn);
+
         DAO.amMessagesReceivedCount++;
         DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
-
         DAO.lastEventTimestamp = System.currentTimeMillis();
 
         // correlation

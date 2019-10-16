@@ -94,6 +94,12 @@ public class DNotification {
 	public String getFormatedTimestamp() {
 		return DAO.getInstance().getFormatedTimestamp(timestamp);
 	}
+	public String getFormatedFirstTimestamp() {
+		return DAO.getInstance().getFormatedTimestamp(firstTimestamp);
+	}
+	public String getFormatedLastTimestamp() {
+		return DAO.getInstance().getFormatedTimestamp(lastTimestamp);
+	}
 
 	public int getCounter() {
 		return counter;
