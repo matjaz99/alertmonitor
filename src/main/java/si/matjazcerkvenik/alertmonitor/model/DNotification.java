@@ -64,6 +64,8 @@ public class DNotification {
 
 	/** Status of alert: firing or resolved */
 	private String status;
+
+	private String generatorUrl;
 	
 	
 	public String getUid() {
@@ -267,5 +269,43 @@ public class DNotification {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getGeneratorUrl() {
+		return generatorUrl;
+	}
+
+	public void setGeneratorUrl(String generatorUrl) {
+		this.generatorUrl = generatorUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "DNotification{" +
+				"uid='" + uid + '\'' +
+				", correlationId='" + correlationId + '\'' +
+				", timestamp=" + timestamp +
+				", counter=" + counter +
+				", firstTimestamp=" + firstTimestamp +
+				", lastTimestamp=" + lastTimestamp +
+				", source='" + source + '\'' +
+				", userAgent='" + userAgent + '\'' +
+				", alertname='" + alertname + '\'' +
+				", info='" + info + '\'' +
+				", job='" + job + '\'' +
+				", instance='" + instance + '\'' +
+				", nodename='" + nodename + '\'' +
+				", hostname='" + hostname + '\'' +
+				", severity='" + severity + '\'' +
+				", priority='" + priority + '\'' +
+				", tags='" + tags + '\'' +
+				", description='" + description + '\'' +
+				", team='" + team + '\'' +
+				", eventType='" + eventType + '\'' +
+				", probableCause='" + probableCause + '\'' +
+				", currentValue='" + currentValue + '\'' +
+				", url='" + url + '\'' +
+				", status='" + status + '\'' +
+				'}';
 	}
 }

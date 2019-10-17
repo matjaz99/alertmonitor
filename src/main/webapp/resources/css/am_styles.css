@@ -6,7 +6,7 @@ body {
 hr {
     border: 0;
     height: 1px;
-    background: #FF4500;
+    background: #222222;
 }
 .critical {
 	background-color: #ff0000 !important;

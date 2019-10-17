@@ -86,6 +86,7 @@ public class AlertmanagerProcessor {
                 n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
             }
             n.setStatus(a.getStatus());
+            n.setGeneratorUrl(a.getGeneratorURL());
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
@@ -123,6 +124,8 @@ public class AlertmanagerProcessor {
                     + n.getJob()));
 
             notifs.add(n);
+
+            DAO.getLogger().info(n.toString());
 
         }
 
