@@ -22,21 +22,23 @@ public class AlertmanagerProcessor {
         DAO.getLogger().info("Number of alerts: " + am.getAlerts().size());
 
         List<DNotification> dn = convertToDNotif(m, am);
-        DAO.getInstance().addToJournal(dn);
 
         DAO.amMessagesReceivedCount++;
-        DAO.journalReceivedCount = DAO.journalReceivedCount + dn.size();
         DAO.lastEventTimestamp = System.currentTimeMillis();
 
-        // correlation
         for (DNotification n : dn) {
 
+            DAO.getInstance().addToJournal(n);
+
+            DAO.journalReceivedCount++;
             AmMetrics.alertmonitor_journal_messages_total.labels(n.getSeverity()).inc();
 
-            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)) {
+            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
+                    || n.getSeverity().equals(Severity.INDETERMINATE)) {
                 continue;
             }
 
+            // correlation
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                 if (n.getSeverity().equalsIgnoreCase(Severity.CLEAR)) {
                     DAO.getInstance().removeActiveAlert(n);
@@ -107,6 +109,7 @@ public class AlertmanagerProcessor {
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
                     + n.hashCode()
                     + n.getPriority()
+                    + new Random().nextInt(9999999)
                     + n.getAlertname()
                     + new Random().nextInt(9999999)
                     + n.getInfo()
@@ -115,6 +118,7 @@ public class AlertmanagerProcessor {
                     + n.getDescription()
                     + new Random().nextInt(9999999)
                     + n.getSource()
+                    + new Random().nextInt(9999999)
                     + n.getUserAgent()));
 
             // set correlation ID

@@ -70,11 +70,11 @@ public class DAO {
         return journal;
     }
 
-    public void addToJournal(List<DNotification> notifList) {
+    public void addToJournal(DNotification notif) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
             DNotification m = journal.remove(0);
         }
-        this.journal.addAll(notifList);
+        this.journal.add(notif);
     }
 
     public Map<String, DNotification> getActiveAlerts() {
@@ -87,7 +87,8 @@ public class DAO {
 
         // add other labels directly into tags
         // eg: severity (but not clear and info), priority
-        if (!n.getSeverity().equals("clear") && !n.getSeverity().equals("informational")) {
+        if (!n.getSeverity().equals(Severity.CLEAR)
+                && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
             n.setTags(n.getTags() + "," + n.getSeverity());
         }
         n.setTags(n.getTags() + "," + n.getPriority());
