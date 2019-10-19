@@ -1,6 +1,8 @@
 ## 1.5.0-SNAPSHOT
 
 * [CHANGE] Added label `job` to calculate `correlationId`
+* [FEATURE] Alert view
+* [BUGFIX] Fixed timestamps in active alerts
 
 ## 1.4.0
 

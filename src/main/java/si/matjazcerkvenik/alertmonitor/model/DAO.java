@@ -91,14 +91,6 @@ public class DAO {
         n.setFirstTimestamp(n.getTimestamp());
         n.setLastTimestamp(n.getTimestamp());
 
-        // add other labels directly into tags
-        // eg: severity (but not clear and info), priority
-        if (!n.getSeverity().equals(Severity.CLEAR)
-                && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
-            n.setTags(n.getTags() + "," + n.getSeverity());
-        }
-        n.setTags(n.getTags() + "," + n.getPriority());
-
         activeAlerts.put(n.getCorrelationId(), n);
         raisingEventCount++;
 
@@ -120,11 +112,6 @@ public class DAO {
         newNotif.setLastTimestamp(newNotif.getTimestamp());
         newNotif.setCounter(existingNotif.getCounter() + 1);
         activeAlerts.put(newNotif.getCorrelationId(), newNotif);
-//        activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
-//        activeAlerts.get(newNotif.getCorrelationId()).setUid(newNotif.getUid());
-//        int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
-//        activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
-//        activeAlerts.get(newNotif.getCorrelationId()).setCurrentValue(newNotif.getCurrentValue());
     }
 
     public void removeActiveAlert(DNotification n) {

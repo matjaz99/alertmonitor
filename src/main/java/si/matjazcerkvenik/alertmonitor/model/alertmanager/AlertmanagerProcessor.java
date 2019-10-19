@@ -95,6 +95,14 @@ public class AlertmanagerProcessor {
                 }
             }
 
+            // add other labels directly into tags
+            // eg: severity (but not clear and info), priority
+            if (!n.getSeverity().equals(Severity.CLEAR)
+                    && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
+                n.setTags(n.getTags() + "," + n.getSeverity());
+            }
+            n.setTags(n.getTags() + "," + n.getPriority());
+
             // environment variable substitution
             n.setNodename(substitute(n.getNodename()));
             n.setInfo(substitute(n.getInfo()));
