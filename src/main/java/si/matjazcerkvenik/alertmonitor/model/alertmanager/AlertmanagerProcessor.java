@@ -30,9 +30,6 @@ public class AlertmanagerProcessor {
 
             DAO.getInstance().addToJournal(n);
 
-            DAO.journalReceivedCount++;
-            AmMetrics.alertmonitor_journal_messages_total.labels(n.getSeverity()).inc();
-
             if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
                     || n.getSeverity().equals(Severity.INDETERMINATE)) {
                 continue;

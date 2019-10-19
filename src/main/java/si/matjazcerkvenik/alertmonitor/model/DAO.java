@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -73,8 +74,12 @@ public class DAO {
     public void addToJournal(DNotification notif) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
             DNotification m = journal.remove(0);
+            getLogger().info("Removing from journal: " + m.getUid());
         }
-        this.journal.add(notif);
+        journal.add(notif);
+        getLogger().info("Adding to journal: " + notif.getUid());
+        journalReceivedCount++;
+        AmMetrics.alertmonitor_journal_messages_total.labels(notif.getSeverity()).inc();
     }
 
     public Map<String, DNotification> getActiveAlerts() {
@@ -84,6 +89,7 @@ public class DAO {
     public void addActiveAlert(DNotification n) {
 
         n.setFirstTimestamp(n.getTimestamp());
+        n.setLastTimestamp(n.getTimestamp());
 
         // add other labels directly into tags
         // eg: severity (but not clear and info), priority
@@ -109,11 +115,16 @@ public class DAO {
     }
 
     public void updateActiveAlert(DNotification newNotif) {
-        activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
-        activeAlerts.get(newNotif.getCorrelationId()).setUid(newNotif.getUid());
-        int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
-        activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
-        activeAlerts.get(newNotif.getCorrelationId()).setCurrentValue(newNotif.getCurrentValue());
+        DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
+        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
+        newNotif.setLastTimestamp(newNotif.getTimestamp());
+        newNotif.setCounter(existingNotif.getCounter() + 1);
+        activeAlerts.put(newNotif.getCorrelationId(), newNotif);
+//        activeAlerts.get(newNotif.getCorrelationId()).setLastTimestamp(newNotif.getTimestamp());
+//        activeAlerts.get(newNotif.getCorrelationId()).setUid(newNotif.getUid());
+//        int c = activeAlerts.get(newNotif.getCorrelationId()).getCounter();
+//        activeAlerts.get(newNotif.getCorrelationId()).setCounter(c + 1);
+//        activeAlerts.get(newNotif.getCorrelationId()).setCurrentValue(newNotif.getCurrentValue());
     }
 
     public void removeActiveAlert(DNotification n) {
@@ -137,6 +148,9 @@ public class DAO {
         return new ArrayList<DTag>(tagMap.values());
     }
 
+    /**
+     * Remove tags which have no active alerts left
+     */
     private void removeObsoleteTags() {
         Map<String, Object> allTags = new HashMap<String, Object>();
         for (DNotification n : activeAlerts.values()) {

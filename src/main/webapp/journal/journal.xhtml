@@ -31,7 +31,10 @@
 						</p:column>
 
 						<p:column headerText="Alert name" sortBy="#{j.alertname}">
-							<h:outputText value="#{j.alertname}" />
+							<!--<h:outputText value="#{j.alertname}" />-->
+							<h:link value = "#{j.alertname}" outcome = "/alert/alert">
+								<f:param name="uid" value="#{j.uid}" />
+							</h:link>
 						</p:column>
 
 						<p:column headerText="Info" sortBy="#{j.info}">
@@ -70,9 +73,6 @@
 					<p:poll interval="60" update="messagesTable" />
 				</h:form>
 			</p:panelGrid>
-
-			<hr/>
-
 
 		</ui:define>
 	</div>
