@@ -61,14 +61,12 @@ public class DAO {
             WebhookMessage m = webhookMessages.remove(0);
         }
         webhookMessages.add(message);
+        webhookMessagesReceivedCount++;
+        AmMetrics.alertmonitor_webhook_messages_received_total.labels(message.getRemoteHost(), message.getMethod().toUpperCase()).inc();
     }
 
     public List<WebhookMessage> getWebhookMessages() {
         return webhookMessages;
-    }
-
-    public List<DNotification> getJournal() {
-        return journal;
     }
 
     public void addToJournal(DNotification notif) {
@@ -82,8 +80,8 @@ public class DAO {
         AmMetrics.alertmonitor_journal_messages_total.labels(notif.getSeverity()).inc();
     }
 
-    public Map<String, DNotification> getActiveAlerts() {
-        return activeAlerts;
+    public List<DNotification> getJournal() {
+        return journal;
     }
 
     public void addActiveAlert(DNotification n) {
@@ -106,20 +104,6 @@ public class DAO {
 
     }
 
-    public void updateActiveAlert(DNotification newNotif) {
-        DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
-        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
-        newNotif.setLastTimestamp(newNotif.getTimestamp());
-        newNotif.setCounter(existingNotif.getCounter() + 1);
-        activeAlerts.put(newNotif.getCorrelationId(), newNotif);
-    }
-
-    public void removeActiveAlert(DNotification n) {
-        activeAlerts.remove(n.getCorrelationId());
-        removeObsoleteTags();
-        clearingEventCount++;
-    }
-
     public DNotification getNotification(String id) {
         for (DNotification n : journal) {
             if (n.getUid().equals(id)) return n;
@@ -127,12 +111,24 @@ public class DAO {
         return null;
     }
 
-    public void addTag(DTag tag) {
-        tagMap.putIfAbsent(tag.getName(), tag);
+    public Map<String, DNotification> getActiveAlerts() {
+        return activeAlerts;
     }
 
-    public List<DTag> getTags() {
-        return new ArrayList<DTag>(tagMap.values());
+    public void updateActiveAlert(DNotification newNotif) {
+        DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
+        // get some variables from existing alert
+        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
+        newNotif.setLastTimestamp(newNotif.getTimestamp());
+        newNotif.setCounter(existingNotif.getCounter() + 1);
+        // override existing alert with new alert
+        activeAlerts.put(newNotif.getCorrelationId(), newNotif);
+    }
+
+    public void removeActiveAlert(DNotification n) {
+        activeAlerts.remove(n.getCorrelationId());
+        removeObsoleteTags();
+        clearingEventCount++;
     }
 
     /**
@@ -159,6 +155,14 @@ public class DAO {
             }
         }
 
+    }
+
+    public void addTag(DTag tag) {
+        tagMap.putIfAbsent(tag.getName(), tag);
+    }
+
+    public List<DTag> getTags() {
+        return new ArrayList<DTag>(tagMap.values());
     }
 
     public String getFormatedTimestamp(long timestamp) {

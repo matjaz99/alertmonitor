@@ -93,9 +93,6 @@ public class WebhookServlet extends HttpServlet {
 		m.setParameterMap(generateParamMap(req));
 
 		DAO.getInstance().addWebhookMessage(m);
-		DAO.webhookMessagesReceivedCount++;
-
-		AmMetrics.alertmonitor_webhook_messages_received_total.labels(req.getRemoteHost(), req.getMethod().toUpperCase()).inc();
 
 		return m;
 	}
