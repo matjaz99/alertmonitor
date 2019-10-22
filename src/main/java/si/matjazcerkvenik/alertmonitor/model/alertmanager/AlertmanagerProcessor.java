@@ -113,17 +113,19 @@ public class AlertmanagerProcessor {
             // set unique ID of event
             n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
                     + n.hashCode()
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getPriority()
-                    + new Random().nextInt(9999999)
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getAlertname()
-                    + new Random().nextInt(9999999)
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getInfo()
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getInstance()
-                    + new Random().nextInt(9999999)
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getDescription()
-                    + new Random().nextInt(9999999)
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getSource()
-                    + new Random().nextInt(9999999)
+                    + new Random().nextInt(Integer.MAX_VALUE)
                     + n.getUserAgent()));
 
             // set correlation ID
