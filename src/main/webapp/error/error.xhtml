@@ -1,0 +1,27 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+				<h:outputText value="Error Code: #{errorHandler.statusCode}"></h:outputText>
+				<h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+				<h:outputText value="Exception Type: #{errorHandler.exceptionType}"></h:outputText>
+				<h:outputText value="Exception Calss: #{errorHandler.exception}"></h:outputText>
+				<h:outputText value="Request URI : #{errorHandler.requestURI}"></h:outputText>
+
+			</p:panelGrid>
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

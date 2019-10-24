@@ -12,7 +12,13 @@
         <welcome-file>tags.xhtml</welcome-file>
         <welcome-file>targets.xhtml</welcome-file>
         <welcome-file>alert.xhtml</welcome-file>
+        <welcome-file>error.xhtml</welcome-file>
     </welcome-file-list>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error</location>
+    </error-page>
 
     <!-- Define the JSF servlet (manages the request processing life cycle for JavaServer Faces) -->
     <servlet>
