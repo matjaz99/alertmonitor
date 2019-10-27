@@ -27,12 +27,10 @@
 		</div>
 
 		<div id="footerFrame">
-			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-				<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
-					<h:outputText value="Version: #{webhookBean.version}" />
-					<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
-				</p:notificationBar>
-			</h:panelGrid>
+			<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
+				<h:outputText value="Version: #{webhookBean.version}" />
+				<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
+			</p:notificationBar>
 		</div>
 		
 	</div>
