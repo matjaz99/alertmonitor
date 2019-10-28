@@ -6,9 +6,10 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Alertmonitor</title>
-	<h:outputStylesheet name="css/am_styles.css" />
 </h:head>
 <h:body>
+
+	<h:outputStylesheet name="css/am_styles.css" />
 
 	<div id="pageFrame">
 		
@@ -27,11 +28,15 @@
 		</div>
 
 		<div id="footerFrame">
-			<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
-				<h:outputText value="Version: #{webhookBean.version}" />
-				<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
-			</p:notificationBar>
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+
+			</h:panelGrid>
 		</div>
+
+		<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
+			<h:outputText value="Version: #{webhookBean.version}" />
+			<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
+		</p:notificationBar>
 		
 	</div>
 
