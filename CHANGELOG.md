@@ -2,6 +2,7 @@
 
 * [CHANGE] Added label `job` to calculate `correlationId`
 * [FEATURE] Alert view
+* [FEATURE] Growl notifications
 * [BUGFIX] Fixed timestamps in active alerts
 
 ## 1.4.0

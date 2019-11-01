@@ -24,8 +24,8 @@ public class AlertBean {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = requestParameterMap.getOrDefault("uid", "null");
         notif = DAO.getInstance().getNotification(id);
-        //if (notif == null) throw new Exception();
-        DAO.getLogger().info("Found alert: " + notif.toString());
+        if (notif == null) Growl.showWarningGrowl("Object not found", null);
+        //DAO.getLogger().info("Found alert: " + notif.toString());
     }
 
     public DNotification getNotif() {
