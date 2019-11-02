@@ -13,11 +13,12 @@ A built-in webhook accepts any HTTP GET or POST request that comes on URI endpoi
 
 If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
-Alertmonitor provides three views:
+Alertmonitor provides the following views:
 - Webhook - any http get or post request that is received on webhook
 - Journal - history of all events
 - Active - only active alerts
 - Targets - alerts sorted by targets
+- Statistics - some information
 
 Alertmonitor correlates alerts firing and resolving to display active alarms (ie. alarms which haven't received clear yet).
 

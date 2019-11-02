@@ -5,7 +5,7 @@
     <!-- File(s) appended to a request for a URL that is not mapped to a web component -->
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
-        <welcome-file>home.xhtml</welcome-file>
+        <welcome-file>stats.xhtml</welcome-file>
         <welcome-file>active.xhtml</welcome-file>
         <welcome-file>journal.xhtml</welcome-file>
         <welcome-file>raw.xhtml</welcome-file>
