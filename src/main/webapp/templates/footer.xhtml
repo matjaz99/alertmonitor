@@ -1,0 +1,17 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<br/><br/><br/>
+	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+
+		<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
+			<h:outputText value="Version: #{webhookBean.version}" />
+			<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
+		</p:notificationBar>
+
+	</h:panelGrid>
+    
+</ui:composition>
