@@ -1,4 +1,4 @@
-## 1.5.0-SNAPSHOT
+## 1.5.0 / 2019-11-3
 
 * [CHANGE] Added label `job` to calculate `correlationId`
 * [FEATURE] Alert view
@@ -7,7 +7,7 @@
 * [BUGFIX] Fixed timestamps in active alerts
 * [BUGFIX] Fixed updating active alerts
 
-## 1.4.0
+## 1.4.0 / 2019-10-12
 
 * [CHANGE] Renamed label `sourceInfo` to `info`
 * [CHANGE] Annotation `summary` is ignored, all data should go to label `info`
