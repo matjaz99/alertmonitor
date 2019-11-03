@@ -9,6 +9,8 @@ import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class AlertmanagerProcessor {
@@ -156,6 +158,14 @@ public class AlertmanagerProcessor {
         }
         // remove port
         instance = instance.split(":")[0];
+        // resolve to IP address
+//        try {
+//            InetAddress address = InetAddress.getByName(instance);
+//            instance = address.getHostAddress();
+//        } catch (UnknownHostException e) {
+//            // nothing to do, leave as it is
+//            DAO.getLogger().warn("Cannot resolve: " + instance);
+//        }
         return instance;
     }
 

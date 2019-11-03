@@ -41,7 +41,7 @@ public class DNotification {
 	/** Name or hostname of node */
 	private String nodename;
 
-	/** Instance without protocol and port */
+	/** Instance without protocol and port, resolved to IP address */
 	private String hostname;
 	
 	/** Severity of notification */

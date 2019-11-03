@@ -29,12 +29,7 @@
 
 					<p:dataTable id="messagesTable" widgetVar="activeTable"
 								 value="#{webhookBean.activeAlarms}" var="n"
-								 rows="100"
-								 paginator="true"
-								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								 rowsPerPageTemplate="100,500,1000"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
-								 sortMode="multiple"
 								 rowStyleClass="#{n.severity}"
 								 cellpadding="0" cellspacing="0" width="100%">
 

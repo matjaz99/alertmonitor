@@ -54,11 +54,7 @@
 						</p:column>
 
 						<p:column headerText="Severity" sortBy="#{j.severity}">
-							<h:outputText value="#{j.severity}" />
-						</p:column>
-
-						<p:column headerText="Priority" sortBy="#{j.priority}">
-							<h:outputText value="#{j.priority}" />
+							<h:outputText value="#{j.severity} / #{j.priority}" />
 						</p:column>
 
 						<p:column headerText="Tags" sortBy="#{j.tags}">

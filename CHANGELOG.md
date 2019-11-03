@@ -3,7 +3,9 @@
 * [CHANGE] Added label `job` to calculate `correlationId`
 * [FEATURE] Alert view
 * [FEATURE] Growl notifications
+* [ENHANCEMENT] Resolving instances to IP addresses
 * [BUGFIX] Fixed timestamps in active alerts
+* [BUGFIX] Fixed updating active alerts
 
 ## 1.4.0
 

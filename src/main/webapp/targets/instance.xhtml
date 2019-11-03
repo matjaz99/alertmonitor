@@ -1,5 +1,6 @@
 <ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
@@ -10,26 +11,23 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 
-				<h:outputText value="Target: #{targetBean.target.hostname}" style="color: #222222;"/>
+				<h:outputText value="Target: #{targetBean.target.hostname}" style="color: #222222; font-size: 18px;"/>
 
 				<h:form>
 				<p:dataTable id="tAlertsTable" widgetVar="notifsTable"
 							 value="#{targetBean.targetActiveAlarms}" var="a"
-							 rows="100"
-							 paginator="true"
-							 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							 rowsPerPageTemplate="100,500,1000"
 							 stickyHeader="true" stickyTopAt=".layout-topbar"
-							 sortMode="multiple"
 							 rowStyleClass="#{a.severity}"
 							 cellpadding="0" cellspacing="0" width="100%">
 
-				<p:column headerText="Time" sortBy="#{a.timestamp}">
-					<h:outputText value="#{a.formatedTimestamp}" />
-				</p:column>
+					<p:column headerText="Time" sortBy="#{a.timestamp}">
+						<h:outputText value="#{a.formatedTimestamp}" />
+					</p:column>
 
 					<p:column headerText="Alert name" sortBy="#{a.alertname}">
-						<h:outputText value="#{a.alertname}" />
+						<h:link value = "#{a.alertname}" outcome = "/alert/alert">
+							<f:param name="uid" value="#{a.uid}" />
+						</h:link>
 					</p:column>
 
 					<p:column headerText="Info" sortBy="#{a.info}">
