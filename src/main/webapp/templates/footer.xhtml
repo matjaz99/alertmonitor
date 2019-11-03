@@ -10,6 +10,7 @@
 		<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
 			<h:outputText value="Version: #{webhookBean.version}" />
 			<h:outputText value=" | IP Address: #{webhookBean.localIpAddress}" />
+			<h:outputText value=" | Containerized: #{webhookBean.containerized}" />
 		</p:notificationBar>
 
 	</h:panelGrid>

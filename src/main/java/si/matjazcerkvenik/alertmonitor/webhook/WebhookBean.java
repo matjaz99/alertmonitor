@@ -40,6 +40,8 @@ public class WebhookBean {
 		return DAO.version;
 	}
 
+	public boolean isContainerized() { return DAO.isContainerized; }
+
 	public String getLocalIpAddress() {
 		return DAO.getInstance().getLocalIpAddress();
 	}

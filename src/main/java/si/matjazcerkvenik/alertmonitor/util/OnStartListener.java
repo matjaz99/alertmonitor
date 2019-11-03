@@ -35,7 +35,8 @@ public class OnStartListener implements ServletContextListener {
             e.printStackTrace();
         }
 
-        DAO.getLogger().info("\n*********************************************");
+        DAO.getLogger().info("\n");
+        DAO.getLogger().info("*********************************************");
         DAO.getLogger().info("*                                           *");
         DAO.getLogger().info("*            Alertmonitor started           *");
         DAO.getLogger().info("*                                           *");
@@ -64,8 +65,10 @@ public class OnStartListener implements ServletContextListener {
         try (Stream< String > stream =
                  Files.lines(Paths.get("/proc/1/cgroup"))) {
             DAO.getLogger().info("Running in container: " + stream.anyMatch(line -> line.contains("/docker")));
+            DAO.isContainerized = true;
         } catch (IOException e) {
             DAO.getLogger().info("Running in container: false");
+            DAO.isContainerized = false;
         }
 
     }

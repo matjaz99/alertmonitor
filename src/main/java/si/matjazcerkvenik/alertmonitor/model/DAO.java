@@ -17,6 +17,7 @@ public class DAO {
 
     public static long startUpTime = 0;
     public static String version = "n/a";
+    public static boolean isContainerized = false;
 
     private static DAO instance;
     private static int WEBHOOK_TABLE_SIZE = 5000;
