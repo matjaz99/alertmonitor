@@ -9,7 +9,7 @@ public class TagColors {
             "Plum", "Orchid", "MediumOrchid", "MediumPurple", "GreenYellow",
             "Chartreuse", "PaleGreen", "SpringGreen", "MediumSeaGreen", "YellowGreen",
             "OliveDrab", "Olive", "MediumAquamarine", "DarkCyan", "Cyan", "Aquamarine",
-            "DarkTurquoise", "PaleTurquoise", "SteelBlue", "LightBlue", "SkyBlue",
+            "DarkTurquoise", "PaleTurquoise", "LightBlue", "SkyBlue",
             "CornflowerBlue", "Cornsilk", "BlanchedAlmond", "NavajoWhite", "BurlyWood",
             "RosyBrown", "SandyBrown", "Goldenrod", "Peru", "Chocolate", "AntiqueWhite",
             "#7AB1D3", "#F1948A", "#BB8FCE", "#7FB3D5", "#EDBB99", "#AEB6BF", "#F0B27A",
@@ -18,7 +18,7 @@ public class TagColors {
             "#F9B386", "#F97583", "#B283D7", "#E0BFAA", "#DAE086", "#E286DA", "#FC99D5",
             "#C68F7F", "#F9DCF1", "#9585A3", "#BFB38F", "#AEFCE0", "#D7B2F9", "#94E9C0",
             "#8FFC9F", "#9495E0", "#95C0D3", "#CDCDD7", "#D7AEB1", "#F2B694", "#E9B388",
-            "#C68F7F", "#B1C6D7", "#B1F1DA", "#DC7FF1", "#ECE07F", "#909020"};
+            "#C68F7F", "#B1C6D7", "#B1F1DA", "#DC7FF1", "#ECE07F", "#909020", "#F1F1A1"};
 
     private static String[] niances = {
             "7A", "F1", "7F", "A0", "DA",

@@ -18,6 +18,7 @@ public class DAO {
     public static long startUpTime = 0;
     public static String version = "n/a";
     public static boolean isContainerized = false;
+    public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
 
     private static DAO instance;
     private static int WEBHOOK_TABLE_SIZE = 5000;
@@ -57,6 +58,10 @@ public class DAO {
         return logger;
     }
 
+    /**
+     * Add new webhook message to the list. Also delete oldest messages.
+     * @param message
+     */
     public void addWebhookMessage(WebhookMessage message) {
         while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {
             WebhookMessage m = webhookMessages.remove(0);
@@ -70,6 +75,10 @@ public class DAO {
         return webhookMessages;
     }
 
+    /**
+     * Add new notification to journal. Also delete oldest notifications.
+     * @param notif
+     */
     public void addToJournal(DNotification notif) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
             DNotification m = journal.remove(0);
@@ -81,10 +90,32 @@ public class DAO {
         AmMetrics.alertmonitor_journal_messages_total.labels(notif.getSeverity()).inc();
     }
 
+    /**
+     * Return whole journal
+     * @return list
+     */
     public List<DNotification> getJournal() {
         return journal;
     }
 
+    /**
+     * Get single notification from journal
+     * @param id
+     * @return notification
+     */
+    public DNotification getNotification(String id) {
+        for (DNotification n : journal) {
+            if (n.getUid().equals(id)) return n;
+        }
+        return null;
+    }
+
+    /**
+     * Add new alert to active alerts. This method is called when first alert
+     * of this type occurs (according to correlationId). First and last timestamps
+     * are set to time of reception (timestamp). Also new tags are added to tagMap.
+     * @param n
+     */
     public void addActiveAlert(DNotification n) {
 
         n.setFirstTimestamp(n.getTimestamp());
@@ -105,17 +136,24 @@ public class DAO {
 
     }
 
-    public DNotification getNotification(String id) {
-        for (DNotification n : journal) {
-            if (n.getUid().equals(id)) return n;
-        }
-        return null;
-    }
-
+    /**
+     * Return a map of active alerts
+     * @return map
+     */
     public Map<String, DNotification> getActiveAlerts() {
         return activeAlerts;
     }
 
+    /**
+     * New alert has appeared and must replace existing active alert. Since this
+     * is new occurrence of existing alert, the firstTimestamp is overwritten
+     * by existing firstTimestamp (time when alert occurred for the first time).
+     * The lastTimestamp is set to time of reception and counter is increased by 1
+     * (according to existing alert).
+     * Alert then finally replaces reference in activeAlert map so it points to new
+     * alert.
+     * @param newNotif
+     */
     public void updateActiveAlert(DNotification newNotif) {
         DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
         // get some variables from existing alert
@@ -126,14 +164,26 @@ public class DAO {
         activeAlerts.put(newNotif.getCorrelationId(), newNotif);
     }
 
+    /**
+     * Clear arrived and active alert must be removed. Before removing,
+     * all alerts in journal have clearTimestamp corrected to point to clear event.
+     * @param n
+     */
     public void removeActiveAlert(DNotification n) {
+        for (DNotification jNotif : journal) {
+            if (jNotif.getCorrelationId().equals(n.getCorrelationId())
+                    && jNotif.getClearTimestamp() == 0) {
+                jNotif.setClearTimestamp(n.getTimestamp());
+                jNotif.setClearUid(n.getUid());
+            }
+        }
         activeAlerts.remove(n.getCorrelationId());
         removeObsoleteTags();
         clearingEventCount++;
     }
 
     /**
-     * Remove tags which have no active alerts left
+     * Remove tags which have no active alerts left.
      */
     private void removeObsoleteTags() {
         Map<String, Object> allTags = new HashMap<String, Object>();
@@ -158,22 +208,39 @@ public class DAO {
 
     }
 
+    /**
+     * Add new tag if it does not exist yet.
+     * @param tag
+     */
     public void addTag(DTag tag) {
         tagMap.putIfAbsent(tag.getName(), tag);
     }
 
+    /**
+     * Return list of tags.
+     * @return list
+     */
     public List<DTag> getTags() {
         return new ArrayList<DTag>(tagMap.values());
     }
 
+    /**
+     * Format timestamp from millis into readable form.
+     * @param timestamp
+     * @return readable date
+     */
     public String getFormatedTimestamp(long timestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
-        String format = "yyyy/MM/dd H:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         return sdf.format(cal.getTime());
     }
 
+    /**
+     * Return a list of active alerts filtered by severity.
+     * @param severity
+     * @return list
+     */
     public List<DNotification> getActiveAlarmsList(String severity) {
         List<DNotification> list = activeAlerts.values().stream()
                 .filter(notif -> notif.getSeverity().equals(severity))
@@ -182,6 +249,10 @@ public class DAO {
 
     }
 
+    /**
+     * Return a list of targets with active alerts.
+     * @return list
+     */
     public List<Target> getTargets() {
         List<DNotification> list = new ArrayList<DNotification>(getActiveAlerts().values());
         Map<String, Target> targetsMap = new HashMap<String, Target>();

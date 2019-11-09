@@ -19,6 +19,9 @@ public class DNotification {
 
 	/** Timestamp of last occurrence */
 	private long lastTimestamp;
+
+	/** Timestamp when alert was cleared */
+	private long clearTimestamp;
 	
 	/** Source IP who sent the notification */
 	private String source;
@@ -49,6 +52,9 @@ public class DNotification {
 	
 	/** Urgency of notification */
 	private String priority;
+
+	/** UID of event that cleared the alert */
+	private String clearUid = "-";
 
 	/** Comma-separated list of custom tags (labels) */
 	private String tags;
@@ -102,6 +108,9 @@ public class DNotification {
 	public String getFormatedLastTimestamp() {
 		return DAO.getInstance().getFormatedTimestamp(lastTimestamp);
 	}
+	public String getFormatedClearTimestamp() {
+		return DAO.getInstance().getFormatedTimestamp(clearTimestamp);
+	}
 
 	public int getCounter() {
 		return counter;
@@ -125,6 +134,14 @@ public class DNotification {
 
 	public void setLastTimestamp(long lastTimestamp) {
 		this.lastTimestamp = lastTimestamp;
+	}
+
+	public long getClearTimestamp() {
+		return clearTimestamp;
+	}
+
+	public void setClearTimestamp(long clearTimestamp) {
+		this.clearTimestamp = clearTimestamp;
 	}
 
 	public String getSource() {
@@ -207,6 +224,14 @@ public class DNotification {
 		this.priority = priority;
 	}
 
+	public String getClearUid() {
+		return clearUid;
+	}
+
+	public void setClearUid(String clearUid) {
+		this.clearUid = clearUid;
+	}
+
 	public String getTags() {
 		return tags;
 	}
@@ -281,13 +306,14 @@ public class DNotification {
 
 	@Override
 	public String toString() {
-		return "DNotification{" +
+		return "DNotification {" +
 				"uid='" + uid + '\'' +
 				", correlationId='" + correlationId + '\'' +
 				", timestamp=" + timestamp +
 				", counter=" + counter +
 				", firstTimestamp=" + firstTimestamp +
 				", lastTimestamp=" + lastTimestamp +
+				", clearTimestamp=" + clearTimestamp +
 				", source='" + source + '\'' +
 				", userAgent='" + userAgent + '\'' +
 				", alertname='" + alertname + '\'' +
@@ -298,6 +324,7 @@ public class DNotification {
 				", hostname='" + hostname + '\'' +
 				", severity='" + severity + '\'' +
 				", priority='" + priority + '\'' +
+				", clearUid='" + clearUid + '\'' +
 				", tags='" + tags + '\'' +
 				", description='" + description + '\'' +
 				", team='" + team + '\'' +
@@ -306,6 +333,7 @@ public class DNotification {
 				", currentValue='" + currentValue + '\'' +
 				", url='" + url + '\'' +
 				", status='" + status + '\'' +
+				", generatorUrl='" + generatorUrl + '\'' +
 				'}';
 	}
 }

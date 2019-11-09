@@ -1,6 +1,7 @@
 ## 1.5.1-SNAPSHOT
 
-// TODO
+* [ENHANCEMENT] Added `clearTimestamp` and `clearUid` to alerts; timestamp when alert was cleared
+* [ENHANCEMENT] Added some javadoc
 
 ## 1.5.0 / 2019-11-3
 
