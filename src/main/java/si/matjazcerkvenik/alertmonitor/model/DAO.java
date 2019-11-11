@@ -177,6 +177,8 @@ public class DAO {
                 jNotif.setClearUid(n.getUid());
             }
         }
+        n.setFirstTimestamp(n.getTimestamp());
+        n.setLastTimestamp(n.getTimestamp());
         activeAlerts.remove(n.getCorrelationId());
         removeObsoleteTags();
         clearingEventCount++;
@@ -230,6 +232,7 @@ public class DAO {
      * @return readable date
      */
     public String getFormatedTimestamp(long timestamp) {
+        if (timestamp == 0) return "n/a";
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
