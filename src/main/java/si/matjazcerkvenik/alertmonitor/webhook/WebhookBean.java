@@ -296,7 +296,8 @@ public class WebhookBean {
 		if (critical > 0) return "bullet_red_mini.png";
 		if (major >  0) return "bullet_orange_mini.png";
 		if (minor > 0) return "bullet_orange_mini.png";
-		return "bullet_yellow_mini.png";
+		if (warning > 0) return "bullet_yellow_mini.png";
+		return "bullet_green_mini.png";
 	}
 
 

@@ -253,19 +253,21 @@ public class DAO {
     }
 
     /**
-     * Return a list of targets with active alerts.
+     * Return a list of targets from journal records. This will return also
+     * targets with no active alerts.
      * @return list
      */
     public List<Target> getTargets() {
-        List<DNotification> list = new ArrayList<DNotification>(getActiveAlerts().values());
         Map<String, Target> targetsMap = new HashMap<String, Target>();
 
-        for (DNotification n : list) {
+        for (DNotification n : journal) {
             String host = n.getHostname();
             Target t = targetsMap.getOrDefault(host, new Target());
             t.setHostname(host);
-            t.addAlert(n);
             t.setId(MD5Checksum.getMd5Checksum(host));
+            for (DNotification aa : getActiveAlerts().values()) {
+                if (aa.getHostname().equals(host)) t.addAlert(n);
+            }
             targetsMap.put(host, t);
         }
 

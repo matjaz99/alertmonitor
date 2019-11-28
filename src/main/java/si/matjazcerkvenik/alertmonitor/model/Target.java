@@ -1,13 +1,15 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Target {
 
     private String id;
     private String hostname;
-    private List<DNotification> alerts = new ArrayList<DNotification>();
+    private Map<String, DNotification> alerts = new HashMap<>();
 
     public String getId() {
         return id;
@@ -26,15 +28,11 @@ public class Target {
     }
 
     public List<DNotification> getAlerts() {
-        return alerts;
-    }
-
-    public void setAlerts(List<DNotification> alerts) {
-        this.alerts = alerts;
+        return new ArrayList<>(alerts.values());
     }
 
     public void addAlert(DNotification notification) {
-        alerts.add(notification);
+        if (!alerts.containsKey(notification.getUid())) alerts.put(notification.getUid(), notification);
     }
 
     @Override
