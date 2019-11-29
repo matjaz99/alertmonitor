@@ -266,7 +266,7 @@ public class DAO {
             t.setHostname(host);
             t.setId(MD5Checksum.getMd5Checksum(host));
             for (DNotification aa : getActiveAlerts().values()) {
-                if (aa.getHostname().equals(host)) t.addAlert(n);
+                if (aa.getUid().equals(n.getUid())) t.addAlert(n);
             }
             targetsMap.put(host, t);
         }
