@@ -60,13 +60,13 @@ Alertmonitor recognizes the following labels:
 | info        | Mandatory. Information about the alert. |
 | hostname    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return hostname, you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of hostname. Eg. hostname |
-| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Optionally you can append units (eg. % or MB).
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
 | url        | Optional. Custom URL that is related to alert. |
 | eventType   | Optional. Event type compliant with IUT-T X.733 recommendation |
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
+| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section but inside `annotations`!**
 
 > `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
 
@@ -86,7 +86,6 @@ groups:
       priority: low
       info: CPU alert for Node '{{ $labels.node_name }}'
       # optional labels
-      currentValue: '{{ humanize $value }}'
       nodename: '{{$labels.node_name}}'
       tags: hardware, cpu, overload
       team: Team1
@@ -97,6 +96,7 @@ groups:
     annotations:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
       summary: CPU alert for Node '{{ $labels.node_name }}'
+      currentValue: '{{ humanize $value }}'
 ```
 
 > For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.

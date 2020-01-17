@@ -79,7 +79,7 @@ public class AlertmanagerProcessor {
             n.setTeam(a.getLabels().getOrDefault("team", "unassigned"));
             n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
             n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
-            n.setCurrentValue(a.getLabels().getOrDefault("currentValue", "-"));
+            n.setCurrentValue(a.getAnnotations().getOrDefault("currentValue", "-"));
             n.setUrl(a.getLabels().getOrDefault("url", "-"));
             if (a.getLabels().containsKey("description")) {
                 n.setDescription(a.getLabels().getOrDefault("description", "-"));

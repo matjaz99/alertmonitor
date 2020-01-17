@@ -1,9 +1,11 @@
 ## 1.5.1-SNAPSHOT
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).
+* [CHANGE] `currentValue` moved to annotations (see bug below)
 * [ENHANCEMENT] Instance view shows active alerts and journal
 * [ENHANCEMENT] Added `clearTimestamp` and `clearUid` to alerts; timestamp when alert was cleared
 * [ENHANCEMENT] Added some javadoc
+* [BUG] Label may not contain a variable such as `currentValue`. Must be moved to `annotations`
 
 ## 1.5.0 / 2019-11-3
 
