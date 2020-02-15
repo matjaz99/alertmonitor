@@ -2,6 +2,7 @@
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).
 * [CHANGE] `currentValue` moved to annotations (see bug below)
+* [ENHANCEMENT] Show number of alerts in last hour in statistics
 * [ENHANCEMENT] Instance view shows active alerts and journal
 * [ENHANCEMENT] Added `clearTimestamp` and `clearUid` to alerts; timestamp when alert was cleared
 * [ENHANCEMENT] Added some javadoc

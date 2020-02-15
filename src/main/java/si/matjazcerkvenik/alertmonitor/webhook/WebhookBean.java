@@ -70,6 +70,19 @@ public class WebhookBean {
 		return DAO.clearingEventCount;
 	}
 
+	public int getNumberOfAlertsInLastHour() {
+		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
+		List<DNotification> result = list.stream()
+				.filter(notif -> checkIfYoungerThan(notif, 60))
+				.collect(Collectors.toList());
+		return result.size();
+	}
+
+	private boolean checkIfYoungerThan(DNotification notif, int minutes) {
+		if (System.currentTimeMillis() - notif.getTimestamp() < minutes * 60 * 1000) return true;
+		return false;
+	}
+
 	public List<WebhookMessage> getWebhookMessages() {
 		return DAO.getInstance().getWebhookMessages();
 	}

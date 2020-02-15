@@ -1,6 +1,7 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     
@@ -12,6 +13,9 @@
 			<p:menuitem value="Webhook" url="/raw" icon="ui-icon-arrowthickstop-1-e" />
 			<p:menuitem value="Targets" url="/targets" icon="ui-icon-calculator" />
 			<p:menuitem value="Statistics" url="/statistics" icon="ui-icon-comment" />
+			<f:facet name="options">
+				<p:inputText style="margin:1px 10px 1px 1px;" placeholder="Search (test)"/>
+			</f:facet>
     	</p:menubar>
     	
     </h:form>
