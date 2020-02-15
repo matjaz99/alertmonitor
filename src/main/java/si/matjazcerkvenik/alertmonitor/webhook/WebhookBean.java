@@ -78,6 +78,16 @@ public class WebhookBean {
 		return result.size();
 	}
 
+	public double getAlertsPerSecondInLastHour() {
+		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
+		List<DNotification> result = list.stream()
+				.filter(notif -> checkIfYoungerThan(notif, 60))
+				.collect(Collectors.toList());
+		int count = result.size();
+		double perSecond = count / 3600.0;
+		return perSecond;
+	}
+
 	private boolean checkIfYoungerThan(DNotification notif, int minutes) {
 		if (System.currentTimeMillis() - notif.getTimestamp() < minutes * 60 * 1000) return true;
 		return false;
