@@ -22,7 +22,7 @@
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
-					<h3>Statistics</h3>
+					<h3>Counters</h3>
 					<p:outputLabel value="WH msg count: #{webhookBean.whMsgCount}" />
 					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
 					<p:outputLabel value="Journal count: #{webhookBean.journalCount}" />
@@ -37,8 +37,8 @@
 					<p:outputLabel value="Up time: #{webhookBean.upTime}" />
 					<p:outputLabel value="Last event time: #{webhookBean.lastEventTime}" />
 					<p:outputLabel value="Time since last event: #{webhookBean.timeSinceLastEvent}" />
-					<p:outputLabel value="Alerts in last hour: #{webhookBean.numberOfAlertsInLastHour}" />
-					<p:outputLabel value="Alerts per second: #{webhookBean.alertsPerSecondInLastHour}" />
+					<p:outputLabel value="Events in last hour: #{webhookBean.numberOfAlertsInLastHour}" />
+					<p:outputLabel value="Avg. events per second: #{webhookBean.alertsPerSecondInLastHour}" />
 				</p:panelGrid>
 
 			</p:panelGrid>

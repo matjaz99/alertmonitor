@@ -78,14 +78,15 @@ public class WebhookBean {
 		return result.size();
 	}
 
-	public double getAlertsPerSecondInLastHour() {
+	public String getAlertsPerSecondInLastHour() {
 		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
 		List<DNotification> result = list.stream()
 				.filter(notif -> checkIfYoungerThan(notif, 60))
 				.collect(Collectors.toList());
 		int count = result.size();
 		double perSecond = count / 3600.0;
-		return perSecond;
+		DecimalFormat df2 = new DecimalFormat("#.###");
+		return df2.format(perSecond);
 	}
 
 	private boolean checkIfYoungerThan(DNotification notif, int minutes) {
