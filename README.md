@@ -66,7 +66,8 @@ Alertmonitor recognizes the following labels:
 | eventType   | Optional. Event type compliant with IUT-T X.733 recommendation |
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
-| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section but inside `annotations`!**
+| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section but inside `annotations`!** |
+| pendingDuration | Optional. Duration of alert in pending state (before firing) denoted by `{{ humanizeDuration $value }}` notation |
 
 > `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
 
@@ -97,6 +98,7 @@ groups:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
       summary: CPU alert for Node '{{ $labels.node_name }}'
       currentValue: '{{ humanize $value }}'
+      pendingDuration: '{{ humanizeDuration $value }}'
 ```
 
 > For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
@@ -172,6 +174,13 @@ Configure the log file location with environment variable `SIMPLELOGGER_FILENAME
 Rolling file policy can be also configured. For complete simple-logger configuration visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
 
 ## For developers
+
+### Development environment
+
+Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
+In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations dependency to pom.xml file.`
+
+### Simple-logger maven dependency
 
 Simple-logger is not available on Maven central repo. You can either build it on your own 
 or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.6.4.jar) 

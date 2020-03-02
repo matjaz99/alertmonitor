@@ -66,6 +66,7 @@ public class DNotification {
 	private String eventType;
 	private String probableCause;
 	private String currentValue;
+	private String pendingDuration;
 	private String url;
 
 	/** Status of alert: firing or resolved */
@@ -286,6 +287,14 @@ public class DNotification {
 
 	public void setCurrentValue(String currentValue) {
 		this.currentValue = currentValue;
+	}
+
+	public String getPendingDuration() {
+		return pendingDuration;
+	}
+
+	public void setPendingDuration(String pendingDuration) {
+		this.pendingDuration = pendingDuration;
 	}
 
 	public String getUrl() {

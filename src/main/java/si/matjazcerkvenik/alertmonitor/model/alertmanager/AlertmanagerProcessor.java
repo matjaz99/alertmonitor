@@ -80,6 +80,7 @@ public class AlertmanagerProcessor {
             n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
             n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
             n.setCurrentValue(a.getAnnotations().getOrDefault("currentValue", "-"));
+            n.setPendingDuration(a.getAnnotations().getOrDefault("pendingDuration", "-"));
             n.setUrl(a.getLabels().getOrDefault("url", "-"));
             if (a.getLabels().containsKey("description")) {
                 n.setDescription(a.getLabels().getOrDefault("description", "-"));
