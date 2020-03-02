@@ -16,6 +16,7 @@ services:
     environment:
       - SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log
       - GRAFANA_HOSTNAME=my.grafana.domain
+      - ALERTMONITOR_JOURNAL_SIZE=10000
     deploy:
       mode: replicated
       replicas: 1

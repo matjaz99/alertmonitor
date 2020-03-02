@@ -6,7 +6,8 @@
 * [ENHANCEMENT] Instance view shows active alerts and journal
 * [ENHANCEMENT] Added `clearTimestamp` and `clearUid` to alerts; timestamp when alert was cleared
 * [ENHANCEMENT] Added some javadoc
-* [ENHANCEMENT] Support annotation `pendingDuration`
+* [ENHANCEMENT] Support annotation `pendingDuration` (#15)
+* [ENHANCEMENT] Configure the journal size with `ALERTMONITOR_JOURNAL_SIZE` environment variable (#13)
 * [BUG] Label may not contain a variable such as `currentValue`. Must be moved to `annotations`
 
 ## 1.5.0 / 2019-11-3

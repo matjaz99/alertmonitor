@@ -45,6 +45,11 @@ public class DAO {
 
     public static DAO getInstance() {
         if (instance == null) instance = new DAO();
+        try {
+            JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "5000"));
+        } catch (NumberFormatException e) {
+            JOURNAL_TABLE_SIZE = 5000;
+        }
         return instance;
     }
 
