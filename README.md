@@ -67,7 +67,6 @@ Alertmonitor recognizes the following labels:
 | probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 | currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section but inside `annotations`!** |
-| pendingDuration | Optional. Duration of alert in pending state (before firing) denoted by `{{ humanizeDuration $value }}` notation |
 
 > `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
 
@@ -98,7 +97,6 @@ groups:
       description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
       summary: CPU alert for Node '{{ $labels.node_name }}'
       currentValue: '{{ humanize $value }}'
-      pendingDuration: '{{ humanizeDuration $value }}'
 ```
 
 > For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
