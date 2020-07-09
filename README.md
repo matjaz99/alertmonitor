@@ -18,9 +18,9 @@ Alertmonitor provides the following views:
 - Journal - history of all events
 - Active - only active alerts
 - Targets - alerts sorted by targets
-- Statistics - some information
+- Statistics - general information
 
-Alertmonitor correlates alerts firing and resolving to display active alarms (ie. alarms which haven't received clear yet).
+Alertmonitor correlates firing alerts and resolving alerts to display current state of active alarms.
 
 Alerts can easily be filtered by tags.
 
@@ -47,7 +47,7 @@ Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/al
 
 ## Configure alerts in Prometheus
 
-Alertmonitor relies on properly configured labels in Prometheus alert rules .
+Alertmonitor relies on properly configured labels in Prometheus alert rules.
 
 #### Labeling alerts
 
@@ -57,16 +57,16 @@ Alertmonitor recognizes the following labels:
 |-------------|-------------------------|
 | severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| info        | Mandatory. Information about the alert. |
-| hostname    | Mandatory. Instance is usually included in metric, but sometimes if alert rule doesn't return hostname, you can provide its value here by any other means. Usually IP address and port of exporter. |
+| info        | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
+| hostname    | Almost mandatory. `instance` is usually already included in metric, but sometimes if alert rule doesn't return hostname (eg. containers in swarm), you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of hostname. Eg. hostname |
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
 | url        | Optional. Custom URL that is related to alert. |
-| eventType   | Optional. Event type compliant with IUT-T X.733 recommendation |
-| probableCause | Optional. Probable cause compliant with IUT-T X.733 recommendation |
+| eventType   | Optional. Event type according to IUT-T X.733 recommendation |
+| probableCause | Optional. Probable cause according to IUT-T X.733 recommendation |
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
-| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section but inside `annotations`!** |
+| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!** |
 
 > `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
 
