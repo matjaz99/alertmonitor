@@ -158,6 +158,10 @@ public class AlertmanagerProcessor {
         }
         // remove port
         instance = instance.split(":")[0];
+
+        // remove relative URL
+        instance = instance.split("/")[0];
+
         // resolve to IP address
 //        try {
 //            InetAddress address = InetAddress.getByName(instance);
