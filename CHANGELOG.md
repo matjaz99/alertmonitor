@@ -1,10 +1,12 @@
 ## 1.5.3-SNAPSHOT
 
-* [ENHANCEMENT] Added ResyncTask
+* [FEATURE] Added ResyncTask for periodically checking active alerts
+* [FEATURE] Added environment variables for configuration: `ALERTMONITOR_RESYNC_INTERVAL_SEC`, `ALERTMONITOR_RESYNC_ENDPOINT`, `ALERTMONITOR_DATE_FORMAT`
+* [ENHANCEMENT] Added metric `alertmonitor_resync_task_total` to count number of executed resync tasks
 
 ## 1.5.2-SNAPSHOT
 
-???
+* [BUG] Strip hostname from instance
 
 ## 1.5.1-SNAPSHOT
 

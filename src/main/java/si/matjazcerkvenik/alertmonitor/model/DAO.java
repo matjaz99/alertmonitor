@@ -18,11 +18,14 @@ public class DAO {
     public static long startUpTime = 0;
     public static String version = "n/a";
     public static boolean isContainerized = false;
-    public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
 
     private static DAO instance;
-    private static int WEBHOOK_TABLE_SIZE = 5000;
-    private static int JOURNAL_TABLE_SIZE = 5000;
+
+    public static int WEBHOOK_TABLE_SIZE = 5000;
+    public static int JOURNAL_TABLE_SIZE = 5000;
+    public static int ALERTMONITOR_RESYNC_INTERVAL_SEC = 300;
+    public static String ALERTMONITOR_RESYNC_ENDPOINT = "http://localhost/prometheus/api/v1/query?query=ALERTS";
+    public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
 
     private List<WebhookMessage> webhookMessages = new LinkedList<WebhookMessage>();
     private List<DNotification> journal = new LinkedList<DNotification>();
@@ -45,11 +48,6 @@ public class DAO {
 
     public static DAO getInstance() {
         if (instance == null) instance = new DAO();
-        try {
-            JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "5000"));
-        } catch (NumberFormatException e) {
-            JOURNAL_TABLE_SIZE = 5000;
-        }
         return instance;
     }
 

@@ -42,4 +42,10 @@ public class AmMetrics {
             .help("Timestamp of last event (raise, clear or update)")
             .register();
 
+    public static final Counter alertmonitor_resync_task_total = Counter.build()
+            .name("alertmonitor_resync_task_total")
+            .help("Total number of executed resync tasks.")
+            .labelNames("result")
+            .register();
+
 }

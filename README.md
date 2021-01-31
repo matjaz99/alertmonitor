@@ -9,7 +9,7 @@
 
 Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing alerts.
 
-A built-in webhook accepts any HTTP GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`.
+A webhook accepts any HTTP GET or POST request that comes on endpoint: `/alertmonitor/webhook`.
 
 If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
@@ -22,14 +22,13 @@ Alertmonitor provides the following views:
 
 Alertmonitor correlates firing alerts and resolving alerts to display current state of active alarms.
 
-Alerts can easily be filtered by tags.
+Alerts can be filtered by tags.
 
-Alertmonitor GUI is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
 
 ![Alertmonitor](docs/overview.png)
 
 
-## Install
+## Quick start
 
 The easiest way to start using Alertmonitor is to deploy it on Docker.
 
@@ -39,11 +38,16 @@ Deploy container:
 docker run -d -p 8080:8080 matjaz99/alertmonitor:latest
 ```
 
+Alertmonitor is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
+
+
 There is also `docker-compose.yml` file for deployment in Swarm cluster.
 
-## Docker images
+
+### Docker images
 
 Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/alertmonitor](https://hub.docker.com/r/matjaz99/alertmonitor)
+
 
 ## Configure alerts in Prometheus
 
@@ -58,7 +62,7 @@ Alertmonitor recognizes the following labels:
 | severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
 | info        | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
-| hostname    | Almost mandatory. `instance` is usually already included in metric, but sometimes if alert rule doesn't return hostname (eg. containers in swarm), you can provide its value here by any other means. Usually IP address and port of exporter. |
+| hostname    | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return hostname (eg. containers in swarm), you can provide its value here by any other means. Usually IP address and port of exporter. |
 | nodename    | Optional. Descriptive name of hostname. Eg. hostname |
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | team        | Optional. Team responsible for this kind of alerts. |
@@ -81,12 +85,12 @@ groups:
     for: 1m
     labels:
       # mandatory labels
-      hostname: '{{$labels.hostname}}'
       severity: critical
       priority: low
       info: CPU alert for Node '{{ $labels.node_name }}'
       # optional labels
       nodename: '{{$labels.node_name}}'
+      hostname: '{{$labels.hostname}}'
       tags: hardware, cpu, overload
       team: Team1
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
@@ -104,7 +108,7 @@ groups:
 
 #### Configure webhook receiver in Alertmanager
 
-In order to send alerts to Alertmonitor, configure a receiver endpoint in `alertmanager.yml` configuration file.
+In order to receive alerts, configure an Alertmonitor receiver endpoint in `alertmanager.yml` configuration file.
 
 ```yaml
 route:
@@ -158,6 +162,7 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_active_alerts_count`
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
+- `alertmonitor_resync_task_total`
 
 Metrics are available on URI endpoint:
 
@@ -172,8 +177,6 @@ Configure the log file location with environment variable `SIMPLELOGGER_FILENAME
 Rolling file policy can be also configured. For complete simple-logger configuration visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
 
 ## For developers
-
-### Development environment
 
 Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations dependency to pom.xml file.`
@@ -195,6 +198,8 @@ Run the project with maven:
 ```
 mvn tomcat7:run
 ```
+
+### Docker
 
 Build docker image and push to docker hub:
 

@@ -1,6 +1,7 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.model.ResyncTask;
 import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -14,9 +15,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Timer;
 import java.util.stream.Stream;
 
 public class OnStartListener implements ServletContextListener {
+
+    private Timer resyncTimer = null;
+    private ResyncTask resyncTask = null;
+    private static int resyncInterval = 60;
 
 
     @Override
@@ -51,6 +57,12 @@ public class OnStartListener implements ServletContextListener {
             DAO.getLogger().info(entry.getKey() + "=" + entry.getValue());
         }
 
+        // read configuration from environment variables
+        DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "5000"));
+        DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_RESYNC_INTERVAL_SEC", "300"));
+        DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "https://localhost/prometheus/api/v1/query?query=ALERTS");
+        DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
+
         // runtime memory info
         int mb = 1024 * 1024;
         Runtime instance = Runtime.getRuntime();
@@ -71,11 +83,31 @@ public class OnStartListener implements ServletContextListener {
             DAO.isContainerized = false;
         }
 
+        // start resync timer
+        if (resyncTimer == null) {
+            DAO.getLogger().info("Start resync timer with period=" + resyncInterval);
+            if (resyncInterval > 0) {
+                resyncTimer = new Timer("ResyncTimer");
+                resyncTask = new ResyncTask();
+                resyncTimer.schedule(resyncTask, 15 * 1000, DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC * 1000);
+            }
+        }
+
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        // no implementation
+
+        if (resyncTimer != null) {
+            resyncTimer.cancel();
+            resyncTimer = null;
+        }
+        if (resyncTask != null) {
+            resyncTask.cancel();
+            resyncTask = null;
+        }
+
+
         DAO.getLogger().info("#");
         DAO.getLogger().info("# Stopping Alertmonitor");
         DAO.getLogger().info("#\n\n\n");

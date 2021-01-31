@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerResyncMessage;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.net.ssl.*;
@@ -19,8 +20,6 @@ public class ResyncTask extends TimerTask {
 
     private SimpleLogger logger = DAO.getLogger();
 
-    protected String alarmsEndpoint = "http://172.29.18.22/prometheus/api/v1/query?query=ALERTS";
-
     public static void main(String... args) {
         ResyncTask rt = new ResyncTask();
         rt.run();
@@ -29,7 +28,7 @@ public class ResyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("doResynchronization(): starting resynchronization");
+        logger.info("doResync(): starting resynchronization");
 
 //        if (tempListOfResyncAlarms == null) tempListOfResyncAlarms = new ArrayList<Alarm>();
 //        tempListOfResyncAlarms.clear();
@@ -39,26 +38,27 @@ public class ResyncTask extends TimerTask {
             OkHttpClient httpClient = instantiateHttpClient();
 
             Request request = new Request.Builder()
-                    .url(alarmsEndpoint)
+                    .url(DAO.ALERTMONITOR_RESYNC_ENDPOINT)
                     .addHeader("User-Agent", "Alertmonitor/v1")
                     .get()
                     .build();
 
-            logger.info("doResynchronization(): sending " + request.method().toUpperCase() + " " + alarmsEndpoint);
+            logger.info("doResync(): sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_RESYNC_ENDPOINT);
 
             String responseBody = null;
             Response response = httpClient.newCall(request).execute();
-            logger.info("doResynchronization(): response: errorcode=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("doResync(): response: errorcode=" + response.code() + ", success=" + response.isSuccessful());
             if (response.isSuccessful()) {
                 responseBody = response.body().string();
-                logger.info("doResynchronization(): response: " + responseBody);
+                logger.info("doResync(): response: " + responseBody);
+                AmMetrics.alertmonitor_resync_task_total.labels("Success").inc();
+            } else {
+                AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             }
 
             response.close();
 
             if (responseBody != null && responseBody.trim().length() > 0) {
-//                ObjectMapper objectMapper = new ObjectMapper();
-//                MetricsLibAlarm[] alarms = objectMapper.readValue(responseBody, MetricsLibAlarm[].class);
 
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
@@ -66,25 +66,29 @@ public class ResyncTask extends TimerTask {
 
                 System.out.println(arm.toString());
 //
-//                logger.info("doResynchronization(): received alarms: " + alarms.length);
+//                logger.info("doResync(): received alarms: " + alarms.length);
 //                for (int i = 0; i < alarms.length; i++) {
-//                    logger.info("doResynchronization(): " + alarms[i].toString());
+//                    logger.info("doResync(): " + alarms[i].toString());
 //                    tempListOfResyncAlarms.add(convertToAlarmObject(alarms[i]));
 //                }
 //                resynchronizeAlarms();
             }
 
         } catch (UnknownHostException e) {
-            logger.error("doResynchronization(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         } catch (SocketTimeoutException e) {
-            logger.error("doResynchronization(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         } catch (SocketException e) {
-            logger.error("doResynchronization(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         } catch (Exception e) {
-            logger.error("doResynchronization(): Failed to resynchronize alarms: ", e);
+            logger.error("doResync(): Failed to resynchronize alarms: ", e);
+            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         }
 
-        logger.warn("doResynchronization(): resynchronization on Prometheus is not fully supported yet");
+        logger.warn("doResync(): resynchronization on Prometheus is not fully supported yet");
 
 
 
@@ -94,7 +98,7 @@ public class ResyncTask extends TimerTask {
 
     public OkHttpClient instantiateHttpClient() {
 
-        if (!alarmsEndpoint.startsWith("https")) {
+        if (!DAO.ALERTMONITOR_RESYNC_ENDPOINT.startsWith("https")) {
             return new OkHttpClient();
         }
 
