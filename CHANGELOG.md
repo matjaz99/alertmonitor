@@ -1,3 +1,11 @@
+## 1.5.3-SNAPSHOT
+
+* [ENHANCEMENT] Added ResyncTask
+
+## 1.5.2-SNAPSHOT
+
+???
+
 ## 1.5.1-SNAPSHOT
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).
