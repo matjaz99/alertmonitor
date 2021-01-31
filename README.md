@@ -179,12 +179,12 @@ Rolling file policy can be also configured. For complete simple-logger configura
 ## For developers
 
 Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
-In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations dependency to pom.xml file.`
+In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
 
 ### Simple-logger maven dependency
 
 Simple-logger is not available on Maven central repo. You can either build it on your own 
-or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.6.4.jar) 
+or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar) 
 and then manually import it into your local repository:
 
 ```
