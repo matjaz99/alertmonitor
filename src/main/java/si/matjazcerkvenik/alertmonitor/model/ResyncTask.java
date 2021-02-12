@@ -5,8 +5,11 @@ import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerResyncMessage;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerResyncMetricObject;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.net.ssl.*;
@@ -14,6 +17,9 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.TimerTask;
 
 public class ResyncTask extends TimerTask {
@@ -21,6 +27,7 @@ public class ResyncTask extends TimerTask {
     private SimpleLogger logger = DAO.getLogger();
 
     public static void main(String... args) {
+        DAO.ALERTMONITOR_RESYNC_ENDPOINT = "http://pgcentos:9090/api/v1/query?query=ALERTS";
         ResyncTask rt = new ResyncTask();
         rt.run();
     }
@@ -64,14 +71,73 @@ public class ResyncTask extends TimerTask {
                 Gson gson = builder.create();
                 AlertmanagerResyncMessage arm = gson.fromJson(responseBody, AlertmanagerResyncMessage.class);
 
-                System.out.println(arm.toString());
-//
-//                logger.info("doResync(): received alarms: " + alarms.length);
-//                for (int i = 0; i < alarms.length; i++) {
-//                    logger.info("doResync(): " + alarms[i].toString());
-//                    tempListOfResyncAlarms.add(convertToAlarmObject(alarms[i]));
-//                }
-//                resynchronizeAlarms();
+                List<DNotification> resyncAlerts = new ArrayList<>();
+
+                logger.info("ALERT metrics: " + arm.getData().getResult().size());
+                for (AlertmanagerResyncMetricObject armo : arm.getData().getResult()) {
+                    logger.info(armo.toString());
+
+                    DNotification n = new DNotification();
+                    n.setAlertname(armo.getMetric().getAlertname());
+                    n.setSource("RESYNC");
+                    n.setUserAgent("Alertmonitor/v1");
+                    n.setInfo(armo.getMetric().getInfo());
+                    n.setInstance(armo.getMetric().getInstance());
+                    n.setHostname(AlertmanagerProcessor.stripInstance(armo.getMetric().getInstance()));
+                    n.setNodename(armo.getMetric().getNodename());
+                    n.setJob(armo.getMetric().getJob());
+                    n.setTags(armo.getMetric().getTags());
+                    n.setSeverity(armo.getMetric().getSeverity());
+                    n.setPriority(armo.getMetric().getPriority());
+                    n.setTeam(armo.getMetric().getTeam());
+                    n.setEventType(armo.getMetric().getEventType());
+                    n.setProbableCause(armo.getMetric().getProbableCause());
+                    n.setCurrentValue("n/a");
+                    n.setUrl(armo.getMetric().getUrl());
+                    n.setDescription(armo.getMetric().getDescription());
+
+                    // add other labels directly into tags
+                    // eg: severity (but not clear and info), priority
+                    if (!n.getSeverity().equals(Severity.CLEAR)
+                            && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
+                        n.setTags(n.getTags() + "," + n.getSeverity());
+                    }
+                    n.setTags(n.getTags() + "," + n.getPriority());
+
+                    // environment variable substitution
+                    n.setNodename(AlertmanagerProcessor.substitute(n.getNodename()));
+                    n.setInfo(AlertmanagerProcessor.substitute(n.getInfo()));
+                    n.setDescription(AlertmanagerProcessor.substitute(n.getDescription()));
+                    n.setTags(AlertmanagerProcessor.substitute(n.getTags()));
+                    n.setUrl(AlertmanagerProcessor.substitute(n.getUrl()));
+
+                    // set unique ID of event
+                    n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
+                            + n.hashCode()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getPriority()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getAlertname()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getInfo()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getInstance()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getDescription()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getSource()
+                            + new Random().nextInt(Integer.MAX_VALUE)
+                            + n.getUserAgent()));
+
+                    // set correlation ID
+                    n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
+                            + n.getInfo()
+                            + n.getInstance()
+                            + n.getJob()));
+
+                    resyncAlerts.add(n);
+                }
+
             }
 
         } catch (UnknownHostException e) {
@@ -85,10 +151,11 @@ public class ResyncTask extends TimerTask {
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         } catch (Exception e) {
             logger.error("doResync(): Failed to resynchronize alarms: ", e);
+            e.printStackTrace();
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         }
 
-        logger.warn("doResync(): resynchronization on Prometheus is not fully supported yet");
+        logger.error("doResync(): resynchronization on Prometheus is not fully supported yet");
 
 
 

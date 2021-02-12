@@ -1,8 +1,11 @@
 package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 
+import java.util.List;
+
 public class AlertmanagerResyncMetricObject {
 
     private AlertmanagerResyncAlert metric;
+    private List<Object> value;
 
     public AlertmanagerResyncAlert getMetric() {
         return metric;
@@ -12,10 +15,19 @@ public class AlertmanagerResyncMetricObject {
         this.metric = metric;
     }
 
+    public List<Object> getValue() {
+        return value;
+    }
+
+    public void setValue(List<Object> value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return "AlertmanagerResyncMetricObject{" +
                 "metric=" + metric +
+                ", value=" + value +
                 '}';
     }
 }

@@ -151,7 +151,10 @@ public class AlertmanagerProcessor {
      * @param instance
      * @return hostname
      */
-    private static String stripInstance(String instance) {
+    public static String stripInstance(String instance) {
+
+        if (instance == null) return instance;
+
         // remove protocol
         if (instance.contains("://")) {
             instance = instance.split("://")[1];
@@ -176,9 +179,9 @@ public class AlertmanagerProcessor {
     /**
      * This method does environment variable substitution
      */
-    private static String substitute(String s) {
+    public static String substitute(String s) {
 
-        if (!s.contains("${")) {
+        if (s == null || !s.contains("${")) {
             return s;
         }
 
