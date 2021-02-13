@@ -135,8 +135,16 @@ public class ResyncTask extends TimerTask {
                             + n.getInstance()
                             + n.getJob()));
 
-                    resyncAlerts.add(n);
+                    if (armo.getMetric().getAlertstate().equalsIgnoreCase("firing")) {
+                        resyncAlerts.add(n);
+                        logger.info(n.toString());
+                    }
+
                 }
+
+                logger.info("resync alerts count: " + resyncAlerts.size());
+
+
 
             }
 
