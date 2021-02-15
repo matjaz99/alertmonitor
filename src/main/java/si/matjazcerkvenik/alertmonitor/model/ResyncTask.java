@@ -138,6 +138,11 @@ public class ResyncTask extends TimerTask {
                     if (armo.getMetric().getAlertstate().equalsIgnoreCase("firing")) {
                         resyncAlerts.add(n);
                         logger.info(n.toString());
+                        if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
+                            logger.info("==> Alert [" + n.getCorrelationId() + "] already active");
+                        } else {
+                            logger.info("==> Alert [" + n.getCorrelationId() + "] not active");
+                        }
                     }
 
                 }

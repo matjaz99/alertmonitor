@@ -27,9 +27,10 @@ public class DAO {
     public static String ALERTMONITOR_RESYNC_ENDPOINT = "http://localhost/prometheus/api/v1/query?query=ALERTS";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
 
-    private List<WebhookMessage> webhookMessages = new LinkedList<WebhookMessage>();
-    private List<DNotification> journal = new LinkedList<DNotification>();
-    private Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
+    private List<WebhookMessage> webhookMessages = new LinkedList<>();
+    private List<DNotification> journal = new LinkedList<>();
+    /** Map of active alerts. Key is correlation id */
+    private Map<String, DNotification> activeAlerts = new HashMap<>();
 
     public static int webhookMessagesReceivedCount = 0;
     public static int amMessagesReceivedCount = 0;
@@ -39,7 +40,7 @@ public class DAO {
     public static int clearingEventCount = 0;
     public static long lastEventTimestamp = 0;
 
-    private Map<String, DTag> tagMap = new HashMap<String, DTag>();
+    private Map<String, DTag> tagMap = new HashMap<>();
 
     private String localIpAddress;
 
@@ -63,11 +64,11 @@ public class DAO {
 
     /**
      * Add new webhook message to the list. Also delete oldest messages.
-     * @param message
+     * @param message incoming message
      */
     public void addWebhookMessage(WebhookMessage message) {
         while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {
-            WebhookMessage m = webhookMessages.remove(0);
+            webhookMessages.remove(0);
         }
         webhookMessages.add(message);
         webhookMessagesReceivedCount++;
@@ -80,7 +81,7 @@ public class DAO {
 
     /**
      * Add new notification to journal. Also delete oldest notifications.
-     * @param notif
+     * @param notif notification
      */
     public void addToJournal(DNotification notif) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
@@ -103,7 +104,7 @@ public class DAO {
 
     /**
      * Get single notification from journal
-     * @param id
+     * @param id unique ID of notification
      * @return notification
      */
     public DNotification getNotification(String id) {
@@ -117,7 +118,7 @@ public class DAO {
      * Add new alert to active alerts. This method is called when first alert
      * of this type occurs (according to correlationId). First and last timestamps
      * are set to time of reception (timestamp). Also new tags are added to tagMap.
-     * @param n
+     * @param n notification
      */
     public void addActiveAlert(DNotification n) {
 
@@ -141,7 +142,7 @@ public class DAO {
 
     /**
      * Return a map of active alerts
-     * @return map
+     * @return map of all active alerts
      */
     public Map<String, DNotification> getActiveAlerts() {
         return activeAlerts;
