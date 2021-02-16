@@ -23,9 +23,8 @@ public class PrometheusMetricsServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
 
-        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
         AmMetrics.alertmonitor_active_alerts_count.clear();
         for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
             AmMetrics.alertmonitor_active_alerts_count.labels(n.getAlertname(), n.getSeverity()).inc();
@@ -56,7 +55,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         doGet(req, resp);
     }
 }

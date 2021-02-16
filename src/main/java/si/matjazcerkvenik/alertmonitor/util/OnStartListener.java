@@ -22,7 +22,7 @@ public class OnStartListener implements ServletContextListener {
 
     private Timer resyncTimer = null;
     private ResyncTask resyncTask = null;
-    private static int resyncInterval = 60;
+//    private static int resyncInterval = 60;
 
 
     @Override
@@ -83,10 +83,13 @@ public class OnStartListener implements ServletContextListener {
             DAO.isContainerized = false;
         }
 
+        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
+
         // start resync timer
         if (resyncTimer == null) {
-            DAO.getLogger().info("Start resync timer with period=" + resyncInterval);
-            if (resyncInterval > 0) {
+            DAO.getLogger().info("Set resync task with period=" + DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
+            AmMetrics.alertmonitor_resync_interval_seconds.set(DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
+            if (DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC > 0) {
                 resyncTimer = new Timer("ResyncTimer");
                 resyncTask = new ResyncTask();
                 resyncTimer.schedule(resyncTask, 15 * 1000, DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC * 1000);

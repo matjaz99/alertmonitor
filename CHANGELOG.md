@@ -1,8 +1,12 @@
+## 1.5.4-SNAPSHOT
+
+* [FEATURE] Resynchronize alerts
+
 ## 1.5.3-SNAPSHOT
 
 * [FEATURE] Added ResyncTask for periodically checking active alerts
 * [FEATURE] Added environment variables for configuration: `ALERTMONITOR_RESYNC_INTERVAL_SEC`, `ALERTMONITOR_RESYNC_ENDPOINT`, `ALERTMONITOR_DATE_FORMAT`
-* [ENHANCEMENT] Added metric `alertmonitor_resync_task_total` to count number of executed resync tasks
+* [ENHANCEMENT] Added metric `alertmonitor_resync_task_total` and `alertmonitor_resync_interval_seconds`
 
 ## 1.5.2-SNAPSHOT
 

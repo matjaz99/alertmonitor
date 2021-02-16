@@ -72,7 +72,9 @@ public class DNotification {
 	private String status;
 
 	private String generatorUrl;
-	
+
+	/** A helping flag to mark alert to be deleted after resync */
+	private boolean toBeDeleted = false;
 	
 	public String getUid() {
 		return uid;
@@ -302,6 +304,14 @@ public class DNotification {
 
 	public void setGeneratorUrl(String generatorUrl) {
 		this.generatorUrl = generatorUrl;
+	}
+
+	public boolean isToBeDeleted() {
+		return toBeDeleted;
+	}
+
+	public void setToBeDeleted(boolean toBeDeleted) {
+		this.toBeDeleted = toBeDeleted;
 	}
 
 	@Override

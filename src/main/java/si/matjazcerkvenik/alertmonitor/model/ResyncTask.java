@@ -72,6 +72,9 @@ public class ResyncTask extends TimerTask {
                 AlertmanagerResyncMessage arm = gson.fromJson(responseBody, AlertmanagerResyncMessage.class);
 
                 List<DNotification> resyncAlerts = new ArrayList<>();
+                for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
+                    n.setToBeDeleted(true);
+                }
 
                 logger.info("ALERT metrics: " + arm.getData().getResult().size());
                 for (AlertmanagerResyncMetricObject armo : arm.getData().getResult()) {
@@ -136,15 +139,28 @@ public class ResyncTask extends TimerTask {
                             + n.getJob()));
 
                     if (armo.getMetric().getAlertstate().equalsIgnoreCase("firing")) {
-                        resyncAlerts.add(n);
                         logger.info(n.toString());
                         if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                             logger.info("==> Alert [" + n.getCorrelationId() + "] already active");
+                            DAO.getInstance().getActiveAlerts().get(n.getCorrelationId()).setToBeDeleted(false);
                         } else {
                             logger.info("==> Alert [" + n.getCorrelationId() + "] not active");
+                            DAO.getInstance().addActiveAlert(n);
                         }
                     }
 
+                }
+
+                // clear those in activeAlerts which were not received toBeDeleted=true
+                // some java 8 trick for removing entries while iterating over map
+                // DAO.getInstance().getActiveAlerts().entrySet().removeIf(entry -> entry.getValue().isToBeDeleted());
+
+                List<String> cidToDelete = new ArrayList<>();
+                for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
+                    if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
+                }
+                for (String cid : cidToDelete) {
+                    DAO.getInstance().removeActiveAlert(DAO.getInstance().getActiveAlerts().get(cid));
                 }
 
                 logger.info("resync alerts count: " + resyncAlerts.size());
