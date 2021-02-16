@@ -160,12 +160,20 @@ public class DAO {
      */
     public void updateActiveAlert(DNotification newNotif) {
         DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
-        // get some variables from existing alert
-        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
-        newNotif.setLastTimestamp(newNotif.getTimestamp());
-        newNotif.setCounter(existingNotif.getCounter() + 1);
-        // override existing alert with new alert
-        activeAlerts.put(newNotif.getCorrelationId(), newNotif);
+        // update existing alert
+        existingNotif.setLastTimestamp(newNotif.getTimestamp());
+        if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
+            // don't count resync alerts
+            existingNotif.setCounter(existingNotif.getCounter() + 1);
+            existingNotif.setSource(newNotif.getSource());
+        }
+        if (!newNotif.getCurrentValue().equals("-")) {
+            existingNotif.setCurrentValue(newNotif.getCurrentValue());
+        }
+//        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
+//        newNotif.setLastTimestamp(newNotif.getTimestamp());
+//        newNotif.setCounter(existingNotif.getCounter() + 1);
+        activeAlerts.put(existingNotif.getCorrelationId(), existingNotif);
     }
 
     /**

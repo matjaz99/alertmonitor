@@ -71,16 +71,19 @@ public class ResyncTask extends TimerTask {
                 Gson gson = builder.create();
                 AlertmanagerResyncMessage arm = gson.fromJson(responseBody, AlertmanagerResyncMessage.class);
 
-                List<DNotification> resyncAlerts = new ArrayList<>();
+                // set flag toBeDeleted=true for all active alerts before executing resync
                 for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
                     n.setToBeDeleted(true);
                 }
+
+                List<DNotification> resyncAlerts = new ArrayList<>();
 
                 logger.info("ALERT metrics: " + arm.getData().getResult().size());
                 for (AlertmanagerResyncMetricObject armo : arm.getData().getResult()) {
                     logger.info(armo.toString());
 
                     DNotification n = new DNotification();
+                    n.setTimestamp(System.currentTimeMillis());
                     n.setAlertname(armo.getMetric().getAlertname());
                     n.setSource("RESYNC");
                     n.setUserAgent("Alertmonitor/v1");
@@ -95,7 +98,7 @@ public class ResyncTask extends TimerTask {
                     n.setTeam(armo.getMetric().getTeam());
                     n.setEventType(armo.getMetric().getEventType());
                     n.setProbableCause(armo.getMetric().getProbableCause());
-                    n.setCurrentValue("n/a");
+                    n.setCurrentValue("-");
                     n.setUrl(armo.getMetric().getUrl());
                     n.setDescription(armo.getMetric().getDescription());
 
@@ -139,7 +142,11 @@ public class ResyncTask extends TimerTask {
                             + n.getJob()));
 
                     if (armo.getMetric().getAlertstate().equalsIgnoreCase("firing")) {
+
                         logger.info(n.toString());
+                        resyncAlerts.add(n);
+                        DAO.getInstance().addToJournal(n);
+
                         if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                             logger.info("==> Alert [" + n.getCorrelationId() + "] already active");
                             DAO.getInstance().getActiveAlerts().get(n.getCorrelationId()).setToBeDeleted(false);
@@ -147,9 +154,12 @@ public class ResyncTask extends TimerTask {
                             logger.info("==> Alert [" + n.getCorrelationId() + "] not active");
                             DAO.getInstance().addActiveAlert(n);
                         }
+
                     }
 
-                }
+                } // for each alert
+
+                logger.info("RESYNC: resync alerts count: " + resyncAlerts.size());
 
                 // clear those in activeAlerts which were not received toBeDeleted=true
                 // some java 8 trick for removing entries while iterating over map
@@ -159,12 +169,10 @@ public class ResyncTask extends TimerTask {
                 for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
                     if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
                 }
+                logger.info("RESYNC: alerts to be deleted: " + cidToDelete.size());
                 for (String cid : cidToDelete) {
                     DAO.getInstance().removeActiveAlert(DAO.getInstance().getActiveAlerts().get(cid));
                 }
-
-                logger.info("resync alerts count: " + resyncAlerts.size());
-
 
 
             }
