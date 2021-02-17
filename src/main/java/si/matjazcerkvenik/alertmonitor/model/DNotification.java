@@ -63,8 +63,8 @@ public class DNotification {
 	private String description;
 
 	private String team;
-	private String eventType;
-	private String probableCause;
+	private String eventType = "5";
+	private String probableCause = "1024";
 	private String currentValue;
 	private String url;
 

@@ -37,9 +37,6 @@ public class ResyncTask extends TimerTask {
 
         logger.info("doResync(): starting resynchronization");
 
-//        if (tempListOfResyncAlarms == null) tempListOfResyncAlarms = new ArrayList<Alarm>();
-//        tempListOfResyncAlarms.clear();
-
         try {
 
             OkHttpClient httpClient = instantiateHttpClient();
@@ -90,14 +87,26 @@ public class ResyncTask extends TimerTask {
                     n.setInfo(armo.getMetric().getInfo());
                     n.setInstance(armo.getMetric().getInstance());
                     n.setHostname(AlertmanagerProcessor.stripInstance(armo.getMetric().getInstance()));
-                    n.setNodename(armo.getMetric().getNodename());
+                    if (armo.getMetric().getNodename() != null && armo.getMetric().getNodename().length() > 0) {
+                        n.setNodename(armo.getMetric().getNodename());
+                    } else {
+                        n.setNodename(armo.getMetric().getInstance());
+                    }
                     n.setJob(armo.getMetric().getJob());
                     n.setTags(armo.getMetric().getTags());
                     n.setSeverity(armo.getMetric().getSeverity());
-                    n.setPriority(armo.getMetric().getPriority());
+                    if (armo.getMetric().getPriority() != null && armo.getMetric().getPriority().length() > 0) {
+                        n.setPriority(armo.getMetric().getPriority());
+                    } else {
+                        n.setPriority("low");
+                    }
                     n.setTeam(armo.getMetric().getTeam());
-                    n.setEventType(armo.getMetric().getEventType());
-                    n.setProbableCause(armo.getMetric().getProbableCause());
+                    if (armo.getMetric().getEventType() != null && armo.getMetric().getEventType().length() > 0) {
+                        n.setEventType(armo.getMetric().getEventType());
+                    }
+                    if (armo.getMetric().getProbableCause() != null && armo.getMetric().getProbableCause().length() > 0) {
+                        n.setProbableCause(armo.getMetric().getProbableCause());
+                    }
                     n.setCurrentValue("-");
                     n.setUrl(armo.getMetric().getUrl());
                     n.setDescription(armo.getMetric().getDescription());
@@ -191,9 +200,6 @@ public class ResyncTask extends TimerTask {
             e.printStackTrace();
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
         }
-
-        logger.error("doResync(): resynchronization on Prometheus is not fully supported yet");
-
 
 
     }

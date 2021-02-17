@@ -166,6 +166,7 @@ public class DAO {
             // don't count resync alerts
             existingNotif.setCounter(existingNotif.getCounter() + 1);
             existingNotif.setSource(newNotif.getSource());
+            existingNotif.setGeneratorUrl(newNotif.getGeneratorUrl());
         }
         if (!newNotif.getCurrentValue().equals("-")) {
             existingNotif.setCurrentValue(newNotif.getCurrentValue());
