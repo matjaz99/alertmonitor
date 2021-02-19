@@ -1,7 +1,7 @@
 version: '3.6'
 
 networks:
-  monitoring-network:
+  monitoring_network:
     driver: overlay
     attachable: true
 
@@ -12,7 +12,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      - monitoring-network
+      - monitoring_network
     environment:
       - SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log
       - GRAFANA_HOSTNAME=my.grafana.domain
@@ -20,6 +20,8 @@ services:
       - ALERTMONITOR_RESYNC_INTERVAL_SEC=60
       - ALERTMONITOR_RESYNC_ENDPOINT=http://localhost/prometheus/api/v1/query?query=ALERTS
       - ALERTMONITOR_DATE_FORMAT = "yyyy/MM/dd H:mm:ss"
+    volumes:
+      - /var/log:/opt/alertmonitor/log
     deploy:
       mode: replicated
       replicas: 1

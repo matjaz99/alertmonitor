@@ -22,7 +22,6 @@ public class OnStartListener implements ServletContextListener {
 
     private Timer resyncTimer = null;
     private ResyncTask resyncTask = null;
-//    private static int resyncInterval = 60;
 
 
     @Override
@@ -60,7 +59,8 @@ public class OnStartListener implements ServletContextListener {
         // read configuration from environment variables
         DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "5000"));
         DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_RESYNC_INTERVAL_SEC", "300"));
-        DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "https://localhost/prometheus/api/v1/query?query=ALERTS");
+        // DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "https://localhost/prometheus/api/v1/query?query=ALERTS");
+        DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "https://centosvm:9090/api/v1/query?query=ALERTS");
         DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
 
         // runtime memory info

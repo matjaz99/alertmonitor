@@ -19,6 +19,7 @@ public class DAO {
     public static String version = "n/a";
     public static boolean isContainerized = false;
 
+    /** Singleton instance */
     private static DAO instance;
 
     public static int WEBHOOK_TABLE_SIZE = 5000;
@@ -161,20 +162,24 @@ public class DAO {
     public void updateActiveAlert(DNotification newNotif) {
         DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
         // update existing alert
-        existingNotif.setLastTimestamp(newNotif.getTimestamp());
+//        existingNotif.setLastTimestamp(newNotif.getTimestamp());
+//        if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
+//            // don't count resync alerts
+//            existingNotif.setCounter(existingNotif.getCounter() + 1);
+//            existingNotif.setSource(newNotif.getSource());
+//            existingNotif.setGeneratorUrl(newNotif.getGeneratorUrl());
+//        }
+//        if (!newNotif.getCurrentValue().equals("-")) {
+//            existingNotif.setCurrentValue(newNotif.getCurrentValue());
+//        }
+        // update new alert
+        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
+        newNotif.setLastTimestamp(newNotif.getTimestamp());
         if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
             // don't count resync alerts
-            existingNotif.setCounter(existingNotif.getCounter() + 1);
-            existingNotif.setSource(newNotif.getSource());
-            existingNotif.setGeneratorUrl(newNotif.getGeneratorUrl());
+            newNotif.setCounter(existingNotif.getCounter() + 1);
         }
-        if (!newNotif.getCurrentValue().equals("-")) {
-            existingNotif.setCurrentValue(newNotif.getCurrentValue());
-        }
-//        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
-//        newNotif.setLastTimestamp(newNotif.getTimestamp());
-//        newNotif.setCounter(existingNotif.getCounter() + 1);
-        activeAlerts.put(existingNotif.getCorrelationId(), existingNotif);
+        activeAlerts.put(existingNotif.getCorrelationId(), newNotif);
     }
 
     /**
