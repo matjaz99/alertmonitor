@@ -36,6 +36,17 @@ public class WebhookBean {
 
 	private List<DTag> tagList = new ArrayList<DTag>();
 
+	private String searchString;
+
+	public String getSearchString() {
+		return searchString;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+		DAO.getLogger().info("SEARCH: " + searchString);
+	}
+
 	public String getVersion() {
 		return DAO.version;
 	}
@@ -152,7 +163,13 @@ public class WebhookBean {
 		return result;
 	}
 
+	// TODO rename method to filter()
 	private boolean checkIfNotifTagsMatchToSelectedTag(DNotification notif) {
+		// check if matches search field
+		if (searchString != null && searchString.length() > 0) {
+			if (!notif.getInstance().contains(searchString)) return false;
+		}
+
 		// read tags
 		String[] array = notif.getTags().split(",");
 		for (int i = 0; i < array.length; i++) {
