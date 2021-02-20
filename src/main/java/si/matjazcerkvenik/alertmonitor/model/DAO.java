@@ -160,7 +160,7 @@ public class DAO {
      * (according to existing alert).
      * Alert then finally replaces reference in activeAlert map so it points to new
      * alert.
-     * @param newNotif
+     * @param newNotif last received notificatioin
      */
     public void updateActiveAlert(DNotification newNotif) {
         DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
@@ -178,8 +178,10 @@ public class DAO {
         // update new alert
         newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
         newNotif.setLastTimestamp(newNotif.getTimestamp());
-        if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
-            // don't count resync alerts
+        if (newNotif.getSource().equalsIgnoreCase("RESYC")) {
+            // resync alert
+        } else {
+            // regular alert
             newNotif.setCounter(existingNotif.getCounter() + 1);
         }
         activeAlerts.put(existingNotif.getCorrelationId(), newNotif);
@@ -208,7 +210,7 @@ public class DAO {
     /**
      * Remove tags which have no active alerts left.
      */
-    private synchronized void removeObsoleteTags() {
+    private void removeObsoleteTags() {
         Map<String, Object> allTags = new HashMap<String, Object>();
         for (DNotification n : activeAlerts.values()) {
             String[] array = n.getTags().split(",");
@@ -223,17 +225,25 @@ public class DAO {
             tagMap.clear();
             return;
         }
-        for (String n : tagMap.keySet()) {
-            if (!allTags.containsKey(n)) {
-                tagMap.remove(n);
-            }
-        }
+//        for (String n : tagMap.keySet()) {
+//            if (!allTags.containsKey(n)) {
+//                tagMap.remove(n);
+//            }
+//        }
+//        Iterator<Map.Entry<String, DTag>> it = tagMap.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry<String, DTag> entry = it.next();
+//            if(!allTags.containsKey(entry.getKey())){
+//                it.remove();
+//            }
+//        }
+        tagMap.entrySet().removeIf(entry -> !allTags.containsKey(entry.getKey()));
 
     }
 
     /**
      * Add new tag if it does not exist yet.
-     * @param tag
+     * @param tag new tag
      */
     public void addTag(DTag tag) {
         tagMap.putIfAbsent(tag.getName(), tag);
@@ -244,12 +254,12 @@ public class DAO {
      * @return list
      */
     public List<DTag> getTags() {
-        return new ArrayList<DTag>(tagMap.values());
+        return new ArrayList<>(tagMap.values());
     }
 
     /**
      * Format timestamp from millis into readable form.
-     * @param timestamp
+     * @param timestamp timestamp in millis
      * @return readable date
      */
     public String getFormatedTimestamp(long timestamp) {
@@ -262,7 +272,7 @@ public class DAO {
 
     /**
      * Return a list of active alerts filtered by severity.
-     * @param severity
+     * @param severity severity
      * @return list
      */
     public List<DNotification> getActiveAlarmsList(String severity) {

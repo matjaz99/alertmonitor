@@ -13,10 +13,10 @@
 				<h:form>
 					<p:dataTable id="messagesTable" widgetVar="notifsTable"
 								 value="#{webhookBean.journal}" var="j"
-								 rows="100"
+								 rows="1000"
 								 paginator="true"
 								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								 rowsPerPageTemplate="100,500,1000"
+								 rowsPerPageTemplate="1000,2000,5000"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
 								 sortMode="multiple"
 								 rowStyleClass="#{j.severity}"

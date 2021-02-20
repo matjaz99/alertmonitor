@@ -35,7 +35,7 @@ public class ResyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("doResync(): starting resynchronization");
+        logger.info("RESYNC: === starting resynchronization ===");
         DAO.lastResyncTimestamp = System.currentTimeMillis();
 
         try {
@@ -48,14 +48,14 @@ public class ResyncTask extends TimerTask {
                     .get()
                     .build();
 
-            logger.info("doResync(): sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_RESYNC_ENDPOINT);
+            logger.info("RESYNC: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_RESYNC_ENDPOINT);
 
             String responseBody = null;
             Response response = httpClient.newCall(request).execute();
-            logger.info("doResync(): response: errorcode=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("RESYNC: response: errorcode=" + response.code() + ", success=" + response.isSuccessful());
             if (response.isSuccessful()) {
                 responseBody = response.body().string();
-                logger.info("doResync(): response: " + responseBody);
+                logger.info("RESYNC: response: " + responseBody);
                 AmMetrics.alertmonitor_resync_task_total.labels("Success").inc();
                 DAO.resyncSuccessCount++;
             } else {
@@ -77,24 +77,29 @@ public class ResyncTask extends TimerTask {
                 }
 
                 List<DNotification> resyncAlerts = new ArrayList<>();
+                int newAlertsCount = 0;
 
-                logger.info("ALERT metrics: " + arm.getData().getResult().size());
+                logger.info("RESYNC: ALERT metrics size: " + arm.getData().getResult().size());
                 for (AlertmanagerResyncMetricObject armo : arm.getData().getResult()) {
-                    logger.info(armo.toString());
+                    logger.debug(armo.toString());
 
                     DNotification n = new DNotification();
                     n.setTimestamp(System.currentTimeMillis());
                     n.setAlertname(armo.getMetric().getAlertname());
                     n.setSource("RESYNC");
                     n.setUserAgent("Alertmonitor/v1");
-                    n.setInfo(armo.getMetric().getInfo());
-                    n.setInstance(armo.getMetric().getInstance());
-                    n.setHostname(AlertmanagerProcessor.stripInstance(armo.getMetric().getInstance()));
+                    if (armo.getMetric().getInstance() != null && armo.getMetric().getInstance().length() > 0) {
+                        n.setInstance(armo.getMetric().getInstance());
+                    } else {
+                        n.setInstance("-");
+                    }
+                    n.setHostname(AlertmanagerProcessor.stripInstance(n.getInstance()));
                     if (armo.getMetric().getNodename() != null && armo.getMetric().getNodename().length() > 0) {
                         n.setNodename(armo.getMetric().getNodename());
                     } else {
                         n.setNodename(armo.getMetric().getInstance());
                     }
+                    n.setInfo(armo.getMetric().getInfo());
                     n.setJob(armo.getMetric().getJob());
                     n.setTags(armo.getMetric().getTags());
                     n.setSeverity(armo.getMetric().getSeverity());
@@ -155,63 +160,63 @@ public class ResyncTask extends TimerTask {
 
                     if (armo.getMetric().getAlertstate().equalsIgnoreCase("firing")) {
 
-                        logger.info(n.toString());
+                        logger.debug(n.toString());
                         resyncAlerts.add(n);
                         DAO.getInstance().addToJournal(n);
 
                         if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
-                            logger.info("==> Alert [" + n.getCorrelationId() + "] already active");
+                            logger.info("RESYNC: Alert exists: {uid=" + n.getUid() + ", cid=" + n.getCorrelationId() + ", alertname=" + n.getAlertname() + ", instance=" + n.getInstance() + "}");
                             DAO.getInstance().getActiveAlerts().get(n.getCorrelationId()).setToBeDeleted(false);
                         } else {
-                            logger.info("==> Alert [" + n.getCorrelationId() + "] not active");
+                            logger.info("RESYNC: New alert: {uid=" + n.getUid() + ", cid=" + n.getCorrelationId() + ", alertname=" + n.getAlertname() + ", instance=" + n.getInstance() + "}");
                             DAO.getInstance().addActiveAlert(n);
+                            newAlertsCount++;
                         }
 
                     }
 
                 } // for each alert
 
-                logger.info("RESYNC: resync alerts count: " + resyncAlerts.size());
-
                 // clear those in activeAlerts which were not received toBeDeleted=true
-                // some java 8 trick for removing entries while iterating over map
-                // DAO.getInstance().getActiveAlerts().entrySet().removeIf(entry -> entry.getValue().isToBeDeleted());
-
                 List<String> cidToDelete = new ArrayList<>();
                 for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
                     if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
                 }
-                logger.info("RESYNC: alerts to be deleted: " + cidToDelete.size());
                 for (String cid : cidToDelete) {
+                    logger.info("RESYNC: Removing alert: {cid=" + cid + "}");
                     DAO.getInstance().removeActiveAlert(DAO.getInstance().getActiveAlerts().get(cid));
                 }
 
+                logger.info("RESYNC: total resync alerts count: " + resyncAlerts.size());
+                logger.info("RESYNC: new alerts count: " + newAlertsCount);
+                logger.info("RESYNC: alerts to be deleted: " + cidToDelete.size());
 
             }
 
         } catch (UnknownHostException e) {
-            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("RESYNC: Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             DAO.resyncFailedCount++;
         } catch (SocketTimeoutException e) {
-            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("RESYNC: Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             DAO.resyncFailedCount++;
         } catch (SocketException e) {
-            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("RESYNC: Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             DAO.resyncFailedCount++;
         } catch (SSLException e) {
-            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            logger.error("RESYNC: Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             DAO.resyncFailedCount++;
         } catch (Exception e) {
-            logger.error("doResync(): Failed to resynchronize alarms: ", e);
+            logger.error("RESYNC: Failed to resynchronize alarms: ", e);
             e.printStackTrace();
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
             DAO.resyncFailedCount++;
         }
 
+        logger.info("RESYNC: === resynchronization complete ===");
 
     }
 

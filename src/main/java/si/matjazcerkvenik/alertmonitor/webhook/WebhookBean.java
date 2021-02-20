@@ -34,7 +34,7 @@ public class WebhookBean {
 
 	private String columnTemplate = "id brand year";
 
-	private List<DTag> tagList = new ArrayList<DTag>();
+	private List<DTag> tagList = new ArrayList<>();
 
 	private String searchString;
 
@@ -159,22 +159,30 @@ public class WebhookBean {
 	}
 
 	public List<DNotification> getActiveAlarms() {
-		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
+		List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
 		List<DNotification> result = list.stream()
-				.filter(notif -> checkIfNotifTagsMatchToSelectedTag(notif))
+				.filter(notif -> filterNotification(notif))
 				.collect(Collectors.toList());
-		Collections.sort(result, new Comparator<DNotification>() {
-			@Override
-			public int compare(DNotification lhs, DNotification rhs) {
-				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-			}
-		});
+
+		// if you sort alerts here, then sorting in columns is not working
+		// TODO how to sort?
+//		Collections.sort(result, new Comparator<DNotification>() {
+//			@Override
+//			public int compare(DNotification lhs, DNotification rhs) {
+//				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+//				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+//			}
+//		});
 		return result;
 	}
 
-	// TODO rename method to filter()
-	private boolean checkIfNotifTagsMatchToSelectedTag(DNotification notif) {
+	/**
+	 * Return true if notification satisfies conditions to be displayed in GUI.
+	 * Search field is checked and selected tags are checked.
+	 * @param notif alert
+	 * @return true to display alert
+	 */
+	private boolean filterNotification(DNotification notif) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {
 			if (!notif.getInstance().contains(searchString)) return false;
