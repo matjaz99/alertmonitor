@@ -9,7 +9,7 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:panelGrid columns="5" cellpadding="15" cellspacing="15" width="100%" style="border: none">
+			<p:panelGrid columns="5" cellpadding="0" cellspacing="15" width="100%" style="border: none">
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Active alerts</h3>
@@ -39,6 +39,16 @@
 					<p:outputLabel value="Time since last event: #{webhookBean.timeSinceLastEvent}" />
 					<p:outputLabel value="Events in last hour: #{webhookBean.numberOfAlertsInLastHour}" />
 					<p:outputLabel value="Avg. events per second: #{webhookBean.alertsPerSecondInLastHour}" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+					<h3>Resync</h3>
+					<p:outputLabel value="Resync interval: #{webhookBean.resyncInterval} sec" />
+					<p:outputLabel value="Resync last time: #{webhookBean.lastResyncTime}" />
+					<p:outputLabel value="Resync count (succ): #{webhookBean.resyncSuccessCount}" />
+					<p:outputLabel value="Resync count (fail): #{webhookBean.resyncFailedCount}" />
+					<p:outputLabel value="-" />
+					<p:outputLabel value="-" />
 				</p:panelGrid>
 
 			</p:panelGrid>

@@ -105,6 +105,16 @@ public class WebhookBean {
 		return false;
 	}
 
+	public String getResyncInterval() { return Integer.toString(DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC); }
+
+	public String getLastResyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastResyncTimestamp); }
+
+	public String getResyncSuccessCount() { return Integer.toString(DAO.resyncSuccessCount); }
+
+	public String getResyncFailedCount() { return Integer.toString(DAO.resyncFailedCount); }
+
+
+
 	public List<WebhookMessage> getWebhookMessages() {
 		return DAO.getInstance().getWebhookMessages();
 	}

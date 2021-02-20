@@ -36,6 +36,7 @@ public class ResyncTask extends TimerTask {
     public void run() {
 
         logger.info("doResync(): starting resynchronization");
+        DAO.lastResyncTimestamp = System.currentTimeMillis();
 
         try {
 
@@ -56,8 +57,10 @@ public class ResyncTask extends TimerTask {
                 responseBody = response.body().string();
                 logger.info("doResync(): response: " + responseBody);
                 AmMetrics.alertmonitor_resync_task_total.labels("Success").inc();
+                DAO.resyncSuccessCount++;
             } else {
                 AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+                DAO.resyncFailedCount++;
             }
 
             response.close();
@@ -189,16 +192,24 @@ public class ResyncTask extends TimerTask {
         } catch (UnknownHostException e) {
             logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+            DAO.resyncFailedCount++;
         } catch (SocketTimeoutException e) {
             logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+            DAO.resyncFailedCount++;
         } catch (SocketException e) {
             logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+            DAO.resyncFailedCount++;
+        } catch (SSLException e) {
+            logger.error("doResync(): Failed to resynchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+            DAO.resyncFailedCount++;
         } catch (Exception e) {
             logger.error("doResync(): Failed to resynchronize alarms: ", e);
             e.printStackTrace();
             AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
+            DAO.resyncFailedCount++;
         }
 
 

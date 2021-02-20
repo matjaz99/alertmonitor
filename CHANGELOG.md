@@ -1,6 +1,7 @@
 ## 1.5.4-SNAPSHOT
 
 * [FEATURE] Resynchronize alerts
+* [ENHANCEMENT] Added resync statistics
 
 ## 1.5.3-SNAPSHOT
 

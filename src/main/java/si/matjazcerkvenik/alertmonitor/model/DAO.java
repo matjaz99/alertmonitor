@@ -40,6 +40,9 @@ public class DAO {
     public static int raisingEventCount = 0;
     public static int clearingEventCount = 0;
     public static long lastEventTimestamp = 0;
+    public static long lastResyncTimestamp = 0;
+    public static int resyncSuccessCount = 0;
+    public static int resyncFailedCount = 0;
 
     private Map<String, DTag> tagMap = new HashMap<>();
 
@@ -205,7 +208,7 @@ public class DAO {
     /**
      * Remove tags which have no active alerts left.
      */
-    private void removeObsoleteTags() {
+    private synchronized void removeObsoleteTags() {
         Map<String, Object> allTags = new HashMap<String, Object>();
         for (DNotification n : activeAlerts.values()) {
             String[] array = n.getTags().split(",");
