@@ -1,6 +1,7 @@
 ## 1.5.4-SNAPSHOT
 
 * [FEATURE] Resynchronize alerts
+* [FEATURE] About view with basic configuration options
 * [ENHANCEMENT] Added resync statistics
 
 ## 1.5.3-SNAPSHOT
@@ -27,7 +28,7 @@
 ## 1.5.0 / 2019-11-3
 
 * [CHANGE] Added label `job` to calculate `correlationId`
-* [FEATURE] Alert view
+* [FEATURE] Alert detailed view
 * [FEATURE] Growl notifications
 * [ENHANCEMENT] Resolving instances to IP addresses
 * [BUGFIX] Fixed timestamps in active alerts

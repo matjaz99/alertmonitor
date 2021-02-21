@@ -12,6 +12,7 @@
         <welcome-file>tags.xhtml</welcome-file>
         <welcome-file>targets.xhtml</welcome-file>
         <welcome-file>alert.xhtml</welcome-file>
+        <welcome-file>about.xhtml</welcome-file>
         <welcome-file>error.xhtml</welcome-file>
     </welcome-file-list>
 

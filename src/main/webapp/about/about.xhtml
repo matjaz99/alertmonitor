@@ -1,0 +1,30 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:outputLabel value="Alertmonitor #{webhookBean.version}" style="font-weight: bold; font-size: 24px;"/>
+			<p:outputLabel value="Maintainer: Matjaž Cerkvenik" />
+
+			<br/>
+			<hr/>
+
+			<h:form id="configForm">
+
+				<p:outputLabel value="Resync endpoint: " style="font-weight: bold; font-size: 14px;"/>
+				<p:inplace editor="true">
+					<p:inputText value="#{webhookBean.resyncEndpoint}" required="true" label="text"/>
+				</p:inplace>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

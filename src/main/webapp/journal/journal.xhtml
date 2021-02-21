@@ -32,10 +32,11 @@
 						</p:column>
 
 						<p:column headerText="Alert name" sortBy="#{j.alertname}">
-							<!--<h:outputText value="#{j.alertname}" />-->
+							<b>
 							<h:link value = "#{j.alertname}" outcome = "/alert/alert">
 								<f:param name="uid" value="#{j.uid}" />
 							</h:link>
+							</b>
 						</p:column>
 
 						<p:column headerText="Info" sortBy="#{j.info}">

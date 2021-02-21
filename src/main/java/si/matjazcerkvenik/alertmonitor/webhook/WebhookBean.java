@@ -47,6 +47,16 @@ public class WebhookBean {
 		DAO.getLogger().info("SEARCH: " + searchString);
 	}
 
+	public String getResyncEndpoint() {
+		return DAO.ALERTMONITOR_RESYNC_ENDPOINT;
+	}
+
+	public void setResyncEndpoint(String endpoint) {
+		DAO.ALERTMONITOR_RESYNC_ENDPOINT = endpoint;
+		DAO.getLogger().info("WebhookBean: resync endpoint changed:" + endpoint);
+//		Growl.showInfoGrowl("Configuration updated", "");
+	}
+
 	public String getVersion() {
 		return DAO.version;
 	}
