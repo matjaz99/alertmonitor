@@ -1,29 +1,20 @@
-## 1.5.4-SNAPSHOT
-
-* [FEATURE] Resynchronize alerts
-* [FEATURE] About view with basic configuration options
-* [ENHANCEMENT] Added resync statistics
-
-## 1.5.3-SNAPSHOT
-
-* [FEATURE] Added ResyncTask for periodically checking active alerts
-* [FEATURE] Added environment variables for configuration: `ALERTMONITOR_RESYNC_INTERVAL_SEC`, `ALERTMONITOR_RESYNC_ENDPOINT`, `ALERTMONITOR_DATE_FORMAT`
-* [ENHANCEMENT] Added metric `alertmonitor_resync_task_total` and `alertmonitor_resync_interval_seconds`
-
-## 1.5.2-SNAPSHOT
-
-* [BUG] Strip hostname from instance
-
-## 1.5.1-SNAPSHOT
+## 1.6.0 / 2021-02-22
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).
 * [CHANGE] `currentValue` moved to annotations (see bug below)
+* [FEATURE] Periodic synchronization of active alerts
+* [FEATURE] About view with basic configuration options
+* [FEATURE] Added ResyncTask for periodically checking active alerts
+* [FEATURE] Added environment variables for configuration: `ALERTMONITOR_RESYNC_INTERVAL_SEC`, `ALERTMONITOR_RESYNC_ENDPOINT`, `ALERTMONITOR_DATE_FORMAT`
+* [ENHANCEMENT] Added resync statistics
+* [ENHANCEMENT] Added metric `alertmonitor_resync_task_total` and `alertmonitor_resync_interval_seconds`
 * [ENHANCEMENT] Show number of alerts in last hour in statistics
 * [ENHANCEMENT] Instance view shows active alerts and journal
 * [ENHANCEMENT] Added `clearTimestamp` and `clearUid` to alerts; timestamp when alert was cleared
-* [ENHANCEMENT] Added some javadoc
+* [ENHANCEMENT] Added javadoc
 * [ENHANCEMENT] Configure the journal size with `ALERTMONITOR_JOURNAL_SIZE` environment variable (#13)
 * [BUG] Label may not contain a variable such as `currentValue`. Must be moved to `annotations`
+* [BUG] Fixed stripping hostname from instance
 
 ## 1.5.0 / 2019-11-3
 

@@ -7,22 +7,26 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing alerts.
+Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing, 
+sorting and filtering alerts.
 
-A webhook accepts any HTTP GET or POST request that comes on endpoint: `/alertmonitor/webhook`.
-
+A HTTP webhook accepts any GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`. 
 If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
 
 Alertmonitor provides the following views:
-- Webhook - any http get or post request that is received on webhook
+- Webhook - any http message that is received on webhook
 - Journal - history of all events
 - Active - only active alerts
 - Targets - alerts sorted by targets
-- Statistics - general information
+- Statistics - statistical data
+- About - general information and configuration options
 
 Alertmonitor correlates firing alerts and resolving alerts to display current state of active alarms.
 
 Alerts can be filtered by tags.
+
+Alertmonitor supports periodic synchronization of active alerts with Prometheus. This feature is extremely useful after a broken connection 
+to refresh the state of currently active alerts.
 
 
 ![Alertmonitor](docs/overview.png)
@@ -41,7 +45,7 @@ docker run -d -p 8080:8080 matjaz99/alertmonitor:latest
 Alertmonitor is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
 
 
-There is also `docker-compose.yml` file for deployment in Swarm cluster.
+There is also `docker-compose.yml` file available for deployment in Swarm cluster.
 
 
 ### Docker images
@@ -51,7 +55,9 @@ Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/al
 
 ## Configure alerts in Prometheus
 
-Alertmonitor relies on properly configured labels in Prometheus alert rules.
+Alertmonitor relies on properly configured labels in Prometheus alert rules. 
+Placing additional labels into alert rules will enrich the information that alert carries, such as: 
+severity, metric labels, current metric value, alert tags or team responsible for resolving alerts.
 
 #### Labeling alerts
 
@@ -96,11 +102,11 @@ groups:
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
       eventType: 5
       probableCause: 1024
-      description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
+      description: Node {{ $labels.hostname }} CPU usage is at {{ humanize $value}}%.
     annotations:
-      description: Node {{ $labels.node_name }} CPU usage is at {{ humanize $value}}%.
-      summary: CPU alert for Node '{{ $labels.node_name }}'
-      currentValue: '{{ humanize $value }}'
+      description: Node {{ $labels.hostname }} CPU usage is at {{ humanize $value}}%.
+      summary: CPU alert for Node '{{ $labels.hostname }}'
+      currentValue: '{{ humanize $value }}%'
 ```
 
 > For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
@@ -125,13 +131,70 @@ receivers:
     send_resolved: true
 ```
 
-## Target view
 
-Alertmonitor strips protocol and port from hostname label and what remains is target's hostname or IP address or FQDN.
+## Views
+
+#### Active alerts view
+
+This view shows currently active alerts.
+
+Active alerts can be filtered by selecting one or more tags.
+
+Deselect all tags to show all alerts.
+
+#### Journal view
+
+This view shows all history of received events. The size of journal is limited by `ALERTMONITOR_JOURNAL_SIZE` parameter. 
+When journal reaches its maximum size, the oldest events will be removed (First in, first out).
+
+Remark: all the data in Alertmonitor is based on journal events. For example, Alertmonitor can only show targets, 
+which have at least one alert recorded in journal.
+
+#### Webhook view
+
+This view shows raw messages as they were received by the HTTP webhook.
+
+#### Target view
+
+Alertmonitor strips protocol and port from `instance` label and what remains is target's hostname or IP address or FQDN.
 
 Alertmonitor then filters alerts and displays those who's hostnames match.
 
-## Environment variable substitution
+Each target shows number of active alerts and an icon indicating the highest severity of raised alert.
+
+#### Statistics view
+
+This view shows statistical data, such as:
+- number of alerts by severity
+- number of received messages/alerts
+- timers (up time, time since last event...)
+- resync success rate
+
+#### About view
+
+Application meta data, version, build info...
+
+At the moment, only resync endpoint can be configured (no restart required).
+
+
+## Configuration
+
+#### Application configuration
+
+The Alertmonitor can be configured with environment variables. Variables starting with `ALERTMONITOR_*` are related 
+to behaviour of the application, while other variables may be used for other purposes 
+(such as logger configuration or custom environment variable substitution).
+
+A list of supported environment variables:
+
+| EnvVar                             | Default value           | Description        |
+|------------------------------------|-------------------------|------------------- |
+| ALERTMONITOR_JOURNAL_SIZE          | 20000 | Maximum journal size (FIFO). |
+| ALERTMONITOR_RESYNC_INTERVAL_SEC   | 900 | Periodic synchronization interval in seconds |
+| ALERTMONITOR_RESYNC_ENDPOINT       | http://localhost/prometheus/api/v1/query?query=ALERTS | The URL of Prometheus API for querying metrics |
+| ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
+
+#### Environment variable substitution
 
 Prometheus doesn't support substitution of environment variables in alert rules. Alertmonitor does that for you.
 
@@ -147,11 +210,12 @@ Template syntax in labels to be replaced: `${GRAFANA_HOSTNAME}`.
 Alertmonitor will replace all occurrences of templates with corresponding environment variables.
 
 You can use environment variable substitution on the following labels:
-- nodename
-- info
-- tags
-- url
-- description
+- `nodename`
+- `info`
+- `tags`
+- `url`
+- `description`
+
 
 ## Metrics
 
@@ -163,6 +227,7 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
 - `alertmonitor_resync_task_total`
+- `alertmonitor_resync_interval_seconds`
 
 Metrics are available on URI endpoint:
 
@@ -180,6 +245,8 @@ Rolling file policy can be also configured. For complete simple-logger configura
 
 Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
+
+Primefaces showcase: http://www.primefaces.org:8080/showcase
 
 ### Simple-logger maven dependency
 
