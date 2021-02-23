@@ -66,7 +66,7 @@ public class AlertmanagerProcessor {
             DNotification n = new DNotification();
             n.setTimestamp(System.currentTimeMillis());
             n.setSource(m.getRemoteHost());
-            n.setAlertname(a.getLabels().get("alertname"));
+            n.setAlertname(a.getLabels().getOrDefault("alertname", "-unknown-"));
             n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
             n.setInfo(a.getLabels().getOrDefault("info", "-"));
             n.setInstance(a.getLabels().getOrDefault("instance", "-"));
@@ -80,7 +80,7 @@ public class AlertmanagerProcessor {
             n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
             n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
             n.setCurrentValue(a.getAnnotations().getOrDefault("currentValue", "-"));
-            n.setUrl(a.getLabels().getOrDefault("url", "-"));
+            n.setUrl(a.getLabels().getOrDefault("url", ""));
             if (a.getLabels().containsKey("description")) {
                 n.setDescription(a.getLabels().getOrDefault("description", "-"));
             } else {
@@ -113,28 +113,10 @@ public class AlertmanagerProcessor {
             n.setUrl(substitute(n.getUrl()));
 
             // set unique ID of event
-            n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp()
-                    + n.hashCode()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getPriority()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getAlertname()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getInfo()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getInstance()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getDescription()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getSource()
-                    + new Random().nextInt(Integer.MAX_VALUE)
-                    + n.getUserAgent()));
+            n.generateUID();
 
             // set correlation ID
-            n.setCorrelationId(MD5Checksum.getMd5Checksum(n.getAlertname()
-                    + n.getInfo()
-                    + n.getInstance()
-                    + n.getJob()));
+            n.generateCID();
 
             notifs.add(n);
 

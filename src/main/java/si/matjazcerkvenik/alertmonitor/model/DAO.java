@@ -136,7 +136,7 @@ public class DAO {
         String[] array = n.getTags().split(",");
         for (int i = 0; i < array.length; i++) {
             String tagName = array[i].trim();
-            if (tagName.length() > 1) {
+            if (tagName.length() > 0) {
                 DTag t = new DTag(tagName, TagColors.getColor(tagName));
                 addTag(t);
             }

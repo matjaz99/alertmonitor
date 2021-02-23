@@ -22,7 +22,7 @@ public class TargetBean {
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = requestParameterMap.getOrDefault("target_id", "null");
-        List<Target> list = new ArrayList<Target>(DAO.getInstance().getTargets());
+        List<Target> list = new ArrayList<>(DAO.getInstance().getTargets());
         List<Target> result = list.stream()
                 .filter(t -> t.getId().equals(id))
                 .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class TargetBean {
     }
 
     public List<DNotification> getTargetActiveAlarms() {
-        List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getActiveAlerts().values());
+        List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
         List<DNotification> result = list.stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());

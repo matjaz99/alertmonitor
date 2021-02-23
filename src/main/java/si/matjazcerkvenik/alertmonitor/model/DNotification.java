@@ -1,5 +1,9 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
+
+import java.util.Random;
+
 public class DNotification {
 	
 	/** Unique ID of notification */
@@ -312,6 +316,35 @@ public class DNotification {
 
 	public void setToBeDeleted(boolean toBeDeleted) {
 		this.toBeDeleted = toBeDeleted;
+	}
+
+	public void generateUID() {
+		uid = MD5Checksum.getMd5Checksum(timestamp
+				+ this.hashCode()
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ priority
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ alertname
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ info
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ team
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ instance
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ description
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ source
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ userAgent
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ severity
+				+ new Random().nextInt(Integer.MAX_VALUE)
+				+ tags);
+	}
+
+	public void generateCID() {
+		correlationId = MD5Checksum.getMd5Checksum(alertname + info + instance + job);
 	}
 
 	@Override
