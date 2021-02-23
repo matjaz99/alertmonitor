@@ -5,7 +5,8 @@
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 - tags: filter by AND or OR
 - redesigned journal (not table, but a list with show details)
-- about window
+- resynchronization: https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
+- show all targets: https://prom.devops.iskratel.cloud/prometheus/api/v1/targets
 - https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml
 
 
