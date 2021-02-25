@@ -2,17 +2,10 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.PSyncTask;
-import si.matjazcerkvenik.alertmonitor.model.ResyncTask;
-import si.matjazcerkvenik.simplelogger.LEVEL;
-import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -21,8 +14,7 @@ import java.util.stream.Stream;
 
 public class OnStartListener implements ServletContextListener {
 
-    private Timer resyncTimer = null;
-    private ResyncTask resyncTask = null;
+    private Timer pSyncTimer = null;
     private PSyncTask pSyncTask = null;
 
 
@@ -60,10 +52,10 @@ public class OnStartListener implements ServletContextListener {
 
         // read configuration from environment variables
         DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "20000"));
-        DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_RESYNC_INTERVAL_SEC", "300"));
-        // DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "https://localhost/prometheus/api/v1/query?query=ALERTS");
-        // DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "http://centosvm:9090/api/v1/query?query=ALERTS");
-        DAO.ALERTMONITOR_RESYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_RESYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts");
+        DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60"));
+        // DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "https://localhost/prometheus/api/v1/alerts");
+//        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts");
+        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090/api/v1/alerts");
         DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
 
         // runtime memory info
@@ -89,23 +81,13 @@ public class OnStartListener implements ServletContextListener {
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
 
         // start resync timer
-//        if (resyncTimer == null) {
-//            DAO.getLogger().info("Set resync task with period=" + DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
-//            AmMetrics.alertmonitor_resync_interval_seconds.set(DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
-//            if (DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC > 0) {
-//                resyncTimer = new Timer("ResyncTimer");
-//                resyncTask = new ResyncTask();
-//                resyncTimer.schedule(resyncTask, 15 * 1000, DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC * 1000);
-//            }
-//        }
-
         if (pSyncTask == null) {
-            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_resync_interval_seconds.set(DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC);
-            if (DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC > 0) {
-                resyncTimer = new Timer("PSyncTimer");
+            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+            AmMetrics.alertmonitor_psync_interval_seconds.set(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+            if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
+                pSyncTimer = new Timer("PSyncTimer");
                 pSyncTask = new PSyncTask();
-                resyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC * 1000);
+                pSyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
             }
         }
 
@@ -114,14 +96,10 @@ public class OnStartListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
-        if (resyncTimer != null) {
-            resyncTimer.cancel();
-            resyncTimer = null;
+        if (pSyncTimer != null) {
+            pSyncTimer.cancel();
+            pSyncTimer = null;
         }
-//        if (resyncTask != null) {
-//            resyncTask.cancel();
-//            resyncTask = null;
-//        }
         if (pSyncTask != null) {
             pSyncTask.cancel();
             pSyncTask = null;

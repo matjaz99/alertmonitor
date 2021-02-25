@@ -11,7 +11,7 @@ Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice
 sorting and filtering alerts.
 
 A HTTP webhook accepts any GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`. 
-If the request is recognized to come from Prometheus Alertmanager, it will be processed further and displayed as alarm.
+If the request is coming from Prometheus Alertmanager, it will be displayed as alarm.
 
 Alertmonitor provides the following views:
 - Webhook - any http message that is received on webhook
@@ -168,13 +168,13 @@ This view shows statistical data, such as:
 - number of alerts by severity
 - number of received messages/alerts
 - timers (up time, time since last event...)
-- resync success rate
+- psync success rate
 
 #### About view
 
 Application meta data, version, build info...
 
-At the moment, only resync endpoint can be configured (no restart required).
+At the moment, only periodic sync endpoint can be configured (no restart required).
 
 
 ## Configuration
@@ -190,8 +190,8 @@ A list of supported environment variables:
 | EnvVar                             | Default value           | Description        |
 |------------------------------------|-------------------------|------------------- |
 | ALERTMONITOR_JOURNAL_SIZE          | 20000 | Maximum journal size (FIFO). |
-| ALERTMONITOR_RESYNC_INTERVAL_SEC   | 900 | Periodic synchronization interval in seconds |
-| ALERTMONITOR_RESYNC_ENDPOINT       | http://localhost/prometheus/api/v1/query?query=ALERTS | The URL of Prometheus API for querying metrics |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronization interval in seconds |
+| ALERTMONITOR_PSYNC_ENDPOINT        | http://localhost/prometheus/api/v1/alerts | The URL of Prometheus API for querying alerts |
 | ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
 
 #### Environment variable substitution
@@ -226,8 +226,8 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_active_alerts_count`
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
-- `alertmonitor_resync_task_total`
-- `alertmonitor_resync_interval_seconds`
+- `alertmonitor_psync_task_total`
+- `alertmonitor_psync_interval_seconds`
 
 Metrics are available on URI endpoint:
 

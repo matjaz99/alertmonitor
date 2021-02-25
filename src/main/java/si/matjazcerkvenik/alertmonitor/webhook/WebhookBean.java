@@ -47,13 +47,13 @@ public class WebhookBean {
 		DAO.getLogger().info("SEARCH: " + searchString);
 	}
 
-	public String getResyncEndpoint() {
-		return DAO.ALERTMONITOR_RESYNC_ENDPOINT;
+	public String getPsyncEndpoint() {
+		return DAO.ALERTMONITOR_PSYNC_ENDPOINT;
 	}
 
-	public void setResyncEndpoint(String endpoint) {
-		DAO.ALERTMONITOR_RESYNC_ENDPOINT = endpoint;
-		DAO.getLogger().info("WebhookBean: resync endpoint changed:" + endpoint);
+	public void setPsyncEndpoint(String endpoint) {
+		DAO.ALERTMONITOR_PSYNC_ENDPOINT = endpoint;
+		DAO.getLogger().info("WebhookBean: psync endpoint changed:" + endpoint);
 //		Growl.showInfoGrowl("Configuration updated", "");
 	}
 
@@ -115,13 +115,13 @@ public class WebhookBean {
 		return false;
 	}
 
-	public String getResyncInterval() { return Integer.toString(DAO.ALERTMONITOR_RESYNC_INTERVAL_SEC); }
+	public String getPsyncInterval() { return Integer.toString(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
 
-	public String getLastResyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastResyncTimestamp); }
+	public String getLastPsyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastPsyncTimestamp); }
 
-	public String getResyncSuccessCount() { return Integer.toString(DAO.resyncSuccessCount); }
+	public String getPsyncSuccessCount() { return Integer.toString(DAO.psyncSuccessCount); }
 
-	public String getResyncFailedCount() { return Integer.toString(DAO.resyncFailedCount); }
+	public String getPsyncFailedCount() { return Integer.toString(DAO.psyncFailedCount); }
 
 
 

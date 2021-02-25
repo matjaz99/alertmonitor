@@ -42,15 +42,15 @@ public class AmMetrics {
             .help("Timestamp of last event (raise, clear or update)")
             .register();
 
-    public static final Counter alertmonitor_resync_task_total = Counter.build()
-            .name("alertmonitor_resync_task_total")
-            .help("Total number of executed resync tasks.")
+    public static final Counter alertmonitor_psync_task_total = Counter.build()
+            .name("alertmonitor_psync_task_total")
+            .help("Total number of executed psync tasks.")
             .labelNames("result")
             .register();
 
-    public static final Gauge alertmonitor_resync_interval_seconds = Gauge.build()
-            .name("alertmonitor_resync_interval_seconds")
-            .help("Resync interval.")
+    public static final Gauge alertmonitor_psync_interval_seconds = Gauge.build()
+            .name("alertmonitor_psync_interval_seconds")
+            .help("Periodic synchronization interval.")
             .register();
 
 }

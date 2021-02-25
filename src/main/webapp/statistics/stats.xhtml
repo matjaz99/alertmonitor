@@ -45,10 +45,10 @@
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Resync</h3>
-					<p:outputLabel value="Resync interval: #{webhookBean.resyncInterval} sec" />
-					<p:outputLabel value="Resync last time: #{webhookBean.lastResyncTime}" />
-					<p:outputLabel value="Resync count (succ): #{webhookBean.resyncSuccessCount}" />
-					<p:outputLabel value="Resync count (fail): #{webhookBean.resyncFailedCount}" />
+					<p:outputLabel value="Resync interval: #{webhookBean.psyncInterval} sec" />
+					<p:outputLabel value="Resync last time: #{webhookBean.lastPsyncTime}" />
+					<p:outputLabel value="Resync count (succ): #{webhookBean.psyncSuccessCount}" />
+					<p:outputLabel value="Resync count (fail): #{webhookBean.psyncFailedCount}" />
 					<p:outputLabel value="-" />
 					<p:outputLabel value="-" />
 				</p:panelGrid>

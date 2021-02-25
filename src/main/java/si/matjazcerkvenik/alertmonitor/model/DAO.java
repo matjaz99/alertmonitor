@@ -24,8 +24,8 @@ public class DAO {
 
     public static int WEBHOOK_TABLE_SIZE = 5000;
     public static int JOURNAL_TABLE_SIZE = 5000;
-    public static int ALERTMONITOR_RESYNC_INTERVAL_SEC = 300;
-    public static String ALERTMONITOR_RESYNC_ENDPOINT = "http://localhost/prometheus/api/v1/query?query=ALERTS";
+    public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
+    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus/api/v1/alerts";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
 
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
@@ -40,9 +40,9 @@ public class DAO {
     public static int raisingEventCount = 0;
     public static int clearingEventCount = 0;
     public static long lastEventTimestamp = 0;
-    public static long lastResyncTimestamp = 0;
-    public static int resyncSuccessCount = 0;
-    public static int resyncFailedCount = 0;
+    public static long lastPsyncTimestamp = 0;
+    public static int psyncSuccessCount = 0;
+    public static int psyncFailedCount = 0;
 
     private Map<String, DTag> tagMap = new HashMap<>();
 

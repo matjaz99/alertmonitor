@@ -4,7 +4,7 @@ import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 
 import java.util.Random;
 
-public class DNotification {
+public class DNotification implements Cloneable {
 	
 	/** Unique ID of notification */
 	private String uid;
@@ -345,6 +345,11 @@ public class DNotification {
 
 	public void generateCID() {
 		correlationId = MD5Checksum.getMd5Checksum(alertname + info + instance + job);
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 	@Override

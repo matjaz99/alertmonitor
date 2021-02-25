@@ -7,7 +7,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.net.ssl.*;
@@ -17,7 +16,6 @@ import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.TimerTask;
 
 public class PSyncTask extends TimerTask {
@@ -25,7 +23,7 @@ public class PSyncTask extends TimerTask {
     private SimpleLogger logger = DAO.getLogger();
 
     public static void main(String... args) {
-        DAO.ALERTMONITOR_RESYNC_ENDPOINT = "http://pgcentos:9090/api/v1/alerts";
+        DAO.ALERTMONITOR_PSYNC_ENDPOINT = "http://pgcentos:9090/api/v1/alerts";
         PSyncTask rt = new PSyncTask();
         rt.run();
     }
@@ -33,20 +31,20 @@ public class PSyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("PSYNC: === starting resynchronization ===");
-        DAO.lastResyncTimestamp = System.currentTimeMillis();
+        logger.info("PSYNC: === starting periodic synchronization ===");
+        DAO.lastPsyncTimestamp = System.currentTimeMillis();
 
         try {
 
             OkHttpClient httpClient = instantiateHttpClient();
 
             Request request = new Request.Builder()
-                    .url(DAO.ALERTMONITOR_RESYNC_ENDPOINT)
+                    .url(DAO.ALERTMONITOR_PSYNC_ENDPOINT)
                     .addHeader("User-Agent", "Alertmonitor/v1")
                     .get()
                     .build();
 
-            logger.info("PSYNC: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_RESYNC_ENDPOINT);
+            logger.info("PSYNC: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_PSYNC_ENDPOINT);
 
             String responseBody = null;
             Response response = httpClient.newCall(request).execute();
@@ -54,11 +52,11 @@ public class PSyncTask extends TimerTask {
             if (response.isSuccessful()) {
                 responseBody = response.body().string();
                 logger.info("PSYNC: response: " + responseBody);
-                AmMetrics.alertmonitor_resync_task_total.labels("Success").inc();
-                DAO.resyncSuccessCount++;
+                AmMetrics.alertmonitor_psync_task_total.labels("Success").inc();
+                DAO.psyncSuccessCount++;
             } else {
-                AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-                DAO.resyncFailedCount++;
+                AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+                DAO.psyncFailedCount++;
             }
 
             response.close();
@@ -102,6 +100,11 @@ public class PSyncTask extends TimerTask {
                         n.setDescription(alert.getLabels().getOrDefault("description", "-"));
                     } else {
                         n.setDescription(alert.getAnnotations().getOrDefault("description", "-"));
+                    }
+
+                    if (!alert.getState().equals("firing")) {
+                        // ignore alerts in pending state
+                        continue;
                     }
                     n.setStatus("firing");
 
@@ -148,7 +151,15 @@ public class PSyncTask extends TimerTask {
                 }
                 for (String cid : cidToDelete) {
                     logger.info("PSYNC: Removing alert: {cid=" + cid + "}");
-                    DAO.getInstance().removeActiveAlert(DAO.getInstance().getActiveAlerts().get(cid));
+                    DNotification x = DAO.getInstance().getActiveAlerts().get(cid);
+                    // create artificial clear event
+                    DNotification xClone = (DNotification) x.clone();
+                    xClone.setClearTimestamp(System.currentTimeMillis());
+                    xClone.setSeverity(Severity.CLEAR);
+                    xClone.setSource("RESYNC");
+                    xClone.generateUID();
+                    DAO.getInstance().addToJournal(xClone);
+                    DAO.getInstance().removeActiveAlert(x);
                 }
 
                 logger.info("PSYNC: total psync alerts count: " + resyncAlerts.size());
@@ -158,29 +169,29 @@ public class PSyncTask extends TimerTask {
             }
 
         } catch (UnknownHostException e) {
-            logger.error("PSYNC: Failed to resynchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-            DAO.resyncFailedCount++;
+            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
         } catch (SocketTimeoutException e) {
-            logger.error("PSYNC: Failed to resynchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-            DAO.resyncFailedCount++;
+            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
         } catch (SocketException e) {
-            logger.error("PSYNC: Failed to resynchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-            DAO.resyncFailedCount++;
+            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
         } catch (SSLException e) {
-            logger.error("PSYNC: Failed to resynchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-            DAO.resyncFailedCount++;
+            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
         } catch (Exception e) {
-            logger.error("PSYNC: Failed to resynchronize alarms: ", e);
+            logger.error("PSYNC: Failed to synchronize alarms: ", e);
             e.printStackTrace();
-            AmMetrics.alertmonitor_resync_task_total.labels("Failed").inc();
-            DAO.resyncFailedCount++;
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
         }
 
-        logger.info("PSYNC: === resynchronization complete ===");
+        logger.info("PSYNC: === Periodic synchronization complete ===");
 
     }
 
@@ -188,7 +199,7 @@ public class PSyncTask extends TimerTask {
 
     public OkHttpClient instantiateHttpClient() {
 
-        if (!DAO.ALERTMONITOR_RESYNC_ENDPOINT.startsWith("https")) {
+        if (!DAO.ALERTMONITOR_PSYNC_ENDPOINT.startsWith("https")) {
             return new OkHttpClient();
         }
 
