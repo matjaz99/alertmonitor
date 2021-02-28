@@ -48,7 +48,7 @@ Alertmonitor is reachable on: [http://hostname:8080/alertmonitor/](http://hostna
 There is also `docker-compose.yml` file available for deployment in Swarm cluster.
 
 
-### Docker images
+#### Docker images
 
 Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/alertmonitor](https://hub.docker.com/r/matjaz99/alertmonitor)
 
@@ -243,12 +243,20 @@ Rolling file policy can be also configured. For complete simple-logger configura
 
 ## For developers
 
+#### Community
+
+Google group for Alertmonitor Users:
+
+https://groups.google.com/g/alertmonitor-users
+
+#### Dependencies
+
 Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
 
 Primefaces showcase: http://www.primefaces.org:8080/showcase
 
-### Simple-logger maven dependency
+#### Simple-logger maven dependency
 
 Simple-logger is not available on Maven central repo. You can either build it on your own 
 or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar) 
@@ -266,7 +274,7 @@ Run the project with maven:
 mvn tomcat7:run
 ```
 
-### Docker
+#### Docker
 
 Build docker image and push to docker hub:
 
