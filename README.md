@@ -25,7 +25,7 @@ Alertmonitor correlates firing alerts and resolving alerts to display current st
 
 Alerts can be filtered by tags.
 
-Alertmonitor supports periodic synchronization of active alerts with Prometheus. This feature is extremely useful after a broken connection 
+Alertmonitor supports periodic synchronisation of active alerts with Prometheus. This feature is extremely useful after a broken connection 
 to refresh the state of currently active alerts.
 
 
@@ -190,8 +190,8 @@ A list of supported environment variables:
 | EnvVar                             | Default value           | Description        |
 |------------------------------------|-------------------------|------------------- |
 | ALERTMONITOR_JOURNAL_SIZE          | 20000 | Maximum journal size (FIFO). |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronization interval in seconds |
-| ALERTMONITOR_PSYNC_ENDPOINT        | http://localhost/prometheus/api/v1/alerts | The URL of Prometheus API for querying alerts |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronisation interval in seconds |
+| ALERTMONITOR_PSYNC_ENDPOINT        | http://localhost/prometheus/api/v1/alerts | The URL of Prometheus API for active alerts |
 | ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
 
 #### Environment variable substitution

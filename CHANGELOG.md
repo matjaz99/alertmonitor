@@ -1,12 +1,12 @@
-## 1.6.0 / 2021-02-25
+## 1.6.0 / 2021-02-28
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).
 * [CHANGE] `currentValue` moved to annotations (see bug below)
-* [FEATURE] Periodic synchronization of active alerts
+* [FEATURE] Periodic synchronisation of active alerts (#16)
 * [FEATURE] About view with basic configuration options
 * [FEATURE] Added PsyncTask for periodically checking active alerts
 * [FEATURE] Added environment variables for configuration: `ALERTMONITOR_PSYNC_INTERVAL_SEC`, `ALERTMONITOR_PSYNC_ENDPOINT`, `ALERTMONITOR_DATE_FORMAT`
-* [ENHANCEMENT] Added resync statistics
+* [ENHANCEMENT] Added periodic sync statistics
 * [ENHANCEMENT] Added metric `alertmonitor_psync_task_total` and `alertmonitor_psync_interval_seconds`
 * [ENHANCEMENT] Show number of alerts in last hour in statistics
 * [ENHANCEMENT] Instance view shows active alerts and journal
