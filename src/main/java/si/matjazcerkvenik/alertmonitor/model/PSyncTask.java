@@ -81,7 +81,7 @@ public class PSyncTask extends TimerTask {
                     DNotification n = new DNotification();
                     n.setTimestamp(System.currentTimeMillis());
                     n.setAlertname(alert.getLabels().getOrDefault("alertname", "-unknown-"));
-                    n.setSource("RESYNC");
+                    n.setSource("PSYNC");
                     n.setUserAgent("Alertmonitor/v1");
                     n.setInstance(alert.getLabels().getOrDefault("instance", "-"));
                     n.setHostname(AlertmanagerProcessor.stripInstance(n.getInstance()));
