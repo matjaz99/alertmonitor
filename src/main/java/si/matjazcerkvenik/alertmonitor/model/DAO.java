@@ -28,7 +28,7 @@ public class DAO {
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus/api/v1/alerts";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
-    public static String ALERTMONITOR_KAFKA_SERVER = "centosvm:9092";
+    public static String ALERTMONITOR_KAFKA_SERVER = "promvm:9092";
 
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
     private List<DNotification> journal = new LinkedList<>();

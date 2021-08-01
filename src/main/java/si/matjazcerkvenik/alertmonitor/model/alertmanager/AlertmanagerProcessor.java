@@ -33,6 +33,7 @@ public class AlertmanagerProcessor {
         for (DNotification n : dn) {
 
             DAO.getInstance().addToJournal(n);
+            KafkaClient.getInstance().publish("alertmonitor_notifications", Formatter.toJson(n));
 
             if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
                     || n.getSeverity().equals(Severity.INDETERMINATE)) {
@@ -54,8 +55,6 @@ public class AlertmanagerProcessor {
                     DAO.getLogger().info("Adding active alarm: " + n.getCorrelationId());
                 }
             }
-
-            KafkaClient.getInstance().publish("alertmonitor_notifications", Formatter.toJson(n));
 
         }
 

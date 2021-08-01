@@ -44,6 +44,7 @@ public class KafkaClient {
 
         producer.send(new ProducerRecord<String, String>(topic, Long.toString(msgCounter), json));
         msgCounter++;
+        DAO.getLogger().info("kafka publish: [" + props.get("bootstrap.servers") + "]: " + json);
 
     }
 }
