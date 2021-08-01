@@ -1,3 +1,7 @@
+## 1.6.1-SNAPSHOT
+
+* [FEATURE] Kafka publisher
+
 ## 1.6.0 / 2021-02-28
 
 * [CHANGE] Target view shows also targets with no active alerts (targets with at least one record in journal).

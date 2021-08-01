@@ -6,6 +6,8 @@ import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.Severity;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
+import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
@@ -52,6 +54,9 @@ public class AlertmanagerProcessor {
                     DAO.getLogger().info("Adding active alarm: " + n.getCorrelationId());
                 }
             }
+
+            KafkaClient.getInstance().publish("alertmonitor_notifications", Formatter.toJson(n));
+
         }
 
     }

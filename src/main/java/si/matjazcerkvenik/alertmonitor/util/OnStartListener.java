@@ -57,6 +57,7 @@ public class OnStartListener implements ServletContextListener {
 //        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts");
         DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090/api/v1/alerts");
         DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
+        DAO.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "centosvm:9092");
 
         // runtime memory info
         int mb = 1024 * 1024;
