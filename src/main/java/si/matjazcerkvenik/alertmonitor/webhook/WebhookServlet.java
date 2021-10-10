@@ -48,6 +48,9 @@ public class WebhookServlet extends HttpServlet {
 
 	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
 
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+
 		DAO.getLogger().info("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
 		DAO.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
 		DAO.getLogger().info("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());

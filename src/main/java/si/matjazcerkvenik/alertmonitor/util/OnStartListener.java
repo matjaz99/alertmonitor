@@ -2,6 +2,7 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.PSyncTask;
+import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -57,7 +58,9 @@ public class OnStartListener implements ServletContextListener {
 //        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts");
         DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090/api/v1/alerts");
         DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
+        DAO.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false"));
         DAO.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "promvm:9092");
+        DAO.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_notifications");
 
         // runtime memory info
         int mb = 1024 * 1024;
@@ -82,29 +85,32 @@ public class OnStartListener implements ServletContextListener {
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
 
         // start resync timer
-        if (pSyncTask == null) {
-            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_psync_interval_seconds.set(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
-                pSyncTimer = new Timer("PSyncTimer");
-                pSyncTask = new PSyncTask();
-                pSyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
-            }
-        }
+//        if (pSyncTask == null) {
+//            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+//            AmMetrics.alertmonitor_psync_interval_seconds.set(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+//            if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
+//                pSyncTimer = new Timer("PSyncTimer");
+//                pSyncTask = new PSyncTask();
+//                pSyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
+//            }
+//        }
+
+        TaskManager.getInstance().restartPsyncTimer();
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
-        if (pSyncTimer != null) {
-            pSyncTimer.cancel();
-            pSyncTimer = null;
-        }
-        if (pSyncTask != null) {
-            pSyncTask.cancel();
-            pSyncTask = null;
-        }
+//        if (pSyncTimer != null) {
+//            pSyncTimer.cancel();
+//            pSyncTimer = null;
+//        }
+//        if (pSyncTask != null) {
+//            pSyncTask.cancel();
+//            pSyncTask = null;
+//        }
+        TaskManager.getInstance().stopPsyncTimer();
 
 
         DAO.getLogger().info("#");

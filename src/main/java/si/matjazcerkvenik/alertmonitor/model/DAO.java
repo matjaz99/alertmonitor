@@ -23,12 +23,13 @@ public class DAO {
     private static DAO instance;
 
     /** Rnvironment variables */
-    public static int WEBHOOK_TABLE_SIZE = 5000;
     public static int JOURNAL_TABLE_SIZE = 5000;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus/api/v1/alerts";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
+    public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
     public static String ALERTMONITOR_KAFKA_SERVER = "promvm:9092";
+    public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_notifications";
 
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
     private List<DNotification> journal = new LinkedList<>();
@@ -73,7 +74,7 @@ public class DAO {
      * @param message incoming message
      */
     public void addWebhookMessage(WebhookMessage message) {
-        while (webhookMessages.size() > WEBHOOK_TABLE_SIZE) {
+        while (webhookMessages.size() > JOURNAL_TABLE_SIZE) {
             webhookMessages.remove(0);
         }
         webhookMessages.add(message);

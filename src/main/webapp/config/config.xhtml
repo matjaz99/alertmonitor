@@ -1,0 +1,60 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:outputLabel value="Configuration" style="font-weight: bold; font-size: 24px;"/>
+			<p:outputLabel class="plaintext" value="(click on parameter to edit)" />
+
+			<br/>
+			<hr/>
+			<br/>
+
+			<h:form id="configForm">
+
+				<p:panelGrid columns="2">
+
+					<p:outputLabel value="Journal max size: " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{webhookBean.journalMaxSize}" required="true" label="text"/>
+					</p:inplace>
+
+					<p:outputLabel value="Alert sync endpoint: " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{webhookBean.psyncEndpoint}" required="true" label="text"/>
+					</p:inplace>
+
+					<p:outputLabel value="Periodic sync interval (sec): " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{webhookBean.psyncInterval}" required="true" label="text"/>
+					</p:inplace>
+
+					<p:outputLabel value="Kafka enabled: " style="font-weight: bold; font-size: 14px;"/>
+					<p:selectBooleanCheckbox value="#{webhookBean.kafkaEnabled}">
+						<p:ajax update="growl" listener="#{webhookBean.addMessage}"/>
+					</p:selectBooleanCheckbox>
+
+					<p:outputLabel value="Kafka server: " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{webhookBean.kafkaServer}" required="true" label="text"/>
+					</p:inplace>
+
+					<p:outputLabel value="Kafka topic: " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{webhookBean.kafkaTopic}" required="true" label="text"/>
+					</p:inplace>
+
+				</p:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

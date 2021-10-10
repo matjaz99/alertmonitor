@@ -33,12 +33,13 @@ public class AlertmanagerProcessor {
         for (DNotification n : dn) {
 
             DAO.getInstance().addToJournal(n);
-            KafkaClient.getInstance().publish("alertmonitor_notifications", Formatter.toJson(n));
 
-            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
-                    || n.getSeverity().equals(Severity.INDETERMINATE)) {
-                continue;
-            }
+            if (DAO.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(DAO.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(n));
+
+//            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
+//                    || n.getSeverity().equals(Severity.INDETERMINATE)) {
+//                continue;
+//            }
 
             // correlation
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {

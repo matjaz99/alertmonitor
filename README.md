@@ -170,6 +170,10 @@ This view shows statistical data, such as:
 - timers (up time, time since last event...)
 - psync success rate
 
+#### Configuratiion view
+
+Here it is possible to change some configuration parameters during runtime.
+
 #### About view
 
 Application meta data, version, build info...
@@ -193,6 +197,9 @@ A list of supported environment variables:
 | ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronisation interval in seconds |
 | ALERTMONITOR_PSYNC_ENDPOINT        | http://localhost/prometheus/api/v1/alerts | The URL of Prometheus API for active alerts |
 | ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
+| ALERTMONITOR_KAFKA_ENABLED         | false | Enable or disable publishing to Kafka |
+| ALERTMONITOR_KAFKA_SERVER          | hostname:9092 | Hostname and port for Kafka |
+| ALERTMONITOR_KAFKA_TOPIC           | alertmonitor_notifications | Name of topic |
 
 #### Environment variable substitution
 

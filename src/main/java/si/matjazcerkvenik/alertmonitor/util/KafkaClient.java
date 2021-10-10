@@ -23,8 +23,10 @@ public class KafkaClient {
 
 //        props.put("bootstrap.servers", "centosvm:9092");
         props.put("bootstrap.servers", DAO.ALERTMONITOR_KAFKA_SERVER);
-        props.put("acks", "all");
-        props.put("retries", 0);
+//        props.put("acks", "all");   // all replicas acknowledge reception
+        props.put("acks", "0");   // do not wait confirmation
+        props.put("retries", 0);   // only relevant if acks=all or acks=1
+//        props.put("request.timeout.ms", 3000);  // only relevant if acks=all or acks=1
         props.put("batch.size", 16384);
         props.put("linger.ms", 1);
         props.put("buffer.memory", 33554432);
@@ -45,5 +47,10 @@ public class KafkaClient {
         producer.send(new ProducerRecord<String, String>(topic, Long.toString(msgCounter++), json));
         DAO.getLogger().info("kafka publish to topic: " + topic + ": [" + props.get("bootstrap.servers") + "]: " + json);
 
+    }
+
+    public void resetClient() {
+        producer.close();
+        kafkaClient = null;
     }
 }

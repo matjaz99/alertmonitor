@@ -1,6 +1,10 @@
 ## 1.6.1-SNAPSHOT
 
-* [FEATURE] Kafka publisher
+* [CHANGE] Alerts with severity `indeterminate` and `informatinal` are now also displayed in list of active alerts
+* [FEATURE] Kafka publisher will send each received alert to Kafka topic. Added environment variables for 
+configuration: `ALERTMONITOR_KAFKA_ENABLED` (default=false), `ALERTMONITOR_KAFKA_SERVER`, and 
+`ALERTMONITOR_KAFKA_TOPIC`
+* [FEATURE] Configuration view for changing runtime parameters
 
 ## 1.6.0 / 2021-02-28
 

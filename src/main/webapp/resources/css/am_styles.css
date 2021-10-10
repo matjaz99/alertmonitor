@@ -10,6 +10,16 @@ hr {
     height: 1px;
     background: #222222;
 }
+.plaintext {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #222222;
+}
+#configForm {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #222222;
+}
 .critical {
 	background-color: #ff0000 !important;
 	background-image: none !important;

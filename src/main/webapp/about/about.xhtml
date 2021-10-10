@@ -9,19 +9,24 @@
 		<ui:define name="contentFrame">
 
 			<p:outputLabel value="Alertmonitor #{webhookBean.version}" style="font-weight: bold; font-size: 24px;"/>
-			<p:outputLabel value="Maintainer: Matjaž Cerkvenik" />
+			<p:outputLabel class="plaintext" value="Maintainer: Matjaž Cerkvenik" />
+			<p:outputLabel class="plaintext" value="Alertmonitor home page: " >
+				<h:outputLink value="https://www.matjazcerkvenik.si/projects/alertmonitor" >
+					https://www.matjazcerkvenik.si/projects/alertmonitor
+				</h:outputLink>
+			</p:outputLabel>
+			<p:outputLabel class="plaintext" value="Google groups: " >
+				<h:outputLink value="https://groups.google.com/g/alertmonitor-users" >
+					https://groups.google.com/g/alertmonitor-users
+				</h:outputLink>
+			</p:outputLabel>
+			<p:outputLabel class="plaintext" value="Github project: " >
+				<h:outputLink value="https://github.com/matjaz99/alertmonitor" >
+					https://github.com/matjaz99/alertmonitor
+				</h:outputLink>
+			</p:outputLabel>
 
 			<br/>
-			<hr/>
-
-			<h:form id="configForm">
-
-				<p:outputLabel value="Alert sync endpoint: " style="font-weight: bold; font-size: 14px;"/>
-				<p:inplace editor="true">
-					<p:inputText value="#{webhookBean.psyncEndpoint}" required="true" label="text"/>
-				</p:inplace>
-
-			</h:form>
 
 		</ui:define>
 	</div>

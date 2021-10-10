@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
+import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -37,6 +38,10 @@ public class WebhookBean {
 	private List<DTag> tagList = new ArrayList<>();
 
 	private String searchString;
+
+	public void addMessage() {
+		Growl.showInfoGrowl("Configuration updated", "");
+	}
 
 	public String getSearchString() {
 		return searchString;
@@ -83,6 +88,15 @@ public class WebhookBean {
 		return DAO.getInstance().getJournal().size();
 	}
 
+	public void setJournalMaxSize(String size) {
+
+		DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
+		DAO.getLogger().info("WebhookBean: journal max size changed:" + DAO.JOURNAL_TABLE_SIZE);
+//		Growl.showInfoGrowl("Configuration updated", "");
+	}
+
+	public String getJournalMaxSize() { return Integer.toString(DAO.JOURNAL_TABLE_SIZE); }
+
 	public int getAlarmsCount() {
 		return DAO.raisingEventCount;
 	}
@@ -115,6 +129,14 @@ public class WebhookBean {
 		return false;
 	}
 
+	public void setPsyncInterval(String interval) {
+
+		DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
+		DAO.getLogger().info("WebhookBean: psync interval changed:" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+//		Growl.showInfoGrowl("Configuration updated", "");
+		TaskManager.getInstance().restartPsyncTimer();
+	}
+
 	public String getPsyncInterval() { return Integer.toString(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
 
 	public String getLastPsyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastPsyncTimestamp); }
@@ -123,7 +145,33 @@ public class WebhookBean {
 
 	public String getPsyncFailedCount() { return Integer.toString(DAO.psyncFailedCount); }
 
+	public void setKafkaEnabled(boolean kafkaEnabled) {
+		DAO.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
+		DAO.getLogger().info("WebhookBean: kafka enabled changed:" + DAO.ALERTMONITOR_KAFKA_ENABLED);
+	}
 
+	public boolean isKafkaEnabled() {
+		return DAO.ALERTMONITOR_KAFKA_ENABLED;
+	}
+
+	public void setKafkaServer(String kafkaServer) {
+		DAO.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
+		DAO.getLogger().info("WebhookBean: kafka server changed:" + DAO.ALERTMONITOR_KAFKA_SERVER);
+		KafkaClient.getInstance().resetClient();
+	}
+
+	public String getKafkaServer() {
+		return DAO.ALERTMONITOR_KAFKA_SERVER;
+	}
+
+	public void setKafkaTopic(String kafkaTopic) {
+		DAO.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
+		DAO.getLogger().info("WebhookBean: kafka topic changed:" + DAO.ALERTMONITOR_KAFKA_TOPIC);
+	}
+
+	public String getKafkaTopic() {
+		return DAO.ALERTMONITOR_KAFKA_TOPIC;
+	}
 
 	public List<WebhookMessage> getWebhookMessages() {
 		return DAO.getInstance().getWebhookMessages();
