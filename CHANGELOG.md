@@ -5,6 +5,8 @@
 configuration: `ALERTMONITOR_KAFKA_ENABLED` (default=false), `ALERTMONITOR_KAFKA_SERVER`, and 
 `ALERTMONITOR_KAFKA_TOPIC`
 * [FEATURE] Configuration view for changing runtime parameters
+* [ENHANCEMENT] Get other labels as well, not just 'supported' ones. Eg. external_labels
+* [BUG] Fixed typos
 
 ## 1.6.0 / 2021-02-28
 

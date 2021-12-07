@@ -1,0 +1,2514 @@
+{
+  "status": "success",
+  "data": {
+    "alerts": [
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://www.ebay.com/ is down",
+          "instance": "https://www.ebay.com/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://www.ebay.com/ has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:42.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on http://prometheus.io is down",
+          "instance": "http://prometheus.io",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on http://prometheus.io has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:42.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://prom.devops.iskratel.cloud/prometheus is down",
+          "instance": "https://prom.devops.iskratel.cloud/prometheus",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://prom.devops.iskratel.cloud/prometheus has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:42.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://prom.devops.iskratel.cloud/grafana is down",
+          "instance": "https://prom.devops.iskratel.cloud/grafana",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://prom.devops.iskratel.cloud/grafana has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://vmgitent.iskratel.si is down",
+          "instance": "https://vmgitent.iskratel.si",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://vmgitent.iskratel.si has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://www.amazon.com/ is down",
+          "instance": "https://www.amazon.com/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://www.amazon.com/ has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:12.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://prometheus.io is down",
+          "instance": "https://prometheus.io",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://prometheus.io has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:27.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://pmon.compact.si/ is down",
+          "instance": "https://pmon.compact.si/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://pmon.compact.si/ has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:42.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://prom.devops.iskratel.cloud/alertmonitor is down",
+          "instance": "https://prom.devops.iskratel.cloud/alertmonitor",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://prom.devops.iskratel.cloud/alertmonitor has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Not Responding",
+          "info": "HTTP on https://gitlab.iskratel.si is down",
+          "instance": "https://gitlab.iskratel.si",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http, webserver"
+        },
+        "annotations": {
+          "summary": "HTTP on https://gitlab.iskratel.si has been down for more than 2 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:12.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://prometheus.io has been failing for more than 10 minutes.",
+          "instance": "https://prometheus.io",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://prometheus.io has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T12:44:12Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on http://prometheus.io has been failing for more than 10 minutes.",
+          "instance": "http://prometheus.io",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on http://prometheus.io has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T12:44:12Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://pmon.compact.si/ has been failing for more than 10 minutes.",
+          "instance": "https://pmon.compact.si/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://pmon.compact.si/ has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:42Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://vmgitent.iskratel.si has been failing for more than 10 minutes.",
+          "instance": "https://vmgitent.iskratel.si",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://vmgitent.iskratel.si has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://prom.devops.iskratel.cloud/alertmonitor has been failing for more than 10 minutes.",
+          "instance": "https://prom.devops.iskratel.cloud/alertmonitor",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://prom.devops.iskratel.cloud/alertmonitor has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://prom.devops.iskratel.cloud/grafana has been failing for more than 10 minutes.",
+          "instance": "https://prom.devops.iskratel.cloud/grafana",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://prom.devops.iskratel.cloud/grafana has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:57.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://www.amazon.com/ has been failing for more than 10 minutes.",
+          "instance": "https://www.amazon.com/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://www.amazon.com/ has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:12.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://prom.devops.iskratel.cloud/prometheus has been failing for more than 10 minutes.",
+          "instance": "https://prom.devops.iskratel.cloud/prometheus",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://prom.devops.iskratel.cloud/prometheus has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:27Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://www.ebay.com/ has been failing for more than 10 minutes.",
+          "instance": "https://www.ebay.com/",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://www.ebay.com/ has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:57Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "HTTP Probe Failing",
+          "info": "HTTP probe on https://gitlab.iskratel.si has been failing for more than 10 minutes.",
+          "instance": "https://gitlab.iskratel.si",
+          "job": "blackbox-http",
+          "severity": "minor",
+          "tags": "http"
+        },
+        "annotations": {
+          "summary": "HTTP probe on https://gitlab.iskratel.si has been failing for more than 10 minutes."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:12.123835141Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "snmp-exporter not responding",
+          "instance": "172.18.216.216",
+          "job": "snmp-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.18.216.216 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "cadvisor not responding",
+          "instance": "pmon.compact.si:9080",
+          "job": "cadvisor",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on pmon.compact.si:9080 is not reachable.",
+          "summary": "Exporter cadvisor is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "172.29.6.6",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.29.6.6 is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "openbaton not responding",
+          "instance": "172.29.100.5:8080",
+          "job": "openbaton",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.29.100.5:8080 is not reachable.",
+          "summary": "Exporter openbaton is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "snmp-exporter not responding",
+          "instance": "172.18.212.76",
+          "job": "snmp-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.18.212.76 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "dns-enum-slave.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on dns-enum-slave.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "ansibleic.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on ansibleic.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "metricslib not responding",
+          "instance": "mcrk-docker-2:9099",
+          "job": "metricslib",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mcrk-docker-2:9099 is not reachable.",
+          "summary": "Exporter metricslib is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "nexus.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on nexus.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "sipcscf.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on sipcscf.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "openbaton not responding",
+          "instance": "172.29.100.100:8080",
+          "job": "openbaton",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.29.100.100:8080 is not reachable.",
+          "summary": "Exporter openbaton is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "snmp-exporter not responding",
+          "instance": "192.168.133.3",
+          "job": "snmp-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 192.168.133.3 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-exporter not responding",
+          "instance": "ping-exporter:9346",
+          "job": "ping-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on ping-exporter:9346 is not reachable.",
+          "summary": "Exporter ping-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "matjazcerkvenik.si",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on matjazcerkvenik.si is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "cadvisor not responding",
+          "instance": "mcrk-docker-1:9080",
+          "job": "cadvisor",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mcrk-docker-1:9080 is not reachable.",
+          "summary": "Exporter cadvisor is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "cadvisor not responding",
+          "instance": "mcrk-docker-3:9080",
+          "job": "cadvisor",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mcrk-docker-3:9080 is not reachable.",
+          "summary": "Exporter cadvisor is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "rabbitmq not responding",
+          "instance": "rabbitmq-exporter:9419",
+          "job": "rabbitmq",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on rabbitmq-exporter:9419 is not reachable.",
+          "summary": "Exporter rabbitmq is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "hss.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on hss.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "dockerbaton not responding",
+          "instance": "172.29.6.6:18080",
+          "job": "dockerbaton",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.29.6.6:18080 is not reachable.",
+          "summary": "Exporter dockerbaton is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "vmgitent.iskratel.si",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on vmgitent.iskratel.si is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "nexus11.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on nexus11.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "it-gitlab not responding",
+          "instance": "gitlab.iskratel.si:443",
+          "job": "it-gitlab",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on gitlab.iskratel.si:443 is not reachable.",
+          "summary": "Exporter it-gitlab is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "cadvisor not responding",
+          "instance": "mcrk-docker-2:9080",
+          "job": "cadvisor",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mcrk-docker-2:9080 is not reachable.",
+          "summary": "Exporter cadvisor is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "traefik not responding",
+          "instance": "mcrk-docker-1:8085",
+          "job": "traefik",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mcrk-docker-1:8085 is not reachable.",
+          "summary": "Exporter traefik is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "gitlab.iskratel.si",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on gitlab.iskratel.si is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "prometheus.io",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on prometheus.io is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "snmp-exporter not responding",
+          "instance": "192.168.1.222",
+          "job": "snmp-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 192.168.1.222 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "snmp-exporter not responding",
+          "instance": "172.18.216.215",
+          "job": "snmp-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 172.18.216.215 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "pmonmak.servis.mak:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on pmonmak.servis.mak:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "dns-enum-master.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on dns-enum-master.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "ping-probe not responding",
+          "instance": "centosvm",
+          "job": "ping-probe",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on centosvm is not reachable.",
+          "summary": "Exporter ping-probe is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "coredns not responding",
+          "instance": "coredns:9153",
+          "job": "coredns",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on coredns:9153 is not reachable.",
+          "summary": "Exporter coredns is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "pmon not responding",
+          "instance": "192.168.1.99:8084",
+          "job": "pmon",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on 192.168.1.99:8084 is not reachable.",
+          "summary": "Exporter pmon is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "mns.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on mns.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100130",
+          "alertname": "Exporter Down",
+          "info": "node-exporter not responding",
+          "instance": "vmgitent.iskratel.si:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "warning",
+          "tags": "exporter"
+        },
+        "annotations": {
+          "console": "Check the Grafana Dashboard at http://${GRAFANA_HOSTNAME}:3000",
+          "description": "Exporter on vmgitent.iskratel.si:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "mns.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on mns.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T14:34:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "nexus11.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on nexus11.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-18T21:39:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "ansibleic.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on ansibleic.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T14:34:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "sipcscf.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on sipcscf.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-03T16:12:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "vmgitent.iskratel.si:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on vmgitent.iskratel.si:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:12:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "dns-enum-slave.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on dns-enum-slave.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-03T16:12:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "nexus.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on nexus.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-18T21:39:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "dns-enum-master.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on dns-enum-master.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:12:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "hss.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on hss.devops.iskratel.cloud:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T14:34:37Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "4100120",
+          "alertname": "Server Is Not Monitored",
+          "info": "node-exporter not responding",
+          "instance": "pmonmak.servis.mak:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "major",
+          "tags": "exporter, node, server"
+        },
+        "annotations": {
+          "description": "Exporter on pmonmak.servis.mak:9100 is not reachable.",
+          "summary": "Exporter node-exporter is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:12:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809010",
+          "alertname": "SNMP Is Not Monitored",
+          "info": "Exporter snmp-exporter not responding!",
+          "instance": "192.168.133.3",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "exporter, snmp"
+        },
+        "annotations": {
+          "description": "Exporter on 192.168.133.3 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809010",
+          "alertname": "SNMP Is Not Monitored",
+          "info": "Exporter snmp-exporter not responding!",
+          "instance": "192.168.1.222",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "exporter, snmp"
+        },
+        "annotations": {
+          "description": "Exporter on 192.168.1.222 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809010",
+          "alertname": "SNMP Is Not Monitored",
+          "info": "Exporter snmp-exporter not responding!",
+          "instance": "172.18.212.76",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "exporter, snmp"
+        },
+        "annotations": {
+          "description": "Exporter on 172.18.212.76 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:22.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809010",
+          "alertname": "SNMP Is Not Monitored",
+          "info": "Exporter snmp-exporter not responding!",
+          "instance": "172.18.216.215",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "exporter, snmp"
+        },
+        "annotations": {
+          "description": "Exporter on 172.18.216.215 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809010",
+          "alertname": "SNMP Is Not Monitored",
+          "info": "Exporter snmp-exporter not responding!",
+          "instance": "172.18.216.216",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "exporter, snmp"
+        },
+        "annotations": {
+          "description": "Exporter on 172.18.216.216 is not reachable.",
+          "summary": "Exporter snmp-exporter is down!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:37.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Application Is Not Monitored",
+          "info": "Exporter pmon is down!",
+          "instance": "192.168.1.99:8084",
+          "job": "pmon",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "exporter, application"
+        },
+        "annotations": {
+          "description": "Exporter on 192.168.1.99:8084 is not reachable.",
+          "summary": "Exporter pmon not responding!"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Application Is Not Monitored",
+          "info": "Exporter rabbitmq is down!",
+          "instance": "rabbitmq-exporter:9419",
+          "job": "rabbitmq",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "exporter, application"
+        },
+        "annotations": {
+          "description": "Exporter on rabbitmq-exporter:9419 is not reachable.",
+          "summary": "Exporter rabbitmq not responding!"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:12:22Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Application Is Not Monitored",
+          "info": "Exporter openbaton is down!",
+          "instance": "172.29.100.100:8080",
+          "job": "openbaton",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "exporter, application"
+        },
+        "annotations": {
+          "description": "Exporter on 172.29.100.100:8080 is not reachable.",
+          "summary": "Exporter openbaton not responding!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Application Is Not Monitored",
+          "info": "Exporter openbaton is down!",
+          "instance": "172.29.100.5:8080",
+          "job": "openbaton",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "exporter, application"
+        },
+        "annotations": {
+          "description": "Exporter on 172.29.100.5:8080 is not reachable.",
+          "summary": "Exporter openbaton not responding!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Application Is Not Monitored",
+          "info": "Exporter dockerbaton is down!",
+          "instance": "172.29.6.6:18080",
+          "job": "dockerbaton",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "exporter, application"
+        },
+        "annotations": {
+          "description": "Exporter on 172.29.6.6:18080 is not reachable.",
+          "summary": "Exporter dockerbaton not responding!"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:52.795336553Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Openbaton not all replicas running",
+          "info": "Number of running replicas is different than number of requested replicas on 10.0.31.6:9100.",
+          "instance": "10.0.31.6:9100",
+          "job": "node-exporter",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "openbaton, application"
+        },
+        "annotations": {
+          "description": "Number of running replicas is different than number of requested replicas on 10.0.31.6:9100.",
+          "summary": "Openbaton not all replicas running on 10.0.31.6:9100."
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:22.795336553Z",
+        "value": "-8e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "8400090",
+          "alertname": "Missing Node Exporter",
+          "info": "A container node exporter is missing",
+          "severity": "warning",
+          "tags": "docker, swarm"
+        },
+        "annotations": {
+          "description": "A node-expoter container is not running on a host ",
+          "summary": "A container node exporter is missing"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:34.407369467Z",
+        "value": "2e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "7600020",
+          "alertname": "Memory usage",
+          "info": "Memory alert for node 'openbaton.devops.iskratel.cloud'",
+          "instance": "openbaton.devops.iskratel.cloud",
+          "node_name": "openbaton.devops.iskratel.cloud",
+          "nodename": "openbaton.devops.iskratel.cloud",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "server, memory, docker, swarm"
+        },
+        "annotations": {
+          "currentValue": "84.43%",
+          "description": "Memory usage is at 84.43%.",
+          "summary": "Memory alert for node 'openbaton.devops.iskratel.cloud'"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:34.778716768Z",
+        "value": "8.442977845014491e+01"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'KAMNISKA BISTRICA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "KAMNISKA BISTRICA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-3.2C",
+          "description": "It's freezing in 'KAMNISKA BISTRICA'. Current temperature is -3.2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-3.2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LOGATEC (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LOGATEC (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'LOGATEC (AMS)'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'KRANJ (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "KRANJ (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'KRANJ (AMS)'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'POSTOJNA (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "POSTOJNA (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1.9C",
+          "description": "It's freezing in 'POSTOJNA (AMS)'. Current temperature is -1.9C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.9e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'RATECE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "RATECE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-9C",
+          "description": "It's freezing in 'RATECE'. Current temperature is -9C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-9e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'RAVNE NA KOROSKEM (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "RAVNE NA KOROSKEM (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-3.9C",
+          "description": "It's freezing in 'RAVNE NA KOROSKEM (AMS)'. Current temperature is -3.9C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-3.9e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'CELJE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "CELJE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1C",
+          "description": "It's freezing in 'CELJE'. Current temperature is -1C.",
+          "summary": "Freezing alert"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:27:07.915576732Z",
+        "value": "-1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LISCA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LISCA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'LISCA'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'BOVEC (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "BOVEC (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'BOVEC (AMS)'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LITIJA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LITIJA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-0.9C",
+          "description": "It's freezing in 'LITIJA'. Current temperature is -0.9C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-9e-01"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'TREBNJE (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "TREBNJE (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1.8C",
+          "description": "It's freezing in 'TREBNJE (AMS)'. Current temperature is -1.8C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.8e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'KOCEVJE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "KOCEVJE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'KOCEVJE'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'BABNO POLJE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "BABNO POLJE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-6.5C",
+          "description": "It's freezing in 'BABNO POLJE'. Current temperature is -6.5C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-6.5e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LJUBLJANA/BRNIK'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LJUBLJANA/BRNIK",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-2C",
+          "description": "It's freezing in 'LJUBLJANA/BRNIK'. Current temperature is -2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'RATECE (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "RATECE (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-8.8C",
+          "description": "It's freezing in 'RATECE (AMS)'. Current temperature is -8.8C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-8.8e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'VRHNIKA (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "VRHNIKA (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1.2C",
+          "description": "It's freezing in 'VRHNIKA (AMS)'. Current temperature is -1.2C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.2e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'KRSKO-NEK (AMS)'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "KRSKO-NEK (AMS)",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-0.4C",
+          "description": "It's freezing in 'KRSKO-NEK (AMS)'. Current temperature is -0.4C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-4e-01"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'IDRIJA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "IDRIJA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1.3C",
+          "description": "It's freezing in 'IDRIJA'. Current temperature is -1.3C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.3e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'STOCKHOLM'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "STOCKHOLM",
+          "region": "eu",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-13C",
+          "description": "It's freezing in 'STOCKHOLM'. Current temperature is -13C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.3e+01"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'CERKLJE - LETALISCE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "CERKLJE - LETALISCE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1C",
+          "description": "It's freezing in 'CERKLJE - LETALISCE'. Current temperature is -1C.",
+          "summary": "Freezing alert"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:29:07.915576732Z",
+        "value": "-1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'VOGEL'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "VOGEL",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-6C",
+          "description": "It's freezing in 'VOGEL'. Current temperature is -6C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-6e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'KREDARICA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "KREDARICA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-13C",
+          "description": "It's freezing in 'KREDARICA'. Current temperature is -13C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-1.3e+01"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LESCE'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LESCE",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-4C",
+          "description": "It's freezing in 'LESCE'. Current temperature is -4C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-4e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'POSTOJNA'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "POSTOJNA",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1C",
+          "description": "It's freezing in 'POSTOJNA'. Current temperature is -1C.",
+          "summary": "Freezing alert"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:28:07.915576732Z",
+        "value": "-1e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'CERKNISKO JEZERO'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "CERKNISKO JEZERO",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-3.3C",
+          "description": "It's freezing in 'CERKNISKO JEZERO'. Current temperature is -3.3C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-3.3e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'SLOVENJ GRADEC'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "SLOVENJ GRADEC",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-4C",
+          "description": "It's freezing in 'SLOVENJ GRADEC'. Current temperature is -4C.",
+          "summary": "Freezing alert"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:07.915576732Z",
+        "value": "-4e+00"
+      },
+      {
+        "labels": {
+          "alertname": "Freezing",
+          "info": "Temperature is below zero in 'LJUBLJANA/BEZIGRAD'",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter",
+          "location": "LJUBLJANA/BEZIGRAD",
+          "region": "slo",
+          "severity": "major",
+          "tags": "weather, temperature"
+        },
+        "annotations": {
+          "currentValue": "-1C",
+          "description": "It's freezing in 'LJUBLJANA/BEZIGRAD'. Current temperature is -1C.",
+          "summary": "Freezing alert"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:27:07.915576732Z",
+        "value": "-1e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "100170",
+          "alertname": "Systemd services not monitored",
+          "info": "Systemd services are not monitored!",
+          "priority": "low",
+          "severity": "minor",
+          "tags": "systemd"
+        },
+        "annotations": {
+          "summary": "Systemd services are not monitored!"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:12:22Z",
+        "value": "1e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "3900030",
+          "alertname": "High Memory Usage",
+          "info": "High memory usage on openbaton.devops.iskratel.cloud:9100",
+          "instance": "openbaton.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "minor",
+          "tags": "server, memory",
+          "url": "https://${GRAFANA_HOSTNAME}/grafana/d/7pMVh5Kmz/server-monitor"
+        },
+        "annotations": {
+          "currentValue": "84.43%",
+          "description": "Memory usage is over 84.43%.",
+          "summary": "High memory usage on 'openbaton.devops.iskratel.cloud:9100'"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-01T21:30:01Z",
+        "value": "8.442977845014491e+01"
+      },
+      {
+        "labels": {
+          "alarmcode": "6600070",
+          "alertname": "Interface down",
+          "ifDescr": "VLAN ID 4093",
+          "ifIndex": "5093",
+          "info": "Interface VLAN ID 4093",
+          "instance": "192.168.140.4",
+          "job": "snmp-exporter",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "snmp, interface"
+        },
+        "annotations": {
+          "description": "ifIndex=5093, ifDescr=VLAN ID 4093",
+          "summary": "Interface VLAN ID 4093 on 192.168.140.4 is down"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:54.339295778Z",
+        "value": "2e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "300070",
+          "alertname": "Gitlab HTTP not responding",
+          "info": "Gitlab is not responding to HTTP requests",
+          "instance": "https://gitlab.iskratel.si",
+          "job": "blackbox-http",
+          "priority": "high",
+          "severity": "major",
+          "tags": "http, gitlab, devops",
+          "url": "https://${PROM_DEVOPS_SERVER}/alertmonitor/"
+        },
+        "annotations": {
+          "description": "Gitlab on https://gitlab.iskratel.si has been down for more than 2 minutes.",
+          "summary": "Gitlab HTTP not responding"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:20.118260905Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alertname": "iperf3 probe failed",
+          "info": "iperf3 probe failed to measure network speed on 'iperf3-server'",
+          "instance": "iperf3-server",
+          "job": "iperf3-probe",
+          "severity": "warning",
+          "tags": "iperf3, network"
+        },
+        "annotations": {
+          "description": "iperf3 probe failed to measure network speed on 'iperf3-server'",
+          "summary": "iperf3 probe failed"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:10.749586597Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alertname": "iperf3 probe failed",
+          "info": "iperf3 probe failed to measure network speed on '172.30.14.94'",
+          "instance": "172.30.14.94",
+          "job": "iperf3-probe",
+          "severity": "warning",
+          "tags": "iperf3, network"
+        },
+        "annotations": {
+          "description": "iperf3 probe failed to measure network speed on '172.30.14.94'",
+          "summary": "iperf3 probe failed"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:17:25.749586597Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alarmcode": "5500160",
+          "alertname": "Out Of Disk Space",
+          "device": "/dev/mapper/VgMn-LvVar",
+          "fstype": "ext4",
+          "info": "Disk is almost full (< 10% left)\n  LABELS: map[device:/dev/mapper/VgMn-LvVar fstype:ext4 instance:dockermak.servis.mak:9100 job:node-exporter mountpoint:/var]",
+          "instance": "dockermak.servis.mak:9100",
+          "job": "node-exporter",
+          "mountpoint": "/var",
+          "severity": "warning",
+          "tags": "server, disk space"
+        },
+        "annotations": {
+          "currentValue": "5.587%",
+          "description": "Disk is almost full (< 10% left)\n  VALUE = 5.587445825095256\n  LABELS: map[device:/dev/mapper/VgMn-LvVar fstype:ext4 instance:dockermak.servis.mak:9100 job:node-exporter mountpoint:/var]",
+          "summary": "Out of disk space (instance dockermak.servis.mak:9100)"
+        },
+        "state": "firing",
+        "activeAt": "2021-10-21T13:07:49Z",
+        "value": "5.587445825095256e+00"
+      },
+      {
+        "labels": {
+          "alertname": "High IOPs (read)",
+          "info": "High reading IOPs (> 100)",
+          "instance": "worker-spa.devops.iskratel.cloud:9100",
+          "severity": "major",
+          "tags": "server, disk space, iops"
+        },
+        "annotations": {
+          "currentValue": "304.24561403508767",
+          "summary": "High reading IOPs on worker-spa.devops.iskratel.cloud:9100"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:33:05.567234194Z",
+        "value": "3.0424561403508767e+02"
+      },
+      {
+        "labels": {
+          "alertname": "High IOPs (write)",
+          "info": "High writing IOPs (> 100)",
+          "instance": "worker-spa.devops.iskratel.cloud:9100",
+          "severity": "major",
+          "tags": "server, disk space, iops"
+        },
+        "annotations": {
+          "currentValue": "430.4350877192982",
+          "summary": "High writing IOPs on worker-spa.devops.iskratel.cloud:9100"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:32:50.567234194Z",
+        "value": "4.304350877192982e+02"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on jenkins.devops.iskratel.cloud:9100",
+          "instance": "jenkins.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "307.2kb",
+          "description": "Using 307.2kb swap",
+          "summary": "Swap is used on jenkins.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:28:49Z",
+        "value": "3.072e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on prom.devops.iskratel.cloud:9100",
+          "instance": "prom.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "8.344Mb",
+          "description": "Using 8.344Mb swap",
+          "summary": "Swap is used on prom.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:28:49Z",
+        "value": "8.343552e+06"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker3.devops.iskratel.cloud:9100",
+          "instance": "worker3.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "2.531Mb",
+          "description": "Using 2.531Mb swap",
+          "summary": "Swap is used on worker3.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "2.531328e+06"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker-spa.devops.iskratel.cloud:9100",
+          "instance": "worker-spa.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "65.07Mb",
+          "description": "Using 65.07Mb swap",
+          "summary": "Swap is used on worker-spa.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "6.5073152e+07"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on docker-swarm.devops.iskratel.cloud:9100",
+          "instance": "docker-swarm.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "13.65Mb",
+          "description": "Using 13.65Mb swap",
+          "summary": "Swap is used on docker-swarm.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "1.3647872e+07"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker-spa2.devops.iskratel.cloud:9100",
+          "instance": "worker-spa2.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "32.83Mb",
+          "description": "Using 32.83Mb swap",
+          "summary": "Swap is used on worker-spa2.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "3.2825344e+07"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker1.devops.iskratel.cloud:9100",
+          "instance": "worker1.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "741.4kb",
+          "description": "Using 741.4kb swap",
+          "summary": "Swap is used on worker1.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "7.41376e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on dockermak.servis.mak:9100",
+          "instance": "dockermak.servis.mak:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "921.6kb",
+          "description": "Using 921.6kb swap",
+          "summary": "Swap is used on dockermak.servis.mak:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "9.216e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on openbaton.devops.iskratel.cloud:9100",
+          "instance": "openbaton.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "1.733Mb",
+          "description": "Using 1.733Mb swap",
+          "summary": "Swap is used on openbaton.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "1.732608e+06"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on ipa-replica1.devops.iskratel.cloud:9100",
+          "instance": "ipa-replica1.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "24.58kb",
+          "description": "Using 24.58kb swap",
+          "summary": "Swap is used on ipa-replica1.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "2.4576e+04"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker-solid.devops.iskratel.cloud:9100",
+          "instance": "worker-solid.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "180.2kb",
+          "description": "Using 180.2kb swap",
+          "summary": "Swap is used on worker-solid.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "1.80224e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on mcrk-docker-1:9100",
+          "instance": "mcrk-docker-1:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "266.2kb",
+          "description": "Using 266.2kb swap",
+          "summary": "Swap is used on mcrk-docker-1:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "2.6624e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on orchestrator-iskratel.devops.iskratel.cloud:9100",
+          "instance": "orchestrator-iskratel.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "204.8kb",
+          "description": "Using 204.8kb swap",
+          "summary": "Swap is used on orchestrator-iskratel.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:28:49Z",
+        "value": "2.048e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on ipa-master.devops.iskratel.cloud:9100",
+          "instance": "ipa-master.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "815.1kb",
+          "description": "Using 815.1kb swap",
+          "summary": "Swap is used on ipa-master.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "8.15104e+05"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on 10.0.31.6:9100",
+          "instance": "10.0.31.6:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "8.344Mb",
+          "description": "Using 8.344Mb swap",
+          "summary": "Swap is used on 10.0.31.6:9100"
+        },
+        "state": "pending",
+        "activeAt": "2021-12-07T16:16:35.567234194Z",
+        "value": "8.343552e+06"
+      },
+      {
+        "labels": {
+          "alertname": "Swap used",
+          "info": "Swap is used on worker2.devops.iskratel.cloud:9100",
+          "instance": "worker2.devops.iskratel.cloud:9100",
+          "job": "node-exporter",
+          "severity": "informational",
+          "tags": "server, swap"
+        },
+        "annotations": {
+          "currentValue": "10.6Mb",
+          "description": "Using 10.6Mb swap",
+          "summary": "Swap is used on worker2.devops.iskratel.cloud:9100"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T16:29:04Z",
+        "value": "1.0604544e+07"
+      },
+      {
+        "labels": {
+          "alarmcode": "2809020",
+          "alertname": "ICMP ping failed",
+          "info": "No connection to fmslin2",
+          "instance": "fmslin2",
+          "job": "blackbox-icmp",
+          "priority": "medium",
+          "severity": "critical",
+          "tags": "icmp, ping failed"
+        },
+        "annotations": {
+          "description": "fmslin2 does not reply to ICMP pings",
+          "summary": "No connection to fmslin2"
+        },
+        "state": "firing",
+        "activeAt": "2021-12-07T16:16:30.08393676Z",
+        "value": "0e+00"
+      },
+      {
+        "labels": {
+          "alertname": "ICMP Availability is too low",
+          "info": "Instance availability fell below 90% in last hour on fmslin2",
+          "instance": "fmslin2",
+          "job": "blackbox-icmp",
+          "priority": "medium",
+          "severity": "major",
+          "tags": "icmp, ping failed, availability"
+        },
+        "annotations": {
+          "currentValue": "0%",
+          "description": "Instance availability fell below 90% in last hour",
+          "summary": "Availability is too low on fmslin2"
+        },
+        "state": "firing",
+        "activeAt": "2021-11-29T14:34:15Z",
+        "value": "0e+00"
+      }
+    ]
+  }
+}

@@ -1,14 +1,20 @@
 # TODOs
 
 - ~~add support for grafana alerts~~
+- add support for wazooh alerts
 - put back eventType label (event | alarm), then also events can have severities
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 - tags: filter by AND or OR
 - redesigned journal (not table, but a list with show details)
-- resynchronization: https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
 - show all targets: https://prom.devops.iskratel.cloud/prometheus/api/v1/targets
+- show other labels (such as external_labels)
+- configure labels for CID (if needed also from external_labels)
 - https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml
 
+
+https://prom.devops.iskratel.cloud/prometheus/api/v1/query?query=ALERTS
+
+https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
 
 
 https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml

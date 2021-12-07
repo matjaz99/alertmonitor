@@ -93,6 +93,7 @@ public class AlertmanagerProcessor {
             }
             n.setStatus(a.getStatus());
             n.setGeneratorUrl(a.getGeneratorURL());
+            n.setOtherLabels(a.getLabels());
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {

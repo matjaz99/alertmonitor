@@ -1,7 +1,10 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class DNotification implements Cloneable {
@@ -79,6 +82,9 @@ public class DNotification implements Cloneable {
 
 	/** A helping flag to mark alert to be deleted after resync */
 	private boolean toBeDeleted = false;
+
+	/** Other labels, such as external_labels or custom labels in alerts. */
+	private Map<String, String> otherLabels;
 	
 	public String getUid() {
 		return uid;
@@ -318,6 +324,29 @@ public class DNotification implements Cloneable {
 		this.toBeDeleted = toBeDeleted;
 	}
 
+	public Map<String, String> getOtherLabels() {
+		return otherLabels;
+	}
+
+	public void setOtherLabels(Map<String, String> labels) {
+		if (otherLabels == null) otherLabels = new HashMap<>();
+		otherLabels = labels;
+		otherLabels.remove("alertname");
+		otherLabels.remove("info");
+		otherLabels.remove("instance");
+		otherLabels.remove("nodename");
+		otherLabels.remove("job");
+		otherLabels.remove("tags");
+		otherLabels.remove("severity");
+		otherLabels.remove("priority");
+		otherLabels.remove("team");
+		otherLabels.remove("eventType");
+		otherLabels.remove("probableCause");
+		otherLabels.remove("url");
+		otherLabels.remove("probableCause");
+		otherLabels.remove("description");
+	}
+
 	public void generateUID() {
 		uid = MD5Checksum.getMd5Checksum(timestamp
 				+ this.hashCode()
@@ -383,5 +412,6 @@ public class DNotification implements Cloneable {
 				", status='" + status + '\'' +
 				", generatorUrl='" + generatorUrl + '\'' +
 				'}';
+		// TODO print other labels
 	}
 }
