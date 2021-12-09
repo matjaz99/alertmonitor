@@ -97,16 +97,12 @@ public class AlertmanagerProcessor {
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
-                if (!n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
-                        && !n.getSeverity().equalsIgnoreCase(Severity.INDETERMINATE)) {
-                    n.setSeverity(Severity.CLEAR);
-                }
+                n.setSeverity(Severity.CLEAR);
             }
 
             // add other labels directly into tags
-            // eg: severity (but not clear and info), priority
-            if (!n.getSeverity().equals(Severity.CLEAR)
-                    && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
+            // eg: severity (but not clear), priority
+            if (!n.getSeverity().equals(Severity.CLEAR)) {
                 n.setTags(n.getTags() + "," + n.getSeverity());
             }
             n.setTags(n.getTags() + "," + n.getPriority());

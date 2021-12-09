@@ -1,11 +1,12 @@
 ## 1.6.1-SNAPSHOT
 
-* [CHANGE] Alerts with severity `indeterminate` and `informatinal` are now also displayed in list of active alerts
+* [CHANGE] Alerts with severity `indeterminate` and `informational` are now also displayed in list of active alerts
 * [FEATURE] Kafka publisher will send each received alert to Kafka topic. Added environment variables for 
 configuration: `ALERTMONITOR_KAFKA_ENABLED` (default=false), `ALERTMONITOR_KAFKA_SERVER`, and 
 `ALERTMONITOR_KAFKA_TOPIC`
 * [FEATURE] Configuration view for changing runtime parameters
 * [ENHANCEMENT] Get other labels as well, not just 'supported' ones. Eg. external_labels
+* [ENHANCEMENT] Severity `indeterminate` and `informational` are shown as tags as well
 * [BUG] Fixed typos
 
 ## 1.6.0 / 2021-02-28

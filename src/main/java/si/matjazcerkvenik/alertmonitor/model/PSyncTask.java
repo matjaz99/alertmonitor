@@ -109,9 +109,8 @@ public class PSyncTask extends TimerTask {
                     n.setStatus("firing");
 
                     // add other labels directly into tags
-                    // eg: severity (but not clear and info), priority
-                    if (!n.getSeverity().equals(Severity.CLEAR)
-                            && !n.getSeverity().equals(Severity.INFORMATIONAL)) {
+                    // eg: severity (but not clear), priority
+                    if (!n.getSeverity().equals(Severity.CLEAR)) {
                         n.setTags(n.getTags() + "," + n.getSeverity());
                     }
                     n.setTags(n.getTags() + "," + n.getPriority());

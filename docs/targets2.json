@@ -1,0 +1,3361 @@
+{
+  "status": "success",
+  "data": {
+    "activeTargets": [
+      {
+        "discoveredLabels": {
+          "__address__": "alertmanager:9093",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "alertmanager"
+        },
+        "labels": {
+          "instance": "alertmanager:9093",
+          "job": "alertmanager"
+        },
+        "scrapePool": "alertmanager",
+        "scrapeUrl": "http://alertmanager:9093/metrics",
+        "globalUrl": "http://alertmanager:9093/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:42.248983247Z",
+        "lastScrapeDuration": 0.003073564,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "alertmonitor:8080",
+          "__metrics_path__": "/alertmonitor/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "alertmonitor"
+        },
+        "labels": {
+          "instance": "alertmonitor:8080",
+          "job": "alertmonitor"
+        },
+        "scrapePool": "alertmonitor",
+        "scrapeUrl": "http://alertmonitor:8080/alertmonitor/metrics",
+        "globalUrl": "http://alertmonitor:8080/alertmonitor/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.681817396Z",
+        "lastScrapeDuration": 0.001536197,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "1.0.0.1",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_dns_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "dns_rp_mx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-dns"
+        },
+        "labels": {
+          "instance": "1.0.0.1",
+          "job": "blackbox-dns"
+        },
+        "scrapePool": "blackbox-dns",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=1.0.0.1",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=1.0.0.1",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:57.570674965Z",
+        "lastScrapeDuration": 0.016234402,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "1.1.1.1",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_dns_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "dns_rp_mx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-dns"
+        },
+        "labels": {
+          "instance": "1.1.1.1",
+          "job": "blackbox-dns"
+        },
+        "scrapePool": "blackbox-dns",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=1.1.1.1",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=1.1.1.1",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.307114471Z",
+        "lastScrapeDuration": 0.016190854,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "8.8.4.4",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_dns_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "dns_rp_mx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-dns"
+        },
+        "labels": {
+          "instance": "8.8.4.4",
+          "job": "blackbox-dns"
+        },
+        "scrapePool": "blackbox-dns",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=8.8.4.4",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=8.8.4.4",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:24.16449697Z",
+        "lastScrapeDuration": 0.017037899,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "8.8.8.8",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_dns_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "dns_rp_mx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-dns"
+        },
+        "labels": {
+          "instance": "8.8.8.8",
+          "job": "blackbox-dns"
+        },
+        "scrapePool": "blackbox-dns",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=8.8.8.8",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=8.8.8.8",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:00.362391226Z",
+        "lastScrapeDuration": 0.016909513,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "10.1.2.3",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_dns_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "dns_rp_mx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-dns"
+        },
+        "labels": {
+          "instance": "10.1.2.3",
+          "job": "blackbox-dns"
+        },
+        "scrapePool": "blackbox-dns",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=10.1.2.3",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=dns_rp_mx&target=10.1.2.3",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:09.085021178Z",
+        "lastScrapeDuration": 0.217131055,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "blackbox-exporter:9115",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-exporter"
+        },
+        "labels": {
+          "instance": "blackbox-exporter:9115",
+          "job": "blackbox-exporter"
+        },
+        "scrapePool": "blackbox-exporter",
+        "scrapeUrl": "http://blackbox-exporter:9115/metrics",
+        "globalUrl": "http://blackbox-exporter:9115/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.454194221Z",
+        "lastScrapeDuration": 0.001585103,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://prometheus.io",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://prometheus.io",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprometheus.io",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprometheus.io",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.965307382Z",
+        "lastScrapeDuration": 0.110619389,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://prometheus.io",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://prometheus.io",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprometheus.io",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprometheus.io",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:25.6739741Z",
+        "lastScrapeDuration": 0.084369041,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://mavenproduction.iskratel.si/jenkins/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://mavenproduction.iskratel.si/jenkins/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fmavenproduction.iskratel.si%2Fjenkins%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fmavenproduction.iskratel.si%2Fjenkins%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:02.700399613Z",
+        "lastScrapeDuration": 0.169520788,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://nexus.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://nexus.devops.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fnexus.devops.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fnexus.devops.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:22.41824945Z",
+        "lastScrapeDuration": 0.013841684,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://172.29.18.17",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://172.29.18.17",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2F172.29.18.17",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2F172.29.18.17",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:54.709830056Z",
+        "lastScrapeDuration": 0.005698159,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://www.amazon.com/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://www.amazon.com/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fwww.amazon.com%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fwww.amazon.com%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:07.247075542Z",
+        "lastScrapeDuration": 0.87161976,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://vmgitent.iskratel.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://vmgitent.iskratel.si",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fvmgitent.iskratel.si",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fvmgitent.iskratel.si",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:48.624512724Z",
+        "lastScrapeDuration": 0.794932383,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://public.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://public.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fpublic.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fpublic.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:54.034187843Z",
+        "lastScrapeDuration": 0.117592417,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://prom.devops.iskratel.cloud/grafana",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://prom.devops.iskratel.cloud/grafana",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Fgrafana",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Fgrafana",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:56.580042034Z",
+        "lastScrapeDuration": 0.017598359,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://prom.devops.iskratel.cloud/prometheus",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://prom.devops.iskratel.cloud/prometheus",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Fprometheus",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Fprometheus",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.040077053Z",
+        "lastScrapeDuration": 0.011142468,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://www.ebay.com/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://www.ebay.com/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fwww.ebay.com%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fwww.ebay.com%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:26.953408922Z",
+        "lastScrapeDuration": 0.890968501,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://prom.devops.iskratel.cloud:8085/dashboard/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://prom.devops.iskratel.cloud:8085/dashboard/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprom.devops.iskratel.cloud%3A8085%2Fdashboard%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprom.devops.iskratel.cloud%3A8085%2Fdashboard%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:09.916115439Z",
+        "lastScrapeDuration": 0.002635735,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://nexus.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://nexus.devops.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fnexus.devops.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fnexus.devops.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:05.191208521Z",
+        "lastScrapeDuration": 0.007005642,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://pmon.compact.si/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://pmon.compact.si/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fpmon.compact.si%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fpmon.compact.si%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:28.706799378Z",
+        "lastScrapeDuration": 0.016345104,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://gitlab.iskratel.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://gitlab.iskratel.si",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fgitlab.iskratel.si",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fgitlab.iskratel.si",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:55.869712878Z",
+        "lastScrapeDuration": 9.501530232,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://maven.iskratel.si:8081/artifactory",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://maven.iskratel.si:8081/artifactory",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fmaven.iskratel.si%3A8081%2Fartifactory",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fmaven.iskratel.si%3A8081%2Fartifactory",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:05.695280514Z",
+        "lastScrapeDuration": 0.211326752,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://public.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://public.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fpublic.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fpublic.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:07.898500652Z",
+        "lastScrapeDuration": 0.08289272,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://fmslin3/mns/",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://fmslin3/mns/",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Ffmslin3%2Fmns%2F",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Ffmslin3%2Fmns%2F",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:24.966556849Z",
+        "lastScrapeDuration": 0.020238606,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://prom.devops.iskratel.cloud/alertmonitor",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://prom.devops.iskratel.cloud/alertmonitor",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Falertmonitor",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fprom.devops.iskratel.cloud%2Falertmonitor",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:55.087400629Z",
+        "lastScrapeDuration": 0.027678636,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "http://prom.devops.iskratel.cloud:9000",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "http://prom.devops.iskratel.cloud:9000",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprom.devops.iskratel.cloud%3A9000",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=http%3A%2F%2Fprom.devops.iskratel.cloud%3A9000",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:27.334388006Z",
+        "lastScrapeDuration": 0.002809478,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "https://docker-hub-proxy.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_http_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "http_2xx",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-http"
+        },
+        "labels": {
+          "instance": "https://docker-hub-proxy.devops.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "scrapePool": "blackbox-http",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fdocker-hub-proxy.devops.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=http_2xx&target=https%3A%2F%2Fdocker-hub-proxy.devops.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:38.802302876Z",
+        "lastScrapeDuration": 0.01353827,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-1",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-1",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:35.213617558Z",
+        "lastScrapeDuration": 0.002009181,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-3",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-3",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-3",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.835089982Z",
+        "lastScrapeDuration": 0.002015135,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "pmon.compact.si",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=pmon.compact.si",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=pmon.compact.si",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.156374205Z",
+        "lastScrapeDuration": 0.001942716,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "gitlab.iskratel.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "gitlab.iskratel.si",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=gitlab.iskratel.si",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=gitlab.iskratel.si",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:37.938772748Z",
+        "lastScrapeDuration": 0.003148707,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "vmgitent.iskratel.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "vmgitent.iskratel.si",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=vmgitent.iskratel.si",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=vmgitent.iskratel.si",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.796592158Z",
+        "lastScrapeDuration": 0.003335556,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "nexus.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "nexus.devops.iskratel.cloud",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=nexus.devops.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=nexus.devops.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:46.706635073Z",
+        "lastScrapeDuration": 0.003474101,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "fmslin2",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "fmslin2",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin2",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin2",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:38.857001428Z",
+        "lastScrapeDuration": 5.001986319,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "fmslin1",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "fmslin1",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin1",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin1",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.137960813Z",
+        "lastScrapeDuration": 0.003163506,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "fmslin3",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "fmslin3",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin3",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin3",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.45192115Z",
+        "lastScrapeDuration": 0.00240704,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "fmslin4",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "fmslin4",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin4",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=fmslin4",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:37.216498351Z",
+        "lastScrapeDuration": 0.002039922,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-2",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=mcrk-docker-2",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:35.263749258Z",
+        "lastScrapeDuration": 0.001693576,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_icmp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "icmp_ipv4",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-icmp"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud",
+          "job": "blackbox-icmp"
+        },
+        "scrapePool": "blackbox-icmp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=prom.devops.iskratel.cloud",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=icmp_ipv4&target=prom.devops.iskratel.cloud",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:37.920731329Z",
+        "lastScrapeDuration": 0.001876963,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_ssh_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "ssh_banner",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-ssh"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1:22",
+          "job": "blackbox-ssh"
+        },
+        "scrapePool": "blackbox-ssh",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-1%3A22",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-1%3A22",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.141291993Z",
+        "lastScrapeDuration": 0.012913716,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_ssh_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "ssh_banner",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-ssh"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2:22",
+          "job": "blackbox-ssh"
+        },
+        "scrapePool": "blackbox-ssh",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-2%3A22",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-2%3A22",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:06.042198123Z",
+        "lastScrapeDuration": 0.012902862,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_ssh_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "ssh_banner",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-ssh"
+        },
+        "labels": {
+          "instance": "mcrk-docker-3:22",
+          "job": "blackbox-ssh"
+        },
+        "scrapePool": "blackbox-ssh",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-3%3A22",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=mcrk-docker-3%3A22",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:13.837898376Z",
+        "lastScrapeDuration": 0.013710938,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_ssh_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "ssh_banner",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-ssh"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:22",
+          "job": "blackbox-ssh"
+        },
+        "scrapePool": "blackbox-ssh",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=prom.devops.iskratel.cloud%3A22",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=prom.devops.iskratel.cloud%3A22",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:40.69985962Z",
+        "lastScrapeDuration": 0.011264908,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "gitlab.iskratel.si",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_ssh_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "ssh_banner",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-ssh"
+        },
+        "labels": {
+          "instance": "gitlab.iskratel.si:22",
+          "job": "blackbox-ssh"
+        },
+        "scrapePool": "blackbox-ssh",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=gitlab.iskratel.si%3A22",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=ssh_banner&target=gitlab.iskratel.si%3A22",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:58.729870331Z",
+        "lastScrapeDuration": 0.003101559,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:9000",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_tcp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "tcp_connect",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-tcp"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:9000",
+          "job": "blackbox-tcp"
+        },
+        "scrapePool": "blackbox-tcp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=prom.devops.iskratel.cloud%3A9000",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=prom.devops.iskratel.cloud%3A9000",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.816469377Z",
+        "lastScrapeDuration": 0.001536595,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1:514",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_tcp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "tcp_connect",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-tcp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1:514",
+          "job": "blackbox-tcp"
+        },
+        "scrapePool": "blackbox-tcp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-1%3A514",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-1%3A514",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:48:59.712369481Z",
+        "lastScrapeDuration": 0.001735683,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2:514",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_tcp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "tcp_connect",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-tcp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2:514",
+          "job": "blackbox-tcp"
+        },
+        "scrapePool": "blackbox-tcp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-2%3A514",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-2%3A514",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:29.735882414Z",
+        "lastScrapeDuration": 0.001957534,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3:514",
+          "__meta_filepath": "/prometheus_config/targets/blackbox_tcp_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__param_module": "tcp_connect",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "blackbox-tcp"
+        },
+        "labels": {
+          "instance": "mcrk-docker-3:514",
+          "job": "blackbox-tcp"
+        },
+        "scrapePool": "blackbox-tcp",
+        "scrapeUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-3%3A514",
+        "globalUrl": "http://blackbox-exporter:9115/probe?module=tcp_connect&target=mcrk-docker-3%3A514",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:31.106631772Z",
+        "lastScrapeDuration": 0.002233023,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2:9080",
+          "__meta_filepath": "/prometheus_config/targets/cadvisor_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2:9080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://mcrk-docker-2:9080/metrics",
+        "globalUrl": "http://mcrk-docker-2:9080/metrics",
+        "lastError": "Get \"http://mcrk-docker-2:9080/metrics\": dial tcp 172.29.6.2:9080: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:44.058696517Z",
+        "lastScrapeDuration": 0.000631202,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3:9080",
+          "__meta_filepath": "/prometheus_config/targets/cadvisor_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "mcrk-docker-3:9080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://mcrk-docker-3:9080/metrics",
+        "globalUrl": "http://mcrk-docker-3:9080/metrics",
+        "lastError": "Get \"http://mcrk-docker-3:9080/metrics\": dial tcp 172.29.6.4:9080: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:47.042192312Z",
+        "lastScrapeDuration": 0.000885033,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si:9080",
+          "__meta_filepath": "/prometheus_config/targets/cadvisor_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "pmon.compact.si:9080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://pmon.compact.si:9080/metrics",
+        "globalUrl": "http://pmon.compact.si:9080/metrics",
+        "lastError": "Get \"http://pmon.compact.si:9080/metrics\": dial tcp 172.29.102.95:9080: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:42.165901629Z",
+        "lastScrapeDuration": 0.000573526,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "10.0.31.36:8080",
+          "__meta_dns_name": "tasks.cadvisor",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "10.0.31.36:8080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://10.0.31.36:8080/metrics",
+        "globalUrl": "http://10.0.31.36:8080/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.956929199Z",
+        "lastScrapeDuration": 1.552822753,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:9080",
+          "__meta_filepath": "/prometheus_config/targets/cadvisor_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:9080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://prom.devops.iskratel.cloud:9080/metrics",
+        "globalUrl": "http://prom.devops.iskratel.cloud:9080/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.52988645Z",
+        "lastScrapeDuration": 1.883588692,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1:9080",
+          "__meta_filepath": "/prometheus_config/targets/cadvisor_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "cadvisor"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1:9080",
+          "job": "cadvisor"
+        },
+        "scrapePool": "cadvisor",
+        "scrapeUrl": "http://mcrk-docker-1:9080/metrics",
+        "globalUrl": "http://mcrk-docker-1:9080/metrics",
+        "lastError": "Get \"http://mcrk-docker-1:9080/metrics\": dial tcp 172.29.6.25:9080: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:41.243951017Z",
+        "lastScrapeDuration": 0.000716786,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "coredns:9153",
+          "__meta_filepath": "/prometheus_config/targets/coredns_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "coredns"
+        },
+        "labels": {
+          "instance": "coredns:9153",
+          "job": "coredns"
+        },
+        "scrapePool": "coredns",
+        "scrapeUrl": "http://coredns:9153/metrics",
+        "globalUrl": "http://coredns:9153/metrics",
+        "lastError": "Get \"http://coredns:9153/metrics\": dial tcp: lookup coredns on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:40.361733705Z",
+        "lastScrapeDuration": 0.039289464,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "binance:9999",
+          "__metrics_path__": "/",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "1m",
+          "job": "crypto-exporter"
+        },
+        "labels": {
+          "instance": "binance:9999",
+          "job": "crypto-exporter"
+        },
+        "scrapePool": "crypto-exporter",
+        "scrapeUrl": "http://binance:9999/",
+        "globalUrl": "http://binance:9999/",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:19.332556843Z",
+        "lastScrapeDuration": 0.436542167,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "1m"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "mcrk-docker-1:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://mcrk-docker-1:9323/metrics",
+        "globalUrl": "http://mcrk-docker-1:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.893405654Z",
+        "lastScrapeDuration": 0.017080374,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "mcrk-docker-2:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://mcrk-docker-2:9323/metrics",
+        "globalUrl": "http://mcrk-docker-2:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.933909171Z",
+        "lastScrapeDuration": 0.014181193,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "mcrk-docker-3:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://mcrk-docker-3:9323/metrics",
+        "globalUrl": "http://mcrk-docker-3:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.369616869Z",
+        "lastScrapeDuration": 0.012156971,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "pmon.compact.si:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://pmon.compact.si:9323/metrics",
+        "globalUrl": "http://pmon.compact.si:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:34.064649314Z",
+        "lastScrapeDuration": 0.015445311,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.30.14.94:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "172.30.14.94:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://172.30.14.94:9323/metrics",
+        "globalUrl": "http://172.30.14.94:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.507821627Z",
+        "lastScrapeDuration": 0.134006867,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:9323",
+          "__meta_filepath": "/prometheus_config/targets/docker_nodes.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "datacenter": "devops.iskratel.cloud",
+          "job": "docker"
+        },
+        "labels": {
+          "datacenter": "devops.iskratel.cloud",
+          "instance": "prom.devops.iskratel.cloud:9323",
+          "job": "docker"
+        },
+        "scrapePool": "docker",
+        "scrapeUrl": "http://prom.devops.iskratel.cloud:9323/metrics",
+        "globalUrl": "http://prom.devops.iskratel.cloud:9323/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:45.663100999Z",
+        "lastScrapeDuration": 0.009851254,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "docker-hub-exporter:9170",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "4h",
+          "__scrape_timeout__": "10s",
+          "job": "docker-hub-exporter"
+        },
+        "labels": {
+          "instance": "docker-hub-exporter:9170",
+          "job": "docker-hub-exporter"
+        },
+        "scrapePool": "docker-hub-exporter",
+        "scrapeUrl": "http://docker-hub-exporter:9170/metrics",
+        "globalUrl": "http://docker-hub-exporter:9170/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:15:56.205425929Z",
+        "lastScrapeDuration": 1.091689094,
+        "health": "up",
+        "scrapeInterval": "4h",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.29.6.6:18080",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "dockerbaton"
+        },
+        "labels": {
+          "instance": "172.29.6.6:18080",
+          "job": "dockerbaton"
+        },
+        "scrapePool": "dockerbaton",
+        "scrapeUrl": "http://172.29.6.6:18080/metrics",
+        "globalUrl": "http://172.29.6.6:18080/metrics",
+        "lastError": "Get \"http://172.29.6.6:18080/metrics\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:31.734300732Z",
+        "lastScrapeDuration": 10.000707365,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "gitlab-ci-pipelines-exporter:8080",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "gitlab-ci-pipelines-exporter"
+        },
+        "labels": {
+          "instance": "gitlab-ci-pipelines-exporter:8080",
+          "job": "gitlab-ci-pipelines-exporter"
+        },
+        "scrapePool": "gitlab-ci-pipelines-exporter",
+        "scrapeUrl": "http://gitlab-ci-pipelines-exporter:8080/metrics",
+        "globalUrl": "http://gitlab-ci-pipelines-exporter:8080/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:17.614186604Z",
+        "lastScrapeDuration": 0.02427239,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "10.0.31.28:3000",
+          "__meta_dns_name": "tasks.grafana",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "grafana"
+        },
+        "labels": {
+          "instance": "10.0.31.28:3000",
+          "job": "grafana"
+        },
+        "scrapePool": "grafana",
+        "scrapeUrl": "http://10.0.31.28:3000/metrics",
+        "globalUrl": "http://10.0.31.28:3000/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:37.748105778Z",
+        "lastScrapeDuration": 0.004323305,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:9144",
+          "__meta_filepath": "/prometheus_config/targets/grok_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "grok"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:9144",
+          "job": "grok"
+        },
+        "scrapePool": "grok",
+        "scrapeUrl": "http://prom.devops.iskratel.cloud:9144/metrics",
+        "globalUrl": "http://prom.devops.iskratel.cloud:9144/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.076633452Z",
+        "lastScrapeDuration": 0.002262559,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si:9144",
+          "__meta_filepath": "/prometheus_config/targets/grok_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "grok"
+        },
+        "labels": {
+          "instance": "pmon.compact.si:9144",
+          "job": "grok"
+        },
+        "scrapePool": "grok",
+        "scrapeUrl": "http://pmon.compact.si:9144/metrics",
+        "globalUrl": "http://pmon.compact.si:9144/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:46.671529793Z",
+        "lastScrapeDuration": 0.00430405,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "192.168.51.20:9144",
+          "__meta_filepath": "/prometheus_config/targets/grok_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "grok"
+        },
+        "labels": {
+          "instance": "192.168.51.20:9144",
+          "job": "grok"
+        },
+        "scrapePool": "grok",
+        "scrapeUrl": "http://192.168.51.20:9144/metrics",
+        "globalUrl": "http://192.168.51.20:9144/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:45.274106528Z",
+        "lastScrapeDuration": 0.003136074,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "iperf3-client:9579",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "iperf3-exporter"
+        },
+        "labels": {
+          "instance": "iperf3-client:9579",
+          "job": "iperf3-exporter"
+        },
+        "scrapePool": "iperf3-exporter",
+        "scrapeUrl": "http://iperf3-client:9579/metrics",
+        "globalUrl": "http://iperf3-client:9579/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.913634239Z",
+        "lastScrapeDuration": 0.001748527,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "iperf3-server",
+          "__meta_filepath": "/prometheus_config/targets/iperf3_srv_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__scheme__": "http",
+          "__scrape_interval__": "4m",
+          "__scrape_timeout__": "10s",
+          "job": "iperf3-probe"
+        },
+        "labels": {
+          "instance": "iperf3-server",
+          "job": "iperf3-probe"
+        },
+        "scrapePool": "iperf3-probe",
+        "scrapeUrl": "http://iperf3-client:9579/probe?target=iperf3-server",
+        "globalUrl": "http://iperf3-client:9579/probe?target=iperf3-server",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:01.288565922Z",
+        "lastScrapeDuration": 0.036778544,
+        "health": "up",
+        "scrapeInterval": "4m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.30.14.94",
+          "__meta_filepath": "/prometheus_config/targets/iperf3_srv_nodes.yml",
+          "__metrics_path__": "/probe",
+          "__scheme__": "http",
+          "__scrape_interval__": "4m",
+          "__scrape_timeout__": "10s",
+          "job": "iperf3-probe"
+        },
+        "labels": {
+          "instance": "172.30.14.94",
+          "job": "iperf3-probe"
+        },
+        "scrapePool": "iperf3-probe",
+        "scrapeUrl": "http://iperf3-client:9579/probe?target=172.30.14.94",
+        "globalUrl": "http://iperf3-client:9579/probe?target=172.30.14.94",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:24.434965519Z",
+        "lastScrapeDuration": 0.002107856,
+        "health": "up",
+        "scrapeInterval": "4m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "gitlab.iskratel.si",
+          "__metrics_path__": "/-/metrics",
+          "__param_token": "hUrpZmK7nsz2YcoKa4Jb",
+          "__scheme__": "https",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "it-gitlab"
+        },
+        "labels": {
+          "instance": "gitlab.iskratel.si:443",
+          "job": "it-gitlab"
+        },
+        "scrapePool": "it-gitlab",
+        "scrapeUrl": "https://gitlab.iskratel.si:443/-/metrics?token=hUrpZmK7nsz2YcoKa4Jb",
+        "globalUrl": "https://gitlab.iskratel.si:443/-/metrics?token=hUrpZmK7nsz2YcoKa4Jb",
+        "lastError": "Get \"https://gitlab.iskratel.si:443/-/metrics?token=hUrpZmK7nsz2YcoKa4Jb\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:31.515040539Z",
+        "lastScrapeDuration": 10.000298498,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "vmgitent.iskratel.si",
+          "__metrics_path__": "/-/metrics",
+          "__param_token": "4dNAQy-_cz6eaaHCukzF",
+          "__scheme__": "https",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "it-vmgitent"
+        },
+        "labels": {
+          "instance": "vmgitent.iskratel.si:443",
+          "job": "it-vmgitent"
+        },
+        "scrapePool": "it-vmgitent",
+        "scrapeUrl": "https://vmgitent.iskratel.si:443/-/metrics?token=4dNAQy-_cz6eaaHCukzF",
+        "globalUrl": "https://vmgitent.iskratel.si:443/-/metrics?token=4dNAQy-_cz6eaaHCukzF",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.432225008Z",
+        "lastScrapeDuration": 0.345117824,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "jenkins.devops.iskratel.cloud",
+          "__metrics_path__": "/prometheus",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "jenkins"
+        },
+        "labels": {
+          "instance": "jenkins.devops.iskratel.cloud:80",
+          "job": "jenkins"
+        },
+        "scrapePool": "jenkins",
+        "scrapeUrl": "http://jenkins.devops.iskratel.cloud:80/prometheus",
+        "globalUrl": "http://jenkins.devops.iskratel.cloud:80/prometheus",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:40.460739299Z",
+        "lastScrapeDuration": 0.022351433,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.30.14.94:9099",
+          "__meta_filepath": "/prometheus_config/targets/metricslib_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "metricslib"
+        },
+        "labels": {
+          "instance": "172.30.14.94:9099",
+          "job": "metricslib"
+        },
+        "scrapePool": "metricslib",
+        "scrapeUrl": "http://172.30.14.94:9099/metrics",
+        "globalUrl": "http://172.30.14.94:9099/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:34.313550868Z",
+        "lastScrapeDuration": 0.01262819,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2:9099",
+          "__meta_filepath": "/prometheus_config/targets/metricslib_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "metricslib"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2:9099",
+          "job": "metricslib"
+        },
+        "scrapePool": "metricslib",
+        "scrapeUrl": "http://mcrk-docker-2:9099/metrics",
+        "globalUrl": "http://mcrk-docker-2:9099/metrics",
+        "lastError": "Get \"http://mcrk-docker-2:9099/metrics\": dial tcp 172.29.6.2:9099: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:35.989149179Z",
+        "lastScrapeDuration": 0.000893546,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker-solid.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker-solid.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker-solid.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker-solid.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:45.93575221Z",
+        "lastScrapeDuration": 0.010459812,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "ansibleic.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "ansibleic.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://ansibleic.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://ansibleic.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://ansibleic.devops.iskratel.cloud:9100/metrics\": dial tcp 172.29.21.28:9100: i/o timeout",
+        "lastScrape": "2021-12-08T11:49:24.414308261Z",
+        "lastScrapeDuration": 10.000245798,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mns.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "mns.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://mns.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://mns.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://mns.devops.iskratel.cloud:9100/metrics\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:35.326028622Z",
+        "lastScrapeDuration": 10.000221576,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.30.14.94:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "172.30.14.94:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://172.30.14.94:9100/metrics",
+        "globalUrl": "http://172.30.14.94:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:34.929025451Z",
+        "lastScrapeDuration": 0.086890574,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "10.0.31.6:9100",
+          "__meta_dns_name": "tasks.node-exporter",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "10.0.31.6:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://10.0.31.6:9100/metrics",
+        "globalUrl": "http://10.0.31.6:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:36.751590522Z",
+        "lastScrapeDuration": 0.052457688,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "ipa-replica1.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "ipa-replica1.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://ipa-replica1.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://ipa-replica1.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.888714713Z",
+        "lastScrapeDuration": 0.030205533,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker1.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker1.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker1.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker1.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:46.148470092Z",
+        "lastScrapeDuration": 0.03808466,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "openbaton.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "openbaton.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://openbaton.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://openbaton.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.034316387Z",
+        "lastScrapeDuration": 0.03431282,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "vmgitent.iskratel.si:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "vmgitent.iskratel.si:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://vmgitent.iskratel.si:9100/metrics",
+        "globalUrl": "http://vmgitent.iskratel.si:9100/metrics",
+        "lastError": "Get \"http://vmgitent.iskratel.si:9100/metrics\": dial tcp 10.1.9.125:9100: connect: no route to host",
+        "lastScrape": "2021-12-08T11:49:44.100323123Z",
+        "lastScrapeDuration": 0.002050683,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-3:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "mcrk-docker-3:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://mcrk-docker-3:9100/metrics",
+        "globalUrl": "http://mcrk-docker-3:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:40.736176813Z",
+        "lastScrapeDuration": 0.028446675,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "nexus.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "nexus.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://nexus.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://nexus.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://nexus.devops.iskratel.cloud:9100/metrics\": dial tcp 172.29.18.17:9100: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:34.750965492Z",
+        "lastScrapeDuration": 0.002148902,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "nexus11.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "nexus11.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://nexus11.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://nexus11.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://nexus11.devops.iskratel.cloud:9100/metrics\": dial tcp 172.29.18.18:9100: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:43.14079078Z",
+        "lastScrapeDuration": 0.002298613,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "ipa-master.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "ipa-master.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://ipa-master.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://ipa-master.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.080383976Z",
+        "lastScrapeDuration": 0.024721291,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker3.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker3.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker3.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker3.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.873585089Z",
+        "lastScrapeDuration": 0.032555471,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker-spa.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker-spa.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker-spa.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker-spa.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:32.96153765Z",
+        "lastScrapeDuration": 0.016993216,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker2.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker2.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker2.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker2.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:45.61037198Z",
+        "lastScrapeDuration": 0.020432263,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://mcrk-docker-1:9100/metrics",
+        "globalUrl": "http://mcrk-docker-1:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.848549473Z",
+        "lastScrapeDuration": 0.039234138,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "pmon.compact.si:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://pmon.compact.si:9100/metrics",
+        "globalUrl": "http://pmon.compact.si:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.884987975Z",
+        "lastScrapeDuration": 0.033436356,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "dns-enum-slave.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "dns-enum-slave.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://dns-enum-slave.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://dns-enum-slave.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://dns-enum-slave.devops.iskratel.cloud:9100/metrics\": dial tcp 172.29.18.9:9100: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:37.428479374Z",
+        "lastScrapeDuration": 0.003523085,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://prom.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://prom.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:33.52328842Z",
+        "lastScrapeDuration": 0.033904801,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmonmak.servis.mak:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "pmonmak.servis.mak:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://pmonmak.servis.mak:9100/metrics",
+        "globalUrl": "http://pmonmak.servis.mak:9100/metrics",
+        "lastError": "Get \"http://pmonmak.servis.mak:9100/metrics\": dial tcp 172.18.215.83:9100: connect: no route to host",
+        "lastScrape": "2021-12-08T11:49:38.907306458Z",
+        "lastScrapeDuration": 3.014359893,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "jenkins.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "jenkins.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://jenkins.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://jenkins.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:44.995303951Z",
+        "lastScrapeDuration": 0.021769252,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker-spa2.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker-spa2.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker-spa2.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker-spa2.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:43.499310093Z",
+        "lastScrapeDuration": 0.01697515,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "worker-fms.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "worker-fms.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://worker-fms.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://worker-fms.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:41.231161223Z",
+        "lastScrapeDuration": 0.017126131,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "dns-enum-master.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "dns-enum-master.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://dns-enum-master.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://dns-enum-master.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://dns-enum-master.devops.iskratel.cloud:9100/metrics\": dial tcp 172.29.18.8:9100: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:40.373386246Z",
+        "lastScrapeDuration": 0.002561598,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "docker-swarm.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "docker-swarm.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://docker-swarm.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://docker-swarm.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:32.53436242Z",
+        "lastScrapeDuration": 0.018309058,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "hss.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "hss.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://hss.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://hss.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://hss.devops.iskratel.cloud:9100/metrics\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:26.925039481Z",
+        "lastScrapeDuration": 10.000723418,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "dockermak.servis.mak:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "dockermak.servis.mak:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://dockermak.servis.mak:9100/metrics",
+        "globalUrl": "http://dockermak.servis.mak:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:32.700032112Z",
+        "lastScrapeDuration": 0.035481567,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-2:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "mcrk-docker-2:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://mcrk-docker-2:9100/metrics",
+        "globalUrl": "http://mcrk-docker-2:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:35.502092933Z",
+        "lastScrapeDuration": 0.027877737,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon-compact.servis.mak:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "pmon-compact.servis.mak:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://pmon-compact.servis.mak:9100/metrics",
+        "globalUrl": "http://pmon-compact.servis.mak:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:33.516924459Z",
+        "lastScrapeDuration": 0.035131176,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "nexus12.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "nexus12.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://nexus12.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://nexus12.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:46.978634792Z",
+        "lastScrapeDuration": 0.034970586,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "sipcscf.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "sipcscf.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://sipcscf.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://sipcscf.devops.iskratel.cloud:9100/metrics",
+        "lastError": "Get \"http://sipcscf.devops.iskratel.cloud:9100/metrics\": dial tcp: lookup sipcscf.devops.iskratel.cloud on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:38.534497793Z",
+        "lastScrapeDuration": 0.002229861,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "orchestrator-iskratel.devops.iskratel.cloud:9100",
+          "__meta_filepath": "/prometheus_config/targets/nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "node-exporter"
+        },
+        "labels": {
+          "instance": "orchestrator-iskratel.devops.iskratel.cloud:9100",
+          "job": "node-exporter"
+        },
+        "scrapePool": "node-exporter",
+        "scrapeUrl": "http://orchestrator-iskratel.devops.iskratel.cloud:9100/metrics",
+        "globalUrl": "http://orchestrator-iskratel.devops.iskratel.cloud:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:44.036625097Z",
+        "lastScrapeDuration": 0.029258221,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.29.100.100:8080",
+          "__meta_filepath": "/prometheus_config/targets/openbaton.yml",
+          "__metrics_path__": "/prometheus",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "openbaton"
+        },
+        "labels": {
+          "instance": "172.29.100.100:8080",
+          "job": "openbaton"
+        },
+        "scrapePool": "openbaton",
+        "scrapeUrl": "http://172.29.100.100:8080/prometheus",
+        "globalUrl": "http://172.29.100.100:8080/prometheus",
+        "lastError": "Get \"http://172.29.100.100:8080/prometheus\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:29.887371805Z",
+        "lastScrapeDuration": 10.000313656,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.29.100.5:8080",
+          "__meta_filepath": "/prometheus_config/targets/openbaton.yml",
+          "__metrics_path__": "/prometheus",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "openbaton"
+        },
+        "labels": {
+          "instance": "172.29.100.5:8080",
+          "job": "openbaton"
+        },
+        "scrapePool": "openbaton",
+        "scrapeUrl": "http://172.29.100.5:8080/prometheus",
+        "globalUrl": "http://172.29.100.5:8080/prometheus",
+        "lastError": "Get \"http://172.29.100.5:8080/prometheus\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:31.879725762Z",
+        "lastScrapeDuration": 10.000788402,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "openweather-exporter:9891",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15m",
+          "__scrape_timeout__": "10s",
+          "job": "openweather-exporter"
+        },
+        "labels": {
+          "instance": "openweather-exporter:9891",
+          "job": "openweather-exporter"
+        },
+        "scrapePool": "openweather-exporter",
+        "scrapeUrl": "http://openweather-exporter:9891/metrics",
+        "globalUrl": "http://openweather-exporter:9891/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:46:56.619418539Z",
+        "lastScrapeDuration": 0.785173886,
+        "health": "up",
+        "scrapeInterval": "15m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "ping-exporter:9346",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-exporter"
+        },
+        "labels": {
+          "instance": "ping-exporter:9346",
+          "job": "ping-exporter"
+        },
+        "scrapePool": "ping-exporter",
+        "scrapeUrl": "http://ping-exporter:9346/metrics",
+        "globalUrl": "http://ping-exporter:9346/metrics",
+        "lastError": "Get \"http://ping-exporter:9346/metrics\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:34.267294015Z",
+        "lastScrapeDuration": 0.044439801,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "gitlab.iskratel.si",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "gitlab.iskratel.si",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=gitlab.iskratel.si",
+        "globalUrl": "http://ping-exporter:9346/ping?target=gitlab.iskratel.si",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=gitlab.iskratel.si\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:39.994013279Z",
+        "lastScrapeDuration": 0.078552705,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "vmgitent.iskratel.si",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "vmgitent.iskratel.si",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=vmgitent.iskratel.si",
+        "globalUrl": "http://ping-exporter:9346/ping?target=vmgitent.iskratel.si",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=vmgitent.iskratel.si\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:40.082648509Z",
+        "lastScrapeDuration": 0.002651862,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "centosvm",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "centosvm",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=centosvm",
+        "globalUrl": "http://ping-exporter:9346/ping?target=centosvm",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=centosvm\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:45.630334629Z",
+        "lastScrapeDuration": 0.002304118,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prometheus.io",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "prometheus.io",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=prometheus.io",
+        "globalUrl": "http://ping-exporter:9346/ping?target=prometheus.io",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=prometheus.io\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:45.199699176Z",
+        "lastScrapeDuration": 0.037560392,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "matjazcerkvenik.si",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "matjazcerkvenik.si",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=matjazcerkvenik.si",
+        "globalUrl": "http://ping-exporter:9346/ping?target=matjazcerkvenik.si",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=matjazcerkvenik.si\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:45.420017631Z",
+        "lastScrapeDuration": 0.002720592,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.29.6.6",
+          "__metrics_path__": "/ping",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "ping-probe"
+        },
+        "labels": {
+          "instance": "172.29.6.6",
+          "job": "ping-probe"
+        },
+        "scrapePool": "ping-probe",
+        "scrapeUrl": "http://ping-exporter:9346/ping?target=172.29.6.6",
+        "globalUrl": "http://ping-exporter:9346/ping?target=172.29.6.6",
+        "lastError": "Get \"http://ping-exporter:9346/ping?target=172.29.6.6\": dial tcp: lookup ping-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:44.072853095Z",
+        "lastScrapeDuration": 0.04452834,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "192.168.1.99:8084",
+          "__metrics_path__": "/pmon/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "pmon"
+        },
+        "labels": {
+          "instance": "192.168.1.99:8084",
+          "job": "pmon"
+        },
+        "scrapePool": "pmon",
+        "scrapeUrl": "http://192.168.1.99:8084/pmon/metrics",
+        "globalUrl": "http://192.168.1.99:8084/pmon/metrics",
+        "lastError": "Get \"http://192.168.1.99:8084/pmon/metrics\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:24.111474926Z",
+        "lastScrapeDuration": 10.006572379,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "postgres-exporter:9187",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "postgres-exporter"
+        },
+        "labels": {
+          "instance": "postgres-exporter:9187",
+          "job": "postgres-exporter"
+        },
+        "scrapePool": "postgres-exporter",
+        "scrapeUrl": "http://postgres-exporter:9187/metrics",
+        "globalUrl": "http://postgres-exporter:9187/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:42.715325569Z",
+        "lastScrapeDuration": 0.028329019,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "localhost:9090",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "prometheus"
+        },
+        "labels": {
+          "instance": "localhost:9090",
+          "job": "prometheus"
+        },
+        "scrapePool": "prometheus",
+        "scrapeUrl": "http://localhost:9090/metrics",
+        "globalUrl": "http://prometheus.devops.iskratel.cloud/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:44.907611911Z",
+        "lastScrapeDuration": 0.013251247,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pushgateway:9091",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "pushgateway"
+        },
+        "labels": {
+          "instance": "pushgateway:9091",
+          "job": "pushgateway"
+        },
+        "scrapePool": "pushgateway",
+        "scrapeUrl": "http://pushgateway:9091/metrics",
+        "globalUrl": "http://pushgateway:9091/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:34.641152642Z",
+        "lastScrapeDuration": 0.001893414,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "rabbitmq-exporter:9419",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "rabbitmq"
+        },
+        "labels": {
+          "instance": "rabbitmq-exporter:9419",
+          "job": "rabbitmq"
+        },
+        "scrapePool": "rabbitmq",
+        "scrapeUrl": "http://rabbitmq-exporter:9419/metrics",
+        "globalUrl": "http://rabbitmq-exporter:9419/metrics",
+        "lastError": "Get \"http://rabbitmq-exporter:9419/metrics\": dial tcp: lookup rabbitmq-exporter on 127.0.0.11:53: no such host",
+        "lastScrape": "2021-12-08T11:49:40.094640687Z",
+        "lastScrapeDuration": 0.052903413,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "192.168.133.3",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "192.168.133.3",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.133.3",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.133.3",
+        "lastError": "Get \"http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.133.3\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:28.412905519Z",
+        "lastScrapeDuration": 10.00074962,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "192.168.140.4",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "192.168.140.4",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.140.4",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.140.4",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:38.721346367Z",
+        "lastScrapeDuration": 2.288695114,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.18.216.216",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "172.18.216.216",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.216",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.216",
+        "lastError": "Get \"http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.216\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:18.061135972Z",
+        "lastScrapeDuration": 10.000782795,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.18.216.215",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "172.18.216.215",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.215",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.215",
+        "lastError": "Get \"http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.216.215\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:17.406302776Z",
+        "lastScrapeDuration": 10.000622862,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "172.18.212.76",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "172.18.212.76",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.212.76",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.212.76",
+        "lastError": "Get \"http://snmp-exporter:9116/snmp?module=if_mib&target=172.18.212.76\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:49:12.648527412Z",
+        "lastScrapeDuration": 10.000366626,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "192.168.1.222",
+          "__meta_filepath": "/prometheus_config/targets/snmp_nodes.yml",
+          "__metrics_path__": "/snmp",
+          "__param_module": "if_mib",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "snmp-exporter"
+        },
+        "labels": {
+          "instance": "192.168.1.222",
+          "job": "snmp-exporter"
+        },
+        "scrapePool": "snmp-exporter",
+        "scrapeUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.1.222",
+        "globalUrl": "http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.1.222",
+        "lastError": "Get \"http://snmp-exporter:9116/snmp?module=if_mib&target=192.168.1.222\": context deadline exceeded",
+        "lastScrape": "2021-12-08T11:48:45.80875973Z",
+        "lastScrapeDuration": 10.000932734,
+        "health": "down",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "prom.devops.iskratel.cloud:8085",
+          "__meta_filepath": "/prometheus_config/targets/traefik_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "traefik"
+        },
+        "labels": {
+          "instance": "prom.devops.iskratel.cloud:8085",
+          "job": "traefik"
+        },
+        "scrapePool": "traefik",
+        "scrapeUrl": "http://prom.devops.iskratel.cloud:8085/metrics",
+        "globalUrl": "http://prom.devops.iskratel.cloud:8085/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:46.898913161Z",
+        "lastScrapeDuration": 0.003127598,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "mcrk-docker-1:8085",
+          "__meta_filepath": "/prometheus_config/targets/traefik_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "traefik"
+        },
+        "labels": {
+          "instance": "mcrk-docker-1:8085",
+          "job": "traefik"
+        },
+        "scrapePool": "traefik",
+        "scrapeUrl": "http://mcrk-docker-1:8085/metrics",
+        "globalUrl": "http://mcrk-docker-1:8085/metrics",
+        "lastError": "Get \"http://mcrk-docker-1:8085/metrics\": dial tcp 172.29.6.25:8085: connect: connection refused",
+        "lastScrape": "2021-12-08T11:49:41.640380673Z",
+        "lastScrapeDuration": 0.000920102,
+        "health": "down",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "pmon.compact.si:8085",
+          "__meta_filepath": "/prometheus_config/targets/traefik_nodes.yml",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "15s",
+          "__scrape_timeout__": "10s",
+          "job": "traefik"
+        },
+        "labels": {
+          "instance": "pmon.compact.si:8085",
+          "job": "traefik"
+        },
+        "scrapePool": "traefik",
+        "scrapeUrl": "http://pmon.compact.si:8085/metrics",
+        "globalUrl": "http://pmon.compact.si:8085/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:39.251767666Z",
+        "lastScrapeDuration": 0.007244109,
+        "health": "up",
+        "scrapeInterval": "15s",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "weather-exporter:9885",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "weather-exporter"
+        },
+        "labels": {
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter"
+        },
+        "scrapePool": "weather-exporter",
+        "scrapeUrl": "http://weather-exporter:9885/metrics",
+        "globalUrl": "http://weather-exporter:9885/metrics",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:00.549321249Z",
+        "lastScrapeDuration": 0.005416558,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "matjazcerkvenik.si",
+          "__metrics_path__": "/metrics.php",
+          "__scheme__": "https",
+          "__scrape_interval__": "1m",
+          "__scrape_timeout__": "10s",
+          "job": "web-page-exporter"
+        },
+        "labels": {
+          "instance": "matjazcerkvenik.si:443",
+          "job": "web-page-exporter"
+        },
+        "scrapePool": "web-page-exporter",
+        "scrapeUrl": "https://matjazcerkvenik.si:443/metrics.php",
+        "globalUrl": "https://matjazcerkvenik.si:443/metrics.php",
+        "lastError": "",
+        "lastScrape": "2021-12-08T11:49:42.690359691Z",
+        "lastScrapeDuration": 0.099143959,
+        "health": "up",
+        "scrapeInterval": "1m",
+        "scrapeTimeout": "10s"
+      }
+    ],
+    "droppedTargets": []
+  }
+}
