@@ -57,6 +57,12 @@ public class TagColors {
         if (tagName.equalsIgnoreCase(Severity.WARNING)) {
             return "#FFE800";
         }
+        if (tagName.equalsIgnoreCase(Severity.INFORMATIONAL)) {
+            return "#00C8FF";
+        }
+        if (tagName.equalsIgnoreCase(Severity.INDETERMINATE)) {
+            return "#8F5CFF";
+        }
 
         return result;
 
