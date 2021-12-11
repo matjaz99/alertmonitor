@@ -8,13 +8,13 @@
     <h:form id="menubarForm">
     	
     	<p:menubar id="menubar">
-			<p:menuitem value="Active" url="/" icon="ui-icon-star" />
-			<p:menuitem value="Journal" url="/alertmonitor/journal" icon="ui-icon-script" />
-			<p:menuitem value="Webhook" url="/raw" icon="ui-icon-arrowthickstop-1-e" />
-			<p:menuitem value="Targets" url="/targets" icon="ui-icon-calculator" />
-			<p:menuitem value="Statistics" url="/statistics" icon="ui-icon-comment" />
-			<p:menuitem value="Configuration" url="/config" icon="ui-icon-gear" />
-			<p:menuitem value="About" url="/about" icon="ui-icon-info" />
+			<p:menuitem value="Active" url="/alertmonitor" icon="pi pi-fw pi-star" />
+			<p:menuitem value="Journal" url="/alertmonitor/journal" icon="pi pi-fw pi-history" />
+			<p:menuitem value="Webhook" url="/alertmonitor/raw" icon="pi pi-fw pi-file" />
+			<p:menuitem value="Targets" url="/alertmonitor/targets" icon="pi pi-fw pi-list" />
+			<p:menuitem value="Statistics" url="/alertmonitor/statistics" icon="pi pi-fw pi-chart-line" />
+			<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-check-circle" />
+			<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
 			<f:facet name="options">
 				<p:inputText placeholder="Search" value="#{webhookBean.searchString}"/>
 			</f:facet>

@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
@@ -25,11 +26,11 @@ public class DAO {
     /** Rnvironment variables */
     public static int JOURNAL_TABLE_SIZE = 5000;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
-    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus/api/v1/alerts";
+    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
-    public static String ALERTMONITOR_KAFKA_SERVER = "promvm:9092";
-    public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_notifications";
+    public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
+    public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
 
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
     private List<DNotification> journal = new LinkedList<>();
@@ -306,6 +307,21 @@ public class DAO {
         }
 
         return new ArrayList<>(targetsMap.values());
+    }
+
+    public List<Target> getTargetsFromProm() {
+
+        try {
+            PrometheusApi api = new PrometheusApi();
+            String responseBody = api.targets();
+
+            // TODO
+
+        } catch (Exception e) {
+            logger.error("Exception getting targets", e);
+        }
+
+        return new ArrayList<>();
     }
 
 

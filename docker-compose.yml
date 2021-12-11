@@ -18,7 +18,7 @@ services:
       - GRAFANA_HOSTNAME=my.grafana.domain
       - ALERTMONITOR_JOURNAL_SIZE=20000
       - ALERTMONITOR_PSYNC_INTERVAL_SEC=900
-      - ALERTMONITOR_PSYNC_ENDPOINT=http://localhost/prometheus/api/v1/alerts
+      - ALERTMONITOR_PSYNC_ENDPOINT=http://localhost/prometheus
       - ALERTMONITOR_DATE_FORMAT="yyyy/MM/dd H:mm:ss"
       - ALERTMONITOR_KAFKA_ENABLED=false
       - ALERTMONITOR_KAFKA_SERVER=promvm:9092

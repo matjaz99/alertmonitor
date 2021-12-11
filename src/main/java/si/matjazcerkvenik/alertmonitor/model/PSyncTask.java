@@ -2,18 +2,10 @@ package si.matjazcerkvenik.alertmonitor.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
-
-import javax.net.ssl.*;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -23,7 +15,7 @@ public class PSyncTask extends TimerTask {
     private SimpleLogger logger = DAO.getLogger();
 
     public static void main(String... args) {
-        DAO.ALERTMONITOR_PSYNC_ENDPOINT = "http://pgcentos:9090/api/v1/alerts";
+        DAO.ALERTMONITOR_PSYNC_ENDPOINT = "http://pgcentos:9090";
         PSyncTask rt = new PSyncTask();
         rt.run();
     }
@@ -36,30 +28,8 @@ public class PSyncTask extends TimerTask {
 
         try {
 
-            OkHttpClient httpClient = instantiateHttpClient();
-
-            Request request = new Request.Builder()
-                    .url(DAO.ALERTMONITOR_PSYNC_ENDPOINT)
-                    .addHeader("User-Agent", "Alertmonitor/v1")
-                    .get()
-                    .build();
-
-            logger.info("PSYNC: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_PSYNC_ENDPOINT);
-
-            String responseBody = null;
-            Response response = httpClient.newCall(request).execute();
-            logger.info("PSYNC: response: errorcode=" + response.code() + ", success=" + response.isSuccessful());
-            if (response.isSuccessful()) {
-                responseBody = response.body().string();
-                logger.info("PSYNC: response: " + responseBody);
-                AmMetrics.alertmonitor_psync_task_total.labels("Success").inc();
-                DAO.psyncSuccessCount++;
-            } else {
-                AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-                DAO.psyncFailedCount++;
-            }
-
-            response.close();
+            PrometheusApi api = new PrometheusApi();
+            String responseBody = api.alerts();
 
             if (responseBody != null && responseBody.trim().length() > 0) {
 
@@ -155,7 +125,7 @@ public class PSyncTask extends TimerTask {
                     DNotification xClone = (DNotification) x.clone();
                     xClone.setClearTimestamp(System.currentTimeMillis());
                     xClone.setSeverity(Severity.CLEAR);
-                    xClone.setSource("RESYNC");
+                    xClone.setSource("PSYNC");
                     xClone.generateUID();
                     DAO.getInstance().addToJournal(xClone);
                     DAO.getInstance().removeActiveAlert(x);
@@ -167,86 +137,14 @@ public class PSyncTask extends TimerTask {
 
             }
 
-        } catch (UnknownHostException e) {
-            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-            DAO.psyncFailedCount++;
-        } catch (SocketTimeoutException e) {
-            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-            DAO.psyncFailedCount++;
-        } catch (SocketException e) {
-            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-            DAO.psyncFailedCount++;
-        } catch (SSLException e) {
-            logger.error("PSYNC: Failed to synchronize alarms: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-            DAO.psyncFailedCount++;
         } catch (Exception e) {
             logger.error("PSYNC: Failed to synchronize alarms: ", e);
-            e.printStackTrace();
+//            e.printStackTrace();
             AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
         }
 
         logger.info("PSYNC: === Periodic synchronization complete ===");
-
-    }
-
-
-
-    public OkHttpClient instantiateHttpClient() {
-
-        if (!DAO.ALERTMONITOR_PSYNC_ENDPOINT.startsWith("https")) {
-            return new OkHttpClient();
-        }
-
-        // continue if https
-
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
-        try {
-
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[]{
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType)
-                                throws CertificateException {
-                        }
-
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType)
-                                throws CertificateException {
-                        }
-
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[]{};
-                        }
-                    }
-            };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-
-            return builder.build();
-
-        } catch (Exception e) {
-            return null;
-        }
 
     }
 

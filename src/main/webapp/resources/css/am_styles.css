@@ -10,6 +10,9 @@ hr {
     height: 1px;
     background: #222222;
 }
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 70%;
+}
 .plaintext {
     font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 14px;
@@ -58,7 +61,6 @@ hr {
 .ui-datatable .ui-datatable-header {
 	text-align: right !important;
 }
-
 .ui-notificationbar {
 	position: fixed;
 	width: 100%;
@@ -73,7 +75,7 @@ hr {
 	border-left: none;
 	background: #FFFFFF;
 	color: #222222;
-	font-size: 9px;
+	font-size: 11px;
 }
 
 .tagBorder {
@@ -87,12 +89,12 @@ hr {
 	padding-bottom: 3px;
 	padding-left: 5px;
 	padding-right: 5px;
-	margin-right: 9px;
+	margin-right: 11px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 .targetBorder {
-	border: 1px solid #555;
+	border: 1px solid #777;
 	border-bottom-left-radius: 6px 6px;
 	border-bottom-right-radius: 6px 6px;
 	border-top-left-radius: 6px 6px;

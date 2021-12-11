@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @ManagedBean
 @ViewScoped
-public class TargetBean {
+public class InstanceBean {
 
     private Target target;
 
@@ -34,7 +34,7 @@ public class TargetBean {
         return target;
     }
 
-    public List<DNotification> getTargetActiveAlarms() {
+    public List<DNotification> getInstanceActiveAlarms() {
         List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
         List<DNotification> result = list.stream()
                 .filter(notif -> checkAlert(notif))
@@ -49,7 +49,7 @@ public class TargetBean {
         return result;
     }
 
-    public List<DNotification> getTargetJournalAlarms() {
+    public List<DNotification> getInstanceJournalAlarms() {
         List<DNotification> result = DAO.getInstance().getJournal().stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());

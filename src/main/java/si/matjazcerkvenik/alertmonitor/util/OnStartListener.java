@@ -52,15 +52,16 @@ public class OnStartListener implements ServletContextListener {
         }
 
         // read configuration from environment variables
-        DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "20000"));
-        DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60"));
-        // DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "https://localhost/prometheus/api/v1/alerts");
-//        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts");
-        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090/api/v1/alerts");
-        DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss");
-        DAO.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false"));
-        DAO.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "promvm:9092");
-        DAO.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_notifications");
+        DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "20000").trim());
+        DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
+        // DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "https://localhost/prometheus/api/v1/alerts").trim();
+//        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://pgcentos:9090/api/v1/alerts").trim();
+        DAO.ALERTMONITOR_PSYNC_ENDPOINT = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090").trim();
+        if (DAO.ALERTMONITOR_PSYNC_ENDPOINT.endsWith("/")) DAO.ALERTMONITOR_PSYNC_ENDPOINT = DAO.ALERTMONITOR_PSYNC_ENDPOINT.substring(0, DAO.ALERTMONITOR_PSYNC_ENDPOINT.length()-1);
+        DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
+        DAO.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
+        DAO.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "promvm:9092").trim();
+        DAO.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_notifications").trim();
 
         // runtime memory info
         int mb = 1024 * 1024;

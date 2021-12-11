@@ -1,7 +1,9 @@
 ## 1.6.2-SNAPSHOT
 
+* [CHANGE] Updated GUI styling due to update of Primefaces library
 * [ENHANCEMENT] Updated prometheus simple client java library to 0.12.0
 * [ENHANCEMENT] Updated primefaces java library to 11.0.0
+* [ENHANCEMENT] Redesign of Prometheus API handler
 
 
 ## 1.6.1-SNAPSHOT

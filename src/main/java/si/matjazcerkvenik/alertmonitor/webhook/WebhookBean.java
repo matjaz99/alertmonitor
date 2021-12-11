@@ -58,7 +58,7 @@ public class WebhookBean {
 
 	public void setPsyncEndpoint(String endpoint) {
 		DAO.ALERTMONITOR_PSYNC_ENDPOINT = endpoint;
-		DAO.getLogger().info("WebhookBean: psync endpoint changed:" + endpoint);
+		DAO.getLogger().info("WebhookBean: psync endpoint changed: " + endpoint);
 //		Growl.showInfoGrowl("Configuration updated", "");
 	}
 
@@ -91,7 +91,7 @@ public class WebhookBean {
 	public void setJournalMaxSize(String size) {
 
 		DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
-		DAO.getLogger().info("WebhookBean: journal max size changed:" + DAO.JOURNAL_TABLE_SIZE);
+		DAO.getLogger().info("WebhookBean: journal max size changed: " + DAO.JOURNAL_TABLE_SIZE);
 //		Growl.showInfoGrowl("Configuration updated", "");
 	}
 
@@ -132,7 +132,7 @@ public class WebhookBean {
 	public void setPsyncInterval(String interval) {
 
 		DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-		DAO.getLogger().info("WebhookBean: psync interval changed:" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+		DAO.getLogger().info("WebhookBean: psync interval changed: " + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
 //		Growl.showInfoGrowl("Configuration updated", "");
 		TaskManager.getInstance().restartPsyncTimer();
 	}
@@ -147,7 +147,7 @@ public class WebhookBean {
 
 	public void setKafkaEnabled(boolean kafkaEnabled) {
 		DAO.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
-		DAO.getLogger().info("WebhookBean: kafka enabled changed:" + DAO.ALERTMONITOR_KAFKA_ENABLED);
+		DAO.getLogger().info("WebhookBean: kafka enabled changed: " + DAO.ALERTMONITOR_KAFKA_ENABLED);
 	}
 
 	public boolean isKafkaEnabled() {
@@ -156,7 +156,7 @@ public class WebhookBean {
 
 	public void setKafkaServer(String kafkaServer) {
 		DAO.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
-		DAO.getLogger().info("WebhookBean: kafka server changed:" + DAO.ALERTMONITOR_KAFKA_SERVER);
+		DAO.getLogger().info("WebhookBean: kafka server changed: " + DAO.ALERTMONITOR_KAFKA_SERVER);
 		KafkaClient.getInstance().resetClient();
 	}
 
@@ -166,7 +166,7 @@ public class WebhookBean {
 
 	public void setKafkaTopic(String kafkaTopic) {
 		DAO.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
-		DAO.getLogger().info("WebhookBean: kafka topic changed:" + DAO.ALERTMONITOR_KAFKA_TOPIC);
+		DAO.getLogger().info("WebhookBean: kafka topic changed: " + DAO.ALERTMONITOR_KAFKA_TOPIC);
 	}
 
 	public String getKafkaTopic() {

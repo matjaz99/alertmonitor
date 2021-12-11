@@ -3,7 +3,6 @@ FROM tomcat:8.5-jre8-alpine
 RUN apk --no-cache add curl
 RUN apk add tzdata
 
-COPY ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
 COPY target/alertmonitor.war /usr/local/tomcat/webapps/alertmonitor.war
 
 RUN mkdir -p /opt/alertmonitor/log
