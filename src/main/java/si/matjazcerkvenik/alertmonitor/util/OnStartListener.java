@@ -85,16 +85,6 @@ public class OnStartListener implements ServletContextListener {
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
 
         // start resync timer
-//        if (pSyncTask == null) {
-//            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-//            AmMetrics.alertmonitor_psync_interval_seconds.set(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-//            if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
-//                pSyncTimer = new Timer("PSyncTimer");
-//                pSyncTask = new PSyncTask();
-//                pSyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
-//            }
-//        }
-
         TaskManager.getInstance().restartPsyncTimer();
 
     }
@@ -102,16 +92,7 @@ public class OnStartListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
-//        if (pSyncTimer != null) {
-//            pSyncTimer.cancel();
-//            pSyncTimer = null;
-//        }
-//        if (pSyncTask != null) {
-//            pSyncTask.cancel();
-//            pSyncTask = null;
-//        }
         TaskManager.getInstance().stopPsyncTimer();
-
 
         DAO.getLogger().info("#");
         DAO.getLogger().info("# Stopping Alertmonitor");

@@ -1,3 +1,9 @@
+## 1.6.2-SNAPSHOT
+
+* [ENHANCEMENT] Updated prometheus simple client java library to 0.12.0
+* [ENHANCEMENT] Updated primefaces java library to 11.0.0
+
+
 ## 1.6.1-SNAPSHOT
 
 * [CHANGE] Alerts with severity `indeterminate` and `informational` are now also displayed in list of active alerts
