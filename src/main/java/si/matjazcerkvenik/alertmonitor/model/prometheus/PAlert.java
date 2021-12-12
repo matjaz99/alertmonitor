@@ -1,8 +1,8 @@
-package si.matjazcerkvenik.alertmonitor.model.alertmanager;
+package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
 import java.util.Map;
 
-public class AmPSyncAlert {
+public class PAlert {
 
     private Map<String, String> labels;
     private Map<String, String> annotations;

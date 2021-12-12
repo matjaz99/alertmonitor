@@ -1,5 +1,7 @@
 package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -8,12 +10,14 @@ import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.util.List;
+
 
 public class PrometheusApi {
 
     private SimpleLogger logger = DAO.getLogger();
 
-    public String alerts() throws Exception {
+    public List<PAlert> alerts() throws Exception {
 
         String responseBody = null;
 
@@ -40,6 +44,18 @@ public class PrometheusApi {
         }
 
         response.close();
+
+        if (responseBody != null && responseBody.trim().length() > 0) {
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            PAlertsMessage amMsg = gson.fromJson(responseBody, PAlertsMessage.class);
+
+            return amMsg.getData().getAlerts();
+
+        }
+
+        return null;
 
 //        try {
 //
@@ -68,7 +84,7 @@ public class PrometheusApi {
 //            DAO.psyncFailedCount++;
 //        }
 
-        return responseBody;
+//        return responseBody;
 
     }
 

@@ -1,8 +1,7 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -29,13 +28,9 @@ public class PSyncTask extends TimerTask {
         try {
 
             PrometheusApi api = new PrometheusApi();
-            String responseBody = api.alerts();
+            List<PAlert> activeAlerts = api.alerts();
 
-            if (responseBody != null && responseBody.trim().length() > 0) {
-
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-                AmPSyncMessage amMsg = gson.fromJson(responseBody, AmPSyncMessage.class);
+            if (activeAlerts != null) {
 
                 // set flag toBeDeleted=true for all active alerts before executing resync
                 for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
@@ -45,7 +40,7 @@ public class PSyncTask extends TimerTask {
                 List<DNotification> resyncAlerts = new ArrayList<>();
                 int newAlertsCount = 0;
 
-                for (AmPSyncAlert alert : amMsg.getData().getAlerts()) {
+                for (PAlert alert : activeAlerts) {
                     logger.debug(alert.toString());
 
                     DNotification n = new DNotification();

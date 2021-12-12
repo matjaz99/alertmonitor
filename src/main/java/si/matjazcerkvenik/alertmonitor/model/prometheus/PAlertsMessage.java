@@ -1,9 +1,9 @@
-package si.matjazcerkvenik.alertmonitor.model.alertmanager;
+package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
-public class AmPSyncMessage {
+public class PAlertsMessage {
 
     private String status;
-    private AmPSyncData data;
+    private PAlertsData data;
 
     public String getStatus() {
         return status;
@@ -13,11 +13,11 @@ public class AmPSyncMessage {
         this.status = status;
     }
 
-    public AmPSyncData getData() {
+    public PAlertsData getData() {
         return data;
     }
 
-    public void setData(AmPSyncData data) {
+    public void setData(PAlertsData data) {
         this.data = data;
     }
 }
