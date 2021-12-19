@@ -1,9 +1,20 @@
+## 1.6.3-SNAPSHOT
+
+* [FEATURE] Smart targets. The concept of smart targets is not new as Alertmonitor already did it in Targets view. It's just 
+that Targets are now retrieved from Prometheus. And you can now switch between views: instance or smartTarget.
+* [ENHANCEMENT] Added metric `alertmonitor_prom_api_duration_seconds` for monitoring Prometheus API response time. 
+This is a replacement for `alertmonitor_psync_task_total` which is now obsolete.
+* [ENHANCEMENT] Styling improvements
+
 ## 1.6.2-SNAPSHOT
 
 * [CHANGE] Updated GUI styling due to update of Primefaces library
+* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_ENDPOINT`is now deprecated. Instead, 
+use `ALERTMONITOR_PROMETHEUS_SERVER` and without `/api/v1/alerts`. Just schema, host and port.
+* [FEATURE] Prometheus API implementation (for alerts and targets)
+* [FEATURE] Retrieving targets from Prometheus
 * [ENHANCEMENT] Updated prometheus simple client java library to 0.12.0
-* [ENHANCEMENT] Updated primefaces java library to 11.0.0
-* [ENHANCEMENT] Redesign of Prometheus API handler
+* [ENHANCEMENT] Updated Primefaces java library to 11.0.0
 
 
 ## 1.6.1-SNAPSHOT

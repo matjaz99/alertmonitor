@@ -1,7 +1,6 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
-import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
+import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -348,7 +347,7 @@ public class DNotification implements Cloneable {
 	}
 
 	public void generateUID() {
-		uid = MD5Checksum.getMd5Checksum(timestamp
+		uid = MD5.getChecksum(timestamp
 				+ this.hashCode()
 				+ new Random().nextInt(Integer.MAX_VALUE)
 				+ priority
@@ -373,7 +372,7 @@ public class DNotification implements Cloneable {
 	}
 
 	public void generateCID() {
-		correlationId = MD5Checksum.getMd5Checksum(alertname + info + instance + job);
+		correlationId = MD5.getChecksum(alertname + info + instance + job);
 	}
 
 	@Override

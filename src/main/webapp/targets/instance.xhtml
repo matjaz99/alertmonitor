@@ -12,6 +12,7 @@
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 
 				<h:outputText value="Target: #{instanceBean.target.hostname}" style="color: #444444; font-size: 18px;"/>
+				<p:tag styleClass="p-mr-2" value="#{instanceBean.targetType}" rounded="true"></p:tag>
 
 				<h:form>
 					<p:accordionPanel dynamic="true" cache="true">

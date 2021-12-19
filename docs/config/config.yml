@@ -1,0 +1,17 @@
+alertmonitor:
+  name: am-1
+  journal:
+    size: 20000
+  date:
+    format: 'yyyy/MM/dd H:mm:ss'
+  prometheus:
+    servers:
+      - host: prom-1:9090
+        psyncInterval: 60
+      - host: prom-2:9090
+        psyncInterval: 120
+    kafka:
+      - host: kafka:9092
+        topic: topic_name
+        enabled: false
+

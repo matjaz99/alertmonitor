@@ -24,9 +24,9 @@
 						<p:inputText value="#{webhookBean.journalMaxSize}" required="true" label="text"/>
 					</p:inplace>
 
-					<p:outputLabel value="Alert sync endpoint: " style="font-weight: bold; font-size: 14px;"/>
+					<p:outputLabel value="Prometheus server: " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{webhookBean.psyncEndpoint}" required="true" label="text"/>
+						<p:inputText value="#{webhookBean.promServer}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Periodic sync interval (sec): " style="font-weight: bold; font-size: 14px;"/>

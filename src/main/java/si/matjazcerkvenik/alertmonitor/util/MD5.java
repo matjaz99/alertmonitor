@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5Checksum {
+public class MD5 {
 	
 	/**
 	 * Return MD5 checksum of a file. If file does not exist, 0 is returned.
 	 * @param file
 	 * @return checksum
 	 */
-	public static String getMd5Checksum(File file) {
+	public static String getChecksum(File file) {
 		
 		if (!file.exists()) {
 			return "0";
@@ -62,7 +62,7 @@ public class MD5Checksum {
 	 * @param s
 	 * @return checksum
 	 */
-	public static String getMd5Checksum(String s) {
+	public static String getChecksum(String s) {
 		
 		StringBuffer sb = new StringBuffer("");
 		

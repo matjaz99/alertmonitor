@@ -1,7 +1,7 @@
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #222222;
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	/*font-size: 10px;*/
+	/*color: #222222;*/
 	padding: 0px;
   	margin: 0px;
 }
@@ -10,16 +10,16 @@ hr {
     height: 1px;
     background: #222222;
 }
-.ui-widget, .ui-widget .ui-widget {
-    font-size: 70%;
-}
+/*.ui-widget, .ui-widget .ui-widget {*/
+/*    font-size: 70%;*/
+/*}*/
 .plaintext {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
 	font-size: 14px;
 	color: #222222;
 }
 #configForm {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
 	font-size: 14px;
 	color: #222222;
 }
@@ -93,12 +93,26 @@ hr {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-.targetBorder {
-	border: 1px solid #777;
+.targetBorder-true {
+	border: 1px solid #BBFFAA;
 	border-bottom-left-radius: 6px 6px;
 	border-bottom-right-radius: 6px 6px;
 	border-top-left-radius: 6px 6px;
 	border-top-right-radius: 6px 6px;
+	background: #E3FFF3;
+	font-size: 12px;
+	padding: 7px;
+	margin-right: 13px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.targetBorder-false {
+	border: 1px solid #FFBBCC;
+	border-bottom-left-radius: 5px 5px;
+	border-bottom-right-radius: 5px 5px;
+	border-top-left-radius: 5px 5px;
+	border-top-right-radius: 5px 5px;
+	background: #FFEEEE;
 	font-size: 12px;
 	padding: 7px;
 	margin-right: 13px;

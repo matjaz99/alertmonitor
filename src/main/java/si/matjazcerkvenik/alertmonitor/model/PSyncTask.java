@@ -14,7 +14,7 @@ public class PSyncTask extends TimerTask {
     private SimpleLogger logger = DAO.getLogger();
 
     public static void main(String... args) {
-        DAO.ALERTMONITOR_PSYNC_ENDPOINT = "http://pgcentos:9090";
+        DAO.ALERTMONITOR_PROMETHEUS_SERVER = "http://pgcentos:9090";
         PSyncTask rt = new PSyncTask();
         rt.run();
     }
@@ -49,7 +49,7 @@ public class PSyncTask extends TimerTask {
                     n.setSource("PSYNC");
                     n.setUserAgent("Alertmonitor/v1");
                     n.setInstance(alert.getLabels().getOrDefault("instance", "-"));
-                    n.setHostname(AlertmanagerProcessor.stripInstance(n.getInstance()));
+                    n.setHostname(DAO.getInstance().stripInstance(n.getInstance()));
                     n.setNodename(alert.getLabels().getOrDefault("nodename", n.getInstance()));
                     n.setInfo(alert.getLabels().getOrDefault("info", "-"));
                     n.setJob(alert.getLabels().getOrDefault("job", "-"));

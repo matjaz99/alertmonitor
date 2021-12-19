@@ -194,7 +194,8 @@ A list of supported environment variables:
 |------------------------------------|-------------------------|------------------- |
 | ALERTMONITOR_JOURNAL_SIZE          | 20000 | Maximum journal size (FIFO). |
 | ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronisation interval in seconds |
-| ALERTMONITOR_PSYNC_ENDPOINT        | http://localhost/prometheus/api/v1/alerts | The URL of Prometheus API for active alerts |
+| ~~ALERTMONITOR_PSYNC_ENDPOINT~~    | ~~http://localhost/prometheus/api/v1/alerts~~ | ~~The URL of Prometheus API for active alerts~~ Deprecated since 1.7.0. See `ALERTMONITOR_PROMETHEUS_SERVER` |
+| ALERTMONITOR_PROMETHEUS_SERVER     | http://localhost:9090 | The URL of Prometheus server |
 | ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
 | ALERTMONITOR_KAFKA_ENABLED         | false | Enable or disable publishing to Kafka |
 | ALERTMONITOR_KAFKA_SERVER          | hostname:9092 | Hostname and port for Kafka |

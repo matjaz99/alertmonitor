@@ -4,7 +4,7 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
-    <div style="float: left;" class="targetBorder">
+    <div style="float: left;" class="targetBorder-#{t.up}">
 
 <!--        <h:outputLink value="/alertmonitor/hostname" >-->
 <!--            <h:outputText value="#{t.hostname}" style="color: #222222;"/>-->
@@ -17,10 +17,11 @@
 <!--            <f:param name="target_id" value="#{t.id}" />-->
 <!--        </p:link>-->
         <h:link value = "#{t.hostname}" outcome = "/targets/instance">
-            <f:param name="target_id" value="#{t.id}" />
+            <f:param name="tid" value="#{t.id}" />
         </h:link>
         <hr/>
+        <h:graphicImage library="images" name="/#{webhookBean.getTargetHighestPriorityBullet(t)}" style="margin-right: 7px;" />
         <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
-        <h:graphicImage library="images" name="/#{webhookBean.getTargetHighestPriorityBullet(t)}" />
+
     </div>
 </ui:composition>

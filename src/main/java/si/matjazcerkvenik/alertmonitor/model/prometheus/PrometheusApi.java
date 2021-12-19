@@ -4,12 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import javax.net.ssl.SSLException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -17,33 +22,17 @@ public class PrometheusApi {
 
     private SimpleLogger logger = DAO.getLogger();
 
-    public List<PAlert> alerts() throws Exception {
+    private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
-        String responseBody = null;
-
-        OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient();
+    public List<PAlert> alerts() throws PrometheusApiException {
 
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PSYNC_ENDPOINT + "/api/v1/alerts")
-                .addHeader("User-Agent", "Alertmonitor/v1")
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/alerts")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
 
-        logger.info("PrometheusApi: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_PSYNC_ENDPOINT + "/api/v1/alerts");
-
-        Response response = httpClient.newCall(request).execute();
-        logger.info("PrometheusApi: response: code=" + response.code() + ", success=" + response.isSuccessful());
-        if (response.isSuccessful()) {
-            responseBody = response.body().string();
-            logger.debug("PrometheusApi: response: " + responseBody);
-            AmMetrics.alertmonitor_psync_task_total.labels("Success").inc();
-            DAO.psyncSuccessCount++;
-        } else {
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-            DAO.psyncFailedCount++;
-        }
-
-        response.close();
+        String responseBody = execute(request);
 
         if (responseBody != null && responseBody.trim().length() > 0) {
 
@@ -51,65 +40,112 @@ public class PrometheusApi {
             Gson gson = builder.create();
             PAlertsMessage amMsg = gson.fromJson(responseBody, PAlertsMessage.class);
 
+            AmMetrics.alertmonitor_psync_task_total.labels("Success").inc();
+            DAO.psyncSuccessCount++;
+
             return amMsg.getData().getAlerts();
+
+        } else {
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+        }
+
+        return null;
+
+    }
+
+    public List<PTarget> targets() throws PrometheusApiException {
+
+        Request request = new Request.Builder()
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/targets")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
+                .get()
+                .build();
+
+        String responseBody = execute(request);
+
+        if (responseBody != null && responseBody.trim().length() > 0) {
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            PTargetMessage targetMessage = gson.fromJson(responseBody, PTargetMessage.class);
+
+            return targetMessage.getData().getActiveTargets();
 
         }
 
         return null;
 
-//        try {
-//
-//
-//
-//        } catch (UnknownHostException e) {
-//            logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
-//            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-//            DAO.psyncFailedCount++;
-//        } catch (SocketTimeoutException e) {
-//            logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
-//            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-//            DAO.psyncFailedCount++;
-//        } catch (SocketException e) {
-//            logger.error("PrometheusApi: SocketException: " + e.getMessage());
-//            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-//            DAO.psyncFailedCount++;
-//        } catch (SSLException e) {
-//            logger.error("PrometheusApi: SSLException: " + e.getMessage());
-//            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-//            DAO.psyncFailedCount++;
-//        } catch (Exception e) {
-//            logger.error("PrometheusApi: Exception: ", e);
-//            e.printStackTrace();
-//            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
-//            DAO.psyncFailedCount++;
-//        }
-
-//        return responseBody;
-
     }
 
-    public String targets() throws Exception {
-
-        String responseBody = null;
-
-        OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient();
-
+    public void reload() throws PrometheusApiException {
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PSYNC_ENDPOINT + "/api/v1/targets")
-                .addHeader("User-Agent", "Alertmonitor/v1")
-                .get()
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/-/reload")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
+                .post(RequestBody.create("{}".getBytes()))
                 .build();
 
-        logger.info("PrometheusApi: sending " + request.method().toUpperCase() + " " + DAO.ALERTMONITOR_PSYNC_ENDPOINT + "/api/v1/targets");
+        execute(request);
+    }
 
-        Response response = httpClient.newCall(request).execute();
-        logger.info("PrometheusApi: response: code=" + response.code() + ", success=" + response.isSuccessful());
-        if (response.isSuccessful()) {
-            responseBody = response.body().string();
-            logger.debug("PrometheusApi: response: " + responseBody);
+    private String execute(Request request) throws PrometheusApiException {
+
+        String responseBody = null;
+        long before = System.currentTimeMillis();
+        String code = "0";
+
+        try {
+
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient();
+
+            logger.info("PrometheusApi: request " + request.method().toUpperCase() + " " + request.url().toString());
+            Response response = httpClient.newCall(request).execute();
+            logger.info("PrometheusApi: response: code=" + response.code() + ", success=" + response.isSuccessful());
+
+            code = Integer.toString(response.code());
+
+            if (response.isSuccessful()) {
+                responseBody = response.body().string();
+                logger.debug("PrometheusApi: response: " + responseBody);
+            }
+
+            response.close();
+
+        } catch (UnknownHostException e) {
+            logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+            code = "500";
+            throw new PrometheusApiException("UnknownHostException");
+        } catch (SocketTimeoutException e) {
+            logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+            code = "500";
+            throw new PrometheusApiException("SocketTimeoutException");
+        } catch (SocketException e) {
+            logger.error("PrometheusApi: SocketException: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+            code = "500";
+            throw new PrometheusApiException("SocketException");
+        } catch (SSLException e) {
+            logger.error("PrometheusApi: SSLException: " + e.getMessage());
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+            code = "500";
+            throw new PrometheusApiException("SSLException");
+        } catch (Exception e) {
+            logger.error("PrometheusApi: Exception: ", e);
+            e.printStackTrace();
+            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
+            DAO.psyncFailedCount++;
+            code = "500";
+            throw new PrometheusApiException("Exception");
+        } finally {
+            double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;
+            AmMetrics.alertmonitor_prom_api_duration_seconds.labels(request.method(), code, request.url().toString()).observe(duration);
         }
-
-        response.close();
 
         return responseBody;
 

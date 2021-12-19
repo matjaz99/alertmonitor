@@ -8,13 +8,22 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:panelGrid columns="1" cellspacing="5" width="100%">
+			<h:form id="targetsForm">
 
-				<ui:repeat var="t" value="#{webhookBean.targets}">
-					<am:target value="#{t}" />
-				</ui:repeat>
+				<h3>Use Smart Targets</h3>
+				<p:toggleSwitch value="#{webhookBean.smartTargetsEnabled}">
+					<p:ajax listener="#{webhookBean.getTargets}" update="targetsForm"/>
+				</p:toggleSwitch>
 
-			</p:panelGrid>
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+					<ui:repeat var="t" value="#{webhookBean.targets}">
+						<am:target value="#{t}" />
+					</ui:repeat>
+
+				</p:panelGrid>
+
+			</h:form>
 
 		</ui:define>
 	</div>

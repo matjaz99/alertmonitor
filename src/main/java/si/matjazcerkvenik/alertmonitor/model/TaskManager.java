@@ -29,7 +29,7 @@ public class TaskManager {
             if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
                 pSyncTimer = new Timer("PSyncTimer");
                 pSyncTask = new PSyncTask();
-                pSyncTimer.schedule(pSyncTask, 15 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
+                pSyncTimer.schedule(pSyncTask, 5 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
             }
         }
 

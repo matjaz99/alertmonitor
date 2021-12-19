@@ -1,8 +1,9 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PTarget;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
+import si.matjazcerkvenik.alertmonitor.util.MD5;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -26,7 +27,9 @@ public class DAO {
     /** Rnvironment variables */
     public static int JOURNAL_TABLE_SIZE = 5000;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
-    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost/prometheus";
+    @Deprecated
+    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost:9090";
+    public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
     public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
@@ -288,32 +291,100 @@ public class DAO {
     }
 
     /**
-     * Return a list of targets from journal records. This will return also
-     * targets with no active alerts.
+     * Return a list of targets (instances) from Prometheus.
      * @return list
      */
     public List<Target> getTargets() {
-        Map<String, Target> targetsMap = new HashMap<String, Target>();
-
-        for (DNotification n : journal) {
-            String host = n.getHostname();
-            Target t = targetsMap.getOrDefault(host, new Target());
-            t.setHostname(host);
-            t.setId(MD5Checksum.getMd5Checksum(host));
-            for (DNotification aa : getActiveAlerts().values()) {
-                if (aa.getUid().equals(n.getUid())) t.addAlert(n);
-            }
-            targetsMap.put(host, t);
-        }
-
-        return new ArrayList<>(targetsMap.values());
-    }
-
-    public List<Target> getTargetsFromProm() {
 
         try {
             PrometheusApi api = new PrometheusApi();
-            String responseBody = api.targets();
+            List<PTarget> pTargets = api.targets();
+            Map<String, Target> targetsMap = new HashMap<String, Target>();
+
+            // convert from PTarget to Target
+            for (PTarget pTarget : pTargets) {
+                String host = pTarget.getLabels().get("instance");
+                Target t = targetsMap.getOrDefault(host, new Target());
+                t.setSmartTarget(false);
+                t.setHealth(pTarget.getHealth());
+                t.setHostname(host);
+                t.setId(MD5.getChecksum("host" + t.getHostname()));
+                // load active alerts
+                for (DNotification n : getActiveAlerts().values()) {
+                    if (n.getInstance().equals(host)) t.addAlert(n);
+                }
+                targetsMap.put(host, t);
+            }
+
+            return new ArrayList<>(targetsMap.values());
+
+        } catch (Exception e) {
+            logger.error("Exception getting targets", e);
+        }
+
+        return null;
+    }
+
+    // the only difference is stripped hostname
+    public List<Target> getSmartTargets() {
+
+        try {
+            PrometheusApi api = new PrometheusApi();
+            List<PTarget> pTargets = api.targets();
+            Map<String, Target> targetsMap = new HashMap<String, Target>();
+
+            // convert from PTarget to Target
+            for (PTarget pTarget : pTargets) {
+                String host = stripInstance(pTarget.getLabels().get("instance"));
+                Target t = targetsMap.getOrDefault(host, new Target());
+                t.setSmartTarget(true);
+                boolean up = false;
+                if (pTarget.getHealth().equalsIgnoreCase("up")) up = true;
+                t.setUp(up || t.isUp());
+                t.setHostname(host);
+                t.setId(MD5.getChecksum("smarthost" + t.getHostname()));
+                // load active alerts
+                for (DNotification n : getActiveAlerts().values()) {
+                    if (n.getHostname().equals(host)) t.addAlert(n);
+                }
+                targetsMap.put(host, t);
+            }
+
+            return new ArrayList<>(targetsMap.values());
+
+        } catch (Exception e) {
+            logger.error("Exception getting targets", e);
+        }
+
+        return null;
+
+    }
+
+    public Target getSingleTarget(String id) {
+        List<Target> t1 = getTargets();
+        for (Target t : t1) {
+            if (t.getId().equals(id)) return t;
+        }
+        List<Target> t2 = getSmartTargets();
+        for (Target t : t2) {
+            if (t.getId().equals(id)) return t;
+        }
+        return null;
+    }
+
+
+
+    private List<Target> getTargetsFromProm() {
+
+        try {
+            PrometheusApi api = new PrometheusApi();
+            List<PTarget> targets = api.targets();
+
+            for (PTarget pTarget : targets) {
+                Target t = new Target();
+                t.setHostname(stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
+                t.setId(MD5.getChecksum("host" + t.getHostname()));
+            }
 
             // TODO
 
@@ -342,6 +413,36 @@ public class DAO {
             localIpAddress = "UnknownHost";
         }
         return localIpAddress;
+    }
+
+    /**
+     * Remove leading protocol (eg. http://) and trailing port (eg. :8080).
+     * @param instance
+     * @return hostname
+     */
+    public String stripInstance(String instance) {
+
+        if (instance == null) return instance;
+
+        // remove protocol
+        if (instance.contains("://")) {
+            instance = instance.split("://")[1];
+        }
+        // remove port
+        instance = instance.split(":")[0];
+
+        // remove relative URL
+        instance = instance.split("/")[0];
+
+        // resolve to IP address
+//        try {
+//            InetAddress address = InetAddress.getByName(instance);
+//            instance = address.getHostAddress();
+//        } catch (UnknownHostException e) {
+//            // nothing to do, leave as it is
+//            DAO.getLogger().warn("Cannot resolve: " + instance);
+//        }
+        return instance;
     }
 
 }

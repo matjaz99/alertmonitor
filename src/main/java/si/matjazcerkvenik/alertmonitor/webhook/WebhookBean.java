@@ -39,6 +39,8 @@ public class WebhookBean {
 
 	private String searchString;
 
+	private boolean smartTargetsEnabled = false;
+
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
 	}
@@ -52,13 +54,14 @@ public class WebhookBean {
 		DAO.getLogger().info("SEARCH: " + searchString);
 	}
 
-	public String getPsyncEndpoint() {
-		return DAO.ALERTMONITOR_PSYNC_ENDPOINT;
+	public String getPromServer() {
+		return DAO.ALERTMONITOR_PROMETHEUS_SERVER;
 	}
 
-	public void setPsyncEndpoint(String endpoint) {
-		DAO.ALERTMONITOR_PSYNC_ENDPOINT = endpoint;
-		DAO.getLogger().info("WebhookBean: psync endpoint changed: " + endpoint);
+	public void setPromServer(String server) {
+		if (server.endsWith("/")) server = server.substring(0, server.length()-1);
+		DAO.ALERTMONITOR_PROMETHEUS_SERVER = server;
+		DAO.getLogger().info("WebhookBean: prometheus server changed: " + server);
 //		Growl.showInfoGrowl("Configuration updated", "");
 	}
 
@@ -386,8 +389,20 @@ public class WebhookBean {
 	}
 
 
+	public boolean isSmartTargetsEnabled() {
+		return smartTargetsEnabled;
+	}
+
+	public void setSmartTargetsEnabled(boolean smartTargetsEnabled) {
+		this.smartTargetsEnabled = smartTargetsEnabled;
+	}
+
 	public List<Target> getTargets() {
-		return DAO.getInstance().getTargets();
+		if (smartTargetsEnabled) {
+			return DAO.getInstance().getSmartTargets();
+		} else {
+			return DAO.getInstance().getTargets();
+		}
 	}
 
 	public String getTargetHighestPriorityBullet(Target target) {
@@ -395,6 +410,8 @@ public class WebhookBean {
 		int major = 0;
 		int minor = 0;
 		int warning = 0;
+		int informational = 0;
+		int indeterminate = 0;
 		for (DNotification n : target.getAlerts()) {
 			if (n.getSeverity().equalsIgnoreCase(Severity.CRITICAL)) {
 				critical++;
@@ -408,12 +425,20 @@ public class WebhookBean {
 			if (n.getSeverity().equalsIgnoreCase(Severity.WARNING)) {
 				warning++;
 			}
+			if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)) {
+				informational++;
+			}
+			if (n.getSeverity().equalsIgnoreCase(Severity.INDETERMINATE)) {
+				indeterminate++;
+			}
 		}
 
 		if (critical > 0) return "bullet_red_mini.png";
 		if (major >  0) return "bullet_orange_mini.png";
 		if (minor > 0) return "bullet_orange_mini.png";
 		if (warning > 0) return "bullet_yellow_mini.png";
+		if (informational > 0) return "bullet_blue_mini.png";
+		if (indeterminate > 0) return "bullet_purple_mini.png";
 		return "bullet_green_mini.png";
 	}
 

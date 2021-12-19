@@ -3,6 +3,7 @@ package si.matjazcerkvenik.alertmonitor.util;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
+import io.prometheus.client.Histogram;
 
 public class AmMetrics {
 
@@ -39,13 +40,22 @@ public class AmMetrics {
 
     public static final Gauge alertmonitor_last_event_timestamp = Gauge.build()
             .name("alertmonitor_last_event_timestamp")
-            .help("Timestamp of last event (raise, clear or update)")
+            .help("Timestamp of last event")
             .register();
 
+    @Deprecated
+    // will be replaced with alertmonitor_prom_api_duration_seconds
     public static final Counter alertmonitor_psync_task_total = Counter.build()
             .name("alertmonitor_psync_task_total")
             .help("Total number of executed psync tasks.")
             .labelNames("result")
+            .register();
+
+    public static final Histogram alertmonitor_prom_api_duration_seconds = Histogram.build()
+            .buckets(0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1.0)
+            .name("alertmonitor_prom_api_duration_seconds")
+            .labelNames("method", "code", "endpoint")
+            .help("Prometheus HTTP API response time")
             .register();
 
     public static final Gauge alertmonitor_psync_interval_seconds = Gauge.build()

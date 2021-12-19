@@ -5,14 +5,10 @@ import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.Severity;
-import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
-import si.matjazcerkvenik.alertmonitor.util.MD5Checksum;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 public class AlertmanagerProcessor {
@@ -75,7 +71,7 @@ public class AlertmanagerProcessor {
             n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
             n.setInfo(a.getLabels().getOrDefault("info", "-"));
             n.setInstance(a.getLabels().getOrDefault("instance", "-"));
-            n.setHostname(stripInstance(n.getInstance()));
+            n.setHostname(DAO.getInstance().stripInstance(n.getInstance()));
             n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
             n.setJob(a.getLabels().getOrDefault("job", "-"));
             n.setTags(a.getLabels().getOrDefault("tags", ""));
@@ -130,35 +126,7 @@ public class AlertmanagerProcessor {
 
     }
 
-    /**
-     * Remove leading protocol (eg. http://) and trailing port (eg. :8080).
-     * @param instance
-     * @return hostname
-     */
-    public static String stripInstance(String instance) {
 
-        if (instance == null) return instance;
-
-        // remove protocol
-        if (instance.contains("://")) {
-            instance = instance.split("://")[1];
-        }
-        // remove port
-        instance = instance.split(":")[0];
-
-        // remove relative URL
-        instance = instance.split("/")[0];
-
-        // resolve to IP address
-//        try {
-//            InetAddress address = InetAddress.getByName(instance);
-//            instance = address.getHostAddress();
-//        } catch (UnknownHostException e) {
-//            // nothing to do, leave as it is
-//            DAO.getLogger().warn("Cannot resolve: " + instance);
-//        }
-        return instance;
-    }
 
     /**
      * This method does environment variable substitution

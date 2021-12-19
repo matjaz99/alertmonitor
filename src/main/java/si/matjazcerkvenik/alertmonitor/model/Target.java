@@ -9,6 +9,9 @@ public class Target {
 
     private String id;
     private String hostname;
+    private boolean smartTarget;
+    private String job;
+    private boolean up;
     private Map<String, DNotification> alerts = new HashMap<>();
 
     public String getId() {
@@ -25,6 +28,38 @@ public class Target {
 
     public void setHostname(String hostname) {
         this.hostname = hostname;
+    }
+
+    public boolean isSmartTarget() {
+        return smartTarget;
+    }
+
+    public void setSmartTarget(boolean smartTarget) {
+        this.smartTarget = smartTarget;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setHealth(String health) {
+        if (health.equalsIgnoreCase("up")) {
+            this.up = true;
+            return;
+        }
+        this.up = false;
     }
 
     public List<DNotification> getAlerts() {

@@ -6,7 +6,6 @@ import si.matjazcerkvenik.alertmonitor.model.Target;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -21,12 +20,8 @@ public class InstanceBean {
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = requestParameterMap.getOrDefault("target_id", "null");
-        List<Target> list = new ArrayList<>(DAO.getInstance().getTargets());
-        List<Target> result = list.stream()
-                .filter(t -> t.getId().equals(id))
-                .collect(Collectors.toList());
-        target = result.get(0);
+        String id = requestParameterMap.getOrDefault("tid", "null");
+        target = DAO.getInstance().getSingleTarget(id);
         DAO.getLogger().info("Found target: " + target.toString());
     }
 
@@ -64,10 +59,17 @@ public class InstanceBean {
     }
 
     private boolean checkAlert(DNotification n) {
-        if (n.getHostname().equals(target.getHostname())) {
-            return true;
+        if (target.isSmartTarget()) {
+            if (n.getHostname().equals(target.getHostname())) return true;
+        } else {
+            if (n.getInstance().equals(target.getHostname())) return true;
         }
         return false;
+    }
+
+    public String getTargetType() {
+        if (target.isSmartTarget()) return "SmartTarget";
+        return "Instance";
     }
 
 }

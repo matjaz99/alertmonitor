@@ -12,7 +12,7 @@ public class HttpClientFactory {
 
         DAO.getLogger().info("HttpClientFactory: instantiating HTTP client");
 
-        if (!DAO.ALERTMONITOR_PSYNC_ENDPOINT.startsWith("https")) {
+        if (!DAO.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
             return new OkHttpClient();
         }
 
