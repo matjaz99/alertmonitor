@@ -88,6 +88,28 @@ public class PrometheusApi {
         execute(request);
     }
 
+    public String rules() throws PrometheusApiException {
+        Request request = new Request.Builder()
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/rules")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
+                .get()
+                .build();
+
+        String responseBody = execute(request);
+
+        if (responseBody != null && responseBody.trim().length() > 0) {
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            PRuleMessage targetMessage = gson.fromJson(responseBody, PRuleMessage.class);
+
+            // return targetMessage.getData().getActiveTargets(); TODO
+
+        }
+
+        return null;
+    }
+
     private String execute(Request request) throws PrometheusApiException {
 
         String responseBody = null;

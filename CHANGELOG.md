@@ -2,6 +2,7 @@
 
 * [FEATURE] Smart targets. The concept of smart targets is not new as Alertmonitor already did it in Targets view. It's just 
 that Targets are now retrieved from Prometheus. And you can now switch between views: instance or smartTarget.
+* [FEATURE] Load alert rules
 * [ENHANCEMENT] Added metric `alertmonitor_prom_api_duration_seconds` for monitoring Prometheus API response time. 
 This is a replacement for `alertmonitor_psync_task_total` which is now obsolete.
 * [ENHANCEMENT] Styling improvements
