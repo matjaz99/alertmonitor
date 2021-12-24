@@ -2,7 +2,7 @@ package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
 import java.util.List;
 
-public class PRuleGroups {
+public class PRuleGroup {
 
     private String name;
     private String file;

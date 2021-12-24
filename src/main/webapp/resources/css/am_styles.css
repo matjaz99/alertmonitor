@@ -8,20 +8,20 @@ body {
 hr {
     border: 0;
     height: 1px;
-    background: #222222;
+    background: #777777;
 }
 /*.ui-widget, .ui-widget .ui-widget {*/
 /*    font-size: 70%;*/
 /*}*/
 .plaintext {
     /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
-	font-size: 14px;
-	color: #222222;
+	/*font-size: 14px;*/
+	/*color: #222222;*/
 }
 #configForm {
     /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
-	font-size: 14px;
-	color: #222222;
+	/*font-size: 14px;*/
+    /*color: #222222;*/
 }
 .critical {
 	background-color: #ff0000 !important;
@@ -77,6 +77,10 @@ hr {
 	color: #222222;
 	font-size: 11px;
 }
+body .ui-panelgrid .ui-panelgrid-cell {
+    padding: 0.5rem;
+}
+
 
 .tagBorder {
 	border: 1px solid #555;

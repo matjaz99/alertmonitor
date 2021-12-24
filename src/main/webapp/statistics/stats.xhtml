@@ -15,56 +15,64 @@
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Active alerts</h3>
-					<p:outputLabel value="Critical: #{webhookBean.getActiveAlarmsCount('critical')}" />
-					<p:outputLabel value="Major: #{webhookBean.getActiveAlarmsCount('major')}" />
-					<p:outputLabel value="Minor: #{webhookBean.getActiveAlarmsCount('minor')}" />
-					<p:outputLabel value="Warning: #{webhookBean.getActiveAlarmsCount('warning')}" />
-					<p:outputLabel value="Total alerts: #{webhookBean.activeAlarmsCount}" />
-					<p:outputLabel value="Balance factor: #{webhookBean.balanceFactor}" />
+					<p:outputLabel value="Critical: #{configBean.getActiveAlarmsCount('critical')}" />
+					<p:outputLabel value="Major: #{configBean.getActiveAlarmsCount('major')}" />
+					<p:outputLabel value="Minor: #{configBean.getActiveAlarmsCount('minor')}" />
+					<p:outputLabel value="Warning: #{configBean.getActiveAlarmsCount('warning')}" />
+					<p:outputLabel value="Total alerts: #{configBean.allActiveAlarmsCount}" />
+					<p:outputLabel value="Balance factor: #{configBean.balanceFactor}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Counters</h3>
-					<p:outputLabel value="WH msg count: #{webhookBean.whMsgCount}" />
-					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
-					<p:outputLabel value="Journal count: #{webhookBean.journalCount}" />
-					<p:outputLabel value="Journal size: #{webhookBean.journalSize}" />
-					<p:outputLabel value="Firing count: #{webhookBean.alarmsCount}" />
-					<p:outputLabel value="Resolved count: #{webhookBean.clearsCount}" />
+					<p:outputLabel value="WH msg count: #{configBean.whMsgCount}" />
+					<p:outputLabel value="AM msg count: #{configBean.amMsgCount}" />
+					<p:outputLabel value="Journal count: #{configBean.journalCount}" />
+					<p:outputLabel value="Journal size: #{configBean.journalSize}" />
+					<p:outputLabel value="Firing count: #{configBean.alarmsCount}" />
+					<p:outputLabel value="Resolved count: #{configBean.clearsCount}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Timers</h3>
-					<p:outputLabel value="Start time: #{webhookBean.startTime}" />
-					<p:outputLabel value="Up time: #{webhookBean.upTime}" />
-					<p:outputLabel value="Last event time: #{webhookBean.lastEventTime}" />
-					<p:outputLabel value="Time since last event: #{webhookBean.timeSinceLastEvent}" />
-					<p:outputLabel value="Events in last hour: #{webhookBean.numberOfAlertsInLastHour}" />
-					<p:outputLabel value="Avg. events per second: #{webhookBean.alertsPerSecondInLastHour}" />
+					<p:outputLabel value="Start time: #{configBean.startTime}" />
+					<p:outputLabel value="Up time: #{configBean.upTime}" />
+					<p:outputLabel value="Last event time: #{configBean.lastEventTime}" />
+					<p:outputLabel value="Time since last event: #{configBean.timeSinceLastEvent}" />
+					<p:outputLabel value="Events in last hour: #{configBean.numberOfAlertsInLastHour}" />
+					<p:outputLabel value="Avg. events per second: #{configBean.alertsPerSecondInLastHour}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>PSync</h3>
-					<p:outputLabel value="PSync interval: #{webhookBean.psyncInterval} sec" />
-					<p:outputLabel value="PSync last time: #{webhookBean.lastPsyncTime}" />
-					<p:outputLabel value="PSync count (succ): #{webhookBean.psyncSuccessCount}" />
-					<p:outputLabel value="PSync count (fail): #{webhookBean.psyncFailedCount}" />
+					<p:outputLabel value="PSync interval: #{configBean.psyncInterval} sec" />
+					<p:outputLabel value="PSync last time: #{configBean.lastPsyncTime}" />
+					<p:outputLabel value="PSync count (succ): #{configBean.psyncSuccessCount}" />
+					<p:outputLabel value="PSync count (fail): #{configBean.psyncFailedCount}" />
 					<p:outputLabel value="-" />
 					<p:outputLabel value="-" />
 				</p:panelGrid>
 
 			</p:panelGrid>
 
-			<hr/>
+			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" style="border: none">
+				<p:outputLabel value="Active tags" style="color: #222222;"/>
+				<am:tags></am:tags>
+			</p:panelGrid>
 
-			<h:outputText value="Active tags" style="color: #222222;"/>
-			<am:tags></am:tags>
+			<h:form>
 
-			<hr/>
+				<h:outputLink value="/alertmonitor/webhook-io" >
+					/webhook-io
+				</h:outputLink>
 
-			<h:outputLink value="/alertmonitor/metrics" >
-				/metrics
-			</h:outputLink>
+				<br/>
+
+				<h:outputLink value="/alertmonitor/metrics" >
+					/metrics
+				</h:outputLink>
+
+			</h:form>
 
 		</ui:define>
 	</div>

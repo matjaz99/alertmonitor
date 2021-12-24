@@ -72,4 +72,14 @@ public class InstanceBean {
         return "Instance";
     }
 
+    public String getUpStatus() {
+        if (target.isUp()) return "Up";
+        return "Down";
+    }
+
+    public String getUpStatusSeverity() {
+        if (target.isUp()) return "success";
+        return "danger";
+    }
+
 }

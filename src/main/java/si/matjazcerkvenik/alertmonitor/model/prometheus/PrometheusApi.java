@@ -15,7 +15,10 @@ import javax.net.ssl.SSLException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class PrometheusApi {
@@ -40,13 +43,11 @@ public class PrometheusApi {
             Gson gson = builder.create();
             PAlertsMessage amMsg = gson.fromJson(responseBody, PAlertsMessage.class);
 
-            AmMetrics.alertmonitor_psync_task_total.labels("Success").inc();
             DAO.psyncSuccessCount++;
 
             return amMsg.getData().getAlerts();
 
         } else {
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
         }
 
@@ -88,7 +89,7 @@ public class PrometheusApi {
         execute(request);
     }
 
-    public String rules() throws PrometheusApiException {
+    public List<PRule> rules() throws PrometheusApiException {
         Request request = new Request.Builder()
                 .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/rules")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
@@ -101,9 +102,19 @@ public class PrometheusApi {
 
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            PRuleMessage targetMessage = gson.fromJson(responseBody, PRuleMessage.class);
+            PRuleMessage rulesMessage = gson.fromJson(responseBody, PRuleMessage.class);
+            
+            Map<String, PRule> rulesMap = new HashMap<>();
 
-            // return targetMessage.getData().getActiveTargets(); TODO
+            for (PRuleGroup g : rulesMessage.getData().getGroups()) {
+                for (PRule rule : g.getRules()) {
+                    if (!rulesMap.containsKey(rule.getName() + rule.getQuery() + rule.getDuration())) {
+                        rulesMap.put(rule.getName() + rule.getQuery() + rule.getDuration(), rule);
+                    }
+                }
+            }
+
+            return new ArrayList<>(rulesMap.values());
 
         }
 
@@ -135,32 +146,27 @@ public class PrometheusApi {
 
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
             code = "500";
             throw new PrometheusApiException("UnknownHostException");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
             code = "500";
             throw new PrometheusApiException("SocketTimeoutException");
         } catch (SocketException e) {
             logger.error("PrometheusApi: SocketException: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
             code = "500";
             throw new PrometheusApiException("SocketException");
         } catch (SSLException e) {
             logger.error("PrometheusApi: SSLException: " + e.getMessage());
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
             code = "500";
             throw new PrometheusApiException("SSLException");
         } catch (Exception e) {
             logger.error("PrometheusApi: Exception: ", e);
             e.printStackTrace();
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
             code = "500";
             throw new PrometheusApiException("Exception");

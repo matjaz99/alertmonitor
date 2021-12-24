@@ -1,7 +1,9 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PRule;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PTarget;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
@@ -120,7 +122,22 @@ public class DAO {
      */
     public DNotification getNotification(String id) {
         for (DNotification n : journal) {
-            if (n.getUid().equals(id)) return n;
+            if (n.getUid().equals(id)) {
+                try {
+                    PrometheusApi api = new PrometheusApi();
+                    List<PRule> ruleList = api.rules();
+                    for (PRule r : ruleList) {
+                        if (n.getAlertname().equals(r.getName())) {
+                            n.setRuleExpression(r.getQuery());
+                            n.setRuleForLimit(r.getDuration());
+                        }
+                    }
+
+                } catch (PrometheusApiException e) {
+                    e.printStackTrace();
+                }
+                return n;
+            }
         }
         return null;
     }
@@ -308,7 +325,7 @@ public class DAO {
                 t.setSmartTarget(false);
                 t.setHealth(pTarget.getHealth());
                 t.setHostname(host);
-                t.setId(MD5.getChecksum("host" + t.getHostname()));
+                t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
                 for (DNotification n : getActiveAlerts().values()) {
                     if (n.getInstance().equals(host)) t.addAlert(n);

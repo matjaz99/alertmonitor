@@ -134,8 +134,6 @@ public class PSyncTask extends TimerTask {
 
         } catch (Exception e) {
             logger.error("PSYNC: Failed to synchronize alarms: ", e);
-//            e.printStackTrace();
-            AmMetrics.alertmonitor_psync_task_total.labels("Failed").inc();
             DAO.psyncFailedCount++;
         }
 

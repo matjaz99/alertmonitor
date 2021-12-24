@@ -4,13 +4,13 @@ import java.util.List;
 
 public class PRuleData {
 
-    private List<PRuleGroups> groups;
+    private List<PRuleGroup> groups;
 
-    public List<PRuleGroups> getGroups() {
+    public List<PRuleGroup> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<PRuleGroups> groups) {
+    public void setGroups(List<PRuleGroup> groups) {
         this.groups = groups;
     }
 

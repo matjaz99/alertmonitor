@@ -84,6 +84,10 @@ public class DNotification implements Cloneable {
 
 	/** Other labels, such as external_labels or custom labels in alerts. */
 	private Map<String, String> otherLabels;
+
+	/** A rule that caused this notification */
+	private String ruleExpression;
+	private String ruleForLimit;
 	
 	public String getUid() {
 		return uid;
@@ -321,6 +325,22 @@ public class DNotification implements Cloneable {
 
 	public void setToBeDeleted(boolean toBeDeleted) {
 		this.toBeDeleted = toBeDeleted;
+	}
+
+	public String getRuleExpression() {
+		return ruleExpression;
+	}
+
+	public void setRuleExpression(String ruleExpression) {
+		this.ruleExpression = ruleExpression;
+	}
+
+	public String getRuleForLimit() {
+		return ruleForLimit;
+	}
+
+	public void setRuleForLimit(String ruleForLimit) {
+		this.ruleForLimit = ruleForLimit;
 	}
 
 	public Map<String, String> getOtherLabels() {

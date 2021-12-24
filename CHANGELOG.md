@@ -1,11 +1,16 @@
 ## 1.6.3-SNAPSHOT
 
+* [CHANGE] Webhook view link removed from toolbar
 * [FEATURE] Smart targets. The concept of smart targets is not new as Alertmonitor already did it in Targets view. It's just 
 that Targets are now retrieved from Prometheus. And you can now switch between views: instance or smartTarget.
-* [FEATURE] Load alert rules
+* [FEATURE] Reload Prometheus config button
+* [FEATURE] Load alert rules and show them in alerts
 * [ENHANCEMENT] Added metric `alertmonitor_prom_api_duration_seconds` for monitoring Prometheus API response time. 
 This is a replacement for `alertmonitor_psync_task_total` which is now obsolete.
 * [ENHANCEMENT] Styling improvements
+* [ENHANCEMENT] Targets have colored background according to its health (status)
+* [ENHANCEMENT] Search/filter also checks fields: alert name, info, instance/hostname, job, description
+* [ENHANCEMENT] Targets view now supports searching targets
 
 ## 1.6.2-SNAPSHOT
 

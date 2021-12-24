@@ -10,10 +10,12 @@
 
 			<h:form id="targetsForm">
 
-				<h3>Use Smart Targets</h3>
+				<p:outputLabel value="Use Smart Targets"/>
+				<br/>
 				<p:toggleSwitch value="#{webhookBean.smartTargetsEnabled}">
 					<p:ajax listener="#{webhookBean.getTargets}" update="targetsForm"/>
 				</p:toggleSwitch>
+
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 

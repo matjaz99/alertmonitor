@@ -19,6 +19,8 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
 
 import java.text.DecimalFormat;
@@ -27,19 +29,17 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 
 
 @ManagedBean
 @SessionScoped
 public class WebhookBean {
 
-	private String columnTemplate = "id brand year";
-
 	private List<DTag> tagList = new ArrayList<>();
-
 	private String searchString;
-
 	private boolean smartTargetsEnabled = false;
+
 
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
@@ -54,170 +54,16 @@ public class WebhookBean {
 		DAO.getLogger().info("SEARCH: " + searchString);
 	}
 
-	public String getPromServer() {
-		return DAO.ALERTMONITOR_PROMETHEUS_SERVER;
-	}
-
-	public void setPromServer(String server) {
-		if (server.endsWith("/")) server = server.substring(0, server.length()-1);
-		DAO.ALERTMONITOR_PROMETHEUS_SERVER = server;
-		DAO.getLogger().info("WebhookBean: prometheus server changed: " + server);
-//		Growl.showInfoGrowl("Configuration updated", "");
-	}
-
-	public String getVersion() {
-		return DAO.version;
-	}
-
-	public boolean isContainerized() { return DAO.isContainerized; }
-
-	public String getLocalIpAddress() {
-		return DAO.getInstance().getLocalIpAddress();
-	}
-
-	public int getWhMsgCount() {
-		return DAO.webhookMessagesReceivedCount;
-	}
-
-	public int getAmMsgCount() {
-		return DAO.amMessagesReceivedCount;
-	}
-
-	public int getJournalCount() {
-		return DAO.journalReceivedCount;
-	}
-
-	public int getJournalSize() {
-		return DAO.getInstance().getJournal().size();
-	}
-
-	public void setJournalMaxSize(String size) {
-
-		DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
-		DAO.getLogger().info("WebhookBean: journal max size changed: " + DAO.JOURNAL_TABLE_SIZE);
-//		Growl.showInfoGrowl("Configuration updated", "");
-	}
-
-	public String getJournalMaxSize() { return Integer.toString(DAO.JOURNAL_TABLE_SIZE); }
-
-	public int getAlarmsCount() {
-		return DAO.raisingEventCount;
-	}
-
-	public int getClearsCount() {
-		return DAO.clearingEventCount;
-	}
-
-	public int getNumberOfAlertsInLastHour() {
-		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
-		List<DNotification> result = list.stream()
-				.filter(notif -> checkIfYoungerThan(notif, 60))
-				.collect(Collectors.toList());
-		return result.size();
-	}
-
-	public String getAlertsPerSecondInLastHour() {
-		List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
-		List<DNotification> result = list.stream()
-				.filter(notif -> checkIfYoungerThan(notif, 60))
-				.collect(Collectors.toList());
-		int count = result.size();
-		double perSecond = count / 3600.0;
-		DecimalFormat df2 = new DecimalFormat("#.###");
-		return df2.format(perSecond);
-	}
-
-	private boolean checkIfYoungerThan(DNotification notif, int minutes) {
-		if (System.currentTimeMillis() - notif.getTimestamp() < minutes * 60 * 1000) return true;
-		return false;
-	}
-
-	public void setPsyncInterval(String interval) {
-
-		DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-		DAO.getLogger().info("WebhookBean: psync interval changed: " + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-//		Growl.showInfoGrowl("Configuration updated", "");
-		TaskManager.getInstance().restartPsyncTimer();
-	}
-
-	public String getPsyncInterval() { return Integer.toString(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
-
-	public String getLastPsyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastPsyncTimestamp); }
-
-	public String getPsyncSuccessCount() { return Integer.toString(DAO.psyncSuccessCount); }
-
-	public String getPsyncFailedCount() { return Integer.toString(DAO.psyncFailedCount); }
-
-	public void setKafkaEnabled(boolean kafkaEnabled) {
-		DAO.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
-		DAO.getLogger().info("WebhookBean: kafka enabled changed: " + DAO.ALERTMONITOR_KAFKA_ENABLED);
-	}
-
-	public boolean isKafkaEnabled() {
-		return DAO.ALERTMONITOR_KAFKA_ENABLED;
-	}
-
-	public void setKafkaServer(String kafkaServer) {
-		DAO.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
-		DAO.getLogger().info("WebhookBean: kafka server changed: " + DAO.ALERTMONITOR_KAFKA_SERVER);
-		KafkaClient.getInstance().resetClient();
-	}
-
-	public String getKafkaServer() {
-		return DAO.ALERTMONITOR_KAFKA_SERVER;
-	}
-
-	public void setKafkaTopic(String kafkaTopic) {
-		DAO.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
-		DAO.getLogger().info("WebhookBean: kafka topic changed: " + DAO.ALERTMONITOR_KAFKA_TOPIC);
-	}
-
-	public String getKafkaTopic() {
-		return DAO.ALERTMONITOR_KAFKA_TOPIC;
-	}
 
 	public List<WebhookMessage> getWebhookMessages() {
 		return DAO.getInstance().getWebhookMessages();
 	}
 
+
 	public List<DNotification> getJournal() {
 		return DAO.getInstance().getJournal();
 	}
 
-	public List<DTag> getTags() {
-		List<DTag> daoTagList = DAO.getInstance().getTags();
-		// add all from daoTagList to tagList which are not present yet
-		for (DTag dt : daoTagList) {
-			boolean found = false;
-			for (DTag t: tagList) {
-				if (t.getName().equals(dt.getName())) found = true;
-			}
-			if (!found) {
-			    if (getNumberOfSelectedTags() == tagList.size()) {
-			        dt.setSelected(true);
-                } else {
-			        dt.setSelected(false);
-                }
-				tagList.add(dt);
-			}
-		}
-		// remove all from tagList that are no more in daoTagList
-		for (Iterator<DTag> it = tagList.iterator(); it.hasNext();) {
-			DTag t = it.next();
-			boolean found = false;
-			for (DTag dt: daoTagList) {
-				if (dt.getName().equals(t.getName())) found = true;
-			}
-			if (!found) {
-				it.remove();
-			}
-		}
-		return tagList;
-	}
-
-	public int getActiveAlarmsCount() {
-		return DAO.getInstance().getActiveAlerts().size();
-	}
 
 	public List<DNotification> getActiveAlarms() {
 		List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
@@ -246,7 +92,11 @@ public class WebhookBean {
 	private boolean filterNotification(DNotification notif) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {
-			if (!notif.getInstance().contains(searchString)) return false;
+			if (!notif.getInstance().toLowerCase().contains(searchString.toLowerCase())
+					&& !notif.getAlertname().toLowerCase().contains(searchString.toLowerCase())
+					&& !notif.getInfo().toLowerCase().contains(searchString.toLowerCase())
+					&& !notif.getJob().toLowerCase().contains(searchString.toLowerCase())
+					&& !notif.getDescription().toLowerCase().contains(searchString.toLowerCase())) return false;
 		}
 
 		// read tags
@@ -270,55 +120,38 @@ public class WebhookBean {
 		return false;
 	}
 
-	public int getActiveAlarmsCount(String severity) {
-		return DAO.getInstance().getActiveAlarmsList(severity).size();
-	}
 
-	public String getBalanceFactor() {
-		DecimalFormat df2 = new DecimalFormat("#.##");
-		return df2.format(DAO.getInstance().calculateAlertsBalanceFactor());
-	}
 
-	public String getStartTime() {
-		return DAO.getInstance().getFormatedTimestamp(DAO.startUpTime);
-	}
 
-	public String getUpTime() {
-		int secUpTotal = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
-		return convertToDHMSFormat(secUpTotal);
-	}
-
-	public String getLastEventTime() {
-		return DAO.getInstance().getFormatedTimestamp(DAO.lastEventTimestamp);
-	}
-
-	public String getTimeSinceLastEvent() {
-		int secUp = (int) ((System.currentTimeMillis() - DAO.lastEventTimestamp) / 1000);
-		return convertToDHMSFormat(secUp);
-	}
-
-	private String convertToDHMSFormat(int secUpTotal) {
-		int secUpRemain = secUpTotal % 60;
-		int minUpTotal = secUpTotal / 60;
-		int minUpRemain = minUpTotal % 60;
-		int hourUpTotal = minUpTotal / 60;
-		int hourUpRemain = hourUpTotal % 60;
-		int dayUpTotal = hourUpTotal / 24;
-		int dayUpRemain = hourUpTotal % 24;
-
-		String resp = minUpRemain + "m " + secUpRemain + "s";
-
-		if (dayUpTotal == 0) {
-			if (hourUpRemain > 0) {
-				resp = hourUpTotal + "h " + resp;
+	public List<DTag> getTags() {
+		List<DTag> daoTagList = DAO.getInstance().getTags();
+		// add all from daoTagList to tagList which are not present yet
+		for (DTag dt : daoTagList) {
+			boolean found = false;
+			for (DTag t: tagList) {
+				if (t.getName().equals(dt.getName())) found = true;
+			}
+			if (!found) {
+				if (getNumberOfSelectedTags() == tagList.size()) {
+					dt.setSelected(true);
+				} else {
+					dt.setSelected(false);
+				}
+				tagList.add(dt);
 			}
 		}
-
-		if (dayUpTotal > 0) {
-			resp = dayUpTotal + "d " + dayUpRemain + "h " + resp;
+		// remove all from tagList that are no more in daoTagList
+		for (Iterator<DTag> it = tagList.iterator(); it.hasNext();) {
+			DTag t = it.next();
+			boolean found = false;
+			for (DTag dt: daoTagList) {
+				if (dt.getName().equals(t.getName())) found = true;
+			}
+			if (!found) {
+				it.remove();
+			}
 		}
-
-		return resp;
+		return tagList;
 	}
 
 	public void tagAction(DTag tag) {
@@ -389,6 +222,7 @@ public class WebhookBean {
 	}
 
 
+
 	public boolean isSmartTargetsEnabled() {
 		return smartTargetsEnabled;
 	}
@@ -398,11 +232,31 @@ public class WebhookBean {
 	}
 
 	public List<Target> getTargets() {
+		List<Target> tList;
 		if (smartTargetsEnabled) {
-			return DAO.getInstance().getSmartTargets();
+			tList = DAO.getInstance().getSmartTargets();
 		} else {
-			return DAO.getInstance().getTargets();
+			tList = DAO.getInstance().getTargets();
 		}
+
+		if (tList == null) return new ArrayList<>();
+
+		return tList.stream()
+				.filter(target -> filterTarget(target))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Filter targets according to search criteria
+	 * @param target
+	 * @return true if matches
+	 */
+	private boolean filterTarget(Target target) {
+		// check if matches search field
+		if (searchString != null && searchString.length() > 0) {
+			if (!target.getHostname().toLowerCase().contains(searchString.toLowerCase())) return false;
+		}
+		return true;
 	}
 
 	public String getTargetHighestPriorityBullet(Target target) {
@@ -441,7 +295,6 @@ public class WebhookBean {
 		if (indeterminate > 0) return "bullet_purple_mini.png";
 		return "bullet_green_mini.png";
 	}
-
 
 
 }

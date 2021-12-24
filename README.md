@@ -9,11 +9,10 @@
 Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing, 
 sorting and filtering alerts.
 
-A HTTP webhook accepts any GET or POST request that comes on URI endpoint: `/alertmonitor/webhook`. 
-If the request is coming from Prometheus Alertmanager, it will be displayed as alarm.
+Alerts are pushed from Alertmanager to the HTTP endpoint of Alertmonitor: `/alertmonitor/webhook`. 
+If pushing alerts from Alertmanager is not configured, you can pull alerts via /alerts endpoint.
 
 Alertmonitor provides the following views:
-- Webhook - any http message that is received on webhook
 - Journal - history of all events
 - Active - only active alerts
 - Targets - alerts sorted by targets

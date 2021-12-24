@@ -8,7 +8,7 @@
         <welcome-file>stats.xhtml</welcome-file>
         <welcome-file>active.xhtml</welcome-file>
         <welcome-file>journal.xhtml</welcome-file>
-        <welcome-file>raw.xhtml</welcome-file>
+        <welcome-file>webhook-io.xhtml</welcome-file>
         <welcome-file>tags.xhtml</welcome-file>
         <welcome-file>targets.xhtml</welcome-file>
         <welcome-file>alert.xhtml</welcome-file>

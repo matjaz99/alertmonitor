@@ -43,14 +43,6 @@ public class AmMetrics {
             .help("Timestamp of last event")
             .register();
 
-    @Deprecated
-    // will be replaced with alertmonitor_prom_api_duration_seconds
-    public static final Counter alertmonitor_psync_task_total = Counter.build()
-            .name("alertmonitor_psync_task_total")
-            .help("Total number of executed psync tasks.")
-            .labelNames("result")
-            .register();
-
     public static final Histogram alertmonitor_prom_api_duration_seconds = Histogram.build()
             .buckets(0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1.0)
             .name("alertmonitor_prom_api_duration_seconds")
