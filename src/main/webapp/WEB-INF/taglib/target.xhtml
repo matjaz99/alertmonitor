@@ -10,7 +10,7 @@
 <!--            <h:outputText value="#{t.hostname}" style="color: #222222;"/>-->
 <!--        </h:outputLink>-->
 <!--        <hr/>-->
-<!--        <h:commandLink action="#{webhookBean}" value="#{t.hostname}">-->
+<!--        <h:commandLink action="#{uiBean}" value="#{t.hostname}">-->
 <!--            <f:param name="id" value="#{t.id}" />-->
 <!--        </h:commandLink>-->
 <!--        <p:link outcome="/alertmonitor/hostname/hostname.xhtml" value="#{t.hostname}">-->
@@ -20,7 +20,7 @@
             <f:param name="tid" value="#{t.id}" />
         </h:link>
         <hr/>
-        <h:graphicImage library="images" name="/#{webhookBean.getTargetHighestPriorityBullet(t)}" style="margin-right: 7px;" />
+        <h:graphicImage library="images" name="/#{uiBean.getTargetHighestPriorityBullet(t)}" style="margin-right: 7px;" />
         <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
 
     </div>

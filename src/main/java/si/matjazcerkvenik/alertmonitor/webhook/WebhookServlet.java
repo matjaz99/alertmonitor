@@ -1,3 +1,18 @@
+/*
+   Copyright 2021 Matjaž Cerkvenik
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import java.io.IOException;
@@ -34,22 +49,24 @@ public class WebhookServlet extends HttpServlet {
 
 		WebhookMessage m = instantiateWebhookMessage(req);
 
-		String userAgent = m.getHeaderMap().getOrDefault("user-agent", "-");
+//		String userAgent = m.getHeaderMap().getOrDefault("user-agent", "-");
+//		if (userAgent.startsWith("Alertmanager")) {
+//			// example headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json,
+//			AlertmanagerProcessor.processWebhookMessage(m);
+//		}
 
-		if (userAgent.startsWith("Alertmanager")) {
-
-			// example headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json,
-
+		try {
 			AlertmanagerProcessor.processWebhookMessage(m);
-
+		} catch (Exception e) {
+			DAO.getLogger().error("doPost(): failed to process webhook message(): " + e.getMessage());
 		}
 
 	}
 
 	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("{");
 
 		DAO.getLogger().info("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
 		DAO.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());

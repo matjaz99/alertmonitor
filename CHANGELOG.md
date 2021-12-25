@@ -1,8 +1,13 @@
+## 2.0.0-SNAPSHOT
+
+* [CHANGE] There are so many improvements in this release, the version is upgraded to 2.
+* [CHANGE] Licensed under Apache-2.0 License
+
 ## 1.6.3-SNAPSHOT
 
 * [CHANGE] Webhook view link removed from toolbar
 * [FEATURE] Smart targets. The concept of smart targets is not new as Alertmonitor already did it in Targets view. It's just 
-that Targets are now retrieved from Prometheus. And you can now switch between views: instance or smartTarget.
+that Targets are now retrieved from Prometheus. And you can now switch between: instance or smartTarget view.
 * [FEATURE] Reload Prometheus config button
 * [FEATURE] Load alert rules and show them in alerts
 * [ENHANCEMENT] Added metric `alertmonitor_prom_api_duration_seconds` for monitoring Prometheus API response time. 

@@ -14,10 +14,10 @@
 
 					<p:panelGrid columns="1" cellspacing="0" width="100%">
 
-						<ui:repeat var="tag" value="#{webhookBean.tags}">
+						<ui:repeat var="tag" value="#{uiBean.tags}">
 							<div style="float: left;">
 								<am:singletag value="#{tag}">
-									<p:commandLink id="ajax" update="activeAlertsForm" action="#{webhookBean.tagAction(tag)}" style="text-decoration: none;">
+									<p:commandLink id="ajax" update="activeAlertsForm" action="#{uiBean.tagAction(tag)}" style="text-decoration: none;">
 										<p:outputLabel value="#{tag.name}" style="color: #222222;"/>
 									</p:commandLink>
 								</am:singletag>
@@ -28,7 +28,7 @@
 
 
 					<p:dataTable id="messagesTable" widgetVar="activeTable"
-								 value="#{webhookBean.activeAlarms}" var="n"
+								 value="#{uiBean.activeAlarms}" var="n"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
 								 sortMode="single"
 								 rowStyleClass="#{n.severity}"

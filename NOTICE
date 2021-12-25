@@ -1,0 +1,21 @@
+The Alertmonitor system
+Copyright 2021 Matjaž Cerkvenik
+
+This product includes software developed by Matjaž Cerkvenik.
+
+The following components are included in this product:
+
+javax.servlet-api
+javax.annotation-api
+jsf-api
+jsf-impl
+primefaces
+gson
+simpleclient
+simpleclient_common
+simple-logger
+okhttp
+okio
+kafka-clients
+
+The Alertmonitor docker image is based on: tomcat:8.5-jre8-alpine

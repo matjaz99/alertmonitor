@@ -21,36 +21,36 @@
 
 					<p:outputLabel value="Journal max size: " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{configBean.journalMaxSize}" required="true" label="text"/>
+						<p:inputText value="#{uiConfigBean.journalMaxSize}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Prometheus server: " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{configBean.promServer}" required="true" label="text"/>
+						<p:inputText value="#{uiConfigBean.promServer}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Periodic sync interval (sec): " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{configBean.psyncInterval}" required="true" label="text"/>
+						<p:inputText value="#{uiConfigBean.psyncInterval}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Kafka enabled (experimental): " style="font-weight: bold; font-size: 14px;"/>
-					<p:selectBooleanCheckbox value="#{configBean.kafkaEnabled}">
-						<p:ajax update="growl" listener="#{webhookBean.addMessage}"/>
+					<p:selectBooleanCheckbox value="#{uiConfigBean.kafkaEnabled}">
+						<p:ajax update="growl" listener="#{uiBean.addMessage}"/>
 					</p:selectBooleanCheckbox>
 
 					<p:outputLabel value="Kafka server: " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{configBean.kafkaServer}" required="true" label="text"/>
+						<p:inputText value="#{uiConfigBean.kafkaServer}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Kafka topic: " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
-						<p:inputText value="#{configBean.kafkaTopic}" required="true" label="text"/>
+						<p:inputText value="#{uiConfigBean.kafkaTopic}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="Reload Prometheus: " style="font-weight: bold; font-size: 14px;"/>
-					<p:commandButton id="cmdBtn" value="Reload" action="#{configBean.reloadPrometheusAction()}"  update="cmdBtn" styleClass="ui-button-outlined ui-button-danger" >
+					<p:commandButton id="cmdBtn" value="Reload" action="#{uiConfigBean.reloadPrometheusAction()}"  update="cmdBtn" styleClass="ui-button-outlined ui-button-danger" >
 					</p:commandButton>
 
 				</p:panelGrid>

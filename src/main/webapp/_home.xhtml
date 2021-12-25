@@ -13,30 +13,30 @@
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Active alerts</h3>
-					<p:outputLabel value="Critical: #{webhookBean.getActiveAlarmsCount('critical')}" />
-					<p:outputLabel value="Major: #{webhookBean.getActiveAlarmsCount('major')}" />
-					<p:outputLabel value="Minor: #{webhookBean.getActiveAlarmsCount('minor')}" />
-					<p:outputLabel value="Warning: #{webhookBean.getActiveAlarmsCount('warning')}" />
-					<p:outputLabel value="Total alerts: #{webhookBean.activeAlarmsCount}" />
-					<p:outputLabel value="Balance factor: #{webhookBean.balanceFactor}" />
+					<p:outputLabel value="Critical: #{uiBean.getActiveAlarmsCount('critical')}" />
+					<p:outputLabel value="Major: #{uiBean.getActiveAlarmsCount('major')}" />
+					<p:outputLabel value="Minor: #{uiBean.getActiveAlarmsCount('minor')}" />
+					<p:outputLabel value="Warning: #{uiBean.getActiveAlarmsCount('warning')}" />
+					<p:outputLabel value="Total alerts: #{uiBean.activeAlarmsCount}" />
+					<p:outputLabel value="Balance factor: #{uiBean.balanceFactor}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Statistics</h3>
-					<p:outputLabel value="WH msg count: #{webhookBean.whMsgCount}" />
-					<p:outputLabel value="AM msg count: #{webhookBean.amMsgCount}" />
-					<p:outputLabel value="Journal count: #{webhookBean.journalCount}" />
-					<p:outputLabel value="Journal size: #{webhookBean.journalSize}" />
-					<p:outputLabel value="Firing count: #{webhookBean.alarmsCount}" />
-					<p:outputLabel value="Resolved count: #{webhookBean.clearsCount}" />
+					<p:outputLabel value="WH msg count: #{uiBean.whMsgCount}" />
+					<p:outputLabel value="AM msg count: #{uiBean.amMsgCount}" />
+					<p:outputLabel value="Journal count: #{uiBean.journalCount}" />
+					<p:outputLabel value="Journal size: #{uiBean.journalSize}" />
+					<p:outputLabel value="Firing count: #{uiBean.alarmsCount}" />
+					<p:outputLabel value="Resolved count: #{uiBean.clearsCount}" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Timers</h3>
-					<p:outputLabel value="Start time: #{webhookBean.startTime}" />
-					<p:outputLabel value="Up time: #{webhookBean.upTime}" />
-					<p:outputLabel value="Last event time: #{webhookBean.lastEventTime}" />
-					<p:outputLabel value="Time since last event: #{webhookBean.timeSinceLastEvent}" />
+					<p:outputLabel value="Start time: #{uiBean.startTime}" />
+					<p:outputLabel value="Up time: #{uiBean.upTime}" />
+					<p:outputLabel value="Last event time: #{uiBean.lastEventTime}" />
+					<p:outputLabel value="Time since last event: #{uiBean.timeSinceLastEvent}" />
 					<p:outputLabel value="" />
 					<p:outputLabel value="" />
 				</p:panelGrid>

@@ -12,16 +12,16 @@
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 
 				<p:panelGrid columns="3" cellspacing="5" width="100%">
-					<h:outputText value="Target: #{instanceBean.target.hostname}" style="color: #444444; font-size: 18px;"/>
-					<p:tag styleClass="p-mr-2" value="#{instanceBean.targetType}" rounded="true"></p:tag>
-					<p:tag styleClass="p-mr-2" severity="#{instanceBean.upStatusSeverity}" value="#{instanceBean.upStatus}" rounded="true"></p:tag>
+					<h:outputText value="Target: #{uiInstanceBean.target.hostname}" style="color: #444444; font-size: 18px;"/>
+					<p:tag styleClass="p-mr-2" value="#{uiInstanceBean.targetType}" rounded="true"></p:tag>
+					<p:tag styleClass="p-mr-2" severity="#{uiInstanceBean.upStatusSeverity}" value="#{uiInstanceBean.upStatus}" rounded="true"></p:tag>
 				</p:panelGrid>
 
 				<h:form>
 					<p:accordionPanel dynamic="true" cache="true">
 						<p:tab title="Active alerts">
 							<p:dataTable id="tAlertsTable" widgetVar="notifsTable"
-										 value="#{instanceBean.instanceActiveAlarms}" var="a"
+										 value="#{uiInstanceBean.instanceActiveAlarms}" var="a"
 										 rowStyleClass="#{a.severity}"
 										 cellpadding="0" cellspacing="0" width="100%">
 
@@ -67,7 +67,7 @@
 						</p:tab>
 						<p:tab title="Journal">
 							<p:dataTable id="tJournalTable" widgetVar="journalTable"
-										 value="#{instanceBean.instanceJournalAlarms}" var="j"
+										 value="#{uiInstanceBean.instanceJournalAlarms}" var="j"
 										 rowStyleClass="#{j.severity}"
 										 cellpadding="0" cellspacing="0" width="100%">
 

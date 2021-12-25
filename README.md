@@ -9,25 +9,28 @@
 Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing, 
 sorting and filtering alerts.
 
-Alerts are pushed from Alertmanager to the HTTP endpoint of Alertmonitor: `/alertmonitor/webhook`. 
-If pushing alerts from Alertmanager is not configured, you can pull alerts via /alerts endpoint.
+Alertmonitor is receiving alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
+Alternatively, if webhook receiver is not configured, Alertmonitor can still pull alerts directly from Prometheus. 
+Ideally both approaches can be used in combination. This way you'll always receive alert immediately when it is fired and yet it offers 
+possibility to *synchronize* alerts with Prometheus current state in case if any alert has been lost.
 
-Alertmonitor provides the following views:
-- Journal - history of all events
-- Active - only active alerts
-- Targets - alerts sorted by targets
-- Statistics - statistical data
-- About - general information and configuration options
+
+Alertmonitor offers the following views:
+- Active alerts - all currently firing alerts
+- Journal - history of alerts
+- Targets - alerts sorted by targets or instances
+- Statistics - some statistical data (there is also `/metrics` endpoint)
+- Configuration - configuration parameters of Alertmonitor
+- About - general information
+
 
 Alertmonitor correlates firing alerts and resolving alerts to display current state of active alarms.
 
 Alerts can be filtered by tags.
 
-Alertmonitor supports periodic synchronisation of active alerts with Prometheus. This feature is extremely useful after a broken connection 
-to refresh the state of currently active alerts.
+Screenshot:
 
-
-![Alertmonitor](docs/overview.png)
+![Alertmonitor](docs/screenshots/2.0.0/alerts.png)
 
 
 ## Quick start

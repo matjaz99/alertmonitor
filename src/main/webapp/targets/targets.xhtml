@@ -12,14 +12,14 @@
 
 				<p:outputLabel value="Use Smart Targets"/>
 				<br/>
-				<p:toggleSwitch value="#{webhookBean.smartTargetsEnabled}">
-					<p:ajax listener="#{webhookBean.getTargets}" update="targetsForm"/>
+				<p:toggleSwitch value="#{uiBean.smartTargetsEnabled}">
+					<p:ajax listener="#{uiBean.getTargets}" update="targetsForm"/>
 				</p:toggleSwitch>
 
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 
-					<ui:repeat var="t" value="#{webhookBean.targets}">
+					<ui:repeat var="t" value="#{uiBean.targets}">
 						<am:target value="#{t}" />
 					</ui:repeat>
 
