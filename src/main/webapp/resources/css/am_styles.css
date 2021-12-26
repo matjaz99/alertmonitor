@@ -83,11 +83,11 @@ body .ui-panelgrid .ui-panelgrid-cell {
 
 
 .tagBorder {
-	border: 1px solid #555;
-	border-bottom-left-radius: 4px 4px;
-	border-bottom-right-radius: 4px 4px;
-	border-top-left-radius: 4px 4px;
-	border-top-right-radius: 4px 4px;
+	border: 1px solid #888;
+	border-bottom-left-radius: 7px 7px;
+	border-bottom-right-radius: 7px 7px;
+	border-top-left-radius: 7px 7px;
+	border-top-right-radius: 7px 7px;
 	font-size: 12px;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -99,10 +99,10 @@ body .ui-panelgrid .ui-panelgrid-cell {
 }
 .targetBorder-true {
 	border: 1px solid #BBFFAA;
-	border-bottom-left-radius: 6px 6px;
-	border-bottom-right-radius: 6px 6px;
-	border-top-left-radius: 6px 6px;
-	border-top-right-radius: 6px 6px;
+	border-bottom-left-radius: 7px 7px;
+	border-bottom-right-radius: 7px 7px;
+	border-top-left-radius: 7px 7px;
+	border-top-right-radius: 7px 7px;
 	background: #E3FFF3;
 	font-size: 12px;
 	padding: 7px;
@@ -112,10 +112,10 @@ body .ui-panelgrid .ui-panelgrid-cell {
 }
 .targetBorder-false {
 	border: 1px solid #FFBBCC;
-	border-bottom-left-radius: 5px 5px;
-	border-bottom-right-radius: 5px 5px;
-	border-top-left-radius: 5px 5px;
-	border-top-right-radius: 5px 5px;
+	border-bottom-left-radius: 7px 7px;
+	border-bottom-right-radius: 7px 7px;
+	border-top-left-radius: 7px 7px;
+	border-top-right-radius: 7px 7px;
 	background: #FFEEEE;
 	font-size: 12px;
 	padding: 7px;

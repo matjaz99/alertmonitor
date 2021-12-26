@@ -1,40 +1,30 @@
-## 2.0.0-SNAPSHOT
+## 2.0.0 / 2021-12-26
 
 * [CHANGE] There are so many improvements in this release, the version is upgraded to 2.
 * [CHANGE] Licensed under Apache-2.0 License
-
-## 1.6.3-SNAPSHOT
-
 * [CHANGE] Webhook view link removed from toolbar
-* [FEATURE] Smart targets. The concept of smart targets is not new as Alertmonitor already did it in Targets view. It's just 
-that Targets are now retrieved from Prometheus. And you can now switch between: instance or smartTarget view.
+* [CHANGE] Updated GUI styling due to update of Primefaces library
+* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_ENDPOINT`is now deprecated. Instead, 
+use `ALERTMONITOR_PROMETHEUS_SERVER` and without `/api/v1/alerts`. Just schema, host and port.
+* [CHANGE] Alerts with severity `indeterminate` and `informational` are now also displayed in list of active alerts
+* [FEATURE] Prometheus API implementation
+* [FEATURE] Retrieving targets from Prometheus
+* [FEATURE] SmartTargets. The concept of SmartTargets is not new as Alertmonitor already did it in Targets view. It's just 
+that Targets are now retrieved from Prometheus. And you can now switch between: instance or SmartTarget view.
 * [FEATURE] Reload Prometheus config button
 * [FEATURE] Load alert rules and show them in alerts
+* [FEATURE] Kafka publisher will send each received alert to Kafka topic. Added environment variables for 
+configuration: `ALERTMONITOR_KAFKA_ENABLED` (default=false), `ALERTMONITOR_KAFKA_SERVER`, and 
+`ALERTMONITOR_KAFKA_TOPIC`. This is an experimental feature.
+* [FEATURE] Configuration view for changing runtime parameters
 * [ENHANCEMENT] Added metric `alertmonitor_prom_api_duration_seconds` for monitoring Prometheus API response time. 
 This is a replacement for `alertmonitor_psync_task_total` which is now obsolete.
 * [ENHANCEMENT] Styling improvements
 * [ENHANCEMENT] Targets have colored background according to its health (status)
 * [ENHANCEMENT] Search/filter also checks fields: alert name, info, instance/hostname, job, description
 * [ENHANCEMENT] Targets view now supports searching targets
-
-## 1.6.2-SNAPSHOT
-
-* [CHANGE] Updated GUI styling due to update of Primefaces library
-* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_ENDPOINT`is now deprecated. Instead, 
-use `ALERTMONITOR_PROMETHEUS_SERVER` and without `/api/v1/alerts`. Just schema, host and port.
-* [FEATURE] Prometheus API implementation (for alerts and targets)
-* [FEATURE] Retrieving targets from Prometheus
 * [ENHANCEMENT] Updated prometheus simple client java library to 0.12.0
 * [ENHANCEMENT] Updated Primefaces java library to 11.0.0
-
-
-## 1.6.1-SNAPSHOT
-
-* [CHANGE] Alerts with severity `indeterminate` and `informational` are now also displayed in list of active alerts
-* [FEATURE] Kafka publisher will send each received alert to Kafka topic. Added environment variables for 
-configuration: `ALERTMONITOR_KAFKA_ENABLED` (default=false), `ALERTMONITOR_KAFKA_SERVER`, and 
-`ALERTMONITOR_KAFKA_TOPIC`
-* [FEATURE] Configuration view for changing runtime parameters
 * [ENHANCEMENT] Get other labels as well, not just 'supported' ones. Eg. external_labels
 * [ENHANCEMENT] Severity `indeterminate` and `informational` are shown as tags as well
 * [BUG] Fixed typos

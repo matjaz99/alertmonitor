@@ -83,7 +83,7 @@ public class DNotification implements Cloneable {
 	/** Additional description of notification */
 	private String description;
 
-	private String team;
+	private String group;
 	private String eventType = "5";
 	private String probableCause = "1024";
 	private String currentValue;
@@ -286,12 +286,12 @@ public class DNotification implements Cloneable {
 		this.status = status;
 	}
 
-	public String getTeam() {
-		return team;
+	public String getGroup() {
+		return group;
 	}
 
-	public void setTeam(String team) {
-		this.team = team;
+	public void setGroup(String group) {
+		this.group = group;
 	}
 
 	public String getEventType() {
@@ -373,7 +373,7 @@ public class DNotification implements Cloneable {
 		otherLabels.remove("tags");
 		otherLabels.remove("severity");
 		otherLabels.remove("priority");
-		otherLabels.remove("team");
+		otherLabels.remove("group");
 		otherLabels.remove("eventType");
 		otherLabels.remove("probableCause");
 		otherLabels.remove("url");
@@ -391,7 +391,7 @@ public class DNotification implements Cloneable {
 				+ new Random().nextInt(Integer.MAX_VALUE)
 				+ info
 				+ new Random().nextInt(Integer.MAX_VALUE)
-				+ team
+				+ group
 				+ new Random().nextInt(Integer.MAX_VALUE)
 				+ instance
 				+ new Random().nextInt(Integer.MAX_VALUE)
@@ -438,7 +438,7 @@ public class DNotification implements Cloneable {
 				", clearUid='" + clearUid + '\'' +
 				", tags='" + tags + '\'' +
 				", description='" + description + '\'' +
-				", team='" + team + '\'' +
+				", group='" + group + '\'' +
 				", eventType='" + eventType + '\'' +
 				", probableCause='" + probableCause + '\'' +
 				", currentValue='" + currentValue + '\'' +

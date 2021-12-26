@@ -8,15 +8,9 @@
 - redesigned journal (not table, but a list with show details)
 - redesigned raw (not table, but a list, pretty json body)
 - copy to clipboard button
-- show all targets: https://prom.devops.iskratel.cloud/prometheus/api/v1/targets
 - show targets by job
-- show targets by stripped host (smart targets)
-- show other labels (such as external_labels)
 - configure labels for CID (if needed also from external_labels)
 - store alarms in MongoDB
-- replace team label with group
-- parse alert rules from html
-- reload prom
 
 
 

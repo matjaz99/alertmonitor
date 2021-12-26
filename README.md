@@ -6,27 +6,20 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a webapp for displaying alerts from Prometheus. It offers a nice GUI with lots of cool features for browsing, 
-sorting and filtering alerts.
+Alertmonitor is a webapp for displaying active alerts in Prometheus.
 
 Alertmonitor is receiving alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
 Alternatively, if webhook receiver is not configured, Alertmonitor can still pull alerts directly from Prometheus. 
 Ideally both approaches can be used in combination. This way you'll always receive alert immediately when it is fired and yet it offers 
-possibility to *synchronize* alerts with Prometheus current state in case if any alert has been lost.
+possibility to *synchronize* alerts with Prometheus in case if any alert has been lost.
 
+Alertmonitor automatically correlates firing and resolving alerts to display current state of active alarms.
 
-Alertmonitor offers the following views:
-- Active alerts - all currently firing alerts
-- Journal - history of alerts
-- Targets - alerts sorted by targets or instances
-- Statistics - some statistical data (there is also `/metrics` endpoint)
-- Configuration - configuration parameters of Alertmonitor
-- About - general information
+Alertmonitor displays monitored targets as instances or SmartTargets. Instance is one particular exporter on server, while 
+SmartTarget combines all instances on the same server and displays all active alerts on a server. 
 
+Tags provide a quick way of filtering alerts.
 
-Alertmonitor correlates firing alerts and resolving alerts to display current state of active alarms.
-
-Alerts can be filtered by tags.
 
 Screenshot:
 
@@ -35,9 +28,7 @@ Screenshot:
 
 ## Quick start
 
-The easiest way to start using Alertmonitor is to deploy it on Docker.
-
-Deploy container:
+Deploy Alertmonitor container on Docker:
 
 ```
 docker run -d -p 8080:8080 matjaz99/alertmonitor:latest
@@ -49,30 +40,29 @@ Alertmonitor is reachable on: [http://hostname:8080/alertmonitor/](http://hostna
 There is also `docker-compose.yml` file available for deployment in Swarm cluster.
 
 
-#### Docker images
+### Docker images
 
 Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/alertmonitor](https://hub.docker.com/r/matjaz99/alertmonitor)
 
 
 ## Configure alerts in Prometheus
 
-Alertmonitor relies on properly configured labels in Prometheus alert rules. 
+Alertmonitor strongly relies on properly configured labels in alert rules. 
 Placing additional labels into alert rules will enrich the information that alert carries, such as: 
 severity, metric labels, current metric value, alert tags or team responsible for resolving alerts.
 
-#### Labeling alerts
+### Labeling alerts
 
 Alertmonitor recognizes the following labels:
 
 | Label       |      Description        |
 |-------------|-------------------------|
-| severity    | Mandatory (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
+| severity    | Optional (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
 | info        | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
-| hostname    | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return hostname (eg. containers in swarm), you can provide its value here by any other means. Usually IP address and port of exporter. |
-| nodename    | Optional. Descriptive name of hostname. Eg. hostname |
+| instance    | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
-| team        | Optional. Team responsible for this kind of alerts. |
+| group        | Optional. Custom group name. |
 | url        | Optional. Custom URL that is related to alert. |
 | eventType   | Optional. Event type according to IUT-T X.733 recommendation |
 | probableCause | Optional. Probable cause according to IUT-T X.733 recommendation |
@@ -87,33 +77,25 @@ Example of alert rule in Prometheus (note the labels):
 groups:
 - name: my-alerts
   rules:
-  - alert: CPU usage
-    expr: sum(rate(process_cpu_seconds_total[5m])) by (hostname) * 100 > 80
+  - alert: High CPU usage
+    expr: sum(rate(process_cpu_seconds_total[5m])) by (instance) * 100 > 80
     for: 1m
     labels:
-      # mandatory labels
       severity: critical
-      priority: low
-      info: CPU alert for Node '{{ $labels.node_name }}'
-      # optional labels
-      nodename: '{{$labels.node_name}}'
-      hostname: '{{$labels.hostname}}'
-      tags: hardware, cpu, overload
-      team: Team1
+      info: CPU alert for Node '{{ $labels.instance }}'
+      tags: hardware, server, cpu, overload
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
-      eventType: 5
-      probableCause: 1024
-      description: Node {{ $labels.hostname }} CPU usage is at {{ humanize $value}}%.
+      description: Node {{ $labels.instance }} CPU usage is at {{ $value}}%.
     annotations:
-      description: Node {{ $labels.hostname }} CPU usage is at {{ humanize $value}}%.
-      summary: CPU alert for Node '{{ $labels.hostname }}'
-      currentValue: '{{ humanize $value }}%'
+      description: Node {{ $labels.instance }} CPU usage is at {{ $value}}%.
+      summary: CPU alert for node '{{ $labels.instance }}'
+      currentValue: '{{ $value }}%'
 ```
 
 > For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
 
 
-#### Configure webhook receiver in Alertmanager
+### Configure webhook receiver in Alertmanager
 
 In order to receive alerts, configure an Alertmonitor receiver endpoint in `alertmanager.yml` configuration file.
 
@@ -135,7 +117,7 @@ receivers:
 
 ## Views
 
-#### Active alerts view
+### Active alerts view
 
 This view shows currently active alerts.
 
@@ -143,7 +125,7 @@ Active alerts can be filtered by selecting one or more tags.
 
 Deselect all tags to show all alerts.
 
-#### Journal view
+### Journal view
 
 This view shows all history of received events. The size of journal is limited by `ALERTMONITOR_JOURNAL_SIZE` parameter. 
 When journal reaches its maximum size, the oldest events will be removed (First in, first out).
@@ -151,11 +133,11 @@ When journal reaches its maximum size, the oldest events will be removed (First 
 Remark: all the data in Alertmonitor is based on journal events. For example, Alertmonitor can only show targets, 
 which have at least one alert recorded in journal.
 
-#### Webhook view
+### Webhook view
 
 This view shows raw messages as they were received by the HTTP webhook.
 
-#### Target view
+### Target view
 
 Alertmonitor strips protocol and port from `instance` label and what remains is target's hostname or IP address or FQDN.
 
@@ -163,7 +145,7 @@ Alertmonitor then filters alerts and displays those who's hostnames match.
 
 Each target shows number of active alerts and an icon indicating the highest severity of raised alert.
 
-#### Statistics view
+### Statistics view
 
 This view shows statistical data, such as:
 - number of alerts by severity
@@ -171,11 +153,11 @@ This view shows statistical data, such as:
 - timers (up time, time since last event...)
 - psync success rate
 
-#### Configuratiion view
+### Configuratiion view
 
 Here it is possible to change some configuration parameters during runtime.
 
-#### About view
+### About view
 
 Application meta data, version, build info...
 
@@ -184,7 +166,7 @@ At the moment, only periodic sync endpoint can be configured (no restart require
 
 ## Configuration
 
-#### Application configuration
+### Application configuration
 
 The Alertmonitor can be configured with environment variables. Variables starting with `ALERTMONITOR_*` are related 
 to behaviour of the application, while other variables may be used for other purposes 
@@ -192,18 +174,17 @@ to behaviour of the application, while other variables may be used for other pur
 
 A list of supported environment variables:
 
-| EnvVar                             | Default value           | Description        |
-|------------------------------------|-------------------------|------------------- |
-| ALERTMONITOR_JOURNAL_SIZE          | 20000 | Maximum journal size (FIFO). |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC    | 900 | Periodic synchronisation interval in seconds |
-| ~~ALERTMONITOR_PSYNC_ENDPOINT~~    | ~~http://localhost/prometheus/api/v1/alerts~~ | ~~The URL of Prometheus API for active alerts~~ Deprecated since 1.7.0. See `ALERTMONITOR_PROMETHEUS_SERVER` |
-| ALERTMONITOR_PROMETHEUS_SERVER     | http://localhost:9090 | The URL of Prometheus server |
-| ALERTMONITOR_DATE_FORMAT           | yyyy/MM/dd H:mm:ss | Date format for displaying in GUI |
-| ALERTMONITOR_KAFKA_ENABLED         | false | Enable or disable publishing to Kafka |
-| ALERTMONITOR_KAFKA_SERVER          | hostname:9092 | Hostname and port for Kafka |
-| ALERTMONITOR_KAFKA_TOPIC           | alertmonitor_notifications | Name of topic |
+| EnvVar                             | Description        |
+|------------------------------------|------------------- |
+| ALERTMONITOR_JOURNAL_SIZE          | Maximum journal size (FIFO).  Default: 20000 |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC    | Periodic synchronisation interval in seconds  Default: 900 |
+| ALERTMONITOR_PROMETHEUS_SERVER     | The URL of Prometheus server  Default: http://localhost:9090 |
+| ALERTMONITOR_DATE_FORMAT           | Date format for displaying in GUI  Default: yyyy/MM/dd H:mm:ss |
+| ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka  Default: false |
+| ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka  Default: hostname:9092 |
+| ALERTMONITOR_KAFKA_TOPIC           | Name of topic  Default: alertmonitor_notifications |
 
-#### Environment variable substitution
+### Environment variable substitution
 
 Prometheus doesn't support substitution of environment variables in alert rules. Alertmonitor does that for you.
 
@@ -235,7 +216,7 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_active_alerts_count`
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
-- `alertmonitor_psync_task_total`
+- `alertmonitor_prom_api_duration_seconds`
 - `alertmonitor_psync_interval_seconds`
 
 Metrics are available on URI endpoint:
@@ -246,30 +227,30 @@ GET /alertmonitor/metrics
 
 ## Log files
 
+Inside container log files are located in directory `/opt/alertmonitor/log`.
+
 Configure the log file location with environment variable `SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log`
 
-Rolling file policy can be also configured. For complete simple-logger configuration visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
+Rolling file policy can be also configured. For complete configuration of simple-logger visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
 
 ## For developers
 
-#### Community
+### Community
 
 Google group for Alertmonitor Users:
 
 https://groups.google.com/g/alertmonitor-users
 
-#### Dependencies
+### Dependencies
 
-Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 6.2 for frontend interface.
+Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
 
-Primefaces showcase: http://www.primefaces.org:8080/showcase
-
-#### Simple-logger maven dependency
+### Simple-logger maven dependency
 
 Simple-logger is not available on Maven central repo. You can either build it on your own 
-or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar) 
-and then manually import it into your local repository:
+or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar).  
+Then manually import it into your local repository:
 
 ```
 wget http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar
@@ -283,7 +264,7 @@ Run the project with maven:
 mvn tomcat7:run
 ```
 
-#### Docker
+### Docker
 
 Build docker image and push to docker hub:
 
@@ -292,4 +273,4 @@ docker build -t {{namespace}}/{{image}}:{{tag}} .
 docker push {{namespace}}/{{image}}:{{tag}}
 ```
 
-Inside container log files are located in directory `/opt/alertmonitor/log`
+

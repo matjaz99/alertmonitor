@@ -15,6 +15,9 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.bar.BarChartDataSet;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DNotification;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;

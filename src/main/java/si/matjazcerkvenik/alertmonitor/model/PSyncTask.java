@@ -18,7 +18,6 @@ package si.matjazcerkvenik.alertmonitor.model;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class PSyncTask extends TimerTask {
                     n.setTags(alert.getLabels().getOrDefault("tags", ""));
                     n.setSeverity(alert.getLabels().getOrDefault("severity", "indeterminate"));
                     n.setPriority(alert.getLabels().getOrDefault("priority", "low"));
-                    n.setTeam(alert.getLabels().getOrDefault("team", "unassigned"));
+                    n.setGroup(alert.getLabels().getOrDefault("group", "unknown"));
                     n.setEventType(alert.getLabels().getOrDefault("eventType", "5"));
                     n.setProbableCause(alert.getLabels().getOrDefault("probableCause", "1024"));
                     n.setCurrentValue(alert.getAnnotations().getOrDefault("currentValue", "-"));
