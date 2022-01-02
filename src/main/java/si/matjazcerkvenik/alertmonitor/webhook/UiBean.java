@@ -16,17 +16,12 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
 
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
 
 
 @ManagedBean
@@ -57,14 +52,14 @@ public class UiBean {
 	}
 
 
-	public List<DNotification> getJournal() {
+	public List<DEvent> getJournal() {
 		return DAO.getInstance().getJournal();
 	}
 
 
-	public List<DNotification> getActiveAlarms() {
-		List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
-		List<DNotification> result = list.stream()
+	public List<DEvent> getActiveAlarms() {
+		List<DEvent> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
+		List<DEvent> result = list.stream()
 				.filter(notif -> filterNotification(notif))
 				.collect(Collectors.toList());
 
@@ -86,7 +81,7 @@ public class UiBean {
 	 * @param notif alert
 	 * @return true to display alert
 	 */
-	private boolean filterNotification(DNotification notif) {
+	private boolean filterNotification(DEvent notif) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {
 			if (!notif.getInstance().toLowerCase().contains(searchString.toLowerCase())
@@ -263,7 +258,7 @@ public class UiBean {
 		int warning = 0;
 		int informational = 0;
 		int indeterminate = 0;
-		for (DNotification n : target.getAlerts()) {
+		for (DEvent n : target.getAlerts()) {
 			if (n.getSeverity().equalsIgnoreCase(Severity.CRITICAL)) {
 				critical++;
 			}

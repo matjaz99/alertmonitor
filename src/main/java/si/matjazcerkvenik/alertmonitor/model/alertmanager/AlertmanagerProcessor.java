@@ -18,7 +18,7 @@ package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.Severity;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
@@ -36,12 +36,12 @@ public class AlertmanagerProcessor {
         DAO.getLogger().info(am.toString());
         DAO.getLogger().info("Number of alerts: " + am.getAlerts().size());
 
-        List<DNotification> dn = convertToDNotif(m, am);
+        List<DEvent> dn = convertToDNotif(m, am);
 
         DAO.amMessagesReceivedCount++;
         DAO.lastEventTimestamp = System.currentTimeMillis();
 
-        for (DNotification n : dn) {
+        for (DEvent n : dn) {
 
             DAO.getInstance().addToJournal(n);
 
@@ -72,35 +72,35 @@ public class AlertmanagerProcessor {
 
     }
 
-    private static List<DNotification> convertToDNotif(WebhookMessage m, AmAlertMessage am) {
+    private static List<DEvent> convertToDNotif(WebhookMessage m, AmAlertMessage am) {
 
-        List<DNotification> notifs = new ArrayList<DNotification>();
+        List<DEvent> notifs = new ArrayList<DEvent>();
 
         for (Iterator<AmAlert> it = am.getAlerts().iterator(); it.hasNext();) {
             AmAlert a = it.next();
 
-            DNotification n = new DNotification();
+            DEvent n = new DEvent();
             n.setTimestamp(System.currentTimeMillis());
             n.setSource(m.getRemoteHost());
-            n.setAlertname(a.getLabels().getOrDefault("alertname", "-unknown-"));
+            n.setAlertname(a.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
             n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
-            n.setInfo(a.getLabels().getOrDefault("info", "-"));
-            n.setInstance(a.getLabels().getOrDefault("instance", "-"));
+            n.setInfo(a.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
+            n.setInstance(a.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
             n.setHostname(DAO.getInstance().stripInstance(n.getInstance()));
-            n.setNodename(a.getLabels().getOrDefault("nodename", n.getInstance()));
-            n.setJob(a.getLabels().getOrDefault("job", "-"));
-            n.setTags(a.getLabels().getOrDefault("tags", ""));
-            n.setSeverity(a.getLabels().getOrDefault("severity", "indeterminate"));
-            n.setPriority(a.getLabels().getOrDefault("priority", "low"));
-            n.setGroup(a.getLabels().getOrDefault("group", "unknown"));
-            n.setEventType(a.getLabels().getOrDefault("eventType", "5"));
-            n.setProbableCause(a.getLabels().getOrDefault("probableCause", "1024"));
-            n.setCurrentValue(a.getAnnotations().getOrDefault("currentValue", "-"));
-            n.setUrl(a.getLabels().getOrDefault("url", ""));
-            if (a.getLabels().containsKey("description")) {
-                n.setDescription(a.getLabels().getOrDefault("description", "-"));
+            n.setNodename(a.getLabels().getOrDefault(DEvent.KEY_NODENAME, n.getInstance()));
+            n.setJob(a.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
+            n.setTags(a.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
+            n.setSeverity(a.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
+            n.setPriority(a.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
+            n.setGroup(a.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
+            n.setEventType(a.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
+            n.setProbableCause(a.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
+            n.setCurrentValue(a.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
+            n.setUrl(a.getLabels().getOrDefault(DEvent.KEY_URL, ""));
+            if (a.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
+                n.setDescription(a.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
             } else {
-                n.setDescription(a.getAnnotations().getOrDefault("description", "-"));
+                n.setDescription(a.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
             }
             n.setStatus(a.getStatus());
             n.setGeneratorUrl(a.getGeneratorURL());

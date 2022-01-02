@@ -16,33 +16,38 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import com.google.gson.Gson;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
 public class Formatter {
 
-    public static String toJson(DNotification notification) {
+    public static String toJson(DEvent notification) {
         return new Gson().toJson(notification);
     }
 
-    public static String convertToDHMSFormat(int secUpTotal) {
-        int secUpRemain = secUpTotal % 60;
-        int minUpTotal = secUpTotal / 60;
-        int minUpRemain = minUpTotal % 60;
-        int hourUpTotal = minUpTotal / 60;
-        int hourUpRemain = hourUpTotal % 60;
-        int dayUpTotal = hourUpTotal / 24;
-        int dayUpRemain = hourUpTotal % 24;
+    /**
+     * This will return given number of seconds in format: __d __h __m __s.
+     * @param seconds
+     * @return formatted time
+     */
+    public static String convertToDHMSFormat(int seconds) {
+        int secRemain = seconds % 60;
+        int minTotal = seconds / 60;
+        int minRemain = minTotal % 60;
+        int hourTotal = minTotal / 60;
+        int hourRemain = hourTotal % 60;
+        int dayTotal = hourTotal / 24;
+        int dayRemain = hourTotal % 24;
 
-        String resp = minUpRemain + "m " + secUpRemain + "s";
+        String resp = minRemain + "m " + secRemain + "s";
 
-        if (dayUpTotal == 0) {
-            if (hourUpRemain > 0) {
-                resp = hourUpTotal + "h " + resp;
+        if (dayTotal == 0) {
+            if (hourRemain > 0) {
+                resp = hourTotal + "h " + resp;
             }
         }
 
-        if (dayUpTotal > 0) {
-            resp = dayUpTotal + "d " + dayUpRemain + "h " + resp;
+        if (dayTotal > 0) {
+            resp = dayTotal + "d " + dayRemain + "h " + resp;
         }
 
         return resp;

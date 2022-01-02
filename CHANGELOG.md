@@ -1,3 +1,7 @@
+## 2.0.1-SNAPSHOT
+
+* [ENHANCEMENT] Styling improvements
+
 ## 2.0.0 / 2021-12-26
 
 * [CHANGE] There are so many improvements in this release, the version is upgraded to 2.

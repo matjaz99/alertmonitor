@@ -16,7 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.Target;
 
 import javax.annotation.PostConstruct;
@@ -44,14 +44,14 @@ public class UiInstanceBean {
         return target;
     }
 
-    public List<DNotification> getInstanceActiveAlarms() {
-        List<DNotification> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
-        List<DNotification> result = list.stream()
+    public List<DEvent> getInstanceActiveAlarms() {
+        List<DEvent> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
+        List<DEvent> result = list.stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());
-        Collections.sort(result, new Comparator<DNotification>() {
+        Collections.sort(result, new Comparator<DEvent>() {
             @Override
-            public int compare(DNotification lhs, DNotification rhs) {
+            public int compare(DEvent lhs, DEvent rhs) {
                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
                 return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
             }
@@ -59,13 +59,13 @@ public class UiInstanceBean {
         return result;
     }
 
-    public List<DNotification> getInstanceJournalAlarms() {
-        List<DNotification> result = DAO.getInstance().getJournal().stream()
+    public List<DEvent> getInstanceJournalAlarms() {
+        List<DEvent> result = DAO.getInstance().getJournal().stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());
-        Collections.sort(result, new Comparator<DNotification>() {
+        Collections.sort(result, new Comparator<DEvent>() {
             @Override
-            public int compare(DNotification lhs, DNotification rhs) {
+            public int compare(DEvent lhs, DEvent rhs) {
                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
                 return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
             }
@@ -73,7 +73,7 @@ public class UiInstanceBean {
         return result;
     }
 
-    private boolean checkAlert(DNotification n) {
+    private boolean checkAlert(DEvent n) {
         if (target.isSmartTarget()) {
             if (n.getHostname().equals(target.getHostname())) return true;
         } else {

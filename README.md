@@ -15,7 +15,7 @@ possibility to *synchronize* alerts with Prometheus in case if any alert has bee
 
 Alertmonitor automatically correlates firing and resolving alerts to display current state of active alarms.
 
-Alertmonitor displays monitored targets as instances or SmartTargets. Instance is one particular exporter on server, while 
+Alertmonitor displays monitored objects as Instances or SmartTargets. Instance is one particular exporter on a server, while 
 SmartTarget combines all instances on the same server and displays all active alerts on a server. 
 
 Tags provide a quick way of filtering alerts.
@@ -28,13 +28,13 @@ Screenshot:
 
 ## Quick start
 
-Deploy Alertmonitor container on Docker:
+Deploy Alertmonitor on Docker:
 
 ```
 docker run -d -p 8080:8080 matjaz99/alertmonitor:latest
 ```
 
-Alertmonitor is reachable on: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
+Open web browser and go to address: [http://hostname:8080/alertmonitor/](http://hostname:8080/alertmonitor/)
 
 
 There is also `docker-compose.yml` file available for deployment in Swarm cluster.
@@ -49,7 +49,7 @@ Docker images are available on Docker hub: [https://hub.docker.com/r/matjaz99/al
 
 Alertmonitor strongly relies on properly configured labels in alert rules. 
 Placing additional labels into alert rules will enrich the information that alert carries, such as: 
-severity, metric labels, current metric value, alert tags or team responsible for resolving alerts.
+severity, metric labels, current metric value, alert tags or group name.
 
 ### Labeling alerts
 
@@ -61,6 +61,7 @@ Alertmonitor recognizes the following labels:
 | priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
 | info        | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
 | instance    | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
+| nodename        | Optional. Name of this instance. |
 | tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
 | group        | Optional. Custom group name. |
 | url        | Optional. Custom URL that is related to alert. |
@@ -69,9 +70,9 @@ Alertmonitor recognizes the following labels:
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 | currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!** |
 
-> `correlationId` is defined by: `alertname`, `info`, `hostname` and `job`. Clear event should produce the same `correlationId`.
+> `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
 
-Example of alert rule in Prometheus (note the labels):
+Example of alert rule in Prometheus:
 
 ```yaml
 groups:
@@ -87,12 +88,8 @@ groups:
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
       description: Node {{ $labels.instance }} CPU usage is at {{ $value}}%.
     annotations:
-      description: Node {{ $labels.instance }} CPU usage is at {{ $value}}%.
-      summary: CPU alert for node '{{ $labels.instance }}'
       currentValue: '{{ $value }}%'
 ```
-
-> For other integrations you might still need `description` and `summary` in annotations. Alertmonitor reads them from labels.
 
 
 ### Configure webhook receiver in Alertmanager
@@ -115,15 +112,16 @@ receivers:
 ```
 
 
-## Views
+## Alertmonitor GUI
 
 ### Active alerts view
 
-This view shows currently active alerts.
+This view shows all currently active alerts.
 
-Active alerts can be filtered by selecting one or more tags.
+Active alerts can be filtered by selecting one or more tags. Deselect all tags to show all alerts.
 
-Deselect all tags to show all alerts.
+Search (in upper right corner) allows searching alerts by: `instance`, `alertname`, `info`, `job`, `description`. Search can 
+be used in combination with tags.
 
 ### Journal view
 
@@ -153,22 +151,20 @@ This view shows statistical data, such as:
 - timers (up time, time since last event...)
 - psync success rate
 
-### Configuratiion view
+### Configuration view
 
 Here it is possible to change some configuration parameters during runtime.
 
 ### About view
 
-Application meta data, version, build info...
-
-At the moment, only periodic sync endpoint can be configured (no restart required).
+Application meta data, version, build info, maintainers, public channels...
 
 
 ## Configuration
 
 ### Application configuration
 
-The Alertmonitor can be configured with environment variables. Variables starting with `ALERTMONITOR_*` are related 
+Alertmonitor can be configured with environment variables. Variables starting with `ALERTMONITOR_*` are related 
 to behaviour of the application, while other variables may be used for other purposes 
 (such as logger configuration or custom environment variable substitution).
 
@@ -199,6 +195,10 @@ Template syntax in labels to be replaced: `${GRAFANA_HOSTNAME}`.
 
 Alertmonitor will replace all occurrences of templates with corresponding environment variables.
 
+Example when comes this handy: you may link an alert with Grafana dashboard by using `url` label: `http://${GRAFANA_HOSTNAME}/dashboard`. 
+Alertmonitor will search environment variables for suitable substitution and if it finds one, it will produce label: 
+`url: http://my.grafana.domain/dashboard`.
+
 You can use environment variable substitution on the following labels:
 - `nodename`
 - `info`
@@ -208,6 +208,12 @@ You can use environment variable substitution on the following labels:
 
 
 ## Metrics
+
+Metrics are available on URI endpoint:
+
+```
+GET /alertmonitor/metrics
+```
 
 Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_build_info`
@@ -219,11 +225,6 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_prom_api_duration_seconds`
 - `alertmonitor_psync_interval_seconds`
 
-Metrics are available on URI endpoint:
-
-```
-GET /alertmonitor/metrics
-```
 
 ## Log files
 
@@ -232,6 +233,7 @@ Inside container log files are located in directory `/opt/alertmonitor/log`.
 Configure the log file location with environment variable `SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log`
 
 Rolling file policy can be also configured. For complete configuration of simple-logger visit [https://github.com/matjaz99/simple-logger](https://github.com/matjaz99/simple-logger)
+
 
 ## For developers
 

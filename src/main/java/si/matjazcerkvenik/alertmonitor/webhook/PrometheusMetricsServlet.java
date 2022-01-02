@@ -17,10 +17,9 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
             throws IOException {
 
         AmMetrics.alertmonitor_active_alerts_count.clear();
-        for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
+        for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
             AmMetrics.alertmonitor_active_alerts_count.labels(n.getAlertname(), n.getSeverity()).inc();
         }
         AmMetrics.alertmonitor_alerts_balance_factor.set(DAO.getInstance().calculateAlertsBalanceFactor());

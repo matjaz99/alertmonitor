@@ -98,7 +98,7 @@ public class PrometheusApi {
         Request request = new Request.Builder()
                 .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/-/reload")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
-                .post(RequestBody.create("{}".getBytes()))
+                .post(RequestBody.create("".getBytes()))
                 .build();
 
         execute(request);
@@ -162,28 +162,28 @@ public class PrometheusApi {
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
             DAO.psyncFailedCount++;
-            code = "500";
+            code = "0";
             throw new PrometheusApiException("UnknownHostException");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
             DAO.psyncFailedCount++;
-            code = "500";
+            code = "0";
             throw new PrometheusApiException("SocketTimeoutException");
         } catch (SocketException e) {
             logger.error("PrometheusApi: SocketException: " + e.getMessage());
             DAO.psyncFailedCount++;
-            code = "500";
+            code = "0";
             throw new PrometheusApiException("SocketException");
         } catch (SSLException e) {
             logger.error("PrometheusApi: SSLException: " + e.getMessage());
             DAO.psyncFailedCount++;
-            code = "500";
+            code = "0";
             throw new PrometheusApiException("SSLException");
         } catch (Exception e) {
             logger.error("PrometheusApi: Exception: ", e);
             e.printStackTrace();
             DAO.psyncFailedCount++;
-            code = "500";
+            code = "0";
             throw new PrometheusApiException("Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;

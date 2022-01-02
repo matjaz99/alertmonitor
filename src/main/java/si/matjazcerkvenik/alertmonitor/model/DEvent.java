@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class DNotification implements Cloneable {
+public class DEvent implements Cloneable {
 	
 	/** Unique ID of notification */
 	private String uid;
@@ -29,7 +29,7 @@ public class DNotification implements Cloneable {
 	/** Correlation ID identifies the same type of events */
 	private String correlationId;
 	
-	/** timestamp of first occurence */
+	/** Timestamp of first occurrence */
 	private long timestamp;
 	
 	/** Counter of identical events (according to NID) */
@@ -65,7 +65,7 @@ public class DNotification implements Cloneable {
 	/** Name or hostname of node */
 	private String nodename;
 
-	/** Instance without protocol and port, resolved to IP address */
+	/** Stripped hostname. Instance without protocol and port, resolved to IP address */
 	private String hostname;
 	
 	/** Severity of notification */
@@ -102,8 +102,25 @@ public class DNotification implements Cloneable {
 
 	/** A rule that caused this notification */
 	private String ruleExpression;
-	private String ruleForLimit;
-	
+	private String ruleTimeLimit;
+
+	/** Supported labels */
+	public static final String KEY_ALERTNAME = "alertname";
+	public static final String KEY_INFO = "info";
+	public static final String KEY_INSTANCE = "instance";
+	public static final String KEY_NODENAME = "nodename";
+	public static final String KEY_JOB = "job";
+	public static final String KEY_TAGS = "tags";
+	public static final String KEY_SEVERITY = "severity";
+	public static final String KEY_PRIORITY = "priority";
+	public static final String KEY_GROUP = "group";
+	public static final String KEY_EVENTTYPE = "eventType";
+	public static final String KEY_PROBABLECAUSE = "probableCause";
+	public static final String KEY_URL = "url";
+	public static final String KEY_DESCRIPTION = "description";
+	public static final String KEY_CURRENTVALUE = "currentValue";
+
+
 	public String getUid() {
 		return uid;
 	}
@@ -350,12 +367,12 @@ public class DNotification implements Cloneable {
 		this.ruleExpression = ruleExpression;
 	}
 
-	public String getRuleForLimit() {
-		return ruleForLimit;
+	public String getRuleTimeLimit() {
+		return ruleTimeLimit;
 	}
 
-	public void setRuleForLimit(String ruleForLimit) {
-		this.ruleForLimit = ruleForLimit;
+	public void setRuleTimeLimit(String ruleTimeLimit) {
+		this.ruleTimeLimit = ruleTimeLimit;
 	}
 
 	public Map<String, String> getOtherLabels() {
@@ -365,20 +382,19 @@ public class DNotification implements Cloneable {
 	public void setOtherLabels(Map<String, String> labels) {
 		if (otherLabels == null) otherLabels = new HashMap<>();
 		otherLabels = labels;
-		otherLabels.remove("alertname");
-		otherLabels.remove("info");
-		otherLabels.remove("instance");
-		otherLabels.remove("nodename");
-		otherLabels.remove("job");
-		otherLabels.remove("tags");
-		otherLabels.remove("severity");
-		otherLabels.remove("priority");
-		otherLabels.remove("group");
-		otherLabels.remove("eventType");
-		otherLabels.remove("probableCause");
-		otherLabels.remove("url");
-		otherLabels.remove("probableCause");
-		otherLabels.remove("description");
+		otherLabels.remove(KEY_ALERTNAME);
+		otherLabels.remove(KEY_INFO);
+		otherLabels.remove(KEY_INSTANCE);
+		otherLabels.remove(KEY_NODENAME);
+		otherLabels.remove(KEY_JOB);
+		otherLabels.remove(KEY_TAGS);
+		otherLabels.remove(KEY_SEVERITY);
+		otherLabels.remove(KEY_PRIORITY);
+		otherLabels.remove(KEY_GROUP);
+		otherLabels.remove(KEY_EVENTTYPE);
+		otherLabels.remove(KEY_PROBABLECAUSE);
+		otherLabels.remove(KEY_URL);
+		otherLabels.remove(KEY_DESCRIPTION);
 	}
 
 	public void generateUID() {
@@ -417,7 +433,7 @@ public class DNotification implements Cloneable {
 
 	@Override
 	public String toString() {
-		return "DNotification {" +
+		return "DEvent{" +
 				"uid='" + uid + '\'' +
 				", correlationId='" + correlationId + '\'' +
 				", timestamp=" + timestamp +
@@ -445,7 +461,10 @@ public class DNotification implements Cloneable {
 				", url='" + url + '\'' +
 				", status='" + status + '\'' +
 				", generatorUrl='" + generatorUrl + '\'' +
+				", otherLabels=" + otherLabels +
+				", ruleExpression='" + ruleExpression + '\'' +
+				", ruleTimeLimit='" + ruleTimeLimit + '\'' +
 				'}';
-		// TODO print other labels
 	}
+
 }

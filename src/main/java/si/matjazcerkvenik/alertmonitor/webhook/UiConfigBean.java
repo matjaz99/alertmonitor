@@ -15,11 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.bar.BarChartDataSet;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -174,16 +171,16 @@ public class UiConfigBean {
     }
 
     public int getNumberOfAlertsInLastHour() {
-        List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
-        List<DNotification> result = list.stream()
+        List<DEvent> list = new ArrayList<DEvent>(DAO.getInstance().getJournal());
+        List<DEvent> result = list.stream()
                 .filter(notif -> checkIfYoungerThan(notif, 60))
                 .collect(Collectors.toList());
         return result.size();
     }
 
     public String getAlertsPerSecondInLastHour() {
-        List<DNotification> list = new ArrayList<DNotification>(DAO.getInstance().getJournal());
-        List<DNotification> result = list.stream()
+        List<DEvent> list = new ArrayList<DEvent>(DAO.getInstance().getJournal());
+        List<DEvent> result = list.stream()
                 .filter(notif -> checkIfYoungerThan(notif, 60))
                 .collect(Collectors.toList());
         int count = result.size();
@@ -192,7 +189,7 @@ public class UiConfigBean {
         return df2.format(perSecond);
     }
 
-    private boolean checkIfYoungerThan(DNotification notif, int minutes) {
+    private boolean checkIfYoungerThan(DEvent notif, int minutes) {
         if (System.currentTimeMillis() - notif.getTimestamp() < minutes * 60 * 1000) return true;
         return false;
     }

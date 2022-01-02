@@ -41,21 +41,23 @@ public class DAO {
     /** Singleton instance */
     private static DAO instance;
 
-    /** Rnvironment variables */
+    /** Environment variables */
     public static int JOURNAL_TABLE_SIZE = 5000;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
-    @Deprecated
-    public static String ALERTMONITOR_PSYNC_ENDPOINT = "http://localhost:9090";
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
     public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
     public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
 
+    /** List of webhook messages in its raw form. */
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
-    private List<DNotification> journal = new LinkedList<>();
+
+    /** Journal of events, limited by JOURNAL_TABLE_SIZE */
+    private List<DEvent> journal = new LinkedList<>();
+
     /** Map of active alerts. Key is correlation id */
-    private Map<String, DNotification> activeAlerts = new HashMap<>();
+    private Map<String, DEvent> activeAlerts = new HashMap<>();
 
     public static int webhookMessagesReceivedCount = 0;
     public static int amMessagesReceivedCount = 0;
@@ -111,10 +113,10 @@ public class DAO {
      * Add new notification to journal. Also delete oldest notifications.
      * @param notif notification
      */
-    public void addToJournal(DNotification notif) {
+    public void addToJournal(DEvent notif) {
         while (journal.size() > JOURNAL_TABLE_SIZE) {
-            DNotification m = journal.remove(0);
-            getLogger().info("Removing from journal: " + m.getUid());
+            DEvent m = journal.remove(0);
+            getLogger().info("Purging journal: " + m.getUid());
         }
         journal.add(notif);
         getLogger().info("Adding to journal: " + notif.getUid());
@@ -126,7 +128,7 @@ public class DAO {
      * Return whole journal
      * @return list
      */
-    public List<DNotification> getJournal() {
+    public List<DEvent> getJournal() {
         return journal;
     }
 
@@ -135,8 +137,8 @@ public class DAO {
      * @param id unique ID of notification
      * @return notification
      */
-    public DNotification getNotification(String id) {
-        for (DNotification n : journal) {
+    public DEvent getNotification(String id) {
+        for (DEvent n : journal) {
             if (n.getUid().equals(id)) {
                 try {
                     PrometheusApi api = new PrometheusApi();
@@ -144,7 +146,7 @@ public class DAO {
                     for (PRule r : ruleList) {
                         if (n.getAlertname().equals(r.getName())) {
                             n.setRuleExpression(r.getQuery());
-                            n.setRuleForLimit(r.getDuration());
+                            n.setRuleTimeLimit(r.getDuration());
                         }
                     }
 
@@ -163,7 +165,7 @@ public class DAO {
      * are set to time of reception (timestamp). Also new tags are added to tagMap.
      * @param n notification
      */
-    public void addActiveAlert(DNotification n) {
+    public void addActiveAlert(DEvent n) {
 
         n.setFirstTimestamp(n.getTimestamp());
         n.setLastTimestamp(n.getTimestamp());
@@ -187,7 +189,7 @@ public class DAO {
      * Return a map of active alerts
      * @return map of all active alerts
      */
-    public Map<String, DNotification> getActiveAlerts() {
+    public Map<String, DEvent> getActiveAlerts() {
         return activeAlerts;
     }
 
@@ -201,8 +203,8 @@ public class DAO {
      * alert.
      * @param newNotif last received notificatioin
      */
-    public void updateActiveAlert(DNotification newNotif) {
-        DNotification existingNotif = activeAlerts.get(newNotif.getCorrelationId());
+    public void updateActiveAlert(DEvent newNotif) {
+        DEvent existingNotif = activeAlerts.get(newNotif.getCorrelationId());
         // update existing alert
 //        existingNotif.setLastTimestamp(newNotif.getTimestamp());
 //        if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
@@ -231,8 +233,8 @@ public class DAO {
      * all alerts in journal have clearTimestamp corrected to point to clear event.
      * @param n
      */
-    public void removeActiveAlert(DNotification n) {
-        for (DNotification jNotif : journal) {
+    public void removeActiveAlert(DEvent n) {
+        for (DEvent jNotif : journal) {
             if (jNotif.getCorrelationId().equals(n.getCorrelationId())
                     && jNotif.getClearTimestamp() == 0) {
                 jNotif.setClearTimestamp(n.getTimestamp());
@@ -251,7 +253,7 @@ public class DAO {
      */
     private void removeObsoleteTags() {
         Map<String, Object> allTags = new HashMap<String, Object>();
-        for (DNotification n : activeAlerts.values()) {
+        for (DEvent n : activeAlerts.values()) {
             String[] array = n.getTags().split(",");
             for (int i = 0; i < array.length; i++) {
                 String tagName = array[i].trim();
@@ -314,8 +316,8 @@ public class DAO {
      * @param severity severity
      * @return list
      */
-    public List<DNotification> getActiveAlarmsList(String severity) {
-        List<DNotification> list = activeAlerts.values().stream()
+    public List<DEvent> getActiveAlarmsList(String severity) {
+        List<DEvent> list = activeAlerts.values().stream()
                 .filter(notif -> notif.getSeverity().equals(severity))
                 .collect(Collectors.toList());
         return list;
@@ -342,7 +344,7 @@ public class DAO {
                 t.setHostname(host);
                 t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
-                for (DNotification n : getActiveAlerts().values()) {
+                for (DEvent n : getActiveAlerts().values()) {
                     if (n.getInstance().equals(host)) t.addAlert(n);
                 }
                 targetsMap.put(host, t);
@@ -376,7 +378,7 @@ public class DAO {
                 t.setHostname(host);
                 t.setId(MD5.getChecksum("smarthost" + t.getHostname()));
                 // load active alerts
-                for (DNotification n : getActiveAlerts().values()) {
+                for (DEvent n : getActiveAlerts().values()) {
                     if (n.getHostname().equals(host)) t.addAlert(n);
                 }
                 targetsMap.put(host, t);

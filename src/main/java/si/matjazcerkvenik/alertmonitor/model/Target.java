@@ -27,7 +27,7 @@ public class Target {
     private boolean smartTarget;
     private String job;
     private boolean up;
-    private Map<String, DNotification> alerts = new HashMap<>();
+    private Map<String, DEvent> alerts = new HashMap<>();
 
     public String getId() {
         return id;
@@ -77,11 +77,11 @@ public class Target {
         this.up = false;
     }
 
-    public List<DNotification> getAlerts() {
+    public List<DEvent> getAlerts() {
         return new ArrayList<>(alerts.values());
     }
 
-    public void addAlert(DNotification notification) {
+    public void addAlert(DEvent notification) {
         if (!alerts.containsKey(notification.getUid())) alerts.put(notification.getUid(), notification);
     }
 

@@ -16,7 +16,6 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.PSyncTask;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 
 import javax.servlet.ServletContextEvent;
@@ -25,14 +24,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Timer;
 import java.util.stream.Stream;
 
 public class OnStartListener implements ServletContextListener {
-
-    private Timer pSyncTimer = null;
-    private PSyncTask pSyncTask = null;
-
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -100,7 +94,7 @@ public class OnStartListener implements ServletContextListener {
 
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", DAO.version, System.getProperty("os.name")).set(DAO.startUpTime);
 
-        // start resync timer
+        // start periodic sync timer
         TaskManager.getInstance().restartPsyncTimer();
 
     }

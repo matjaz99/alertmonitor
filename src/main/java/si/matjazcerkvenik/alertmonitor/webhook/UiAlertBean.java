@@ -16,7 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DNotification;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +28,7 @@ import java.util.*;
 @RequestScoped
 public class UiAlertBean {
 
-    private DNotification notif;
+    private DEvent notif;
 
     @PostConstruct
     public void init() {
@@ -39,7 +39,7 @@ public class UiAlertBean {
         //DAO.getLogger().info("Found alert: " + notif.toString());
     }
 
-    public DNotification getNotif() {
+    public DEvent getNotif() {
         return notif;
     }
 

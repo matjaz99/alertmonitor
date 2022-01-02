@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
-public class PSyncTask extends TimerTask {
+public class PrometheusSyncTask extends TimerTask {
 
     private SimpleLogger logger = DAO.getLogger();
 
     public static void main(String... args) {
         DAO.ALERTMONITOR_PROMETHEUS_SERVER = "http://pgcentos:9090";
-        PSyncTask rt = new PSyncTask();
+        PrometheusSyncTask rt = new PrometheusSyncTask();
         rt.run();
     }
 
@@ -47,38 +47,38 @@ public class PSyncTask extends TimerTask {
             if (activeAlerts != null) {
 
                 // set flag toBeDeleted=true for all active alerts before executing resync
-                for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
+                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
                     n.setToBeDeleted(true);
                 }
 
-                List<DNotification> resyncAlerts = new ArrayList<>();
+                List<DEvent> resyncAlerts = new ArrayList<>();
                 int newAlertsCount = 0;
 
                 for (PAlert alert : activeAlerts) {
                     logger.debug(alert.toString());
 
-                    DNotification n = new DNotification();
+                    DEvent n = new DEvent();
                     n.setTimestamp(System.currentTimeMillis());
-                    n.setAlertname(alert.getLabels().getOrDefault("alertname", "-unknown-"));
+                    n.setAlertname(alert.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
                     n.setSource("PSYNC");
                     n.setUserAgent("Alertmonitor/v1");
-                    n.setInstance(alert.getLabels().getOrDefault("instance", "-"));
+                    n.setInstance(alert.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
                     n.setHostname(DAO.getInstance().stripInstance(n.getInstance()));
-                    n.setNodename(alert.getLabels().getOrDefault("nodename", n.getInstance()));
-                    n.setInfo(alert.getLabels().getOrDefault("info", "-"));
-                    n.setJob(alert.getLabels().getOrDefault("job", "-"));
-                    n.setTags(alert.getLabels().getOrDefault("tags", ""));
-                    n.setSeverity(alert.getLabels().getOrDefault("severity", "indeterminate"));
-                    n.setPriority(alert.getLabels().getOrDefault("priority", "low"));
-                    n.setGroup(alert.getLabels().getOrDefault("group", "unknown"));
-                    n.setEventType(alert.getLabels().getOrDefault("eventType", "5"));
-                    n.setProbableCause(alert.getLabels().getOrDefault("probableCause", "1024"));
-                    n.setCurrentValue(alert.getAnnotations().getOrDefault("currentValue", "-"));
-                    n.setUrl(alert.getLabels().getOrDefault("url", ""));
-                    if (alert.getLabels().containsKey("description")) {
-                        n.setDescription(alert.getLabels().getOrDefault("description", "-"));
+                    n.setNodename(alert.getLabels().getOrDefault(DEvent.KEY_NODENAME, n.getInstance()));
+                    n.setInfo(alert.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
+                    n.setJob(alert.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
+                    n.setTags(alert.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
+                    n.setSeverity(alert.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
+                    n.setPriority(alert.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
+                    n.setGroup(alert.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
+                    n.setEventType(alert.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
+                    n.setProbableCause(alert.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
+                    n.setCurrentValue(alert.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
+                    n.setUrl(alert.getLabels().getOrDefault(DEvent.KEY_URL, ""));
+                    if (alert.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
+                        n.setDescription(alert.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
                     } else {
-                        n.setDescription(alert.getAnnotations().getOrDefault("description", "-"));
+                        n.setDescription(alert.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
                     }
 
                     if (!alert.getState().equals("firing")) {
@@ -124,14 +124,14 @@ public class PSyncTask extends TimerTask {
 
                 // clear those in activeAlerts which were not received toBeDeleted=true
                 List<String> cidToDelete = new ArrayList<>();
-                for (DNotification n : DAO.getInstance().getActiveAlerts().values()) {
+                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
                     if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
                 }
                 for (String cid : cidToDelete) {
                     logger.info("PSYNC: Removing alert: {cid=" + cid + "}");
-                    DNotification x = DAO.getInstance().getActiveAlerts().get(cid);
+                    DEvent x = DAO.getInstance().getActiveAlerts().get(cid);
                     // create artificial clear event
-                    DNotification xClone = (DNotification) x.clone();
+                    DEvent xClone = (DEvent) x.clone();
                     xClone.setClearTimestamp(System.currentTimeMillis());
                     xClone.setSeverity(Severity.CLEAR);
                     xClone.setSource("PSYNC");
