@@ -209,7 +209,7 @@ You can use environment variable substitution on the following labels:
 
 ## Metrics
 
-Metrics are available on URI endpoint:
+Metrics are available in Prometheus format on URI endpoint:
 
 ```
 GET /alertmonitor/metrics
