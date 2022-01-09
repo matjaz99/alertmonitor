@@ -15,6 +15,7 @@
         <welcome-file>about.xhtml</welcome-file>
         <welcome-file>config.xhtml</welcome-file>
         <welcome-file>error.xhtml</welcome-file>
+        <welcome-file>test.xhtml</welcome-file>
     </welcome-file-list>
 
     <error-page>

@@ -279,13 +279,13 @@ public class UiBean {
 			}
 		}
 
-		if (critical > 0) return "bullet_red_mini.png";
-		if (major >  0) return "bullet_orange_mini.png";
-		if (minor > 0) return "bullet_orange_mini.png";
-		if (warning > 0) return "bullet_yellow_mini.png";
-		if (informational > 0) return "bullet_blue_mini.png";
-		if (indeterminate > 0) return "bullet_purple_mini.png";
-		return "bullet_green_mini.png";
+		if (critical > 0) return "bullet_red";
+		if (major >  0) return "bullet_orange";
+		if (minor > 0) return "bullet_orange";
+		if (warning > 0) return "bullet_yellow";
+		if (informational > 0) return "bullet_blue";
+		if (indeterminate > 0) return "bullet_purple";
+		return "bullet_green";
 	}
 
 

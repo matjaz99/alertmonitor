@@ -342,12 +342,13 @@ public class DAO {
                 t.setSmartTarget(false);
                 t.setHealth(pTarget.getHealth());
                 t.setHostname(host);
+                t.setJob(pTarget.getLabels().get("job"));
                 t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
                 for (DEvent n : getActiveAlerts().values()) {
                     if (n.getInstance().equals(host)) t.addAlert(n);
                 }
-                targetsMap.put(host, t);
+                targetsMap.put(t.getId(), t);
             }
 
             return new ArrayList<>(targetsMap.values());

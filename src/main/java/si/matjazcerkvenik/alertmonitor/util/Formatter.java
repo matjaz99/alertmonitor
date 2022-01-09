@@ -20,8 +20,8 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
 public class Formatter {
 
-    public static String toJson(DEvent notification) {
-        return new Gson().toJson(notification);
+    public static String toJson(DEvent event) {
+        return new Gson().toJson(event);
     }
 
     /**

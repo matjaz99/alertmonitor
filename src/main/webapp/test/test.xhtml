@@ -1,0 +1,39 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+<!--			<p:panelGrid columns="1" cellspacing="5" width="100%">-->
+				<h:form id="nodesForm">
+
+					<ui:repeat var="t" value="#{uiBean.targets}">
+						<p:card>
+							<f:facet name="title">
+								#{t.hostname}
+							</f:facet>
+							<f:facet name="subtitle">
+								Job: #{t.job}
+							</f:facet>
+							<h:graphicImage library="images" name="/#{uiBean.getTargetHighestPriorityBullet(t)}.png" style="margin-right: 7px;" />
+							<h:outputText value="Critical: #{t.getAlertsBySeverity('critical').size()}" />
+							<h:outputText value="Major: #{t.getAlertsBySeverity('major').size()}" />
+							<h:outputText value="Minor: #{t.getAlertsBySeverity('minor').size()}" />
+							<h:outputText value="Warning: #{t.getAlertsBySeverity('warning').size()}" />
+						</p:card>
+					</ui:repeat>
+
+
+				</h:form>
+<!--			</p:panelGrid>-->
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Target {
 
@@ -79,6 +80,13 @@ public class Target {
 
     public List<DEvent> getAlerts() {
         return new ArrayList<>(alerts.values());
+    }
+
+    // for test.xhtml
+    public List<DEvent> getAlertsBySeverity(String severity) {
+        return alerts.values().stream()
+                .filter(alert -> alert.getSeverity().toLowerCase().equalsIgnoreCase(severity))
+                .collect(Collectors.toList());
     }
 
     public void addAlert(DEvent notification) {
