@@ -42,6 +42,22 @@ public class PrometheusApi {
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
+    public List<PAlert> query(String query) throws PrometheusApiException {
+
+        Request request = new Request.Builder()
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .post(RequestBody.create("".getBytes()))
+                .build();
+
+        String responseBody = execute(request);
+        logger.info(responseBody);
+
+        return null;
+
+    }
+
     public List<PAlert> alerts() throws PrometheusApiException {
 
         Request request = new Request.Builder()
