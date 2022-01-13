@@ -97,4 +97,9 @@ public class UiInstanceBean {
         return "danger";
     }
 
+    public String getUpStatusTooltip() {
+        if (target.isUp()) return "At least one job is up";
+        return "All jobs are down";
+    }
+
 }
