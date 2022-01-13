@@ -1,5 +1,6 @@
 <ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -8,41 +9,31 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:panelGrid columns="1" cellspacing="5" width="100%">
-					<p:dataTable id="messagesTable"
-								 value="#{uiBean.webhookMessages}" var="m"
-								 rows="100"
-								 paginator="true"
-								 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								 rowsPerPageTemplate="100,500,1000"
-								 stickyHeader="true" stickyTopAt=".layout-topbar"
-								 emptyMessage="No data"
-								 cellpadding="0" cellspacing="0" width="100%">
+			<h:form>
 
-						<p:column headerText="Time" sortBy="#{m.timestamp}">
-							<h:outputText value="#{m.formatedTimestamp}" />
-						</p:column>
+			<ui:repeat var="m" value="#{uiBean.webhookMessages}">
+				<div class="card">
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<p:ajax event="load" listener="#{uiBean.getWebhookMessages()}"/>
+						<f:facet name="loading">
+							<p:skeleton width="200px" height="21px" class="p-mb-4"/>
+							<p:skeleton width="100%" height="42px"/>
+						</f:facet>
+						<h5>#{m.method} #{m.requestUri}</h5>
+						<p>From: #{m.remoteHost}:#{m.remotePort}</p>
+						<p>Time: #{m.formatedTimestamp}</p>
+						<p>ID: #{m.id}</p>
+						<p>Header: #{m.headerMapAsString}</p>
+						<p:commandButton onclick="PF('panel#{m.id}').toggle();" value="Show body" />
+						<p:panel id="mid#{m.id}" widgetVar="panel#{m.id}" closable="true" closeSpeed="500" toggleable="true" collapsed="true">
+							<p>#{m.body}</p>
+						</p:panel>
 
-						<p:column headerText="From">
-							<h:outputText value="#{m.remoteHost}:#{m.remotePort}" />
-							<br/>
-							<h:outputText value="#{m.headerMap.get('user-agent')}" />
-						</p:column>
+					</p:outputPanel>
+				</div>
+			</ui:repeat>
 
-						<p:column headerText="Request URI">
-							<h:outputText value="#{m.method} #{m.requestUri}" />
-						</p:column>
-
-						<p:column headerText="Header">
-							<h:outputText value="#{m.headerMapAsString}" />
-						</p:column>
-
-						<p:column headerText="Body">
-							<h:outputText value="#{m.body}" />
-						</p:column>
-
-					</p:dataTable>
-				</p:panelGrid>
+			</h:form>
 
 		</ui:define>
 	</div>

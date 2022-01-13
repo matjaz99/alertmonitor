@@ -25,6 +25,7 @@ https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
 https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml
 
 
+
 <h:panelGrid columns="3" style="margin:10px 0">
 						<p:outputLabel for="template" value="Template: " style="font-weight:bold"/>
 						<p:inputText id="template" value="#{dtColumnsView.columnTemplate}" size="50"/>

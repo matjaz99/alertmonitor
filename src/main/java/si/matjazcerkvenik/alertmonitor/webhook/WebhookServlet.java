@@ -99,6 +99,7 @@ public class WebhookServlet extends HttpServlet {
 		DAO.getLogger().info("instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
+		m.setId(DAO.webhookMessagesReceivedCount);
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());

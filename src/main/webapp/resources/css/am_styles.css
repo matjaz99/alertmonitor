@@ -123,3 +123,12 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.card {
+    background: #F2F2F2;
+    padding: 0.5rem;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border: 1px solid #CECECE;
+    border-radius: 4px;
+    margin-bottom: 1.1rem;
+}

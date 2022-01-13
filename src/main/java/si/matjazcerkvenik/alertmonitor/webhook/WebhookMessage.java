@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class WebhookMessage {
 
+	private long id;
 	private long timestamp;
 	private int contentLength;
 	private String contentType;
@@ -34,6 +35,14 @@ public class WebhookMessage {
 	private String body;
 	private Map<String, String> parameterMap;
 	private Map<String, String> headerMap;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public long getTimestamp() {
 		return timestamp;
