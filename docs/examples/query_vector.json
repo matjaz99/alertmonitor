@@ -1,0 +1,1722 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI",
+          "instance": "localhost:9090",
+          "job": "prometheus"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "172.29.6.3:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "172.29.6.5:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "172.29.6.6:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "172.30.19.11:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "192.168.1.108:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "192.168.1.241:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "192.168.1.64:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "datacenter": "SI-Docker",
+          "instance": "promvm:9323",
+          "job": "docker"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "1.0.0.1",
+          "job": "blackbox-dns"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "10.0.2.36:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "10.0.2.37:3000",
+          "job": "grafana"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "10.1.2.3",
+          "job": "blackbox-dns"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "163.237.192.146:8080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "163.237.192.146:9009",
+          "job": "dtools"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.18.212.76",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.18.215.81:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.18.215.83:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.18.216.215",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.18.216.216",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.100.100:8080",
+          "job": "openbaton"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.100.5:8080",
+          "job": "openbaton"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.102.95:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.254.30:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.3:514",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.3:9080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.3:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.5:514",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.5:9080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.5:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6",
+          "job": "iperf3-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6:18080",
+          "job": "dockerbaton"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6:514",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6:9080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.29.6.6:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.30.19.15:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.30.19.6:8080",
+          "job": "dtools"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "172.30.34.248:9099",
+          "job": "metricslib"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.1",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.106:9153",
+          "job": "coredns"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.108:8080",
+          "job": "dtools"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.205:8080",
+          "job": "dtools"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.205:8083",
+          "job": "omp3p"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.222",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.241",
+          "job": "iperf3-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.64:9099",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.65",
+          "job": "iperf3-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.1.99:8084",
+          "job": "pmon"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.133.3",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.140.4",
+          "job": "snmp-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "192.168.64.216:9099",
+          "job": "metricslib"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "8.8.4.4",
+          "job": "blackbox-dns"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "8.8.8.8",
+          "job": "blackbox-dns"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alertmanager:9093",
+          "job": "alertmanager"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alertmonitor:8080",
+          "job": "alertmonitor"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alpinelinux",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alpinelinux:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alpinevm",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "alpinevm:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "binance:9999",
+          "job": "crypto-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "blackbox-exporter:9115",
+          "job": "blackbox-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm:9096",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm:9097",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm:9098",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm:9099",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "centosvm:9153",
+          "job": "coredns"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "coredns:9153",
+          "job": "coredns"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "docker-1:80",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "docker-2:80",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "docker-3:80",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "docker-4:80",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "docker-hub-exporter:9170",
+          "job": "docker-hub-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "dockermak.servis.mak:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "dockermak.servis.mak:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "elasticvm:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "es-swarm-node-1:9099",
+          "job": "metricslib"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "fmslin3:9000",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "gitlab-ci-pipelines-exporter:8080",
+          "job": "gitlab-ci-pipelines-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "gitlab.iskratel.si",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "gitlab.iskratel.si",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "gitlab.iskratel.si:22",
+          "job": "blackbox-ssh"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "gitlab.iskratel.si:443",
+          "job": "it-gitlab"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://fmslin3/mns/",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://prom.devops.iskratel.cloud:8085/dashboard",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://prom.devops.iskratel.cloud:9000",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://prometheus.io",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://promvm.home.net:3000",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://promvm.home.net:9090",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://promvm.home.net:9099",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "http://promvm.home.net:9144/metrics",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://gitlab.iskratel.si",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://pmon.compact.si/",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://prom.devops.iskratel.cloud/alertmonitor",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://prom.devops.iskratel.cloud/grafana",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://prom.devops.iskratel.cloud/prometheus",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://prometheus.io",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://public.iskratel.cloud",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://vmgitent.iskratel.si",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://www.amazon.com/",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "https://www.ebay.com/",
+          "job": "blackbox-http"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "iperf3-client:9579",
+          "job": "iperf3-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "iperf3-server",
+          "job": "iperf3-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "jenkins.devops.iskratel.cloud:80",
+          "job": "jenkins"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "malicsi:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "matjazcerkvenik.si",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "matjazcerkvenik.si:443",
+          "job": "web-page-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-1",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-1:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-1:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-2",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-2:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-3",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-docker-3:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "mcrk-gitlab:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "me_metricsExporter:8091",
+          "job": "metricsExporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "metricsSB:8080",
+          "job": "metrics-springboot"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "orion:80",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos:9096",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos:9097",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos:9098",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos:9099",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pgcentos:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "ping-exporter:9346",
+          "job": "ping-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pmon.compact.si",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pmon.compact.si:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pmon.compact.si:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pmonmak.servis.mak:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pmonmak.servis.mak:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "postgres-exporter:9187",
+          "job": "postgres-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prom.devops.iskratel.cloud",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prom.devops.iskratel.cloud:22",
+          "job": "blackbox-ssh"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prom.devops.iskratel.cloud:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prom.devops.iskratel.cloud:9000",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prometheus.io",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prometheusitbuild:8085",
+          "job": "traefik"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "prometheusitbuild:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm.home.net",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm.home.net:22",
+          "job": "blackbox-ssh"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm.home.net:514",
+          "job": "blackbox-tcp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm:9080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm:9099",
+          "job": "cdrpr"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm:9144",
+          "job": "grok"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "promvm:9153",
+          "job": "coredns"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "pushgateway:9091",
+          "job": "pushgateway"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "rabbitmq-exporter:9419",
+          "job": "rabbitmq"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "vmgitent.iskratel.si",
+          "job": "blackbox-icmp"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "vmgitent.iskratel.si",
+          "job": "ping-probe"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "vmgitent.iskratel.si:443",
+          "job": "it-vmgitent"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "weather-exporter:9885",
+          "job": "weather-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "yetihost:9100",
+          "job": "node-exporter"
+        },
+        "value": [
+          1642294159.495,
+          "0"
+        ]
+      }
+    ]
+  }
+}

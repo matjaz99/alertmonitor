@@ -16,6 +16,9 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -286,6 +289,27 @@ public class UiBean {
 		if (informational > 0) return "bullet_blue";
 		if (indeterminate > 0) return "bullet_purple";
 		return "bullet_green";
+	}
+
+
+
+	public String getQuery() {
+		return null;
+	}
+
+	public void setQuery(String server) {
+		PrometheusApi api = new PrometheusApi();
+		try {
+			List<PQueryResult> resultList = api.query(server);
+			
+			DAO.getLogger().info("size: " + resultList.size());
+			for (PQueryResult r : resultList) {
+				DAO.getLogger().info("result: " + r.toString());
+			}
+			
+		} catch (PrometheusApiException e) {
+			e.printStackTrace();
+		}
 	}
 
 

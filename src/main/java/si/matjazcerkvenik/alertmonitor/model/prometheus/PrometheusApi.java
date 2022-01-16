@@ -17,10 +17,7 @@ package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
@@ -42,17 +39,32 @@ public class PrometheusApi {
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
-    public List<PAlert> query(String query) throws PrometheusApiException {
+    public List<PQueryResult> query(String query) throws PrometheusApiException {
+
+        RequestBody formBody = new FormBody.Builder()
+                // add url encoded parameters
+                .add("query", query)
+                .build();
 
         Request request = new Request.Builder()
                 .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .post(RequestBody.create("".getBytes()))
+                .post(formBody)
                 .build();
 
         String responseBody = execute(request);
         logger.info(responseBody);
+
+        if (responseBody != null && responseBody.trim().length() > 0) {
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            PQueryMessage msg = gson.fromJson(responseBody, PQueryMessage.class);
+
+            return msg.getData().getResult();
+
+        }
 
         return null;
 

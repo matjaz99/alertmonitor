@@ -1,6 +1,7 @@
 ## 2.0.1-SNAPSHOT
 
-* [ENHANCEMENT] Styling improvements
+* [FEATURE] Support for `query` API
+* [ENHANCEMENT] Styling improvements (webhook-io)
 
 ## 2.0.0 / 2021-12-26
 
