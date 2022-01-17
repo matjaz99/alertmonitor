@@ -292,25 +292,4 @@ public class UiBean {
 	}
 
 
-
-	public String getQuery() {
-		return null;
-	}
-
-	public void setQuery(String server) {
-		PrometheusApi api = new PrometheusApi();
-		try {
-			List<PQueryResult> resultList = api.query(server);
-			
-			DAO.getLogger().info("size: " + resultList.size());
-			for (PQueryResult r : resultList) {
-				DAO.getLogger().info("result: " + r.toString());
-			}
-			
-		} catch (PrometheusApiException e) {
-			e.printStackTrace();
-		}
-	}
-
-
 }

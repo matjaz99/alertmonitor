@@ -24,7 +24,8 @@
 						<p>Time: #{m.formatedTimestamp}</p>
 						<p>ID: #{m.id}</p>
 						<p>Header: #{m.headerMapAsString}</p>
-						<p:commandButton onclick="PF('panel#{m.id}').toggle();" value="Show body" />
+						<!--<p:commandButton onclick="PF('panel#{m.id}').toggle();" value="Show body" />-->
+						<p:commandLink onclick="PF('panel#{m.id}').toggle();" value="Show body" />
 						<p:panel id="mid#{m.id}" widgetVar="panel#{m.id}" closable="true" closeSpeed="500" toggleable="true" collapsed="true">
 							<p>#{m.body}</p>
 						</p:panel>
