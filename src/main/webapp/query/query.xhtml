@@ -21,7 +21,30 @@
 
 			<hr/>
 
-			<p:outputLabel id="display" value="#{uiQueryBean.result}"/>
+<!--			<p:outputLabel id="display" value="#{uiQueryBean.result}"/>-->
+
+			<h:form id="display">
+			<ui:repeat var="r" value="#{uiQueryBean.queryResult}">
+				<div class="card">
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<h5>Labels</h5>
+						<p>#{r.metric}</p>
+						<p:outputPanel rendered="#{r.value != null}">
+							<h5>Value</h5>
+							<p>#{r.value[1]} @ #{uiQueryBean.toNormalDate(r.value[0].toString())}</p>
+						</p:outputPanel>
+						<p:outputPanel rendered="#{r.values != null}">
+							<h5>Values</h5>
+							<ui:repeat var="v" value="#{r.values}">
+								<p>#{v[1]} @ #{uiQueryBean.toNormalDate(v[0])}</p>
+							</ui:repeat>
+						</p:outputPanel>
+
+
+					</p:outputPanel>
+				</div>
+			</ui:repeat>
+			</h:form>
 
 		</ui:define>
 	</div>

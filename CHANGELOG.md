@@ -1,6 +1,8 @@
 ## 2.0.1-SNAPSHOT
 
-* [FEATURE] Support for `query` API
+* [CHANGE] Journal view link removed from toolbar and moved to Statistics view.
+* [FEATURE] Support for `query` API. Supported resultTypes are `vector` and `matrix`.
+* [FEATURE] Query view for making PromQL queries. Results are displayed with human-readable timestamps.
 * [ENHANCEMENT] Styling improvements (webhook-io)
 
 ## 2.0.0 / 2021-12-26

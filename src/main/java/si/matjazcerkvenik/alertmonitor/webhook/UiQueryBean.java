@@ -37,6 +37,7 @@ public class UiQueryBean {
 
     private String query = "up";
     private String result;
+    private List<PQueryResult> queryResult;
 
     public String getQuery() {
         return query;
@@ -54,14 +55,22 @@ public class UiQueryBean {
         this.result = result;
     }
 
+    public List<PQueryResult> getQueryResult() {
+        return queryResult;
+    }
+
+    public void setQueryResult(List<PQueryResult> queryResult) {
+        this.queryResult = queryResult;
+    }
+
     public void executeQuery() {
         result = "";
         PrometheusApi api = new PrometheusApi();
         try {
-            List<PQueryResult> resultList = api.query(query);
+            queryResult = api.query(query);
 
-            DAO.getLogger().info("size: " + resultList.size());
-            for (PQueryResult r : resultList) {
+            DAO.getLogger().info("size: " + queryResult.size());
+            for (PQueryResult r : queryResult) {
                 DAO.getLogger().info("result: " + r.toString());
                 result += r.toString();
             }
@@ -69,6 +78,16 @@ public class UiQueryBean {
         } catch (PrometheusApiException e) {
             e.printStackTrace();
         }
+    }
+
+    public String toNormalDate(Object d) {
+        try {
+            Double dts = Double.parseDouble(d.toString()) * 1000;
+            return DAO.getInstance().getFormatedTimestamp(dts.longValue());
+        } catch (Exception e) {
+            DAO.getLogger().error(e.getMessage(), e);
+        }
+        return null;
     }
 
 }
