@@ -11,17 +11,12 @@
 
 			<h:form id="queryForm">
 				<p:outputLabel value="Query: "/>
-				<!--<p:inplace editor="true">-->
-					<!--<p:inputText value="#{uiQueryBean.query}" required="true" label="text"/>-->
-				<!--</p:inplace>-->
 				<br/>
 				<p:inputText id="queryString" value="#{uiQueryBean.query}" style="width: 100%"/>
 				<p:commandButton value="Execute"  update="display" action="#{uiQueryBean.executeQuery}"/>
 			</h:form>
 
 			<hr/>
-
-<!--			<p:outputLabel id="display" value="#{uiQueryBean.result}"/>-->
 
 			<h:form id="display">
 			<ui:repeat var="r" value="#{uiQueryBean.queryResult}">

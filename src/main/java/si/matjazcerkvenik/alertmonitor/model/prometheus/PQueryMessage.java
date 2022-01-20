@@ -19,6 +19,8 @@ public class PQueryMessage {
 
     private String status;
     private PQueryData data;
+    private String errorType;
+    private String error;
 
     public String getStatus() {
         return status;
@@ -36,12 +38,29 @@ public class PQueryMessage {
         this.data = data;
     }
 
+    public String getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @Override
     public String toString() {
         return "PQueryMessage{" +
                 "status='" + status + '\'' +
                 ", data=" + data +
+                ", errorType='" + errorType + '\'' +
+                ", error='" + error + '\'' +
                 '}';
     }
-
 }

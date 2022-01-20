@@ -86,12 +86,8 @@ public class PrometheusApi {
             Gson gson = builder.create();
             PAlertsMessage amMsg = gson.fromJson(responseBody, PAlertsMessage.class);
 
-            DAO.psyncSuccessCount++;
-
             return amMsg.getData().getAlerts();
 
-        } else {
-            DAO.psyncFailedCount++;
         }
 
         return null;
@@ -164,6 +160,12 @@ public class PrometheusApi {
         return null;
     }
 
+    /**
+     * This method will actually execute the given HTTP request.
+     * @param request
+     * @return response body
+     * @throws PrometheusApiException
+     */
     private String execute(Request request) throws PrometheusApiException {
 
         String responseBody = null;
@@ -189,28 +191,22 @@ public class PrometheusApi {
 
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
-            DAO.psyncFailedCount++;
             code = "0";
             throw new PrometheusApiException("UnknownHostException");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
-            DAO.psyncFailedCount++;
             code = "0";
             throw new PrometheusApiException("SocketTimeoutException");
         } catch (SocketException e) {
             logger.error("PrometheusApi: SocketException: " + e.getMessage());
-            DAO.psyncFailedCount++;
             code = "0";
             throw new PrometheusApiException("SocketException");
         } catch (SSLException e) {
             logger.error("PrometheusApi: SSLException: " + e.getMessage());
-            DAO.psyncFailedCount++;
             code = "0";
             throw new PrometheusApiException("SSLException");
         } catch (Exception e) {
             logger.error("PrometheusApi: Exception: ", e);
-            e.printStackTrace();
-            DAO.psyncFailedCount++;
             code = "0";
             throw new PrometheusApiException("Exception");
         } finally {

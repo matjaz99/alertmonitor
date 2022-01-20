@@ -144,6 +144,11 @@ public class PrometheusSyncTask extends TimerTask {
                 logger.info("PSYNC: new alerts count: " + newAlertsCount);
                 logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
 
+                DAO.psyncSuccessCount++;
+
+            } else { // null response
+                logger.error("PSYNC: null response returned");
+                DAO.psyncFailedCount++;
             }
 
         } catch (Exception e) {

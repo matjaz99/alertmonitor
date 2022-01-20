@@ -15,8 +15,6 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlert;
-
 import java.util.List;
 import java.util.Map;
 

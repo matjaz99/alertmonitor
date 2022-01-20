@@ -69,6 +69,11 @@ public class UiQueryBean {
         try {
             queryResult = api.query(query);
 
+            if (queryResult == null) {
+                DAO.getLogger().error("executeQuery: result is null");
+                return;
+            }
+
             DAO.getLogger().info("size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
                 DAO.getLogger().info("result: " + r.toString());
@@ -76,7 +81,8 @@ public class UiQueryBean {
             }
 
         } catch (PrometheusApiException e) {
-            e.printStackTrace();
+            DAO.getLogger().error(e.getMessage(), e);
+            DAO.getLogger().error(e.getMessage(), e);
         }
     }
 
