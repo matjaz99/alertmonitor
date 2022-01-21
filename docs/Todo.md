@@ -9,7 +9,8 @@
 - show targets by job
 - configure labels for CID (if needed also from external_labels)
 - store alarms in MongoDB
-
+- function time_of_max
+- downsample - from 1 min (ie 4 metrics) create 1 metric
 
 
 https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml
@@ -20,7 +21,7 @@ https://prom.devops.iskratel.cloud/prometheus/api/v1/query?query=ALERTS
 https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
 
 
-https://www.primefaces.org/showcase/ui/data/datatable/columns.xhtml
+https://www.primefaces.org/showcase
 
 
 

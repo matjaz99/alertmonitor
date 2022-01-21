@@ -22,8 +22,8 @@ import java.util.Map;
 public class PQueryResult {
 
     private Map<String, String> metric;
-    private Object[] value;
-    private List<Object[]> values;
+    private Object[] value; // timestamp-value pair
+    private List<Object[]> values; // timestamp-value pair
 
     public Map<String, String> getMetric() {
         return metric;

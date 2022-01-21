@@ -1,3 +1,5 @@
+## 2.1.1-SNAPSHOT
+
 ## 2.1.0 / 2022-01-21
 
 * [CHANGE] Journal view link removed from toolbar and moved to Statistics view.

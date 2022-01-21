@@ -71,6 +71,34 @@ public class PrometheusApi {
 
     }
 
+    /**
+     * Execute query_range
+     * @param query - the query
+     * @param start - start time in seconds (UNIX time)
+     * @param end - end time in seconds (UNIX time)
+     * @param step - eg. 5m
+     */
+    public void queryRange(String query, long start, long end, String step) {
+
+
+        RequestBody formBody = new FormBody.Builder()
+                // add url encoded parameters
+                .add("query", query)
+                .add("start", String.valueOf(start))
+                .add("end", String.valueOf(end))
+                .add("step", step)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query_range")
+                .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .post(formBody)
+                .build();
+
+        // TODO
+    }
+
     public List<PAlert> alerts() throws PrometheusApiException {
 
         Request request = new Request.Builder()

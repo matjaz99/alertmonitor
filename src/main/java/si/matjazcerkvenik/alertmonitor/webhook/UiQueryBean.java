@@ -29,6 +29,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,6 +104,7 @@ public class UiQueryBean {
         }
     }
 
+    // TODO this is a test method!
     public void doMySpecialFunction() {
         queryResult = null;
         result = null;
@@ -110,11 +112,13 @@ public class UiQueryBean {
         PrometheusApi api = new PrometheusApi();
         try {
             // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
-            query = query.replace("time_of_max(", "");
-            query = query.substring(0, query.length() - 1);
-            DAO.getLogger().info("QUERY: " + query);
+            //eg. time_of_max(alertmonitor_active_alerts_count[3h])
 
-            PQueryMessage msg = api.query(query);
+            String tempQuery = query.replace("time_of_max(", "");
+            tempQuery = tempQuery.substring(0, tempQuery.length() - 1);
+            DAO.getLogger().info("QUERY: " + tempQuery);
+
+            PQueryMessage msg = api.query(tempQuery);
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
@@ -130,8 +134,21 @@ public class UiQueryBean {
                 return;
             }
 
+
             for (PQueryResult r : queryResult) {
-                DAO.getLogger().debug("executeQuery: " + r.toString());
+                // find max value
+                double maxVal = 0;
+                for (Object[] oArray : r.getValues()) {
+                    double d = Double.parseDouble(oArray[1].toString());
+                    if (d > maxVal) maxVal = d;
+                }
+                // delete those which are less than max
+                for (Iterator<Object[]> it = r.getValues().iterator(); it.hasNext(); ) {
+                    double d = Double.parseDouble(it.next()[1].toString());
+                    if (d < maxVal) it.remove();
+                }
+                // fix the metric name
+                r.getMetric().put("__name__", "time_of_max(" + r.getMetric().get("__name__") + ")");
             }
 
         } catch (PrometheusApiException e) {
