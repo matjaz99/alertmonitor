@@ -70,7 +70,7 @@ public class OnStartListener implements ServletContextListener {
         DAO.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
         DAO.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
         DAO.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "localhost:9092").trim();
-        DAO.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_notifications").trim();
+        DAO.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_events").trim();
 
         // runtime memory info
         int mb = 1024 * 1024;

@@ -2,11 +2,9 @@
 
 - ~~add support for grafana alerts~~
 - add support for wazooh alerts
-- ~~put back eventType label (event | alarm), then also events can have severities~~
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 - tags: filter by operators AND or OR
 - redesigned journal (not table, but a list with show details)
-- redesigned raw (not table, but a list, pretty json body)
 - copy to clipboard button
 - show targets by job
 - configure labels for CID (if needed also from external_labels)

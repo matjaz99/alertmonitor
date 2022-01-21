@@ -35,7 +35,6 @@ public class UiBean {
 	private String searchString;
 	private boolean smartTargetsEnabled = false;
 
-
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
 	}

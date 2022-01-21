@@ -22,7 +22,7 @@ services:
       - ALERTMONITOR_DATE_FORMAT="yyyy/MM/dd H:mm:ss"
       - ALERTMONITOR_KAFKA_ENABLED=false
       - ALERTMONITOR_KAFKA_SERVER=promvm:9092
-      - ALERTMONITOR_KAFKA_TOPIC=alertmonitor_notifications
+      - ALERTMONITOR_KAFKA_TOPIC=alertmonitor_events
     volumes:
       - /var/log:/opt/alertmonitor/log
     deploy:

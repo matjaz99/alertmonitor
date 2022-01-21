@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.webhook;
 import si.matjazcerkvenik.alertmonitor.model.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
@@ -64,25 +65,78 @@ public class UiQueryBean {
     }
 
     public void executeQuery() {
-        result = "";
+
+        if (query.startsWith("time_of_max")) {
+            doMySpecialFunction();
+            return;
+        }
+
+        queryResult = null;
+        result = null;
+
         PrometheusApi api = new PrometheusApi();
         try {
-            queryResult = api.query(query);
+            PQueryMessage msg = api.query(query);
 
-            if (queryResult == null) {
-                DAO.getLogger().error("executeQuery: result is null");
+            if (msg.getErrorType() != null) {
+                result = msg.getErrorType() + ": " + msg.getError();
+                DAO.getLogger().error("executeQuery: result: " + result);
                 return;
             }
 
-            DAO.getLogger().info("size: " + queryResult.size());
+            queryResult = msg.getData().getResult();
+
+            if (queryResult == null) {
+                DAO.getLogger().error("executeQuery: result is null");
+                result = "result is null";
+                return;
+            }
+
+            DAO.getLogger().info("executeQuery: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
-                DAO.getLogger().info("result: " + r.toString());
-                result += r.toString();
+                DAO.getLogger().debug("executeQuery: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {
             DAO.getLogger().error(e.getMessage(), e);
+            result = "failed to get result: " + e.getMessage();
+        }
+    }
+
+    public void doMySpecialFunction() {
+        queryResult = null;
+        result = null;
+
+        PrometheusApi api = new PrometheusApi();
+        try {
+            // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
+            query = query.replace("time_of_max(", "");
+            query = query.substring(0, query.length() - 1);
+            DAO.getLogger().info("QUERY: " + query);
+
+            PQueryMessage msg = api.query(query);
+
+            if (msg.getErrorType() != null) {
+                result = msg.getErrorType() + ": " + msg.getError();
+                DAO.getLogger().error("executeQuery: result: " + result);
+                return;
+            }
+
+            queryResult = msg.getData().getResult();
+
+            if (queryResult == null) {
+                DAO.getLogger().error("executeQuery: result is null");
+                result = "result is null";
+                return;
+            }
+
+            for (PQueryResult r : queryResult) {
+                DAO.getLogger().debug("executeQuery: " + r.toString());
+            }
+
+        } catch (PrometheusApiException e) {
             DAO.getLogger().error(e.getMessage(), e);
+            result = "failed to get result: " + e.getMessage();
         }
     }
 

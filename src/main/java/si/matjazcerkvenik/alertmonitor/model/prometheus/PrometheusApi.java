@@ -39,7 +39,7 @@ public class PrometheusApi {
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
-    public List<PQueryResult> query(String query) throws PrometheusApiException {
+    public PQueryMessage query(String query) throws PrometheusApiException {
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -61,8 +61,9 @@ public class PrometheusApi {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             PQueryMessage msg = gson.fromJson(responseBody, PQueryMessage.class);
+            logger.info("status: " + msg.getStatus());
 
-            return msg.getData().getResult();
+            return msg;
 
         }
 
@@ -182,7 +183,7 @@ public class PrometheusApi {
 
             code = Integer.toString(response.code());
 
-            if (response.isSuccessful()) {
+            if (response.body() != null) {
                 responseBody = response.body().string();
                 logger.debug("PrometheusApi: response: " + responseBody);
             }
