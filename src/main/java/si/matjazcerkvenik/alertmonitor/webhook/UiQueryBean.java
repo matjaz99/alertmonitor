@@ -16,22 +16,16 @@
 package si.matjazcerkvenik.alertmonitor.webhook;
 
 import si.matjazcerkvenik.alertmonitor.model.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
-import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ManagedBean
 @SessionScoped
@@ -40,6 +34,10 @@ public class UiQueryBean {
     private String query = "up";
     private String result;
     private List<PQueryResult> queryResult;
+    private boolean queryRangeEnabled = false;
+    private Date startDate;
+    private Date endDate;
+    private String step = "1m";
 
     public String getQuery() {
         return query;
@@ -65,15 +63,57 @@ public class UiQueryBean {
         this.queryResult = queryResult;
     }
 
+    public boolean isQueryRangeEnabled() {
+        return queryRangeEnabled;
+    }
+
+    public void setQueryRangeEnabled(boolean queryRangeEnabled) {
+        this.queryRangeEnabled = queryRangeEnabled;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
+    }
+
+    public void execute() {
+
+        queryResult = null;
+        result = null;
+
+        if (queryRangeEnabled) {
+            executeQueryRange();
+        } else {
+            executeQuery();
+        }
+
+    }
+
     public void executeQuery() {
 
         if (query.startsWith("time_of_max")) {
             doMySpecialFunction();
             return;
         }
-
-        queryResult = null;
-        result = null;
 
         PrometheusApi api = new PrometheusApi();
         try {
@@ -96,6 +136,41 @@ public class UiQueryBean {
             DAO.getLogger().info("executeQuery: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
                 DAO.getLogger().debug("executeQuery: " + r.toString());
+            }
+
+        } catch (PrometheusApiException e) {
+            DAO.getLogger().error(e.getMessage(), e);
+            result = "failed to get result: " + e.getMessage();
+        }
+    }
+
+    public void executeQueryRange() {
+        PrometheusApi api = new PrometheusApi();
+        try {
+
+//            long start = (System.currentTimeMillis() / 1000) - 7200;
+//            long end = System.currentTimeMillis() / 1000;
+            long start = startDate.getTime() / 1000;
+            long end = endDate.getTime() / 1000;
+            PQueryMessage msg = api.queryRange(query, start, end, step);
+
+            if (msg.getErrorType() != null) {
+                result = msg.getErrorType() + ": " + msg.getError();
+                DAO.getLogger().error("executeQueryRange: result: " + result);
+                return;
+            }
+
+            queryResult = msg.getData().getResult();
+
+            if (queryResult == null) {
+                DAO.getLogger().error("executeQueryRange: result is null");
+                result = "result is null";
+                return;
+            }
+
+            DAO.getLogger().info("executeQueryRange: size: " + queryResult.size());
+            for (PQueryResult r : queryResult) {
+                DAO.getLogger().debug("executeQueryRange: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {

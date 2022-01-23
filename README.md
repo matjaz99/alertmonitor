@@ -16,7 +16,9 @@ possibility to *synchronize* alerts with Prometheus in case if any alert has bee
 Alertmonitor automatically correlates firing and resolving alerts to display current state of active alarms.
 
 Alertmonitor displays monitored objects as Instances or SmartTargets. Instance is one particular exporter on a server, while 
-SmartTarget combines all instances on the same server and displays all active alerts on a server. 
+SmartTarget combines all instances on the same server and displays all active alerts on a server.
+
+Alertmonitor supports PromQL for making queries.
 
 Tags provide a quick way of filtering alerts.
 
@@ -70,7 +72,9 @@ Alertmonitor recognizes the following labels:
 | description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
 | currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!** |
 
-> `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
+> Alert's `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
+
+> It is highly recommended to write alert rules in such manner that `instance` and `job` are always present in the resulting metric.
 
 Example of alert rule in Prometheus:
 

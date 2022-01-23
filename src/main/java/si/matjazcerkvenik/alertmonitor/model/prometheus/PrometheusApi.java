@@ -32,13 +32,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * This class handles all the communication with Prometheus server via HTTP API.
+ */
 public class PrometheusApi {
 
     private SimpleLogger logger = DAO.getLogger();
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
+    /**
+     * Execute a simple query
+     * @param query
+     * @return query response object
+     * @throws PrometheusApiException
+     */
     public PQueryMessage query(String query) throws PrometheusApiException {
 
         RequestBody formBody = new FormBody.Builder()
@@ -53,21 +61,7 @@ public class PrometheusApi {
                 .post(formBody)
                 .build();
 
-        String responseBody = execute(request);
-        logger.info(responseBody);
-
-        if (responseBody != null && responseBody.trim().length() > 0) {
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            PQueryMessage msg = gson.fromJson(responseBody, PQueryMessage.class);
-            logger.info("status: " + msg.getStatus());
-
-            return msg;
-
-        }
-
-        return null;
+        return executeTheQueryRequest(request);
 
     }
 
@@ -77,9 +71,10 @@ public class PrometheusApi {
      * @param start - start time in seconds (UNIX time)
      * @param end - end time in seconds (UNIX time)
      * @param step - eg. 5m
+     * @return query response object
+     * @throws PrometheusApiException
      */
-    public void queryRange(String query, long start, long end, String step) {
-
+    public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -96,7 +91,31 @@ public class PrometheusApi {
                 .post(formBody)
                 .build();
 
-        // TODO
+        return executeTheQueryRequest(request);
+    }
+
+    /**
+     * This method will actually do the execution of request - query or query_range. The result is
+     * the same in both cases.
+     * @param request
+     * @return query response object
+     * @throws PrometheusApiException
+     */
+    private PQueryMessage executeTheQueryRequest(Request request) throws PrometheusApiException {
+        String responseBody = execute(request);
+
+        if (responseBody != null && responseBody.trim().length() > 0) {
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            PQueryMessage msg = gson.fromJson(responseBody, PQueryMessage.class);
+            logger.info("status: " + msg.getStatus());
+
+            return msg;
+
+        }
+
+        return null;
     }
 
     public List<PAlert> alerts() throws PrometheusApiException {

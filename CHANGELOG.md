@@ -1,5 +1,7 @@
 ## 2.1.1-SNAPSHOT
 
+* [FEATURE] Support for Prometheus `query_range` API.
+
 ## 2.1.0 / 2022-01-21
 
 * [CHANGE] Journal view link removed from toolbar and moved to Statistics view.
