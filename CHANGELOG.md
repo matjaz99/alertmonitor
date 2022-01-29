@@ -1,6 +1,8 @@
-## 2.1.1-SNAPSHOT
+## 2.2.0 / 2022-01-29
 
 * [FEATURE] Support for Prometheus `query_range` API.
+* [FEATURE] Query range requests configurable in GUI.
+* [ENHANCEMENT] Extended http read timeout to 120 seconds (default was 10).
 
 ## 2.1.0 / 2022-01-21
 

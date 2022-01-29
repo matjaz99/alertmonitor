@@ -20,6 +20,7 @@ import si.matjazcerkvenik.alertmonitor.model.DAO;
 
 import javax.net.ssl.*;
 import java.security.cert.CertificateException;
+import java.util.concurrent.TimeUnit;
 
 public class HttpClientFactory {
 
@@ -28,7 +29,12 @@ public class HttpClientFactory {
         DAO.getLogger().info("HttpClientFactory: instantiating HTTP client");
 
         if (!DAO.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
-            return new OkHttpClient();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .build();
+            return client;
+//            return new OkHttpClient();
         }
 
         // continue if https
@@ -70,6 +76,8 @@ public class HttpClientFactory {
                     return true;
                 }
             });
+            builder.connectTimeout(10, TimeUnit.SECONDS);
+            builder.readTimeout(120, TimeUnit.SECONDS);
 
             return builder.build();
 

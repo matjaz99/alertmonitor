@@ -9,40 +9,58 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
+			<style type="text/css">
+				.loading-icon {
+				   font-size: 3rem;
+				   color: var(--primary-color);
+				}
+			</style>
+
+
+
 			<h:form id="queryForm">
-				<p:outputLabel value="Query: "/>
+
+				<p:ajaxStatus styleClass="p-d-block p-mb-4">
+					<f:facet name="default">
+						<p:outputLabel value="Query:" />
+					</f:facet>
+
+					<f:facet name="start">
+						<p:outputLabel value="Query: loading... " />
+						<i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true"></i>
+					</f:facet>
+
+					<f:facet name="complete">
+						<p:outputLabel value="Query:" />
+					</f:facet>
+				</p:ajaxStatus>
+
 				<br/>
 				<p:inputText id="queryString" value="#{uiQueryBean.query}" style="width: 90%"/>
 				<p:commandButton value="Execute"  update="display" action="#{uiQueryBean.execute}" style="width: 10%"/>
 				<br/>
 
-<!--				<p:panelGrid columns="9">-->
 				<p:panel>
-
-				<p:outputLabel value="Query range"/>
-				<p:toggleSwitch value="#{uiQueryBean.queryRangeEnabled}">
-					<p:ajax update="queryForm, display"/>
-				</p:toggleSwitch>
+					<p:outputLabel value="Query range"/>
+					<p:toggleSwitch value="#{uiQueryBean.queryRangeEnabled}">
+						<p:ajax update="queryForm, display"/>
+					</p:toggleSwitch>
 				</p:panel>
 
-				<p:panel>
-				<p:outputLabel for="startDateButton" value="From" rendered="#{uiQueryBean.queryRangeEnabled}"/>
-				<p:datePicker id="startDateButton" value="#{uiQueryBean.startDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+				<p:panel rendered="#{uiQueryBean.queryRangeEnabled}">
+					<p:panelGrid columns="2" layout="tabular" styleClass="ui-noborder">
+						<p:outputLabel for="startDateButton" value="From:" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:datePicker id="startDateButton" value="#{uiQueryBean.startDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
 
-				<p:outputLabel for="endDateButton" value="To" rendered="#{uiQueryBean.queryRangeEnabled}"/>
-				<p:datePicker id="endDateButton" value="#{uiQueryBean.endDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:outputLabel for="endDateButton" value="To:" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:datePicker id="endDateButton" value="#{uiQueryBean.endDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+
+						<p:outputLabel value="Step: " rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:inputText value="#{uiQueryBean.step}" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+					</p:panelGrid>
+				</p:panel>
 
 
-<!--				<div class="ui-inputgroup">-->
-<!--					<div class="ui-inputgroup-addon"><i class="pi pi-calendar"></i></div>-->
-<!--					<p:datePicker id="startDateButton2" value="#{uiQueryBean.startDate}" showTime="true" rendered="#{uiQueryBean.queryRangeEnabled}" placeholder="Start date"/>-->
-<!--				</div>-->
-					</p:panel>
-
-				<p:outputLabel value="Step: " rendered="#{uiQueryBean.queryRangeEnabled}"/>
-				<p:inputText value="#{uiQueryBean.step}" rendered="#{uiQueryBean.queryRangeEnabled}"/>
-
-<!--				</p:panelGrid>-->
 			</h:form>
 
 			<hr/>

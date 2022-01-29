@@ -41,6 +41,8 @@ public class PrometheusApi {
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
+    private static long requestCount;
+
     /**
      * Execute a simple query
      * @param query
@@ -48,6 +50,8 @@ public class PrometheusApi {
      * @throws PrometheusApiException
      */
     public PQueryMessage query(String query) throws PrometheusApiException {
+
+        logger.info("PrometheusApi: query:" + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -61,7 +65,7 @@ public class PrometheusApi {
                 .post(formBody)
                 .build();
 
-        return executeTheQueryRequest(request);
+        return doQueryRequest(request);
 
     }
 
@@ -75,6 +79,8 @@ public class PrometheusApi {
      * @throws PrometheusApiException
      */
     public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
+
+        logger.info("PrometheusApi: queryRange:" + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -91,7 +97,7 @@ public class PrometheusApi {
                 .post(formBody)
                 .build();
 
-        return executeTheQueryRequest(request);
+        return doQueryRequest(request);
     }
 
     /**
@@ -101,7 +107,7 @@ public class PrometheusApi {
      * @return query response object
      * @throws PrometheusApiException
      */
-    private PQueryMessage executeTheQueryRequest(Request request) throws PrometheusApiException {
+    private PQueryMessage doQueryRequest(Request request) throws PrometheusApiException {
         String responseBody = execute(request);
 
         if (responseBody != null && responseBody.trim().length() > 0) {
@@ -216,6 +222,8 @@ public class PrometheusApi {
      */
     private String execute(Request request) throws PrometheusApiException {
 
+        requestCount++;
+
         String responseBody = null;
         long before = System.currentTimeMillis();
         String code = "0";
@@ -224,37 +232,37 @@ public class PrometheusApi {
 
             OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient();
 
-            logger.info("PrometheusApi: request " + request.method().toUpperCase() + " " + request.url().toString());
+            logger.info("PrometheusApi: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();
-            logger.info("PrometheusApi: response: code=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("PrometheusApi: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
 
             code = Integer.toString(response.code());
 
             if (response.body() != null) {
                 responseBody = response.body().string();
-                logger.debug("PrometheusApi: response: " + responseBody);
+                logger.debug("PrometheusApi: request[" + requestCount + "] body: " + responseBody);
             }
 
             response.close();
 
         } catch (UnknownHostException e) {
-            logger.error("PrometheusApi: UnknownHostException: " + e.getMessage());
+            logger.error("PrometheusApi: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
             throw new PrometheusApiException("UnknownHostException");
         } catch (SocketTimeoutException e) {
-            logger.error("PrometheusApi: SocketTimeoutException: " + e.getMessage());
+            logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
             throw new PrometheusApiException("SocketTimeoutException");
         } catch (SocketException e) {
-            logger.error("PrometheusApi: SocketException: " + e.getMessage());
+            logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
             throw new PrometheusApiException("SocketException");
         } catch (SSLException e) {
-            logger.error("PrometheusApi: SSLException: " + e.getMessage());
+            logger.error("PrometheusApi: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
             throw new PrometheusApiException("SSLException");
         } catch (Exception e) {
-            logger.error("PrometheusApi: Exception: ", e);
+            logger.error("PrometheusApi: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
             throw new PrometheusApiException("Exception");
         } finally {

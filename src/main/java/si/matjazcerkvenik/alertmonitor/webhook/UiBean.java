@@ -33,7 +33,7 @@ public class UiBean {
 
 	private List<DTag> tagList = new ArrayList<>();
 	private String searchString;
-	private boolean smartTargetsEnabled = false;
+	private boolean smartTargetsEnabled = true;
 
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");

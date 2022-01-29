@@ -18,7 +18,7 @@ Alertmonitor automatically correlates firing and resolving alerts to display cur
 Alertmonitor displays monitored objects as Instances or SmartTargets. Instance is one particular exporter on a server, while 
 SmartTarget combines all instances on the same server and displays all active alerts on a server.
 
-Alertmonitor supports PromQL for making queries.
+Alertmonitor supports PromQL for making queries and range queries.
 
 Tags provide a quick way of filtering alerts.
 
