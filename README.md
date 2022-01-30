@@ -16,16 +16,20 @@ possibility to *synchronize* alerts with Prometheus in case if any alert has bee
 Alertmonitor automatically correlates firing and resolving alerts to display current state of active alarms.
 
 Alertmonitor displays monitored objects as Instances or SmartTargets. Instance is one particular exporter on a server, while 
-SmartTarget combines all instances on the same server and displays all active alerts on a server.
+SmartTarget combines all instances on the same server and displays all active alerts on that server.
 
 Alertmonitor supports PromQL for making queries and range queries.
 
 Tags provide a quick way of filtering alerts.
 
 
-Screenshot:
+Screenshots:
 
-![Alertmonitor](docs/screenshots/2.0.0/alerts.png)
+![Alertmonitor](docs/screenshots/2.0.0/alerts.png)  
+
+![Alertmonitor](docs/screenshots/2.0.0/targets.png)  
+
+![Alertmonitor](docs/screenshots/2.2.0/query.png)
 
 
 ## Quick start
@@ -69,12 +73,12 @@ Alertmonitor recognizes the following labels:
 | url        | Optional. Custom URL that is related to alert. |
 | eventType   | Optional. Event type according to IUT-T X.733 recommendation |
 | probableCause | Optional. Probable cause according to IUT-T X.733 recommendation |
-| description | Optional. Additional description. Value is read from a label if exists, otherwise from annotation. |
+| description | Optional. Additional description. Value is read from a labels section if it exists, otherwise from annotations section. |
 | currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!** |
 
 > Alert's `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
 
-> It is highly recommended to write alert rules in such manner that `instance` and `job` are always present in the resulting metric.
+> It is highly recommended to write alert rules in such manner that `instance`, `job` and `info` are always present in the resulting metric.
 
 Example of alert rule in Prometheus:
 
@@ -126,6 +130,11 @@ Active alerts can be filtered by selecting one or more tags. Deselect all tags t
 
 Search (in upper right corner) allows searching alerts by: `instance`, `alertname`, `info`, `job`, `description`. Search can 
 be used in combination with tags.
+
+### Query view
+
+Query view provides a GUI for executing PromQL queries. Two types of queries are supported: `query` and `query_range`. 
+Qhen executing query range, start and end date are configurable.
 
 ### Journal view
 
@@ -203,7 +212,7 @@ Example when comes this handy: you may link an alert with Grafana dashboard by u
 Alertmonitor will search environment variables for suitable substitution and if it finds one, it will produce label: 
 `url: http://my.grafana.domain/dashboard`.
 
-You can use environment variable substitution on the following labels:
+Environment variable substitution works on the following labels:
 - `nodename`
 - `info`
 - `tags`

@@ -97,7 +97,8 @@ public class DAO {
      * @param message incoming message
      */
     public void addWebhookMessage(WebhookMessage message) {
-        while (webhookMessages.size() > JOURNAL_TABLE_SIZE) {
+        // webhook messages can be 1% of journal size
+        while (webhookMessages.size() > JOURNAL_TABLE_SIZE / 100) {
             webhookMessages.remove(0);
         }
         webhookMessages.add(message);

@@ -1,3 +1,5 @@
+## 2.2.1-SNAPSHOT
+
 ## 2.2.0 / 2022-01-29
 
 * [FEATURE] Support for Prometheus `query_range` API.
