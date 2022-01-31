@@ -11,7 +11,7 @@
 
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 
-				<p:panelGrid columns="3" cellspacing="5" width="100%">
+				<p:panelGrid columns="4" cellspacing="5" width="100%" styleClass="ui-noborder">
 					<h:outputText value="Target: #{uiInstanceBean.target.hostname}" style="color: #444444; font-size: 18px; font-weight: bold"/>
 					<p:tag styleClass="p-mr-2" value="#{uiInstanceBean.targetType}" rounded="true"></p:tag>
 					<p:tag id="instanceStatus" styleClass="p-mr-2" severity="#{uiInstanceBean.upStatusSeverity}" value="#{uiInstanceBean.upStatus}" rounded="true"></p:tag>
