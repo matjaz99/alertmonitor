@@ -101,7 +101,7 @@ public class DEvent implements Cloneable {
 	private Map<String, String> otherLabels;
 
 	/** A rule that caused this notification */
-	private String ruleExpression;
+	private String ruleExpression = "";
 	private String ruleTimeLimit;
 
 	/** Supported labels */

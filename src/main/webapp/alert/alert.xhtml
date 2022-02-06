@@ -12,93 +12,95 @@
 			<p:panelGrid columns="2" cellspacing="5" width="100%">
 
 				<h:outputText value="alertname" />
-				<h:outputText value="#{uiAlertBean.notif.alertname}" />
+				<h:outputText value="#{uiAlertBean.event.alertname}" />
 
 				<h:outputText value="uid" />
-				<h:outputText value="#{uiAlertBean.notif.uid}" />
+				<h:outputText value="#{uiAlertBean.event.uid}" />
 
 				<h:outputText value="correlationId" />
-				<h:outputText value="#{uiAlertBean.notif.correlationId}" />
+				<h:outputText value="#{uiAlertBean.event.correlationId}" />
 
 				<h:outputText value="severity" />
-				<h:outputText value="#{uiAlertBean.notif.severity}" />
+				<h:outputText value="#{uiAlertBean.event.severity}" />
 
 				<h:outputText value="priority" />
-				<h:outputText value="#{uiAlertBean.notif.priority}" />
+				<h:outputText value="#{uiAlertBean.event.priority}" />
 
 				<h:outputText value="info" />
-				<h:outputText value="#{uiAlertBean.notif.info}" />
+				<h:outputText value="#{uiAlertBean.event.info}" />
 
 				<h:outputText value="job" />
-				<h:outputText value="#{uiAlertBean.notif.job}" />
+				<h:outputText value="#{uiAlertBean.event.job}" />
 
 				<h:outputText value="instance" />
-				<h:outputText value="#{uiAlertBean.notif.instance}" />
+				<h:outputText value="#{uiAlertBean.event.instance}" />
 
 				<h:outputText value="nodename" />
-				<h:outputText value="#{uiAlertBean.notif.nodename}" />
+				<h:outputText value="#{uiAlertBean.event.nodename}" />
 
 				<h:outputText value="host" />
-				<h:outputText value="#{uiAlertBean.notif.hostname}" />
+				<h:outputText value="#{uiAlertBean.event.hostname}" />
 
 				<h:outputText value="tags" />
-				<h:outputText value="#{uiAlertBean.notif.tags}" />
+				<h:outputText value="#{uiAlertBean.event.tags}" />
 
 				<h:outputText value="description" />
-				<h:outputText value="#{uiAlertBean.notif.description}" />
+				<h:outputText value="#{uiAlertBean.event.description}" />
 
 				<h:outputText value="group" />
-				<h:outputText value="#{uiAlertBean.notif.group}" />
+				<h:outputText value="#{uiAlertBean.event.group}" />
 
 				<h:outputText value="eventType" />
-				<h:outputText value="#{uiAlertBean.notif.eventType}" />
+				<h:outputText value="#{uiAlertBean.event.eventType}" />
 
 				<h:outputText value="probableCause" />
-				<h:outputText value="#{uiAlertBean.notif.probableCause}" />
+				<h:outputText value="#{uiAlertBean.event.probableCause}" />
 
 				<h:outputText value="currentValue" />
-				<h:outputText value="#{uiAlertBean.notif.currentValue}" />
+				<h:outputText value="#{uiAlertBean.event.currentValue}" />
 
 				<h:outputText value="url" />
-				<h:outputText value="#{uiAlertBean.notif.url}" />
+				<h:outputText value="#{uiAlertBean.event.url}" />
 
 				<h:outputText value="userAgent" />
-				<h:outputText value="#{uiAlertBean.notif.userAgent}" />
+				<h:outputText value="#{uiAlertBean.event.userAgent}" />
 
 				<h:outputText value="source" />
-				<h:outputText value="#{uiAlertBean.notif.source}" />
+				<h:outputText value="#{uiAlertBean.event.source}" />
 
 				<h:outputText value="firstTimestamp" />
-				<h:outputText value="#{uiAlertBean.notif.formatedFirstTimestamp}" />
+				<h:outputText value="#{uiAlertBean.event.formatedFirstTimestamp}" />
 
 				<h:outputText value="lastTimestamp" />
-				<h:outputText value="#{uiAlertBean.notif.formatedLastTimestamp}" />
+				<h:outputText value="#{uiAlertBean.event.formatedLastTimestamp}" />
 
 				<h:outputText value="clearTimestamp" />
-				<h:outputText value="#{uiAlertBean.notif.formatedClearTimestamp}" />
+				<h:outputText value="#{uiAlertBean.event.formatedClearTimestamp}" />
 
 				<h:outputText value="clearUid" />
-				<h:link value = "#{uiAlertBean.notif.clearUid}" outcome = "/alert/alert">
-					<f:param name="uid" value="#{uiAlertBean.notif.clearUid}" />
+				<h:link value="#{uiAlertBean.event.clearUid}" outcome="/alert/alert">
+					<f:param name="uid" value="#{uiAlertBean.event.clearUid}" />
 				</h:link>
 
 				<h:outputText value="counter" />
-				<h:outputText value="#{uiAlertBean.notif.counter}" />
+				<h:outputText value="#{uiAlertBean.event.counter}" />
 
 				<h:outputText value="timestamp" />
-				<h:outputText value="#{uiAlertBean.notif.formatedTimestamp}" />
+				<h:outputText value="#{uiAlertBean.event.formatedTimestamp}" />
 
 				<h:outputText value="otherLabels" />
-				<h:outputText value="#{uiAlertBean.notif.otherLabels}" />
+				<h:outputText value="#{uiAlertBean.event.otherLabels}" />
 
 				<h:outputText value="generatorUrl" />
-				<h:outputText value="#{uiAlertBean.notif.generatorUrl}" />
+				<h:outputText value="#{uiAlertBean.event.generatorUrl}" />
 
 				<h:outputText value="ruleExpression" />
-				<h:outputText value="#{uiAlertBean.notif.ruleExpression}" />
+				<h:link value="#{uiAlertBean.event.ruleExpression}" outcome="/query/query">
+					<f:param name="q" value="#{uiAlertBean.event.ruleExpression}" />
+				</h:link>
 
 				<h:outputText value="ruleTimeLimit" />
-				<h:outputText value="#{uiAlertBean.notif.ruleTimeLimit}" />
+				<h:outputText value="#{uiAlertBean.event.ruleTimeLimit}" />
 
 			</p:panelGrid>
 

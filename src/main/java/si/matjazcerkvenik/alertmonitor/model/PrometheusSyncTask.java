@@ -152,7 +152,7 @@ public class PrometheusSyncTask extends TimerTask {
             }
 
         } catch (Exception e) {
-            logger.error("PSYNC: Failed to synchronize alarms: ", e);
+            logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());
             DAO.psyncFailedCount++;
         }
 

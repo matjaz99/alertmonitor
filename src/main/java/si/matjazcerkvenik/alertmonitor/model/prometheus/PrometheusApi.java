@@ -51,7 +51,7 @@ public class PrometheusApi {
      */
     public PQueryMessage query(String query) throws PrometheusApiException {
 
-        logger.info("PrometheusApi: query:" + query);
+        logger.info("PrometheusApi: query: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -80,7 +80,7 @@ public class PrometheusApi {
      */
     public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
 
-        logger.info("PrometheusApi: queryRange:" + query);
+        logger.info("PrometheusApi: queryRange: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -248,23 +248,23 @@ public class PrometheusApi {
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
-            throw new PrometheusApiException("UnknownHostException");
+            throw new PrometheusApiException("Unknown Host");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
-            throw new PrometheusApiException("SocketTimeoutException");
+            throw new PrometheusApiException("Timeout");
         } catch (SocketException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
-            throw new PrometheusApiException("SocketException");
+            throw new PrometheusApiException("Socket Error");
         } catch (SSLException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
-            throw new PrometheusApiException("SSLException");
+            throw new PrometheusApiException("SSL Exception");
         } catch (Exception e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
-            throw new PrometheusApiException("Exception");
+            throw new PrometheusApiException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;
             AmMetrics.alertmonitor_prom_api_duration_seconds.labels(request.method(), code, request.url().toString()).observe(duration);

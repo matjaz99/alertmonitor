@@ -28,19 +28,19 @@ import java.util.*;
 @RequestScoped
 public class UiAlertBean {
 
-    private DEvent notif;
+    private DEvent event;
 
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = requestParameterMap.getOrDefault("uid", "null");
-        notif = DAO.getInstance().getNotification(id);
-        if (notif == null) Growl.showWarningGrowl("Object not found", null);
+        String uid = requestParameterMap.getOrDefault("uid", "null");
+        event = DAO.getInstance().getEvent(uid);
+        if (event == null) Growl.showWarningGrowl("Object not found", null);
         //DAO.getLogger().info("Found alert: " + notif.toString());
     }
 
-    public DEvent getNotif() {
-        return notif;
+    public DEvent getEvent() {
+        return event;
     }
 
 }

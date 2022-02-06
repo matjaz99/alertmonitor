@@ -35,6 +35,9 @@ public class UiBean {
 	private String searchString;
 	private boolean smartTargetsEnabled = true;
 
+	// result of Prometheus API call
+	private String result;
+
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
 	}
@@ -48,6 +51,13 @@ public class UiBean {
 		DAO.getLogger().info("SEARCH: " + searchString);
 	}
 
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
 
 	public List<WebhookMessage> getWebhookMessages() {
 		return DAO.getInstance().getWebhookMessages();
@@ -226,6 +236,9 @@ public class UiBean {
 	}
 
 	public List<Target> getTargets() {
+
+		result = null;
+
 		List<Target> tList;
 		if (smartTargetsEnabled) {
 			tList = DAO.getInstance().getSmartTargets();
@@ -233,7 +246,10 @@ public class UiBean {
 			tList = DAO.getInstance().getTargets();
 		}
 
-		if (tList == null) return new ArrayList<>();
+		if (tList == null) {
+			result = "null response returned: no data";
+			return new ArrayList<>();
+		}
 
 		return tList.stream()
 				.filter(target -> filterTarget(target))

@@ -21,11 +21,14 @@ import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @ManagedBean
 @SessionScoped
@@ -95,6 +98,17 @@ public class UiQueryBean {
         this.step = step;
     }
 
+
+    @PostConstruct
+    public void init() {
+        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String query = requestParameterMap.getOrDefault("q", null);
+        if (query != null && query.length() > 0) {
+            this.query = query;
+        }
+    }
+
+
     public void execute() {
 
         queryResult = null;
@@ -117,7 +131,7 @@ public class UiQueryBean {
 
         PrometheusApi api = new PrometheusApi();
         try {
-            PQueryMessage msg = api.query(query);
+            PQueryMessage msg = api.query(query);  // TODO put this in DAO
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
@@ -139,7 +153,7 @@ public class UiQueryBean {
             }
 
         } catch (PrometheusApiException e) {
-            DAO.getLogger().error(e.getMessage(), e);
+            DAO.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         }
     }

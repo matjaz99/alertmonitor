@@ -138,25 +138,30 @@ public class DAO {
      * @param id unique ID of notification
      * @return notification
      */
-    public DEvent getNotification(String id) {
+    public DEvent getEvent(String id) {
+
+        List<PRule> ruleList = new ArrayList<>();
+
+        try {
+            PrometheusApi api = new PrometheusApi();
+            ruleList = api.rules();
+
+        } catch (PrometheusApiException e) {
+            logger.error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
+        }
+
         for (DEvent n : journal) {
             if (n.getUid().equals(id)) {
-                try {
-                    PrometheusApi api = new PrometheusApi();
-                    List<PRule> ruleList = api.rules();
-                    for (PRule r : ruleList) {
-                        if (n.getAlertname().equals(r.getName())) {
-                            n.setRuleExpression(r.getQuery());
-                            n.setRuleTimeLimit(r.getDuration());
-                        }
+                for (PRule r : ruleList) {
+                    if (n.getAlertname().equals(r.getName())) {
+                        n.setRuleExpression(r.getQuery());
+                        n.setRuleTimeLimit(r.getDuration());
                     }
-
-                } catch (PrometheusApiException e) {
-                    e.printStackTrace();
                 }
                 return n;
             }
         }
+
         return null;
     }
 
@@ -355,7 +360,7 @@ public class DAO {
             return new ArrayList<>(targetsMap.values());
 
         } catch (Exception e) {
-            logger.error("Exception getting targets", e);
+            logger.error("DAO: failed getting targets; root cause: " + e.getMessage());
         }
 
         return null;
@@ -388,8 +393,8 @@ public class DAO {
 
             return new ArrayList<>(targetsMap.values());
 
-        } catch (Exception e) {
-            logger.error("Exception getting targets", e);
+        } catch (PrometheusApiException e) {
+            logger.error("DAO: failed getting targets; root cause: " + e.getMessage());
         }
 
         return null;
