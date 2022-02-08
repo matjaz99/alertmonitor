@@ -15,7 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
 import javax.annotation.PostConstruct;

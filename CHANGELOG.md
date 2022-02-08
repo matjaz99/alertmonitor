@@ -1,6 +1,7 @@
 ## 2.2.1-SNAPSHOT
 
 * [ENHANCEMENT] Improved error handling with Prometheus API
+* [ENHANCEMENT] A lot of refactoring
 * [BUG] Fixed (#18)
 
 ## 2.2.0 / 2022-01-29

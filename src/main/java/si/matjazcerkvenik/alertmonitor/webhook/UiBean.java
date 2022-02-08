@@ -15,10 +15,9 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,7 +47,7 @@ public class UiBean {
 
 	public void setSearchString(String searchString) {
 		this.searchString = searchString;
-		DAO.getLogger().info("SEARCH: " + searchString);
+		LogFactory.getLogger().info("SEARCH: " + searchString);
 	}
 
 	public String getResult() {
@@ -159,11 +158,11 @@ public class UiBean {
 	}
 
 	public void tagAction(DTag tag) {
-		DAO.getLogger().debug("tag action called: " + tag.getName());
+		LogFactory.getLogger().debug("tag action called: " + tag.getName());
 
 		int numberOfSelectedTags = getNumberOfSelectedTags();
 
-		DAO.getLogger().debug("numberOfSelectedTags: " + numberOfSelectedTags + "/" + tagList.size());
+		LogFactory.getLogger().debug("numberOfSelectedTags: " + numberOfSelectedTags + "/" + tagList.size());
 
 		if (numberOfSelectedTags == tagList.size()) {
 			// all tags are enabled
@@ -247,7 +246,7 @@ public class UiBean {
 		}
 
 		if (tList == null) {
-			result = "null response returned: no data";
+			result = "failed to retrieve targets";
 			return new ArrayList<>();
 		}
 
@@ -277,22 +276,22 @@ public class UiBean {
 		int informational = 0;
 		int indeterminate = 0;
 		for (DEvent n : target.getAlerts()) {
-			if (n.getSeverity().equalsIgnoreCase(Severity.CRITICAL)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.CRITICAL)) {
 				critical++;
 			}
-			if (n.getSeverity().equalsIgnoreCase(Severity.MAJOR)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.MAJOR)) {
 				major++;
 			}
-			if (n.getSeverity().equalsIgnoreCase(Severity.MINOR)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.MINOR)) {
 				minor++;
 			}
-			if (n.getSeverity().equalsIgnoreCase(Severity.WARNING)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.WARNING)) {
 				warning++;
 			}
-			if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.INFORMATIONAL)) {
 				informational++;
 			}
-			if (n.getSeverity().equalsIgnoreCase(Severity.INDETERMINATE)) {
+			if (n.getSeverity().equalsIgnoreCase(DSeverity.INDETERMINATE)) {
 				indeterminate++;
 			}
 		}

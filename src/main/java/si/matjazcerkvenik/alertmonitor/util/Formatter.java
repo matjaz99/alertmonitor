@@ -16,12 +16,34 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import com.google.gson.Gson;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Formatter {
 
+    /**
+     * Convert event to JSON formatted string
+     * @param event
+     * @return json string
+     */
     public static String toJson(DEvent event) {
         return new Gson().toJson(event);
+    }
+
+    /**
+     * Format timestamp from millis into readable form.
+     * @param timestamp timestamp in millis
+     * @return readable date
+     */
+    public static String getFormatedTimestamp(long timestamp) {
+        if (timestamp == 0) return "n/a";
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat(AmProps.DATE_FORMAT);
+        return sdf.format(cal.getTime());
     }
 
     /**
@@ -51,6 +73,36 @@ public class Formatter {
         }
 
         return resp;
+    }
+
+    /**
+     * Remove leading protocol (eg. http://) and trailing port (eg. :8080).
+     * @param instance
+     * @return hostname
+     */
+    public static String stripInstance(String instance) {
+
+        if (instance == null) return instance;
+
+        // remove protocol
+        if (instance.contains("://")) {
+            instance = instance.split("://")[1];
+        }
+        // remove port
+        instance = instance.split(":")[0];
+
+        // remove relative URL
+        instance = instance.split("/")[0];
+
+        // resolve to IP address
+//        try {
+//            InetAddress address = InetAddress.getByName(instance);
+//            instance = address.getHostAddress();
+//        } catch (UnknownHostException e) {
+//            // nothing to do, leave as it is
+//            DAO.getLogger().warn("Cannot resolve: " + instance);
+//        }
+        return instance;
     }
 
 }

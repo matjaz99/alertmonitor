@@ -60,22 +60,22 @@ public class TagColors {
         if (tagName == null) {
             return result;
         }
-        if (tagName.equalsIgnoreCase(Severity.CRITICAL)) {
+        if (tagName.equalsIgnoreCase(DSeverity.CRITICAL)) {
             return "#FF0000";
         }
-        if (tagName.equalsIgnoreCase(Severity.MAJOR)) {
+        if (tagName.equalsIgnoreCase(DSeverity.MAJOR)) {
             return "#FF7100";
         }
-        if (tagName.equalsIgnoreCase(Severity.MINOR)) {
+        if (tagName.equalsIgnoreCase(DSeverity.MINOR)) {
             return "#FFC900";
         }
-        if (tagName.equalsIgnoreCase(Severity.WARNING)) {
+        if (tagName.equalsIgnoreCase(DSeverity.WARNING)) {
             return "#FFE800";
         }
-        if (tagName.equalsIgnoreCase(Severity.INFORMATIONAL)) {
+        if (tagName.equalsIgnoreCase(DSeverity.INFORMATIONAL)) {
             return "#00C8FF";
         }
-        if (tagName.equalsIgnoreCase(Severity.INDETERMINATE)) {
+        if (tagName.equalsIgnoreCase(DSeverity.INDETERMINATE)) {
             return "#8F5CFF";
         }
 

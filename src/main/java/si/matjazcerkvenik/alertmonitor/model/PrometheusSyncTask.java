@@ -15,9 +15,14 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.AmProps;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +30,10 @@ import java.util.TimerTask;
 
 public class PrometheusSyncTask extends TimerTask {
 
-    private SimpleLogger logger = DAO.getLogger();
+    private SimpleLogger logger = LogFactory.getLogger();
 
     public static void main(String... args) {
-        DAO.ALERTMONITOR_PROMETHEUS_SERVER = "http://pgcentos:9090";
+        AmProps.ALERTMONITOR_PROMETHEUS_SERVER = "http://pgcentos:9090";
         PrometheusSyncTask rt = new PrometheusSyncTask();
         rt.run();
     }
@@ -37,7 +42,7 @@ public class PrometheusSyncTask extends TimerTask {
     public void run() {
 
         logger.info("PSYNC: === starting periodic synchronization ===");
-        DAO.lastPsyncTimestamp = System.currentTimeMillis();
+        AmMetrics.lastPsyncTimestamp = System.currentTimeMillis();
 
         try {
 
@@ -63,7 +68,7 @@ public class PrometheusSyncTask extends TimerTask {
                     n.setSource("PSYNC");
                     n.setUserAgent("Alertmonitor/v1");
                     n.setInstance(alert.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
-                    n.setHostname(DAO.getInstance().stripInstance(n.getInstance()));
+                    n.setHostname(Formatter.stripInstance(n.getInstance()));
                     n.setNodename(alert.getLabels().getOrDefault(DEvent.KEY_NODENAME, n.getInstance()));
                     n.setInfo(alert.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
                     n.setJob(alert.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
@@ -89,7 +94,7 @@ public class PrometheusSyncTask extends TimerTask {
 
                     // add other labels directly into tags
                     // eg: severity (but not clear), priority
-                    if (!n.getSeverity().equals(Severity.CLEAR)) {
+                    if (!n.getSeverity().equals(DSeverity.CLEAR)) {
                         n.setTags(n.getTags() + "," + n.getSeverity());
                     }
                     n.setTags(n.getTags() + "," + n.getPriority());
@@ -133,7 +138,7 @@ public class PrometheusSyncTask extends TimerTask {
                     // create artificial clear event
                     DEvent xClone = (DEvent) x.clone();
                     xClone.setClearTimestamp(System.currentTimeMillis());
-                    xClone.setSeverity(Severity.CLEAR);
+                    xClone.setSeverity(DSeverity.CLEAR);
                     xClone.setSource("PSYNC");
                     xClone.generateUID();
                     DAO.getInstance().addToJournal(xClone);
@@ -144,16 +149,16 @@ public class PrometheusSyncTask extends TimerTask {
                 logger.info("PSYNC: new alerts count: " + newAlertsCount);
                 logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
 
-                DAO.psyncSuccessCount++;
+                AmMetrics.psyncSuccessCount++;
 
             } else { // null response
                 logger.error("PSYNC: null response returned");
-                DAO.psyncFailedCount++;
+                AmMetrics.psyncFailedCount++;
             }
 
         } catch (Exception e) {
             logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());
-            DAO.psyncFailedCount++;
+            AmMetrics.psyncFailedCount++;
         }
 
         logger.info("PSYNC: === Periodic synchronization complete ===");

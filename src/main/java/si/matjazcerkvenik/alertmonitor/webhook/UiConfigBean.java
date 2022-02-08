@@ -15,12 +15,11 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.util.KafkaClient;
+import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -36,10 +35,10 @@ public class UiConfigBean {
     /* FOOTER */
 
     public String getVersion() {
-        return DAO.version;
+        return AmProps.version;
     }
 
-    public boolean isContainerized() { return DAO.isContainerized; }
+    public boolean isContainerized() { return AmProps.isContainerized; }
 
     public String getLocalIpAddress() {
         return DAO.getInstance().getLocalIpAddress();
@@ -51,57 +50,57 @@ public class UiConfigBean {
     /* CONFIGURATION */
 
     public String getPromServer() {
-        return DAO.ALERTMONITOR_PROMETHEUS_SERVER;
+        return AmProps.ALERTMONITOR_PROMETHEUS_SERVER;
     }
 
     public void setPromServer(String server) {
         if (server.endsWith("/")) server = server.substring(0, server.length()-1);
-        DAO.ALERTMONITOR_PROMETHEUS_SERVER = server;
-        DAO.getLogger().info("WebhookBean: prometheus server changed: " + server);
+        AmProps.ALERTMONITOR_PROMETHEUS_SERVER = server;
+        LogFactory.getLogger().info("WebhookBean: prometheus server changed: " + server);
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
 
     public void setPsyncInterval(String interval) {
 
-        DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-        DAO.getLogger().info("WebhookBean: psync interval changed: " + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
+        LogFactory.getLogger().info("WebhookBean: psync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
 //		Growl.showInfoGrowl("Configuration updated", "");
         TaskManager.getInstance().restartPsyncTimer();
     }
 
-    public String getPsyncInterval() { return Integer.toString(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
+    public String getPsyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
 
     public void setKafkaEnabled(boolean kafkaEnabled) {
-        DAO.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
-        DAO.getLogger().info("WebhookBean: kafka enabled changed: " + DAO.ALERTMONITOR_KAFKA_ENABLED);
+        AmProps.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
+        LogFactory.getLogger().info("WebhookBean: kafka enabled changed: " + AmProps.ALERTMONITOR_KAFKA_ENABLED);
     }
 
     public boolean isKafkaEnabled() {
-        return DAO.ALERTMONITOR_KAFKA_ENABLED;
+        return AmProps.ALERTMONITOR_KAFKA_ENABLED;
     }
 
     public void setKafkaServer(String kafkaServer) {
-        DAO.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
-        DAO.getLogger().info("WebhookBean: kafka server changed: " + DAO.ALERTMONITOR_KAFKA_SERVER);
+        AmProps.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
+        LogFactory.getLogger().info("WebhookBean: kafka server changed: " + AmProps.ALERTMONITOR_KAFKA_SERVER);
         KafkaClient.getInstance().resetClient();
     }
 
     public String getKafkaServer() {
-        return DAO.ALERTMONITOR_KAFKA_SERVER;
+        return AmProps.ALERTMONITOR_KAFKA_SERVER;
     }
 
     public void setKafkaTopic(String kafkaTopic) {
-        DAO.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
-        DAO.getLogger().info("WebhookBean: kafka topic changed: " + DAO.ALERTMONITOR_KAFKA_TOPIC);
+        AmProps.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
+        LogFactory.getLogger().info("WebhookBean: kafka topic changed: " + AmProps.ALERTMONITOR_KAFKA_TOPIC);
     }
 
     public String getKafkaTopic() {
-        return DAO.ALERTMONITOR_KAFKA_TOPIC;
+        return AmProps.ALERTMONITOR_KAFKA_TOPIC;
     }
 
     public String reloadPrometheusAction() {
 
-        DAO.getLogger().debug("reloadPrometheusAction called");
+        LogFactory.getLogger().debug("reloadPrometheusAction called");
 
         try {
             PrometheusApi api = new PrometheusApi();
@@ -123,23 +122,23 @@ public class UiConfigBean {
 
     public void setJournalMaxSize(String size) {
 
-        DAO.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
-        DAO.getLogger().info("WebhookBean: journal max size changed: " + DAO.JOURNAL_TABLE_SIZE);
+        AmProps.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
+        LogFactory.getLogger().info("WebhookBean: journal max size changed: " + AmProps.JOURNAL_TABLE_SIZE);
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
 
-    public String getJournalMaxSize() { return Integer.toString(DAO.JOURNAL_TABLE_SIZE); }
+    public String getJournalMaxSize() { return Integer.toString(AmProps.JOURNAL_TABLE_SIZE); }
 
     public int getWhMsgCount() {
-        return DAO.webhookMessagesReceivedCount;
+        return AmMetrics.webhookMessagesReceivedCount;
     }
 
     public int getAmMsgCount() {
-        return DAO.amMessagesReceivedCount;
+        return AmMetrics.amMessagesReceivedCount;
     }
 
     public int getJournalCount() {
-        return DAO.journalReceivedCount;
+        return AmMetrics.journalReceivedCount;
     }
 
     public int getJournalSize() {
@@ -147,19 +146,19 @@ public class UiConfigBean {
     }
 
     public int getAlarmsCount() {
-        return DAO.raisingEventCount;
+        return AmMetrics.raisingEventCount;
     }
 
     public int getClearsCount() {
-        return DAO.clearingEventCount;
+        return AmMetrics.clearingEventCount;
     }
 
 
-    public String getLastPsyncTime() { return DAO.getInstance().getFormatedTimestamp(DAO.lastPsyncTimestamp); }
+    public String getLastPsyncTime() { return Formatter.getFormatedTimestamp(AmMetrics.lastPsyncTimestamp); }
 
-    public String getPsyncSuccessCount() { return Integer.toString(DAO.psyncSuccessCount); }
+    public String getPsyncSuccessCount() { return Integer.toString(AmMetrics.psyncSuccessCount); }
 
-    public String getPsyncFailedCount() { return Integer.toString(DAO.psyncFailedCount); }
+    public String getPsyncFailedCount() { return Integer.toString(AmMetrics.psyncFailedCount); }
 
 
     public int getActiveAlarmsCount(String severity) {
@@ -201,20 +200,20 @@ public class UiConfigBean {
 
 
     public String getStartTime() {
-        return DAO.getInstance().getFormatedTimestamp(DAO.startUpTime);
+        return Formatter.getFormatedTimestamp(AmProps.startUpTime);
     }
 
     public String getUpTime() {
-        int secUpTotal = (int) ((System.currentTimeMillis() - DAO.startUpTime) / 1000);
+        int secUpTotal = (int) ((System.currentTimeMillis() - AmProps.startUpTime) / 1000);
         return Formatter.convertToDHMSFormat(secUpTotal);
     }
 
     public String getLastEventTime() {
-        return DAO.getInstance().getFormatedTimestamp(DAO.lastEventTimestamp);
+        return Formatter.getFormatedTimestamp(AmMetrics.lastEventTimestamp);
     }
 
     public String getTimeSinceLastEvent() {
-        int secUp = (int) ((System.currentTimeMillis() - DAO.lastEventTimestamp) / 1000);
+        int secUp = (int) ((System.currentTimeMillis() - AmMetrics.lastEventTimestamp) / 1000);
         return Formatter.convertToDHMSFormat(secUp);
     }
 

@@ -26,9 +26,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 public class WebhookServlet extends HttpServlet {
 
@@ -58,7 +59,7 @@ public class WebhookServlet extends HttpServlet {
 		try {
 			AlertmanagerProcessor.processWebhookMessage(m);
 		} catch (Exception e) {
-			DAO.getLogger().error("doPost(): failed to process webhook message(): " + e.getMessage());
+			LogFactory.getLogger().error("doPost(): failed to process webhook message(): " + e.getMessage());
 		}
 
 	}
@@ -68,38 +69,38 @@ public class WebhookServlet extends HttpServlet {
 //		StringBuilder sb = new StringBuilder();
 //		sb.append("{");
 
-		DAO.getLogger().info("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
-		DAO.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
-		DAO.getLogger().info("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
-		DAO.getLogger().info("instantiateWebhookMessage(): getContentType: " + req.getContentType());
-		DAO.getLogger().info("instantiateWebhookMessage(): getContextPath: " + req.getContextPath());
-		DAO.getLogger().info("instantiateWebhookMessage(): getLocalAddr: " + req.getLocalAddr());
-		DAO.getLogger().info("instantiateWebhookMessage(): getLocalName: " + req.getLocalName());
-		DAO.getLogger().info("instantiateWebhookMessage(): getLocalPort: " + req.getLocalPort());
-		DAO.getLogger().info("instantiateWebhookMessage(): getMethod: " + req.getMethod());
-		DAO.getLogger().info("instantiateWebhookMessage(): getParameter: " + req.getParameter("aaa"));
-		DAO.getLogger().info("instantiateWebhookMessage(): getPathInfo: " + req.getPathInfo());
-		DAO.getLogger().info("instantiateWebhookMessage(): getPathTranslated: " + req.getPathTranslated());
-		DAO.getLogger().info("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
-		DAO.getLogger().info("instantiateWebhookMessage(): getQueryString: " + req.getQueryString());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRemoteUser: " + req.getRemoteUser());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRequestedSessionId: " + req.getRequestedSessionId());
-		DAO.getLogger().info("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
-		DAO.getLogger().info("instantiateWebhookMessage(): getScheme: " + req.getScheme());
-		DAO.getLogger().info("instantiateWebhookMessage(): getServerName: " + req.getServerName());
-		DAO.getLogger().info("instantiateWebhookMessage(): getServerPort: " + req.getServerPort());
-		DAO.getLogger().info("instantiateWebhookMessage(): getServletPath: " + req.getServletPath());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getAuthType: " + req.getAuthType());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getContentType: " + req.getContentType());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getContextPath: " + req.getContextPath());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getLocalAddr: " + req.getLocalAddr());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getLocalName: " + req.getLocalName());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getLocalPort: " + req.getLocalPort());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getMethod: " + req.getMethod());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getParameter: " + req.getParameter("aaa"));
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getPathInfo: " + req.getPathInfo());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getPathTranslated: " + req.getPathTranslated());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getQueryString: " + req.getQueryString());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemoteUser: " + req.getRemoteUser());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRequestedSessionId: " + req.getRequestedSessionId());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getScheme: " + req.getScheme());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getServerName: " + req.getServerName());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getServerPort: " + req.getServerPort());
+		LogFactory.getLogger().info("instantiateWebhookMessage(): getServletPath: " + req.getServletPath());
 
-		DAO.getLogger().info("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
-		DAO.getLogger().info("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
+		LogFactory.getLogger().info("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
+		LogFactory.getLogger().info("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
 		String body = getReqBody(req);
-		DAO.getLogger().info("instantiateWebhookMessage(): body: " + body);
+		LogFactory.getLogger().info("instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
-		m.setId(DAO.webhookMessagesReceivedCount);
+		m.setId(AmMetrics.webhookMessagesReceivedCount);
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());

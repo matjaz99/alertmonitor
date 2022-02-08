@@ -15,7 +15,10 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.AmProps;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import java.util.Timer;
 
@@ -39,12 +42,12 @@ public class TaskManager {
 
         // start resync timer
         if (prometheusSyncTask == null) {
-            DAO.getLogger().info("Start periodic sync task with period=" + DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_psync_interval_seconds.set(DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            if (DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
+            LogFactory.getLogger().info("Start periodic sync task with period=" + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+            AmMetrics.alertmonitor_psync_interval_seconds.set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+            if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
                 pSyncTimer = new Timer("PSyncTimer");
                 prometheusSyncTask = new PrometheusSyncTask();
-                pSyncTimer.schedule(prometheusSyncTask, 5 * 1000, DAO.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
+                pSyncTimer.schedule(prometheusSyncTask, 5 * 1000, AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
             }
         }
 

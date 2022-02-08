@@ -15,9 +15,10 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -37,7 +38,7 @@ public class UiInstanceBean {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = requestParameterMap.getOrDefault("tid", "null");
         target = DAO.getInstance().getSingleTarget(id);
-        DAO.getLogger().info("Found target: " + target.toString());
+        LogFactory.getLogger().info("Found target: " + target.toString());
     }
 
     public Target getTarget() {

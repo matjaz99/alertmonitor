@@ -18,9 +18,11 @@ package si.matjazcerkvenik.alertmonitor.model.prometheus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import javax.net.ssl.SSLException;
@@ -37,7 +39,7 @@ import java.util.Map;
  */
 public class PrometheusApi {
 
-    private SimpleLogger logger = DAO.getLogger();
+    private SimpleLogger logger = LogFactory.getLogger();
 
     private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
@@ -59,7 +61,7 @@ public class PrometheusApi {
                 .build();
 
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .post(formBody)
@@ -91,7 +93,7 @@ public class PrometheusApi {
                 .build();
 
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query_range")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query_range")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .post(formBody)
@@ -127,7 +129,7 @@ public class PrometheusApi {
     public List<PAlert> alerts() throws PrometheusApiException {
 
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/alerts")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/alerts")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
@@ -151,7 +153,7 @@ public class PrometheusApi {
     public List<PTarget> targets() throws PrometheusApiException {
 
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/targets")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/targets")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
@@ -174,7 +176,7 @@ public class PrometheusApi {
 
     public void reload() throws PrometheusApiException {
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/-/reload")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/-/reload")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .post(RequestBody.create("".getBytes()))
                 .build();
@@ -184,7 +186,7 @@ public class PrometheusApi {
 
     public List<PRule> rules() throws PrometheusApiException {
         Request request = new Request.Builder()
-                .url(DAO.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/rules")
+                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/rules")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();

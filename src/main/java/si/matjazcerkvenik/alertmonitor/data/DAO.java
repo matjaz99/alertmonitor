@@ -13,42 +13,30 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.model;
+package si.matjazcerkvenik.alertmonitor.data;
 
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.model.TagColors;
+import si.matjazcerkvenik.alertmonitor.model.Target;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PRule;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PTarget;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
-import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.MD5;
+import si.matjazcerkvenik.alertmonitor.util.*;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
-import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class DAO {
 
-    private static SimpleLogger logger = null;
-
-    public static long startUpTime = 0;
-    public static String version = "n/a";
-    public static boolean isContainerized = false;
-
     /** Singleton instance */
     private static DAO instance;
 
-    /** Environment variables */
-    public static int JOURNAL_TABLE_SIZE = 5000;
-    public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
-    public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
-    public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
-    public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
-    public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
-    public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
 
     /** List of webhook messages in its raw form. */
     private List<WebhookMessage> webhookMessages = new LinkedList<>();
@@ -59,17 +47,7 @@ public class DAO {
     /** Map of active alerts. Key is correlation id */
     private Map<String, DEvent> activeAlerts = new HashMap<>();
 
-    public static int webhookMessagesReceivedCount = 0;
-    public static int amMessagesReceivedCount = 0;
-    public static int journalReceivedCount = 0;
-    // TODO remove these two, it can be calculated from number of alerts by severity
-    public static int raisingEventCount = 0;
-    public static int clearingEventCount = 0;
-    public static long lastEventTimestamp = 0;
-    public static long lastPsyncTimestamp = 0;
-    public static int psyncSuccessCount = 0;
-    public static int psyncFailedCount = 0;
-
+    /** Map of tags of active alerts. Key is the tag name */
     private Map<String, DTag> tagMap = new HashMap<>();
 
     private String localIpAddress;
@@ -78,19 +56,17 @@ public class DAO {
     }
 
     public static DAO getInstance() {
-        if (instance == null) instance = new DAO();
+        if (instance == null) {
+            if (DAOInterface.MONGO_ENABLED) {
+                //instance = new MongoDbDAO();
+            } else {
+                instance = new DAO();
+            }
+        }
         return instance;
     }
 
-    public static SimpleLogger getLogger() {
-        if (logger == null) {
-            logger = new SimpleLogger();
-            if (logger.getFilename().contains("simple-logger.log")) {
-                logger.setFilename("./alertmonitor.log");
-            }
-        }
-        return logger;
-    }
+
 
     /**
      * Add new webhook message to the list. Also delete oldest messages.
@@ -98,11 +74,11 @@ public class DAO {
      */
     public void addWebhookMessage(WebhookMessage message) {
         // webhook messages can be 1% of journal size
-        while (webhookMessages.size() > JOURNAL_TABLE_SIZE / 100) {
+        while (webhookMessages.size() > AmProps.JOURNAL_TABLE_SIZE / 100) {
             webhookMessages.remove(0);
         }
         webhookMessages.add(message);
-        webhookMessagesReceivedCount++;
+        AmMetrics.webhookMessagesReceivedCount++;
         AmMetrics.alertmonitor_webhook_messages_received_total.labels(message.getRemoteHost(), message.getMethod().toUpperCase()).inc();
     }
 
@@ -112,17 +88,17 @@ public class DAO {
 
     /**
      * Add new notification to journal. Also delete oldest notifications.
-     * @param notif notification
+     * @param event notification
      */
-    public void addToJournal(DEvent notif) {
-        while (journal.size() > JOURNAL_TABLE_SIZE) {
+    public void addToJournal(DEvent event) {
+        while (journal.size() > AmProps.JOURNAL_TABLE_SIZE) {
             DEvent m = journal.remove(0);
-            getLogger().info("Purging journal: " + m.getUid());
+            LogFactory.getLogger().info("Purging journal: " + m.getUid());
         }
-        journal.add(notif);
-        getLogger().info("Adding to journal: " + notif.getUid());
-        journalReceivedCount++;
-        AmMetrics.alertmonitor_journal_messages_total.labels(notif.getSeverity()).inc();
+        journal.add(event);
+        LogFactory.getLogger().info("Adding to journal: " + event.getUid());
+        AmMetrics.journalReceivedCount++;
+        AmMetrics.alertmonitor_journal_messages_total.labels(event.getSeverity()).inc();
     }
 
     /**
@@ -147,7 +123,7 @@ public class DAO {
             ruleList = api.rules();
 
         } catch (PrometheusApiException e) {
-            logger.error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
         }
 
         for (DEvent n : journal) {
@@ -177,7 +153,7 @@ public class DAO {
         n.setLastTimestamp(n.getTimestamp());
 
         activeAlerts.put(n.getCorrelationId(), n);
-        raisingEventCount++;
+        AmMetrics.raisingEventCount++;
 
         // parse tags from tags label
         String[] array = n.getTags().split(",");
@@ -251,7 +227,7 @@ public class DAO {
         n.setLastTimestamp(n.getTimestamp());
         activeAlerts.remove(n.getCorrelationId());
         removeObsoleteTags();
-        clearingEventCount++;
+        AmMetrics.clearingEventCount++;
     }
 
     /**
@@ -304,18 +280,7 @@ public class DAO {
         return new ArrayList<>(tagMap.values());
     }
 
-    /**
-     * Format timestamp from millis into readable form.
-     * @param timestamp timestamp in millis
-     * @return readable date
-     */
-    public String getFormatedTimestamp(long timestamp) {
-        if (timestamp == 0) return "n/a";
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        return sdf.format(cal.getTime());
-    }
+
 
     /**
      * Return a list of active alerts filtered by severity.
@@ -360,7 +325,7 @@ public class DAO {
             return new ArrayList<>(targetsMap.values());
 
         } catch (Exception e) {
-            logger.error("DAO: failed getting targets; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
         }
 
         return null;
@@ -376,7 +341,7 @@ public class DAO {
 
             // convert from PTarget to Target
             for (PTarget pTarget : pTargets) {
-                String host = stripInstance(pTarget.getLabels().get("instance"));
+                String host = Formatter.stripInstance(pTarget.getLabels().get("instance"));
                 Target t = targetsMap.getOrDefault(host, new Target());
                 t.setSmartTarget(true);
                 boolean up = false;
@@ -394,7 +359,7 @@ public class DAO {
             return new ArrayList<>(targetsMap.values());
 
         } catch (PrometheusApiException e) {
-            logger.error("DAO: failed getting targets; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
         }
 
         return null;
@@ -423,14 +388,14 @@ public class DAO {
 
             for (PTarget pTarget : targets) {
                 Target t = new Target();
-                t.setHostname(stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
+                t.setHostname(Formatter.stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
                 t.setId(MD5.getChecksum("host" + t.getHostname()));
             }
 
             // TODO
 
         } catch (Exception e) {
-            logger.error("Exception getting targets", e);
+            LogFactory.getLogger().error("Exception getting targets", e);
         }
 
         return new ArrayList<>();
@@ -456,34 +421,6 @@ public class DAO {
         return localIpAddress;
     }
 
-    /**
-     * Remove leading protocol (eg. http://) and trailing port (eg. :8080).
-     * @param instance
-     * @return hostname
-     */
-    public String stripInstance(String instance) {
 
-        if (instance == null) return instance;
-
-        // remove protocol
-        if (instance.contains("://")) {
-            instance = instance.split("://")[1];
-        }
-        // remove port
-        instance = instance.split(":")[0];
-
-        // remove relative URL
-        instance = instance.split("/")[0];
-
-        // resolve to IP address
-//        try {
-//            InetAddress address = InetAddress.getByName(instance);
-//            instance = address.getHostAddress();
-//        } catch (UnknownHostException e) {
-//            // nothing to do, leave as it is
-//            DAO.getLogger().warn("Cannot resolve: " + instance);
-//        }
-        return instance;
-    }
 
 }

@@ -18,7 +18,7 @@ package si.matjazcerkvenik.alertmonitor.util;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 
 import java.util.Properties;
 
@@ -37,7 +37,7 @@ public class KafkaClient {
         clientId = kafkaClientsCount++;
 
 //        props.put("bootstrap.servers", "centosvm:9092");
-        props.put("bootstrap.servers", DAO.ALERTMONITOR_KAFKA_SERVER);
+        props.put("bootstrap.servers", AmProps.ALERTMONITOR_KAFKA_SERVER);
 //        props.put("acks", "all");   // all replicas acknowledge reception
         props.put("acks", "0");   // do not wait confirmation
         props.put("retries", 0);   // only relevant if acks=all or acks=1
@@ -60,7 +60,7 @@ public class KafkaClient {
     public void publish(String topic, String json) {
 
         producer.send(new ProducerRecord<String, String>(topic, Long.toString(msgCounter++), json));
-        DAO.getLogger().info("kafka publish to topic: " + topic + ": [" + props.get("bootstrap.servers") + "]: " + json);
+        LogFactory.getLogger().info("kafka publish to topic: " + topic + ": [" + props.get("bootstrap.servers") + "]: " + json);
 
     }
 

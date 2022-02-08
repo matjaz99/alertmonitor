@@ -22,6 +22,18 @@ import io.prometheus.client.Histogram;
 
 public class AmMetrics {
 
+    // internal counters
+    public static int webhookMessagesReceivedCount = 0;
+    public static int amMessagesReceivedCount = 0;
+    public static int journalReceivedCount = 0;
+    // TODO remove these two, it can be calculated from number of alerts by severity
+    public static int raisingEventCount = 0;
+    public static int clearingEventCount = 0;
+    public static long lastEventTimestamp = 0;
+    public static long lastPsyncTimestamp = 0;
+    public static int psyncSuccessCount = 0;
+    public static int psyncFailedCount = 0;
+
     public static CollectorRegistry registry = CollectorRegistry.defaultRegistry;
 
     public static final Gauge alertmonitor_build_info = Gauge.build()

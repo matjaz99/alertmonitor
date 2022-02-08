@@ -15,7 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
-public class Severity {
+public class DSeverity {
 
     public static final String CRITICAL = "critical";
     public static final String MAJOR = "major";

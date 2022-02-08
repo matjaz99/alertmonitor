@@ -15,6 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.util.HashMap;
@@ -147,16 +149,16 @@ public class DEvent implements Cloneable {
 
 	// TODO put this method somewhere else
 	public String getFormatedTimestamp() {
-		return DAO.getInstance().getFormatedTimestamp(timestamp);
+		return Formatter.getFormatedTimestamp(timestamp);
 	}
 	public String getFormatedFirstTimestamp() {
-		return DAO.getInstance().getFormatedTimestamp(firstTimestamp);
+		return Formatter.getFormatedTimestamp(firstTimestamp);
 	}
 	public String getFormatedLastTimestamp() {
-		return DAO.getInstance().getFormatedTimestamp(lastTimestamp);
+		return Formatter.getFormatedTimestamp(lastTimestamp);
 	}
 	public String getFormatedClearTimestamp() {
-		return DAO.getInstance().getFormatedTimestamp(clearTimestamp);
+		return Formatter.getFormatedTimestamp(clearTimestamp);
 	}
 
 	public int getCounter() {

@@ -16,7 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import okhttp3.OkHttpClient;
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 
 import javax.net.ssl.*;
 import java.security.cert.CertificateException;
@@ -26,9 +26,9 @@ public class HttpClientFactory {
 
     public static OkHttpClient instantiateHttpClient() {
 
-        DAO.getLogger().info("HttpClientFactory: instantiating HTTP client");
+        LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
 
-        if (!DAO.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
+        if (!AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(120, TimeUnit.SECONDS)

@@ -15,11 +15,13 @@
  */
 package si.matjazcerkvenik.alertmonitor.webhook;
 
-import si.matjazcerkvenik.alertmonitor.model.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -135,25 +137,25 @@ public class UiQueryBean {
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                DAO.getLogger().error("executeQuery: result: " + result);
+                LogFactory.getLogger().error("executeQuery: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                DAO.getLogger().error("executeQuery: result is null");
+                LogFactory.getLogger().error("executeQuery: result is null");
                 result = "result is null";
                 return;
             }
 
-            DAO.getLogger().info("executeQuery: size: " + queryResult.size());
+            LogFactory.getLogger().info("executeQuery: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
-                DAO.getLogger().debug("executeQuery: " + r.toString());
+                LogFactory.getLogger().debug("executeQuery: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {
-            DAO.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         }
     }
@@ -170,25 +172,25 @@ public class UiQueryBean {
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                DAO.getLogger().error("executeQueryRange: result: " + result);
+                LogFactory.getLogger().error("executeQueryRange: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                DAO.getLogger().error("executeQueryRange: result is null");
+                LogFactory.getLogger().error("executeQueryRange: result is null");
                 result = "result is null";
                 return;
             }
 
-            DAO.getLogger().info("executeQueryRange: size: " + queryResult.size());
+            LogFactory.getLogger().info("executeQueryRange: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
-                DAO.getLogger().debug("executeQueryRange: " + r.toString());
+                LogFactory.getLogger().debug("executeQueryRange: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {
-            DAO.getLogger().error(e.getMessage(), e);
+            LogFactory.getLogger().error(e.getMessage(), e);
             result = "failed to get result: " + e.getMessage();
         }
     }
@@ -205,20 +207,20 @@ public class UiQueryBean {
 
             String tempQuery = query.replace("time_of_max(", "");
             tempQuery = tempQuery.substring(0, tempQuery.length() - 1);
-            DAO.getLogger().info("QUERY: " + tempQuery);
+            LogFactory.getLogger().info("QUERY: " + tempQuery);
 
             PQueryMessage msg = api.query(tempQuery);
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                DAO.getLogger().error("executeQuery: result: " + result);
+                LogFactory.getLogger().error("executeQuery: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                DAO.getLogger().error("executeQuery: result is null");
+                LogFactory.getLogger().error("executeQuery: result is null");
                 result = "result is null";
                 return;
             }
@@ -241,7 +243,7 @@ public class UiQueryBean {
             }
 
         } catch (PrometheusApiException e) {
-            DAO.getLogger().error(e.getMessage(), e);
+            LogFactory.getLogger().error(e.getMessage(), e);
             result = "failed to get result: " + e.getMessage();
         }
     }
@@ -249,9 +251,9 @@ public class UiQueryBean {
     public String toNormalDate(Object d) {
         try {
             Double dts = Double.parseDouble(d.toString()) * 1000;
-            return DAO.getInstance().getFormatedTimestamp(dts.longValue());
+            return Formatter.getFormatedTimestamp(dts.longValue());
         } catch (Exception e) {
-            DAO.getLogger().error(e.getMessage(), e);
+            LogFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }
