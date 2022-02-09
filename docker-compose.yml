@@ -23,6 +23,7 @@ services:
       - ALERTMONITOR_KAFKA_ENABLED=false
       - ALERTMONITOR_KAFKA_SERVER=promvm:9092
       - ALERTMONITOR_KAFKA_TOPIC=alertmonitor_events
+      - ALERTMONITOR_PROMETHEUS_ID_LABELS="cluster, region, monitor"
     volumes:
       - /var/log:/opt/alertmonitor/log
     deploy:

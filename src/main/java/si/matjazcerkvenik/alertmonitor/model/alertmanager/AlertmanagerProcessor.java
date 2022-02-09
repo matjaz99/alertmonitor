@@ -104,6 +104,17 @@ public class AlertmanagerProcessor {
             }
             n.setStatus(a.getStatus());
             n.setGeneratorUrl(a.getGeneratorURL());
+
+            // set prometheusId
+            String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
+            String s = "{";
+            for (int i = 0; i < lblArray.length; i++) {
+                s += lblArray[i].trim() + "=\"" + a.getLabels().getOrDefault(lblArray[i].trim(), "-") + "\", ";
+            }
+            s = s.substring(0, s.length()-2) + "}";
+            n.setPrometheusId(s);
+
+            // set all other labels
             n.setOtherLabels(a.getLabels());
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational

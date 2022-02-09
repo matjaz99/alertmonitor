@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 
@@ -30,6 +31,9 @@ public class DEvent implements Cloneable {
 	
 	/** Correlation ID identifies the same type of events */
 	private String correlationId;
+
+	/** Labels that identify the prometheus */
+	private String prometheusId;
 	
 	/** Timestamp of first occurrence */
 	private long timestamp;
@@ -137,6 +141,14 @@ public class DEvent implements Cloneable {
 
 	public void setCorrelationId(String correlationId) {
 		this.correlationId = correlationId;
+	}
+
+	public String getPrometheusId() {
+		return prometheusId;
+	}
+
+	public void setPrometheusId(String prometheusId) {
+		this.prometheusId = prometheusId;
 	}
 
 	public long getTimestamp() {
@@ -397,6 +409,11 @@ public class DEvent implements Cloneable {
 		otherLabels.remove(KEY_PROBABLECAUSE);
 		otherLabels.remove(KEY_URL);
 		otherLabels.remove(KEY_DESCRIPTION);
+
+		String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
+		for (int i = 0; i < lblArray.length; i++) {
+			otherLabels.remove(lblArray[i].trim());
+		}
 	}
 
 	public void generateUID() {
@@ -438,6 +455,7 @@ public class DEvent implements Cloneable {
 		return "DEvent{" +
 				"uid='" + uid + '\'' +
 				", correlationId='" + correlationId + '\'' +
+				", prometheusId='" + prometheusId + '\'' +
 				", timestamp=" + timestamp +
 				", counter=" + counter +
 				", firstTimestamp=" + firstTimestamp +
@@ -463,10 +481,10 @@ public class DEvent implements Cloneable {
 				", url='" + url + '\'' +
 				", status='" + status + '\'' +
 				", generatorUrl='" + generatorUrl + '\'' +
+				", toBeDeleted=" + toBeDeleted +
 				", otherLabels=" + otherLabels +
 				", ruleExpression='" + ruleExpression + '\'' +
 				", ruleTimeLimit='" + ruleTimeLimit + '\'' +
 				'}';
 	}
-
 }

@@ -1,3 +1,11 @@
+## 2.2.2-SNAPSHOT
+
+* [FEATURE] working on MongoDB
+* [FEATURE] Alert log
+* [ENHANCEMENT] Added `prometheusId` which consists of a set of labels, that identify this prometheus server. 
+Which labels denote to the ID are configurable with environment variable `ALERTMONITOR_PROMETHEUS_ID_LABELS`. 
+Example: `cluster, region, monitor`.
+
 ## 2.2.1-SNAPSHOT
 
 * [ENHANCEMENT] Improved error handling with Prometheus API

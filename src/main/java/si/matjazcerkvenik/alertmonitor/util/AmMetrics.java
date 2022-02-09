@@ -23,12 +23,12 @@ import io.prometheus.client.Histogram;
 public class AmMetrics {
 
     // internal counters
-    public static int webhookMessagesReceivedCount = 0;
-    public static int amMessagesReceivedCount = 0;
-    public static int journalReceivedCount = 0;
+    public static long webhookMessagesReceivedCount = 0;
+    public static long amMessagesReceivedCount = 0;
+    public static long journalReceivedCount = 0;
     // TODO remove these two, it can be calculated from number of alerts by severity
-    public static int raisingEventCount = 0;
-    public static int clearingEventCount = 0;
+    public static long raisingEventCount = 0;
+    public static long clearingEventCount = 0;
     public static long lastEventTimestamp = 0;
     public static long lastPsyncTimestamp = 0;
     public static int psyncSuccessCount = 0;

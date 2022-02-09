@@ -129,27 +129,27 @@ public class UiConfigBean {
 
     public String getJournalMaxSize() { return Integer.toString(AmProps.JOURNAL_TABLE_SIZE); }
 
-    public int getWhMsgCount() {
+    public long getWhMsgCount() {
         return AmMetrics.webhookMessagesReceivedCount;
     }
 
-    public int getAmMsgCount() {
+    public long getAmMsgCount() {
         return AmMetrics.amMessagesReceivedCount;
     }
 
-    public int getJournalCount() {
+    public long getJournalCount() {
         return AmMetrics.journalReceivedCount;
     }
 
-    public int getJournalSize() {
+    public long getJournalSize() {
         return DAO.getInstance().getJournal().size();
     }
 
-    public int getAlarmsCount() {
+    public long getAlarmsCount() {
         return AmMetrics.raisingEventCount;
     }
 
-    public int getClearsCount() {
+    public long getClearsCount() {
         return AmMetrics.clearingEventCount;
     }
 

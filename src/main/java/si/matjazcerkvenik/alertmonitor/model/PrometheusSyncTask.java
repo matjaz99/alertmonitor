@@ -86,6 +86,18 @@ public class PrometheusSyncTask extends TimerTask {
                         n.setDescription(alert.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
                     }
 
+                    // set prometheusId
+                    String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
+                    String s = "{";
+                    for (int i = 0; i < lblArray.length; i++) {
+                        s += lblArray[i].trim() + "=\"" + alert.getLabels().getOrDefault(lblArray[i].trim(), "-") + "\", ";
+                    }
+                    s = s.substring(0, s.length()-2) + "}";
+                    n.setPrometheusId(s);
+
+                    // set all other labels
+                    n.setOtherLabels(alert.getLabels());
+
                     if (!alert.getState().equals("firing")) {
                         // ignore alerts in pending state
                         continue;

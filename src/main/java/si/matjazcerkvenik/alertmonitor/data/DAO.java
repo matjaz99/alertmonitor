@@ -110,9 +110,9 @@ public class DAO {
     }
 
     /**
-     * Get single notification from journal
-     * @param id unique ID of notification
-     * @return notification
+     * Get single event from journal
+     * @param id unique ID of event
+     * @return event
      */
     public DEvent getEvent(String id) {
 
@@ -145,23 +145,24 @@ public class DAO {
      * Add new alert to active alerts. This method is called when first alert
      * of this type occurs (according to correlationId). First and last timestamps
      * are set to time of reception (timestamp). Also new tags are added to tagMap.
-     * @param n notification
+     * @param event
      */
-    public void addActiveAlert(DEvent n) {
+    public void addActiveAlert(DEvent event) {
 
-        n.setFirstTimestamp(n.getTimestamp());
-        n.setLastTimestamp(n.getTimestamp());
+        event.setFirstTimestamp(event.getTimestamp());
+        event.setLastTimestamp(event.getTimestamp());
 
-        activeAlerts.put(n.getCorrelationId(), n);
+        activeAlerts.put(event.getCorrelationId(), event);
         AmMetrics.raisingEventCount++;
+        LogFactory.getAlertLog().write(event.toString());
 
         // parse tags from tags label
-        String[] array = n.getTags().split(",");
+        String[] array = event.getTags().split(",");
         for (int i = 0; i < array.length; i++) {
             String tagName = array[i].trim();
             if (tagName.length() > 0) {
                 DTag t = new DTag(tagName, TagColors.getColor(tagName));
-                addTag(t);
+                tagMap.putIfAbsent(t.getName(), t);
             }
         }
 
@@ -183,51 +184,52 @@ public class DAO {
      * (according to existing alert).
      * Alert then finally replaces reference in activeAlert map so it points to new
      * alert.
-     * @param newNotif last received notificatioin
+     * @param newEvent last received notificatioin
      */
-    public void updateActiveAlert(DEvent newNotif) {
-        DEvent existingNotif = activeAlerts.get(newNotif.getCorrelationId());
+    public void updateActiveAlert(DEvent newEvent) {
+        DEvent existingEvent = activeAlerts.get(newEvent.getCorrelationId());
         // update existing alert
-//        existingNotif.setLastTimestamp(newNotif.getTimestamp());
-//        if (!newNotif.getSource().equalsIgnoreCase("RESYC")) {
+//        existingEvent.setLastTimestamp(newEvent.getTimestamp());
+//        if (!newEvent.getSource().equalsIgnoreCase("RESYC")) {
 //            // don't count resync alerts
-//            existingNotif.setCounter(existingNotif.getCounter() + 1);
-//            existingNotif.setSource(newNotif.getSource());
-//            existingNotif.setGeneratorUrl(newNotif.getGeneratorUrl());
+//            existingEvent.setCounter(existingEvent.getCounter() + 1);
+//            existingEvent.setSource(newEvent.getSource());
+//            existingEvent.setGeneratorUrl(newEvent.getGeneratorUrl());
 //        }
-//        if (!newNotif.getCurrentValue().equals("-")) {
-//            existingNotif.setCurrentValue(newNotif.getCurrentValue());
+//        if (!newEvent.getCurrentValue().equals("-")) {
+//            existingEvent.setCurrentValue(newEvent.getCurrentValue());
 //        }
         // update new alert
-        newNotif.setFirstTimestamp(existingNotif.getFirstTimestamp());
-        newNotif.setLastTimestamp(newNotif.getTimestamp());
-        if (newNotif.getSource().equalsIgnoreCase("RESYC")) {
+        newEvent.setFirstTimestamp(existingEvent.getFirstTimestamp());
+        newEvent.setLastTimestamp(newEvent.getTimestamp());
+        if (newEvent.getSource().equalsIgnoreCase("RESYC")) {
             // resync alert
         } else {
             // regular alert
-            newNotif.setCounter(existingNotif.getCounter() + 1);
+            newEvent.setCounter(existingEvent.getCounter() + 1);
         }
-        activeAlerts.put(existingNotif.getCorrelationId(), newNotif);
+        activeAlerts.put(existingEvent.getCorrelationId(), newEvent);
     }
 
     /**
      * Clear arrived and active alert must be removed. Before removing,
      * all alerts in journal have clearTimestamp corrected to point to clear event.
-     * @param n
+     * @param event
      */
-    public void removeActiveAlert(DEvent n) {
-        for (DEvent jNotif : journal) {
-            if (jNotif.getCorrelationId().equals(n.getCorrelationId())
-                    && jNotif.getClearTimestamp() == 0) {
-                jNotif.setClearTimestamp(n.getTimestamp());
-                jNotif.setClearUid(n.getUid());
+    public void removeActiveAlert(DEvent event) {
+        for (DEvent jEvent : journal) {
+            if (jEvent.getCorrelationId().equals(event.getCorrelationId())
+                    && jEvent.getClearTimestamp() == 0) {
+                jEvent.setClearTimestamp(event.getTimestamp());
+                jEvent.setClearUid(event.getUid());
             }
         }
-        n.setFirstTimestamp(n.getTimestamp());
-        n.setLastTimestamp(n.getTimestamp());
-        activeAlerts.remove(n.getCorrelationId());
+        event.setFirstTimestamp(event.getTimestamp());
+        event.setLastTimestamp(event.getTimestamp());
+        activeAlerts.remove(event.getCorrelationId());
         removeObsoleteTags();
         AmMetrics.clearingEventCount++;
+        LogFactory.getAlertLog().write(event.toString());
     }
 
     /**
@@ -264,13 +266,6 @@ public class DAO {
 
     }
 
-    /**
-     * Add new tag if it does not exist yet.
-     * @param tag new tag
-     */
-    public void addTag(DTag tag) {
-        tagMap.putIfAbsent(tag.getName(), tag);
-    }
 
     /**
      * Return list of tags.
