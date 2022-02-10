@@ -77,18 +77,35 @@ public class MongoDbDataManager implements IDataManager {
                     .into(new ArrayList<>());
 
             List<WebhookMessage> webhookMessageList = new ArrayList<>();
+
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
 
             for (Document student : docs) {
                 // document: {"_id": {"$oid": "62044887878b4423baf8d9c7"}, "id": 46, "timestamp": {"$numberLong": "1644447879359"}, "contentLength": 1952, "contentType": "application/json", "method": "POST", "protocol": "HTTP/1.1", "remoteHost": "192.168.0.123", "remotePort": 36312, "requestUri": "/alertmonitor/webhook", "body": "{\"receiver\":\"alertmonitor\",\"status\":\"firing\",\"alerts\":[{\"status\":\"firing\",\"labels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"info\":\"SSH on gitlab.iskratel.si:22 has been down for more than 10 minutes.\",\"instance\":\"gitlab.iskratel.si:22\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"annotations\":{\"description\":\"SSH on gitlab.iskratel.si:22 has been down for more than 10 minutes.\",\"summary\":\"SSH on gitlab.iskratel.si:22 is down\"},\"startsAt\":\"2022-02-09T18:54:10.322Z\",\"endsAt\":\"0001-01-01T00:00:00Z\",\"generatorURL\":\"http://promvm.home.net/prometheus/graph?g0.expr=probe_success%7Bjob%3D%22blackbox-ssh%22%7D+%3D%3D+0\\u0026g0.tab=1\",\"fingerprint\":\"6a7e625056f7fa79\"},{\"status\":\"firing\",\"labels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"info\":\"SSH on prom.devops.iskratel.cloud:22 has been down for more than 10 minutes.\",\"instance\":\"prom.devops.iskratel.cloud:22\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"annotations\":{\"description\":\"SSH on prom.devops.iskratel.cloud:22 has been down for more than 10 minutes.\",\"summary\":\"SSH on prom.devops.iskratel.cloud:22 is down\"},\"startsAt\":\"2022-02-09T18:54:25.322Z\",\"endsAt\":\"0001-01-01T00:00:00Z\",\"generatorURL\":\"http://promvm.home.net/prometheus/graph?g0.expr=probe_success%7Bjob%3D%22blackbox-ssh%22%7D+%3D%3D+0\\u0026g0.tab=1\",\"fingerprint\":\"22e2e031457e143b\"}],\"groupLabels\":{\"alertname\":\"SSH Not Responding\"},\"commonLabels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"commonAnnotations\":{},\"externalURL\":\"http://promvm.home.net:9093\",\"version\":\"4\",\"groupKey\":\"{}/{severity=~\\\"^(critical|major|minor|warning|informational|indeterminate)$\\\"}:{alertname=\\\"SSH Not Responding\\\"}\",\"truncatedAlerts\":0}", "parameterMap": {}, "headerMap": {"content-length": "1952", "host": "192.168.0.16:8080", "content-type": "application/json", "user-agent": "Alertmanager/0.23.0"}}
-                System.out.println("document: " + student.toJson());
-                WebhookMessage am = gson.fromJson(student.toJson(), WebhookMessage.class);
-                System.out.println("converted back: " + am.toString());
+//                System.out.println("document: " + student.toJson());
+//                WebhookMessage am = gson.fromJson(student.toJson(), WebhookMessage.class);
+//                System.out.println("converted back: " + am.toString());
+                WebhookMessage m = new WebhookMessage();
+                m.setId(student.getInteger("id"));
+                m.setTimestamp(student.getLong("timestamp"));
+                m.setContentLength(student.getInteger("contentLength"));
+                m.setContentType(student.getString("contentType"));
+                m.setMethod(student.getString("method"));
+//                m.setPathInfo(req.getPathInfo());
+//                m.setProtocol(req.getProtocol());
+//                m.setRemoteHost(req.getRemoteHost());
+//                m.setRemotePort(req.getRemotePort());
+//                m.setRequestUri(req.getRequestURI());
+//                m.setBody(body);
+//                m.setHeaderMap(generateHeaderMap(req));
+//                m.setParameterMap(generateParamMap(req));
+                System.out.println(m.toString());
             }
 
+            return webhookMessageList;
+
         }
-        return null;
     }
 
     @Override
