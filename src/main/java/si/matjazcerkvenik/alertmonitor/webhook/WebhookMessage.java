@@ -22,6 +22,9 @@ import java.util.Map;
 
 public class WebhookMessage {
 
+	// for MongoDB compatibility
+	private ID _id;
+
 	private long id;
 	private long timestamp;
 	private int contentLength;
@@ -168,4 +171,16 @@ public class WebhookMessage {
 		
 	}
 
+}
+
+class ID {
+	public String oid;
+
+	public String getOid() {
+		return oid;
+	}
+
+	public void setOid(String oid) {
+		this.oid = oid;
+	}
 }

@@ -37,9 +37,10 @@ public class DAO {
     /** Singleton instance */
     private static DAO instance;
 
+    private IDataManager dataManager;
 
-    /** List of webhook messages in its raw form. */
-    private List<WebhookMessage> webhookMessages = new LinkedList<>();
+
+
 
     /** Journal of events, limited by JOURNAL_TABLE_SIZE */
     private List<DEvent> journal = new LinkedList<>();
@@ -53,15 +54,16 @@ public class DAO {
     private String localIpAddress;
 
     private DAO() {
+        if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
+            dataManager = new MongoDbDataManager();
+        } else {
+            dataManager = new InMemoryDataManager();
+        }
     }
 
     public static DAO getInstance() {
         if (instance == null) {
-            if (DAOInterface.MONGO_ENABLED) {
-                //instance = new MongoDbDAO();
-            } else {
-                instance = new DAO();
-            }
+            instance = new DAO();
         }
         return instance;
     }
@@ -73,17 +75,13 @@ public class DAO {
      * @param message incoming message
      */
     public void addWebhookMessage(WebhookMessage message) {
-        // webhook messages can be 1% of journal size
-        while (webhookMessages.size() > AmProps.JOURNAL_TABLE_SIZE / 100) {
-            webhookMessages.remove(0);
-        }
-        webhookMessages.add(message);
+        dataManager.addWebhookMessage(message);
         AmMetrics.webhookMessagesReceivedCount++;
         AmMetrics.alertmonitor_webhook_messages_received_total.labels(message.getRemoteHost(), message.getMethod().toUpperCase()).inc();
     }
 
     public List<WebhookMessage> getWebhookMessages() {
-        return webhookMessages;
+        return dataManager.getWebhookMessages();
     }
 
     /**

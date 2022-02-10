@@ -30,5 +30,6 @@ public class AmProps {
     public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
     public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
     public static String ALERTMONITOR_PROMETHEUS_ID_LABELS = "cluster, region, monitor";
+    public static boolean ALERTMONITOR_MONGODB_ENABLED = false;
 
 }
