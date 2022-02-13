@@ -26,18 +26,20 @@ public class HttpClientFactory {
 
     public static OkHttpClient instantiateHttpClient() {
 
-        LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
-
         if (!AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
+
+            LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
+
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(120, TimeUnit.SECONDS)
                     .build();
             return client;
-//            return new OkHttpClient();
         }
 
         // continue if https
+
+        LogFactory.getLogger().info("HttpClientFactory: instantiating HTTPS client");
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 

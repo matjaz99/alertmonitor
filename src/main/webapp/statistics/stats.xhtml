@@ -9,9 +9,18 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
+			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{uiConfigBean.warnings != null}">
+				<p:outputLabel value="Warnings" style="color: #222222;"/>
+				<ui:repeat var="m" value="#{uiConfigBean.warnings}">
+					<p:tag styleClass="p-mr-2" severity="warning" value="#{m}" style="margin-right: 15px;"></p:tag>
+				</ui:repeat>
+			</p:panelGrid>
+
+			<br/>
+
+			<p:outputLabel value="Statistics" style="color: #222222;"/>
+
 			<p:panelGrid columns="5" cellpadding="0" cellspacing="15" width="100%" style="border: none">
-
-
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Active alerts</h3>
@@ -47,19 +56,25 @@
 					<h3>PSync</h3>
 					<p:outputLabel value="PSync interval: #{uiConfigBean.psyncInterval} sec" />
 					<p:outputLabel value="PSync last time: #{uiConfigBean.lastPsyncTime}" />
-					<p:outputLabel value="PSync count (succ): #{uiConfigBean.psyncSuccessCount}" />
-					<p:outputLabel value="PSync count (fail): #{uiConfigBean.psyncFailedCount}" />
+					<p:outputLabel value="PSync success: #{uiConfigBean.psyncSuccessCount}" />
+					<p:outputLabel value="PSync fail: #{uiConfigBean.psyncFailedCount}" />
 					<p:outputLabel value="-" />
 					<p:outputLabel value="-" />
 				</p:panelGrid>
 
 			</p:panelGrid>
 
-			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" style="border: none">
+			<br/>
+
+			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder">
 				<p:outputLabel value="Active tags" style="color: #222222;"/>
 				<am:tags></am:tags>
 			</p:panelGrid>
 
+			<br/>
+			<br/>
+
+			<p:outputLabel value="Other links" style="color: #222222;"/>
 			<h:form>
 
 				<h:outputLink value="/alertmonitor/journal" >

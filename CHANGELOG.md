@@ -1,7 +1,8 @@
 ## 2.2.2-SNAPSHOT
 
 * [FEATURE] working on MongoDB
-* [FEATURE] Alert log
+* [FEATURE] Separate alert.log only for alerts
+* [ENHANCEMENT] Internal warnings are displayed in Statistics view (such as Prom API not available)
 * [ENHANCEMENT] Added `prometheusId` which consists of a set of labels, that identify this prometheus server. 
 Which labels denote to the ID are configurable with environment variable `ALERTMONITOR_PROMETHEUS_ID_LABELS`. 
 Example: `cluster, region, monitor`.

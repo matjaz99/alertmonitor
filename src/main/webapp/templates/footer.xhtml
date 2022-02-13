@@ -9,8 +9,12 @@
 
 		<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
 			<h:outputText value="Version: #{uiConfigBean.version}" />
-			<h:outputText value=" | IP Address: #{uiConfigBean.localIpAddress}" />
-			<h:outputText value=" | Containerized: #{uiConfigBean.containerized}" />
+			<h:outputText value=" | " style="margin: 0 5px; font-weight: bold;" />
+			<h:outputText value="IP Address: #{uiConfigBean.localIpAddress}" />
+			<h:outputText value=" | " style="margin: 0 5px; font-weight: bold;" />
+			<h:outputText value="Containerized: #{uiConfigBean.containerized}" />
+			<h:outputText value=" | " style="margin: 0 5px; font-weight: bold;" />
+			<h:outputLabel value="Runtime ID: #{uiConfigBean.runtimeId}" />
 		</p:notificationBar>
 
 	</h:panelGrid>

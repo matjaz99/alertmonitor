@@ -2,6 +2,7 @@
 
 - ~~add support for grafana alerts~~
 - add support for wazooh alerts
+- query elastic and alert
 - server push (https://www.youtube.com/watch?v=5PQR9_Q0vaw)
 - tags: filter by operators AND or OR
 - redesigned journal (not table, but a list with show details)
@@ -11,25 +12,15 @@
 - store alarms in MongoDB
 - function time_of_max
 - downsample - from 1 min (ie 4 metrics) create 1 metric
+- generate report, configure data in report, configure query for report
+- add buttons when selecting dates for query_range (1h ago, 7d ago, ...,  now)
 
 
 https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml
 
 
-https://prom.devops.iskratel.cloud/prometheus/api/v1/query?query=ALERTS
-
-https://prom.devops.iskratel.cloud/prometheus/api/v1/alerts
-
 
 https://www.primefaces.org/showcase
-
-
-
-<h:panelGrid columns="3" style="margin:10px 0">
-						<p:outputLabel for="template" value="Template: " style="font-weight:bold"/>
-						<p:inputText id="template" value="#{dtColumnsView.columnTemplate}" size="50"/>
-						<p:commandButton update="messagesTable" action="#{dtColumnsView.updateColumns}" value="Update" process="@parent" icon="pi pi-refresh" oncomplete="PF('notifsTable').clearFilters()"/>
-					</h:panelGrid>
 
 
 Search

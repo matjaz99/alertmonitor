@@ -28,29 +28,24 @@ import java.util.*;
 
 public class AlertmanagerProcessor {
 
-    public static void processWebhookMessage(WebhookMessage m) throws Exception {
+    public static void processWebhookMessage(WebhookMessage wm) throws Exception {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
+        AmAlertMessage am = gson.fromJson(wm.getBody(), AmAlertMessage.class);
         LogFactory.getLogger().info(am.toString());
         LogFactory.getLogger().info("Number of alerts: " + am.getAlerts().size());
 
-        List<DEvent> dn = convertToDNotif(m, am);
+        List<DEvent> dn = convertToDNotif(wm, am);
 
         AmMetrics.amMessagesReceivedCount++;
         AmMetrics.lastEventTimestamp = System.currentTimeMillis();
 
+        DAO.getInstance().addToJournal(dn);
+
         for (DEvent n : dn) {
 
-            DAO.getInstance().addToJournal(n);
-
             if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(n));
-
-//            if (n.getSeverity().equalsIgnoreCase(Severity.INFORMATIONAL)
-//                    || n.getSeverity().equals(Severity.INDETERMINATE)) {
-//                continue;
-//            }
 
             // correlation
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {

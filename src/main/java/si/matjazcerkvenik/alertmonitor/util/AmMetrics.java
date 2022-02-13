@@ -38,8 +38,8 @@ public class AmMetrics {
 
     public static final Gauge alertmonitor_build_info = Gauge.build()
             .name("alertmonitor_build_info")
-            .help("Alertmonitor version, value contains start time")
-            .labelNames("app", "version", "os")
+            .help("Alertmonitor meta data, value contains start time")
+            .labelNames("app", "runtimeId", "version", "os")
             .register();
 
     public static final Counter alertmonitor_webhook_messages_received_total = Counter.build()

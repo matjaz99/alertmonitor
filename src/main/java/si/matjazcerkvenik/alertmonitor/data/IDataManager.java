@@ -9,12 +9,16 @@ public interface IDataManager {
 
     public void addWebhookMessage(WebhookMessage message);
 
-    public abstract List<WebhookMessage> getWebhookMessages();
+    public List<WebhookMessage> getWebhookMessages();
 
-    public abstract void addToJournal(DEvent event);
+    public void addToJournal(List<DEvent> event);
 
-    public abstract List<DEvent> getJournal();
+    public List<DEvent> getJournal();
 
-    public abstract DEvent getEvent(String id);
+    public DEvent getEvent(String id);
+
+    public void cleanDB();
+
+    public void handleAlarmClearing(DEvent event);
 
 }

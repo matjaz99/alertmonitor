@@ -24,6 +24,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class OnStartListener implements ServletContextListener {
@@ -53,6 +54,9 @@ public class OnStartListener implements ServletContextListener {
         LogFactory.getLogger().info("");
         LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.version);
         LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + DAO.getInstance().getLocalIpAddress());
+
+        AmProps.ALERTMONITOR_RUNTIME_ID = UUID.randomUUID().toString();
+        LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.ALERTMONITOR_RUNTIME_ID);
 
         // read all environment variables
         Map<String, String> map = System.getenv();
@@ -93,7 +97,7 @@ public class OnStartListener implements ServletContextListener {
             AmProps.isContainerized = false;
         }
 
-        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.version, System.getProperty("os.name")).set(AmProps.startUpTime);
+        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.ALERTMONITOR_RUNTIME_ID, AmProps.version, System.getProperty("os.name")).set(AmProps.startUpTime);
 
         // start periodic sync timer
         TaskManager.getInstance().restartPsyncTimer();

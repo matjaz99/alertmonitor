@@ -217,4 +217,13 @@ public class UiConfigBean {
         return Formatter.convertToDHMSFormat(secUp);
     }
 
+    public List<String> getWarnings() {
+        if (DAO.getInstance().getWarnings().size() == 0) return null;
+        return DAO.getInstance().getWarnings();
+    }
+
+    public String getRuntimeId() {
+        return AmProps.ALERTMONITOR_RUNTIME_ID;
+    }
+
 }

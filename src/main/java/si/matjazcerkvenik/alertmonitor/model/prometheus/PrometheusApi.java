@@ -247,25 +247,32 @@ public class PrometheusApi {
 
             response.close();
 
+            DAO.getInstance().removeWarning("prom_api");
+
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
+            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Host");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
+            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Timeout");
         } catch (SocketException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
+            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Socket Error");
         } catch (SSLException e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
+            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("SSL Exception");
         } catch (Exception e) {
             logger.error("PrometheusApi: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
+            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;

@@ -126,7 +126,6 @@ public class PrometheusSyncTask extends TimerTask {
 
                     logger.debug(n.toString());
                     resyncAlerts.add(n);
-                    DAO.getInstance().addToJournal(n);
 
                     if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                         logger.info("PSYNC: Alert exists: {uid=" + n.getUid() + ", cid=" + n.getCorrelationId() + ", alertname=" + n.getAlertname() + ", instance=" + n.getInstance() + "}");
@@ -139,11 +138,16 @@ public class PrometheusSyncTask extends TimerTask {
 
                 } // for each alert
 
-                // clear those in activeAlerts which were not received toBeDeleted=true
+                DAO.getInstance().addToJournal(resyncAlerts);
+
+                // collect all cids that to be deleted
                 List<String> cidToDelete = new ArrayList<>();
                 for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
                     if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
                 }
+
+                // clear those in activeAlerts which were not received (toBeDeleted=true)
+                List<DEvent> temp = new ArrayList<>();
                 for (String cid : cidToDelete) {
                     logger.info("PSYNC: Removing alert: {cid=" + cid + "}");
                     DEvent x = DAO.getInstance().getActiveAlerts().get(cid);
@@ -153,24 +157,28 @@ public class PrometheusSyncTask extends TimerTask {
                     xClone.setSeverity(DSeverity.CLEAR);
                     xClone.setSource("PSYNC");
                     xClone.generateUID();
-                    DAO.getInstance().addToJournal(xClone);
+                    temp.add(xClone);
                     DAO.getInstance().removeActiveAlert(x);
                 }
+                DAO.getInstance().addToJournal(temp);
 
                 logger.info("PSYNC: total psync alerts count: " + resyncAlerts.size());
                 logger.info("PSYNC: new alerts count: " + newAlertsCount);
                 logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
 
                 AmMetrics.psyncSuccessCount++;
+                DAO.getInstance().removeWarning("psync_failed");
 
             } else { // null response
                 logger.error("PSYNC: null response returned");
                 AmMetrics.psyncFailedCount++;
+                DAO.getInstance().addWarning("psync_failed", "Synchronization is failing");
             }
 
         } catch (Exception e) {
             logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());
             AmMetrics.psyncFailedCount++;
+            DAO.getInstance().addWarning("psync_failed", "Synchronization is failing");
         }
 
         logger.info("PSYNC: === Periodic synchronization complete ===");

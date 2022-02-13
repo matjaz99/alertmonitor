@@ -17,6 +17,7 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 public class AmProps {
 
+    public static String ALERTMONITOR_RUNTIME_ID = "0000";
     public static long startUpTime = 0;
     public static String version = "n/a";
     public static boolean isContainerized = false;
@@ -27,9 +28,11 @@ public class AmProps {
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
     public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
-    public static String ALERTMONITOR_KAFKA_SERVER = "kafkahost:9092";
+    public static String ALERTMONITOR_KAFKA_SERVER = "localhost:9092";
     public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
     public static String ALERTMONITOR_PROMETHEUS_ID_LABELS = "cluster, region, monitor";
-    public static boolean ALERTMONITOR_MONGODB_ENABLED = false;
+    public static boolean ALERTMONITOR_MONGODB_ENABLED = true;
+    public static String ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin";
+    public static int ALERTMONITOR_MONGODB_DATA_RETENTION_HOURS = 24 * 7;
 
 }

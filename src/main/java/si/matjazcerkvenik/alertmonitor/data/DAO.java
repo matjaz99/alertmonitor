@@ -15,10 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.data;
 
-import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.DTag;
-import si.matjazcerkvenik.alertmonitor.model.TagColors;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PRule;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PTarget;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
@@ -41,15 +38,14 @@ public class DAO {
 
 
 
-
-    /** Journal of events, limited by JOURNAL_TABLE_SIZE */
-    private List<DEvent> journal = new LinkedList<>();
-
     /** Map of active alerts. Key is correlation id */
     private Map<String, DEvent> activeAlerts = new HashMap<>();
 
     /** Map of tags of active alerts. Key is the tag name */
     private Map<String, DTag> tagMap = new HashMap<>();
+
+    /** Map of warnings in the alertmonitor. It's a map, because it is easier to search and remove */
+    private Map<String, String> warnings = new HashMap<>();
 
     private String localIpAddress;
 
@@ -59,6 +55,7 @@ public class DAO {
         } else {
             dataManager = new InMemoryDataManager();
         }
+        TaskManager.getInstance().startDbMaintenanceTimer();
     }
 
     public static DAO getInstance() {
@@ -68,7 +65,9 @@ public class DAO {
         return instance;
     }
 
-
+    public IDataManager getDataManager() {
+        return dataManager;
+    }
 
     /**
      * Add new webhook message to the list. Also delete oldest messages.
@@ -86,17 +85,14 @@ public class DAO {
 
     /**
      * Add new notification to journal. Also delete oldest notifications.
-     * @param event notification
+     * @param events notifications
      */
-    public void addToJournal(DEvent event) {
-        while (journal.size() > AmProps.JOURNAL_TABLE_SIZE) {
-            DEvent m = journal.remove(0);
-            LogFactory.getLogger().info("Purging journal: " + m.getUid());
-        }
-        journal.add(event);
-        LogFactory.getLogger().info("Adding to journal: " + event.getUid());
+    public void addToJournal(List<DEvent> events) {
+        dataManager.addToJournal(events);
         AmMetrics.journalReceivedCount++;
-        AmMetrics.alertmonitor_journal_messages_total.labels(event.getSeverity()).inc();
+        for (DEvent e : events) {
+            AmMetrics.alertmonitor_journal_messages_total.labels(e.getSeverity()).inc();
+        }
     }
 
     /**
@@ -104,7 +100,7 @@ public class DAO {
      * @return list
      */
     public List<DEvent> getJournal() {
-        return journal;
+        return dataManager.getJournal();
     }
 
     /**
@@ -114,29 +110,23 @@ public class DAO {
      */
     public DEvent getEvent(String id) {
 
-        List<PRule> ruleList = new ArrayList<>();
+        DEvent event = dataManager.getEvent(id);
 
+        List<PRule> ruleList = new ArrayList<>();
         try {
             PrometheusApi api = new PrometheusApi();
             ruleList = api.rules();
-
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
         }
 
-        for (DEvent n : journal) {
-            if (n.getUid().equals(id)) {
-                for (PRule r : ruleList) {
-                    if (n.getAlertname().equals(r.getName())) {
-                        n.setRuleExpression(r.getQuery());
-                        n.setRuleTimeLimit(r.getDuration());
-                    }
-                }
-                return n;
+        for (PRule r : ruleList) {
+            if (event.getAlertname().equals(r.getName())) {
+                event.setRuleExpression(r.getQuery());
+                event.setRuleTimeLimit(r.getDuration());
             }
         }
-
-        return null;
+        return event;
     }
 
     /**
@@ -215,13 +205,7 @@ public class DAO {
      * @param event
      */
     public void removeActiveAlert(DEvent event) {
-        for (DEvent jEvent : journal) {
-            if (jEvent.getCorrelationId().equals(event.getCorrelationId())
-                    && jEvent.getClearTimestamp() == 0) {
-                jEvent.setClearTimestamp(event.getTimestamp());
-                jEvent.setClearUid(event.getUid());
-            }
-        }
+        dataManager.handleAlarmClearing(event);
         event.setFirstTimestamp(event.getTimestamp());
         event.setLastTimestamp(event.getTimestamp());
         activeAlerts.remove(event.getCorrelationId());
@@ -415,5 +399,16 @@ public class DAO {
     }
 
 
+    public void addWarning(String msgId, String msg) {
+        warnings.put(msgId, msg);
+    }
+
+    public void removeWarning(String msgId) {
+        warnings.remove(msgId);
+    }
+
+    public List<String> getWarnings() {
+        return new ArrayList<>(warnings.values());
+    }
 
 }

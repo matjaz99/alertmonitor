@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.model;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.data.DbMaintenanceTask;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
@@ -28,6 +29,9 @@ public class TaskManager {
 
     private Timer pSyncTimer = null;
     private PrometheusSyncTask prometheusSyncTask = null;
+
+    private Timer dbMaintenanceTimer = null;
+    private DbMaintenanceTask dbMaintenanceTask = null;
 
     private TaskManager() {}
 
@@ -62,6 +66,17 @@ public class TaskManager {
             prometheusSyncTask.cancel();
             prometheusSyncTask = null;
         }
+    }
+
+    public void startDbMaintenanceTimer() {
+
+        if (dbMaintenanceTask == null) {
+            LogFactory.getLogger().info("Start DB Maintenance Task");
+            dbMaintenanceTimer = new Timer("DbMaintenanceTimer");
+            dbMaintenanceTask = new DbMaintenanceTask();
+            dbMaintenanceTimer.schedule(dbMaintenanceTask, 23 * 1000, 1 * 3600 * 1000);
+        }
+
     }
 
 }

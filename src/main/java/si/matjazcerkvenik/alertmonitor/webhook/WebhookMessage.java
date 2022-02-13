@@ -26,11 +26,11 @@ public class WebhookMessage {
 	private ID _id;
 
 	private long id;
+	private String runtimeId;
 	private long timestamp;
 	private int contentLength;
 	private String contentType;
 	private String method;
-	private String pathInfo;
 	private String protocol;
 	private String remoteHost;
 	private int remotePort;
@@ -38,6 +38,8 @@ public class WebhookMessage {
 	private String body;
 	private Map<String, String> parameterMap;
 	private Map<String, String> headerMap;
+	private String parameterMapString;
+	private String headerMapString;
 
 	public long getId() {
 		return id;
@@ -45,6 +47,14 @@ public class WebhookMessage {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getRuntimeId() {
+		return runtimeId;
+	}
+
+	public void setRuntimeId(String runtimeId) {
+		this.runtimeId = runtimeId;
 	}
 
 	public long getTimestamp() {
@@ -84,14 +94,6 @@ public class WebhookMessage {
 
 	public void setMethod(String method) {
 		this.method = method.toUpperCase();
-	}
-
-	public String getPathInfo() {
-		return pathInfo;
-	}
-
-	public void setPathInfo(String pathInfo) {
-		this.pathInfo = pathInfo;
 	}
 
 	public String getProtocol() {
@@ -140,6 +142,7 @@ public class WebhookMessage {
 
 	public void setParameterMap(Map<String, String> parameterMap) {
 		this.parameterMap = parameterMap;
+		this.parameterMapString = mapToString(parameterMap);
 	}
 
 	public Map<String, String> getHeaderMap() {
@@ -148,16 +151,25 @@ public class WebhookMessage {
 
 	public void setHeaderMap(Map<String, String> headerMap) {
 		this.headerMap = headerMap;
+		this.headerMapString = mapToString(headerMap);
 	}
-	
-	public String getParameterMapAsString() {
-		return mapToString(parameterMap);
+
+	public String getParameterMapString() {
+		return parameterMapString;
 	}
-	
-	public String getHeaderMapAsString() {
-		return mapToString(headerMap);
+
+	public void setParameterMapString(String parameterMapString) {
+		this.parameterMapString = parameterMapString;
 	}
-	
+
+	public String getHeaderMapString() {
+		return headerMapString;
+	}
+
+	public void setHeaderMapString(String headerMapString) {
+		this.headerMapString = headerMapString;
+	}
+
 	private String mapToString(Map<String, String> m) {
 		
 		String params = "[";
