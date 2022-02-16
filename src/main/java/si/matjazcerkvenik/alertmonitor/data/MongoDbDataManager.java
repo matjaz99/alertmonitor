@@ -44,6 +44,10 @@ public class MongoDbDataManager implements IDataManager {
     public static String dbName = "alertmonitor";
     private MongoClient mongoClient = MongoClients.create(AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING);
 
+    public MongoDbDataManager() {
+        logger.info("MongoDbDataManager initialized");
+    }
+
     @Override
     public void addWebhookMessage(WebhookMessage message) {
 

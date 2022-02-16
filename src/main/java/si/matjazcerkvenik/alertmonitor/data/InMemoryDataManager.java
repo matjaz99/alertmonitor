@@ -4,11 +4,18 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryDataManager implements IDataManager {
+
+    private static SimpleLogger logger = LogFactory.getLogger();
+
+    public InMemoryDataManager() {
+        logger.info("InMemoryDataManager initialized");
+    }
 
     /** List of webhook messages in its raw form. */
     private List<WebhookMessage> webhookMessages = new LinkedList<>();

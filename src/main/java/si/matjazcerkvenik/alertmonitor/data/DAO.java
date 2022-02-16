@@ -24,8 +24,6 @@ import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,8 +34,6 @@ public class DAO {
 
     private IDataManager dataManager;
 
-
-
     /** Map of active alerts. Key is correlation id */
     private Map<String, DEvent> activeAlerts = new HashMap<>();
 
@@ -47,7 +43,7 @@ public class DAO {
     /** Map of warnings in the alertmonitor. It's a map, because it is easier to search and remove */
     private Map<String, String> warnings = new HashMap<>();
 
-    private String localIpAddress;
+
 
     private DAO() {
         if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
@@ -388,15 +384,15 @@ public class DAO {
         return d;
     }
 
-    public String getLocalIpAddress() {
-        if (localIpAddress != null) return localIpAddress;
-        try {
-            localIpAddress = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            localIpAddress = "UnknownHost";
-        }
-        return localIpAddress;
-    }
+//    public String getLocalIpAddress() {
+//        if (localIpAddress != null) return localIpAddress;
+//        try {
+//            localIpAddress = InetAddress.getLocalHost().getHostAddress();
+//        } catch (UnknownHostException e) {
+//            localIpAddress = "UnknownHost";
+//        }
+//        return localIpAddress;
+//    }
 
 
     public void addWarning(String msgId, String msg) {

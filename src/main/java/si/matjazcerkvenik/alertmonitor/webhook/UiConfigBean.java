@@ -41,7 +41,7 @@ public class UiConfigBean {
     public boolean isContainerized() { return AmProps.isContainerized; }
 
     public String getLocalIpAddress() {
-        return DAO.getInstance().getLocalIpAddress();
+        return AmProps.localIpAddress;
     }
 
 

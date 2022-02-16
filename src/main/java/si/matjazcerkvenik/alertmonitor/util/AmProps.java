@@ -21,12 +21,13 @@ public class AmProps {
     public static long startUpTime = 0;
     public static String version = "n/a";
     public static boolean isContainerized = false;
+    public static String localIpAddress;
 
     /** Environment variables */
     public static int ALERTMONITOR_JOURNAL_SIZE = 5000;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
-    public static String DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
+    public static String ALERTMONITOR_DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
     public static String ALERTMONITOR_KAFKA_SERVER = "localhost:9092";
     public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";

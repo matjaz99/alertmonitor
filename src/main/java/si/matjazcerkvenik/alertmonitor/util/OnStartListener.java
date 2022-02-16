@@ -15,12 +15,13 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -39,10 +40,16 @@ public class OnStartListener implements ServletContextListener {
         try {
             DataInputStream dis = new DataInputStream(inputStream);
             BufferedReader br = new BufferedReader(new InputStreamReader(dis));
-            AmProps.version = br.readLine();
+            AmProps.version = br.readLine().trim();
             dis.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try {
+            AmProps.localIpAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            AmProps.localIpAddress = "UnknownHost";
         }
 
         LogFactory.getLogger().info("\n");
@@ -53,12 +60,13 @@ public class OnStartListener implements ServletContextListener {
         LogFactory.getLogger().info("************************************************");
         LogFactory.getLogger().info("");
         LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.version);
-        LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + DAO.getInstance().getLocalIpAddress());
+        LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + AmProps.localIpAddress);
 
         AmProps.ALERTMONITOR_RUNTIME_ID = UUID.randomUUID().toString();
         LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.ALERTMONITOR_RUNTIME_ID);
 
         // read all environment variables
+        LogFactory.getLogger().info("***** Environment variables *****");
         Map<String, String> map = System.getenv();
         for (Map.Entry <String, String> entry: map.entrySet()) {
             LogFactory.getLogger().info(entry.getKey() + "=" + entry.getValue());
@@ -71,7 +79,7 @@ public class OnStartListener implements ServletContextListener {
         if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
         AmProps.ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_SERVER", "http://localhost:9090").trim();
         if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
-        AmProps.DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
+        AmProps.ALERTMONITOR_DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
         AmProps.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
         AmProps.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "localhost:9092").trim();
         AmProps.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_events").trim();

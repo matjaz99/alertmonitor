@@ -16,7 +16,6 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import com.google.gson.Gson;
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +41,7 @@ public class Formatter {
         if (timestamp == 0) return "n/a";
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat(AmProps.DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(AmProps.ALERTMONITOR_DATE_FORMAT);
         return sdf.format(cal.getTime());
     }
 
