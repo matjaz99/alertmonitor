@@ -186,12 +186,12 @@ A list of supported environment variables:
 | EnvVar                             | Description        |
 |------------------------------------|------------------- |
 | ALERTMONITOR_JOURNAL_SIZE          | Maximum journal size (FIFO).  Default: 20000 |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC    | Periodic synchronisation interval in seconds  Default: 900 |
-| ALERTMONITOR_PROMETHEUS_SERVER     | The URL of Prometheus server  Default: http://localhost:9090 |
-| ALERTMONITOR_DATE_FORMAT           | Date format for displaying in GUI  Default: yyyy/MM/dd H:mm:ss |
-| ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka  Default: false |
-| ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka  Default: hostname:9092 |
-| ALERTMONITOR_KAFKA_TOPIC           | Name of topic  Default: alertmonitor_notifications |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC    | Periodic synchronisation interval in seconds.  Default: 900 |
+| ALERTMONITOR_PROMETHEUS_SERVER     | The URL of Prometheus server.  Default: http://localhost:9090 |
+| ALERTMONITOR_DATE_FORMAT           | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss |
+| ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
+| ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka.  Default: hostname:9092 |
+| ALERTMONITOR_KAFKA_TOPIC           | Name of topic.  Default: alertmonitor_notifications |
 
 ### Environment variable substitution
 

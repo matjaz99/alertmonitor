@@ -1,14 +1,10 @@
 package si.matjazcerkvenik.alertmonitor.data;
 
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PRule;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +19,7 @@ public class InMemoryDataManager implements IDataManager {
     @Override
     public void addWebhookMessage(WebhookMessage message) {
         // webhook messages can be 1% of journal size
-        while (webhookMessages.size() > AmProps.JOURNAL_TABLE_SIZE / 100) {
+        while (webhookMessages.size() > AmProps.ALERTMONITOR_JOURNAL_SIZE / 100) {
             webhookMessages.remove(0);
         }
         webhookMessages.add(message);
@@ -36,7 +32,7 @@ public class InMemoryDataManager implements IDataManager {
 
     @Override
     public void addToJournal(List<DEvent> events) {
-        while (journal.size() > AmProps.JOURNAL_TABLE_SIZE) {
+        while (journal.size() > AmProps.ALERTMONITOR_JOURNAL_SIZE) {
             DEvent m = journal.remove(0);
             LogFactory.getLogger().info("Purging journal: " + m.getUid());
         }

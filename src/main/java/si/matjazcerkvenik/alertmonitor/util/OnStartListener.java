@@ -65,7 +65,7 @@ public class OnStartListener implements ServletContextListener {
         }
 
         // read configuration from environment variables
-        AmProps.JOURNAL_TABLE_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "20000").trim());
+        AmProps.ALERTMONITOR_JOURNAL_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_JOURNAL_SIZE", "20000").trim());
         AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
         AmProps.ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PSYNC_ENDPOINT", "http://centosvm:9090").trim(); // To be deleted
         if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
@@ -76,6 +76,8 @@ public class OnStartListener implements ServletContextListener {
         AmProps.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "localhost:9092").trim();
         AmProps.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_events").trim();
         AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_ID_LABELS", "cluster, region, monitor").trim();
+        AmProps.ALERTMONITOR_MONGODB_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_ENABLED", "false").trim());
+        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:password@localhost:27017/test?w=majority&authSource=admin").trim();
 
         // runtime memory info
         int mb = 1024 * 1024;

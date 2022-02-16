@@ -122,12 +122,12 @@ public class UiConfigBean {
 
     public void setJournalMaxSize(String size) {
 
-        AmProps.JOURNAL_TABLE_SIZE = Integer.parseInt(size);
-        LogFactory.getLogger().info("WebhookBean: journal max size changed: " + AmProps.JOURNAL_TABLE_SIZE);
+        AmProps.ALERTMONITOR_JOURNAL_SIZE = Integer.parseInt(size);
+        LogFactory.getLogger().info("WebhookBean: journal max size changed: " + AmProps.ALERTMONITOR_JOURNAL_SIZE);
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
 
-    public String getJournalMaxSize() { return Integer.toString(AmProps.JOURNAL_TABLE_SIZE); }
+    public String getJournalMaxSize() { return Integer.toString(AmProps.ALERTMONITOR_JOURNAL_SIZE); }
 
     public long getWhMsgCount() {
         return AmMetrics.webhookMessagesReceivedCount;
