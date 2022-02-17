@@ -6,6 +6,7 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,10 +26,6 @@ public class InMemoryDataManager implements IDataManager {
 
     @Override
     public void addWebhookMessage(WebhookMessage message) {
-        // webhook messages can be 1% of journal size
-        while (webhookMessages.size() > AmProps.ALERTMONITOR_JOURNAL_SIZE / 100) {
-            webhookMessages.remove(0);
-        }
         webhookMessages.add(message);
     }
 
@@ -39,13 +36,9 @@ public class InMemoryDataManager implements IDataManager {
 
     @Override
     public void addToJournal(List<DEvent> events) {
-        while (journal.size() > AmProps.ALERTMONITOR_JOURNAL_SIZE) {
-            DEvent m = journal.remove(0);
-            LogFactory.getLogger().info("Purging journal: " + m.getUid());
-        }
         journal.addAll(events);
         for (DEvent e : events) {
-            LogFactory.getLogger().info("Adding to journal: " + e.getUid());
+            LogFactory.getLogger().info("InMemoryDataManager: adding to journal: uid=" + e.getUid());
         }
 
     }
@@ -56,8 +49,12 @@ public class InMemoryDataManager implements IDataManager {
     }
 
     @Override
-    public DEvent getEvent(String id) {
+    public long getJournalSize() {
+        return journal.size();
+    }
 
+    @Override
+    public DEvent getEvent(String id) {
         for (DEvent n : journal) {
             if (n.getUid().equals(id)) {
                 return n;
@@ -68,7 +65,16 @@ public class InMemoryDataManager implements IDataManager {
 
     @Override
     public void cleanDB() {
-        // not applicable
+        for (Iterator<WebhookMessage> it = webhookMessages.iterator(); it.hasNext();) {
+            if (it.next().getTimestamp() < (System.currentTimeMillis() - 24 * 3600 * 1000)) {
+                it.remove();
+            }
+        }
+        for (Iterator<DEvent> it = journal.iterator(); it.hasNext();) {
+            if (it.next().getTimestamp() < (System.currentTimeMillis() - AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000)) {
+                it.remove();
+            }
+        }
     }
 
     @Override

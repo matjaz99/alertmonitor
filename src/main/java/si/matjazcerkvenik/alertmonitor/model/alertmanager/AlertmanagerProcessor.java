@@ -33,7 +33,7 @@ public class AlertmanagerProcessor {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         AmAlertMessage am = gson.fromJson(wm.getBody(), AmAlertMessage.class);
-        LogFactory.getLogger().info(am.toString());
+        LogFactory.getLogger().debug(am.toString());
         LogFactory.getLogger().info("Number of alerts: " + am.getAlerts().size());
 
         List<DEvent> dn = convertToDNotif(wm, am);

@@ -15,6 +15,8 @@ public interface IDataManager {
 
     public List<DEvent> getJournal();
 
+    public long getJournalSize();
+
     public DEvent getEvent(String id);
 
     public void cleanDB();

@@ -56,23 +56,36 @@ public class UiConfigBean {
     public void setPromServer(String server) {
         if (server.endsWith("/")) server = server.substring(0, server.length()-1);
         AmProps.ALERTMONITOR_PROMETHEUS_SERVER = server;
-        LogFactory.getLogger().info("WebhookBean: prometheus server changed: " + server);
+        LogFactory.getLogger().info("UiConfigBean: prometheus server changed: " + server);
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
 
     public void setPsyncInterval(String interval) {
 
         AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-        LogFactory.getLogger().info("WebhookBean: psync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        LogFactory.getLogger().info("UiConfigBean: psync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
 //		Growl.showInfoGrowl("Configuration updated", "");
         TaskManager.getInstance().restartPsyncTimer();
     }
 
     public String getPsyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
 
+    public void setDataRetention(String time) {
+        try {
+            AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(time);
+            LogFactory.getLogger().info("UiConfigBean: data retention changed: " + AmProps.ALERTMONITOR_DATA_RETENTION_DAYS);
+        } catch (Exception e) {
+            LogFactory.getLogger().error("UiConfigBean: Exception: " + e.getMessage());
+        }
+    }
+
+    public String getDataRetention() {
+        return AmProps.ALERTMONITOR_DATA_RETENTION_DAYS + "";
+    }
+
     public void setKafkaEnabled(boolean kafkaEnabled) {
         AmProps.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;
-        LogFactory.getLogger().info("WebhookBean: kafka enabled changed: " + AmProps.ALERTMONITOR_KAFKA_ENABLED);
+        LogFactory.getLogger().info("UiConfigBean: kafka enabled changed: " + AmProps.ALERTMONITOR_KAFKA_ENABLED);
     }
 
     public boolean isKafkaEnabled() {
@@ -81,7 +94,7 @@ public class UiConfigBean {
 
     public void setKafkaServer(String kafkaServer) {
         AmProps.ALERTMONITOR_KAFKA_SERVER = kafkaServer;
-        LogFactory.getLogger().info("WebhookBean: kafka server changed: " + AmProps.ALERTMONITOR_KAFKA_SERVER);
+        LogFactory.getLogger().info("UiConfigBean: kafka server changed: " + AmProps.ALERTMONITOR_KAFKA_SERVER);
         KafkaClient.getInstance().resetClient();
     }
 
@@ -91,7 +104,7 @@ public class UiConfigBean {
 
     public void setKafkaTopic(String kafkaTopic) {
         AmProps.ALERTMONITOR_KAFKA_TOPIC = kafkaTopic;
-        LogFactory.getLogger().info("WebhookBean: kafka topic changed: " + AmProps.ALERTMONITOR_KAFKA_TOPIC);
+        LogFactory.getLogger().info("UiConfigBean: kafka topic changed: " + AmProps.ALERTMONITOR_KAFKA_TOPIC);
     }
 
     public String getKafkaTopic() {
@@ -100,7 +113,7 @@ public class UiConfigBean {
 
     public String reloadPrometheusAction() {
 
-        LogFactory.getLogger().debug("reloadPrometheusAction called");
+        LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
 
         try {
             PrometheusApi api = new PrometheusApi();
@@ -120,15 +133,6 @@ public class UiConfigBean {
 
     /* STATISTICS */
 
-    public void setJournalMaxSize(String size) {
-
-        AmProps.ALERTMONITOR_JOURNAL_SIZE = Integer.parseInt(size);
-        LogFactory.getLogger().info("WebhookBean: journal max size changed: " + AmProps.ALERTMONITOR_JOURNAL_SIZE);
-//		Growl.showInfoGrowl("Configuration updated", "");
-    }
-
-    public String getJournalMaxSize() { return Integer.toString(AmProps.ALERTMONITOR_JOURNAL_SIZE); }
-
     public long getWhMsgCount() {
         return AmMetrics.webhookMessagesReceivedCount;
     }
@@ -142,7 +146,7 @@ public class UiConfigBean {
     }
 
     public long getJournalSize() {
-        return DAO.getInstance().getJournal().size();
+        return DAO.getInstance().getJournalSize();
     }
 
     public long getAlarmsCount() {

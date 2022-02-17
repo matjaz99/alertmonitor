@@ -16,7 +16,7 @@ services:
     environment:
       - SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log
       - GRAFANA_HOSTNAME=my.grafana.domain
-      - ALERTMONITOR_JOURNAL_SIZE=20000
+      - ALERTMONITOR_DATA_RETENTION_DAYS=7
       - ALERTMONITOR_PSYNC_INTERVAL_SEC=900
       - ALERTMONITOR_PROMETHEUS_SERVER=http://localhost:9090
       - ALERTMONITOR_DATE_FORMAT="yyyy/MM/dd H:mm:ss"

@@ -1,5 +1,6 @@
 ## 2.2.2-SNAPSHOT
 
+* [CHANGE] `ALERTMONITOR_JOURNAL_SIZE` is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
 * [FEATURE] working on MongoDB
 * [FEATURE] Separate alert.log only for alerts
 * [ENHANCEMENT] Internal warnings are displayed in Statistics view (such as Prom API not available)

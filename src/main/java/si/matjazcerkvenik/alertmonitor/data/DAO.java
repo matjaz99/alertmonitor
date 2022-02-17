@@ -99,6 +99,10 @@ public class DAO {
         return dataManager.getJournal();
     }
 
+    public long getJournalSize() {
+        return dataManager.getJournalSize();
+    }
+
     /**
      * Get single event from journal
      * @param id unique ID of event

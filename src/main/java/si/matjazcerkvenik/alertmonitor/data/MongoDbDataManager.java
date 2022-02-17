@@ -36,7 +36,6 @@ import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class MongoDbDataManager implements IDataManager {
 
@@ -139,7 +138,7 @@ public class MongoDbDataManager implements IDataManager {
 
         if (events.size() == 0) return;
 
-        logger.info("MongoDbDataManager: addToJournal");
+        logger.info("MongoDbDataManager: addToJournal (" + events.size() + ")");
 
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
@@ -148,7 +147,7 @@ public class MongoDbDataManager implements IDataManager {
             List<Document> list = new ArrayList<>();
 
             for (DEvent e : events) {
-                LogFactory.getLogger().info("Adding to journal: " + e.getUid());
+                LogFactory.getLogger().info("MongoDbDataManager: adding to journal uid=" + e.getUid());
                 Document doc = Document.parse(new Gson().toJson(e));
                 list.add(doc);
             }
@@ -217,6 +216,22 @@ public class MongoDbDataManager implements IDataManager {
     }
 
     @Override
+    public long getJournalSize() {
+        logger.info("MongoDbDataManager: getJournalSize");
+
+        try {
+            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoCollection<Document> collection = db.getCollection("journal");
+
+            return collection.countDocuments();
+
+        } catch (Exception e) {
+            logger.error("MongoDbDataManager: getJournalSize: Exception: ", e);
+        }
+        return 0;
+    }
+
+    @Override
     public DEvent getEvent(String id) {
         logger.info("MongoDbDataManager: getEvent");
 
@@ -270,7 +285,8 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("webhook_messages");
 
             // Delete Many Documents
-            Bson filter = Filters.lte("timestamp", System.currentTimeMillis() - 3 * 3600 * 1000);
+            Bson filter = Filters.lte("timestamp",
+                    System.currentTimeMillis() - AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000);
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany);
 
