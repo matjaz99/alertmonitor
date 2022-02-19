@@ -19,6 +19,10 @@ public interface IDataManager {
 
     public DEvent getEvent(String id);
 
+    public int getNumberOfAlertsInLastHour();
+
+    public String getAlertsPerSecondInLastHour();
+
     public void cleanDB();
 
     public void handleAlarmClearing(DEvent event);

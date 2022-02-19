@@ -1,8 +1,13 @@
+## 2.2.3-SNAPSHOT
+
+* [CHANGE] `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
+* [FEATURE] working on MongoDB
+* [FEATURE] Warning messages, under Statistics view (aka. Alertmonitor's internal alarms)
+* [FEATURE] Separate alert.log only for alerts
+
+
 ## 2.2.2-SNAPSHOT
 
-* [CHANGE] `ALERTMONITOR_JOURNAL_SIZE` is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
-* [FEATURE] working on MongoDB
-* [FEATURE] Separate alert.log only for alerts
 * [ENHANCEMENT] Internal warnings are displayed in Statistics view (such as Prom API not available)
 * [ENHANCEMENT] Added `prometheusId` which consists of a set of labels, that identify this prometheus server. 
 Which labels denote to the ID are configurable with environment variable `ALERTMONITOR_PROMETHEUS_ID_LABELS`. 

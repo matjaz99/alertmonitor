@@ -7,8 +7,6 @@ public class LogFactory {
     private static SimpleLogger logger = null;
     private static SimpleLogger alertLog = null;
 
-    private static boolean devEnv = false;
-
     {
         getLogger(); // force calling getLogger just to initialize devEnv.
     }
@@ -20,7 +18,7 @@ public class LogFactory {
                 // if env variable would be set, logger will be already configured
                 // so if it was not set, I will assume this is a development environment
                 // and write logs to file in working directory
-                devEnv = true;
+                AmProps.devEnv = true;
                 logger.setFilename("./alertmonitor.log");
             }
         }
@@ -29,7 +27,7 @@ public class LogFactory {
 
     public static SimpleLogger getAlertLog() {
         if (alertLog == null) {
-            if (devEnv) {
+            if (AmProps.devEnv) {
                 // write file in local working directory
                 alertLog = new SimpleLogger("./alerts.log");
             } else {

@@ -23,6 +23,8 @@ public class AmProps {
     public static boolean isContainerized = false;
     public static String localIpAddress;
 
+    public static boolean devEnv = false;
+
     /** Environment variables */
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;

@@ -6,9 +6,12 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InMemoryDataManager implements IDataManager {
 
@@ -51,6 +54,30 @@ public class InMemoryDataManager implements IDataManager {
     @Override
     public long getJournalSize() {
         return journal.size();
+    }
+
+    @Override
+    public int getNumberOfAlertsInLastHour() {
+        List<DEvent> result = journal.stream()
+                .filter(notif -> checkIfYoungerThan(notif, 60))
+                .collect(Collectors.toList());
+        return result.size();
+    }
+
+    @Override
+    public String getAlertsPerSecondInLastHour() {
+        List<DEvent> result = journal.stream()
+                .filter(notif -> checkIfYoungerThan(notif, 60))
+                .collect(Collectors.toList());
+        int count = result.size();
+        double perSecond = count / 3600.0;
+        DecimalFormat df2 = new DecimalFormat("#.###");
+        return df2.format(perSecond);
+    }
+
+    private boolean checkIfYoungerThan(DEvent event, int minutes) {
+        if (System.currentTimeMillis() - event.getTimestamp() < minutes * 60 * 1000) return true;
+        return false;
     }
 
     @Override

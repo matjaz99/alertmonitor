@@ -17,7 +17,9 @@ package si.matjazcerkvenik.alertmonitor.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.*;
 import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -34,16 +36,34 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class MongoDbDataManager implements IDataManager {
 
     private static SimpleLogger logger = LogFactory.getLogger();
     public static String dbName = "alertmonitor";
-    private MongoClient mongoClient = MongoClients.create(AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING);
+    private MongoClient mongoClient;
 
     public MongoDbDataManager() {
+//        mongoClient = MongoClients.create(AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING);
+
+        int timeoutSeconds = 5;
+
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyToSocketSettings(builder -> {
+                    builder.connectTimeout(timeoutSeconds * 1000, MILLISECONDS);
+                    builder.readTimeout(timeoutSeconds * 1000, MILLISECONDS);
+                })
+                .applyToClusterSettings( builder -> builder.serverSelectionTimeout(timeoutSeconds * 1000, MILLISECONDS))
+                .applyConnectionString(new ConnectionString(AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING))
+                .build();
+
+        mongoClient = MongoClients.create(settings);
+
         logger.info("MongoDbDataManager initialized");
     }
 
@@ -75,8 +95,11 @@ public class MongoDbDataManager implements IDataManager {
             // insert one doc
             collection.insertOne(doc);
 
+            DAO.getInstance().removeWarning("mongo");
+
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: addWebhookMessage: Exception: ", e);
+            logger.error("MongoDbDataManager: addWebhookMessage: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
 
     }
@@ -125,10 +148,13 @@ public class MongoDbDataManager implements IDataManager {
                 webhookMessageList.add(m);
             }
 
+            DAO.getInstance().removeWarning("mongo");
+
             return webhookMessageList;
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: getWebhookMessages: Exception: ", e);
+            logger.error("MongoDbDataManager: getWebhookMessages: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
         return null;
     }
@@ -154,8 +180,11 @@ public class MongoDbDataManager implements IDataManager {
 
             collection.insertMany(list, new InsertManyOptions().ordered(false));
 
+            DAO.getInstance().removeWarning("mongo");
+
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: addToJournal: Exception: ", e);
+            logger.error("MongoDbDataManager: addToJournal: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
 
     }
@@ -178,39 +207,17 @@ public class MongoDbDataManager implements IDataManager {
             List<DEvent> webhookMessageList = new ArrayList<>();
 
             for (Document doc : docsResultList) {
-                DEvent e = new DEvent();
-                e.setUid(doc.getString("uid"));
-                e.setCorrelationId(doc.getString("correlationId"));
-                e.setTimestamp(doc.getLong("timestamp"));
-                e.setSource(doc.getString("source"));
-                e.setAlertname(doc.getString("alertname"));
-                e.setUserAgent(doc.getString("userAgent"));
-                e.setInfo(doc.getString("info"));
-                e.setInstance(doc.getString("instance"));
-                e.setHostname(doc.getString("hostname"));
-                e.setNodename(doc.getString("nodename"));
-                e.setJob(doc.getString("job"));
-                e.setTags(doc.getString("tags"));
-                e.setSeverity(doc.getString("severity"));
-                e.setPriority(doc.getString("priority"));
-                e.setGroup(doc.getString("group"));
-                e.setEventType(doc.getString("eventType"));
-                e.setProbableCause(doc.getString("probableCause"));
-                e.setCurrentValue(doc.getString("currentValue"));
-                e.setUrl(doc.getString("url"));
-                e.setDescription(doc.getString("description"));
-                e.setStatus(doc.getString("status"));
-                e.setGeneratorUrl(doc.getString("generatorUrl"));
-                e.setPrometheusId(doc.getString("prometheusId"));
-//                e.setOtherLabels("TODO");
-
+                DEvent e = convertToDEvent(doc);
                 webhookMessageList.add(e);
             }
+
+            DAO.getInstance().removeWarning("mongo");
 
             return webhookMessageList;
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: getJournal: Exception: ", e);
+            logger.error("MongoDbDataManager: getJournal: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
         return null;
     }
@@ -223,12 +230,43 @@ public class MongoDbDataManager implements IDataManager {
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("journal");
 
+            DAO.getInstance().removeWarning("mongo");
+
             return collection.countDocuments();
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: getJournalSize: Exception: ", e);
+            logger.error("MongoDbDataManager: getJournalSize: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
-        return 0;
+        return -1;
+    }
+
+    @Override
+    public int getNumberOfAlertsInLastHour() {
+        logger.info("MongoDbDataManager: getNumberOfAlertsInLastHour");
+
+        try {
+            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoCollection<Document> collection = db.getCollection("journal");
+
+            Bson filter = Filters.gte("timestamp", System.currentTimeMillis() - 3600 * 1000);
+
+            return (int) collection.countDocuments(filter);
+
+        } catch (Exception e) {
+            logger.error("MongoDbDataManager: getNumberOfAlertsInLastHour: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
+        }
+        return -1;
+    }
+
+    @Override
+    public String getAlertsPerSecondInLastHour() {
+        int i = getNumberOfAlertsInLastHour();
+        if (i < 0) return "n/a";
+        double perSecond = i / 3600.0;
+        DecimalFormat df2 = new DecimalFormat("#.###");
+        return df2.format(perSecond);
     }
 
     @Override
@@ -240,39 +278,50 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Document doc = collection.find(Filters.eq("uid", id)).first();
+            DEvent event = convertToDEvent(doc);
 
-            DEvent event = new DEvent();
-            event.setUid(doc.getString("uid"));
-            event.setCorrelationId(doc.getString("correlationId"));
-            event.setTimestamp(doc.getLong("timestamp"));
-            event.setSource(doc.getString("source"));
-            event.setAlertname(doc.getString("alertname"));
-            event.setUserAgent(doc.getString("userAgent"));
-            event.setInfo(doc.getString("info"));
-            event.setInstance(doc.getString("instance"));
-            event.setHostname(doc.getString("hostname"));
-            event.setNodename(doc.getString("nodename"));
-            event.setJob(doc.getString("job"));
-            event.setTags(doc.getString("tags"));
-            event.setSeverity(doc.getString("severity"));
-            event.setPriority(doc.getString("priority"));
-            event.setGroup(doc.getString("group"));
-            event.setEventType(doc.getString("eventType"));
-            event.setProbableCause(doc.getString("probableCause"));
-            event.setCurrentValue(doc.getString("currentValue"));
-            event.setUrl(doc.getString("url"));
-            event.setDescription(doc.getString("description"));
-            event.setStatus(doc.getString("status"));
-            event.setGeneratorUrl(doc.getString("generatorUrl"));
-            event.setPrometheusId(doc.getString("prometheusId"));
-//            event.setOtherLabels("TODO");
+            DAO.getInstance().removeWarning("mongo");
 
             return event;
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: getEvent: Exception: ", e);
+            logger.error("MongoDbDataManager: getEvent: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
         return null;
+    }
+
+    private DEvent convertToDEvent(Document doc) {
+        DEvent event = new DEvent();
+        event.setUid(doc.getString("uid"));
+        event.setCorrelationId(doc.getString("correlationId"));
+        event.setTimestamp(doc.getLong("timestamp"));
+        event.setFirstTimestamp(doc.getLong("firstTimestamp"));
+        event.setLastTimestamp(doc.getLong("lastTimestamp"));
+        event.setClearTimestamp(doc.getLong("clearTimestamp"));
+        event.setClearUid(doc.getString("clearUid"));
+        event.setSource(doc.getString("source"));
+        event.setUserAgent(doc.getString("userAgent"));
+        event.setAlertname(doc.getString("alertname"));
+        event.setInfo(doc.getString("info"));
+        event.setInstance(doc.getString("instance"));
+        event.setHostname(doc.getString("hostname"));
+        event.setNodename(doc.getString("nodename"));
+        event.setJob(doc.getString("job"));
+        event.setTags(doc.getString("tags"));
+        event.setSeverity(doc.getString("severity"));
+        event.setPriority(doc.getString("priority"));
+        event.setGroup(doc.getString("group"));
+        event.setEventType(doc.getString("eventType"));
+        event.setProbableCause(doc.getString("probableCause"));
+        event.setCurrentValue(doc.getString("currentValue"));
+        event.setUrl(doc.getString("url"));
+        event.setDescription(doc.getString("description"));
+        event.setStatus(doc.getString("status"));
+        event.setGeneratorUrl(doc.getString("generatorUrl"));
+        event.setPrometheusId(doc.getString("prometheusId"));
+        event.setOtherLabelsString(doc.getString("otherLabelsString"));
+        return event;
     }
 
     @Override
@@ -294,8 +343,11 @@ public class MongoDbDataManager implements IDataManager {
             DeleteResult resultDeleteMany2 = collection2.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany2);
 
+            DAO.getInstance().removeWarning("mongo");
+
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: cleanDB: Exception: ", e);
+            logger.error("MongoDbDataManager: cleanDB: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
     }
 
@@ -305,15 +357,20 @@ public class MongoDbDataManager implements IDataManager {
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("journal");
 
-            Bson filter = Filters.eq("correlationId", event.getCorrelationId());
-            // and clearTS = 0
-            Bson updateOperation = Updates.set("clearTimestamp", event.getClearTimestamp());
-            // and clearUid = uid
-            UpdateResult updateResult = collection.updateMany(filter, updateOperation);
+            Bson filter = Filters.and(
+                    Filters.eq("correlationId", event.getCorrelationId()),
+                    Filters.eq("clearTimestamp", 0));
+            Bson updateOperation1 = Updates.set("clearTimestamp", event.getClearTimestamp());
+            Bson updateOperation2 = Updates.set("clearUid", event.getClearTimestamp());
+            Bson updates = Updates.combine(updateOperation1, updateOperation2);
+            UpdateResult updateResult = collection.updateMany(filter, updates);
             logger.info("MongoDbDataManager: handleAlarmClearing: result" + updateResult);
 
+            DAO.getInstance().removeWarning("mongo");
+
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: handleAlarmClearing: Exception: ", e);
+            logger.error("MongoDbDataManager: handleAlarmClearing: Exception: " + e.getMessage());
+            DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
     }
 }

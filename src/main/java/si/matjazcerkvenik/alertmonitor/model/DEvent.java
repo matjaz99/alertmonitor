@@ -105,6 +105,7 @@ public class DEvent implements Cloneable {
 
 	/** Other labels, such as external_labels or custom labels in alerts. */
 	private Map<String, String> otherLabels;
+	private String otherLabelsString;
 
 	/** A rule that caused this notification */
 	private String ruleExpression = "";
@@ -414,6 +415,15 @@ public class DEvent implements Cloneable {
 		for (int i = 0; i < lblArray.length; i++) {
 			otherLabels.remove(lblArray[i].trim());
 		}
+		otherLabelsString = otherLabels.toString();
+	}
+
+	public String getOtherLabelsString() {
+		return otherLabelsString;
+	}
+
+	public void setOtherLabelsString(String otherLabelsString) {
+		this.otherLabelsString = otherLabelsString;
 	}
 
 	public void generateUID() {

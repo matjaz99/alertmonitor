@@ -44,6 +44,10 @@ public class TaskManager {
 
         stopPsyncTimer();
 
+        if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC == 0) {
+            LogFactory.getLogger().info("PSync is disabled");
+        }
+
         // start resync timer
         if (prometheusSyncTask == null) {
             LogFactory.getLogger().info("Start periodic sync task with period=" + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);

@@ -133,25 +133,25 @@ public class UiQueryBean {
 
         PrometheusApi api = new PrometheusApi();
         try {
-            PQueryMessage msg = api.query(query);  // TODO put this in DAO
+            PQueryMessage msg = api.query(query);
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                LogFactory.getLogger().error("executeQuery: result: " + result);
+                LogFactory.getLogger().error("UiQueryBean: executeQuery: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                LogFactory.getLogger().error("executeQuery: result is null");
+                LogFactory.getLogger().error("UiQueryBean: executeQuery: result is null");
                 result = "result is null";
                 return;
             }
 
-            LogFactory.getLogger().info("executeQuery: size: " + queryResult.size());
+            LogFactory.getLogger().info("UiQueryBean: executeQuery: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
-                LogFactory.getLogger().debug("executeQuery: " + r.toString());
+                LogFactory.getLogger().debug("UiQueryBean: executeQuery: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {
@@ -172,25 +172,25 @@ public class UiQueryBean {
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                LogFactory.getLogger().error("executeQueryRange: result: " + result);
+                LogFactory.getLogger().error("UiQueryBean: executeQueryRange: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                LogFactory.getLogger().error("executeQueryRange: result is null");
+                LogFactory.getLogger().error("UiQueryBean: executeQueryRange: result is null");
                 result = "result is null";
                 return;
             }
 
-            LogFactory.getLogger().info("executeQueryRange: size: " + queryResult.size());
+            LogFactory.getLogger().info("UiQueryBean: executeQueryRange: size: " + queryResult.size());
             for (PQueryResult r : queryResult) {
-                LogFactory.getLogger().debug("executeQueryRange: " + r.toString());
+                LogFactory.getLogger().debug("UiQueryBean: executeQueryRange: " + r.toString());
             }
 
         } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error(e.getMessage(), e);
+            LogFactory.getLogger().error(e.getMessage() + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         }
     }
@@ -213,14 +213,14 @@ public class UiQueryBean {
 
             if (msg.getErrorType() != null) {
                 result = msg.getErrorType() + ": " + msg.getError();
-                LogFactory.getLogger().error("executeQuery: result: " + result);
+                LogFactory.getLogger().error("doMySpecialFunction: result: " + result);
                 return;
             }
 
             queryResult = msg.getData().getResult();
 
             if (queryResult == null) {
-                LogFactory.getLogger().error("executeQuery: result is null");
+                LogFactory.getLogger().error("doMySpecialFunction: result is null");
                 result = "result is null";
                 return;
             }

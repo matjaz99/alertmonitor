@@ -174,28 +174,14 @@ public class UiConfigBean {
     }
 
     public int getNumberOfAlertsInLastHour() {
-        List<DEvent> list = new ArrayList<DEvent>(DAO.getInstance().getJournal());
-        List<DEvent> result = list.stream()
-                .filter(notif -> checkIfYoungerThan(notif, 60))
-                .collect(Collectors.toList());
-        return result.size();
+        return DAO.getInstance().getDataManager().getNumberOfAlertsInLastHour();
     }
 
     public String getAlertsPerSecondInLastHour() {
-        List<DEvent> list = new ArrayList<DEvent>(DAO.getInstance().getJournal());
-        List<DEvent> result = list.stream()
-                .filter(notif -> checkIfYoungerThan(notif, 60))
-                .collect(Collectors.toList());
-        int count = result.size();
-        double perSecond = count / 3600.0;
-        DecimalFormat df2 = new DecimalFormat("#.###");
-        return df2.format(perSecond);
+        return DAO.getInstance().getDataManager().getAlertsPerSecondInLastHour();
     }
 
-    private boolean checkIfYoungerThan(DEvent notif, int minutes) {
-        if (System.currentTimeMillis() - notif.getTimestamp() < minutes * 60 * 1000) return true;
-        return false;
-    }
+
 
     public String getBalanceFactor() {
         DecimalFormat df2 = new DecimalFormat("#.##");
