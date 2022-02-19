@@ -173,6 +173,12 @@ Here it is possible to change some configuration parameters during runtime.
 Application meta data, version, build info, maintainers, public channels...
 
 
+## Persistence
+
+Alertmonitor supports storing data in MongoDB. See configuration.
+
+
+
 ## Configuration
 
 ### Application configuration
@@ -185,13 +191,15 @@ A list of supported environment variables:
 
 | EnvVar                             | Description        |
 |------------------------------------|------------------- |
-| ALERTMONITOR_JOURNAL_SIZE          | Maximum journal size (FIFO).  Default: 20000 |
+| ALERTMONITOR_DATA_RETENTION_DAYS   | History data in days.  Default: 7 |
 | ALERTMONITOR_PSYNC_INTERVAL_SEC    | Periodic synchronisation interval in seconds.  Default: 900 |
 | ALERTMONITOR_PROMETHEUS_SERVER     | The URL of Prometheus server.  Default: http://localhost:9090 |
 | ALERTMONITOR_DATE_FORMAT           | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss |
 | ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
 | ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka.  Default: hostname:9092 |
 | ALERTMONITOR_KAFKA_TOPIC           | Name of topic.  Default: alertmonitor_notifications |
+| ALERTMONITOR_MONGODB_ENABLED       | Enable or disable storing data to MongoDB. Default: false | 
+| ALERTMONITOR_MONGODB_CONNECTION_STRING | The connection string for MongoDB (username, password and host). |
 
 ### Environment variable substitution
 

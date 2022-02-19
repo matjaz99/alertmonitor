@@ -36,7 +36,7 @@
 				</p:ajaxStatus>
 
 				<br/>
-				<p:inputText id="queryString" value="#{uiQueryBean.query}" style="width: 90%"/>
+				<p:inputText id="queryString" value="#{uiQueryBean.query}" style="width: 90%;"/>
 				<p:commandButton value="Execute"  update="display" action="#{uiQueryBean.execute}" style="width: 10%"/>
 				<br/>
 
@@ -48,12 +48,24 @@
 				</p:panel>
 
 				<p:panel rendered="#{uiQueryBean.queryRangeEnabled}">
-					<p:panelGrid columns="2" layout="tabular" styleClass="ui-noborder">
+					<p:panelGrid columns="3" layout="tabular" styleClass="ui-noborder">
 						<p:outputLabel for="startDateButton" value="From:" rendered="#{uiQueryBean.queryRangeEnabled}"/>
 						<p:datePicker id="startDateButton" value="#{uiQueryBean.startDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:panel styleClass="ui-noborder">
+							<p:commandButton value="Today" action="#{uiQueryBean.confTimeRange('today')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="Yesterday" action="#{uiQueryBean.confTimeRange('yesterday')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="This month" action="#{uiQueryBean.confTimeRange('month')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="Last 90 days" action="#{uiQueryBean.confTimeRange('90d')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+						</p:panel>
 
 						<p:outputLabel for="endDateButton" value="To:" rendered="#{uiQueryBean.queryRangeEnabled}"/>
 						<p:datePicker id="endDateButton" value="#{uiQueryBean.endDate}" showTime="true" showIcon="true" rendered="#{uiQueryBean.queryRangeEnabled}"/>
+						<p:panel styleClass="ui-noborder">
+							<p:commandButton value="Last 1 hour" action="#{uiQueryBean.confTimeRange('1h')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="Last 4 hours" action="#{uiQueryBean.confTimeRange('4h')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="Last 24 hours" action="#{uiQueryBean.confTimeRange('24h')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+							<p:commandButton value="Last 7 days" action="#{uiQueryBean.confTimeRange('7d')}" update="queryForm" styleClass="ui-button-outlined ui-button-secondary" style="margin-right: 10px;" />
+						</p:panel>
 
 						<p:outputLabel value="Step: " rendered="#{uiQueryBean.queryRangeEnabled}"/>
 						<p:inputText value="#{uiQueryBean.step}" rendered="#{uiQueryBean.queryRangeEnabled}"/>

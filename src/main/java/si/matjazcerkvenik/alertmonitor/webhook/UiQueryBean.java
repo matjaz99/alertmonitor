@@ -27,10 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ManagedBean
 @SessionScoped
@@ -161,6 +158,7 @@ public class UiQueryBean {
     }
 
     public void executeQueryRange() {
+
         PrometheusApi api = new PrometheusApi();
         try {
 
@@ -193,6 +191,63 @@ public class UiQueryBean {
             LogFactory.getLogger().error(e.getMessage() + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         }
+    }
+
+    public String confTimeRange(String s) {
+        if (startDate == null) startDate = new Date();
+        if (endDate == null) endDate = new Date();
+        if (s.equals("1h")) {
+            startDate.setTime(System.currentTimeMillis() - 3600 * 1000);
+            endDate.setTime(System.currentTimeMillis());
+            step = "1m";
+        } else if (s.equals("4h")) {
+            startDate.setTime(System.currentTimeMillis() - 4 * 3600 * 1000);
+            endDate.setTime(System.currentTimeMillis());
+            step = "15m";
+        } else if (s.equals("24h")) {
+            startDate.setTime(System.currentTimeMillis() - 24 * 3600 * 1000);
+            endDate.setTime(System.currentTimeMillis());
+            step = "1h";
+        } else if (s.equals("7d")) {
+            startDate.setTime(System.currentTimeMillis() - 7 * 24 * 3600 * 1000);
+            endDate.setTime(System.currentTimeMillis());
+            step = "24h";
+        } else if (s.equals("today")) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            startDate.setTime(c.getTimeInMillis());
+            endDate.setTime(System.currentTimeMillis());
+            step = "1h";
+        } else if (s.equals("yesterday")) {
+            Calendar c1 = Calendar.getInstance();
+            c1.set(Calendar.DAY_OF_MONTH, c1.get(Calendar.DAY_OF_MONTH) - 1);
+            c1.set(Calendar.HOUR_OF_DAY, 0);
+            c1.set(Calendar.MINUTE, 0);
+            c1.set(Calendar.SECOND, 0);
+            startDate.setTime(c1.getTimeInMillis());
+            Calendar c2 = Calendar.getInstance();
+            c2.set(Calendar.HOUR_OF_DAY, 0);
+            c2.set(Calendar.MINUTE, 0);
+            c2.set(Calendar.SECOND, 0);
+            endDate.setTime(c2.getTimeInMillis());
+            step = "1h";
+        } else if (s.equals("month")) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            startDate.setTime(c.getTimeInMillis());
+            endDate.setTime(System.currentTimeMillis());
+            step = "4h";
+        } else if (s.equals("90d")) {
+            startDate.setTime(System.currentTimeMillis() - 90 * 24 * 3600 * 1000);
+            endDate.setTime(System.currentTimeMillis());
+            step = "1d";
+        }
+        return "";
     }
 
     // TODO this is a test method!

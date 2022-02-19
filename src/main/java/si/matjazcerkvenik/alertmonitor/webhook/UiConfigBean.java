@@ -164,7 +164,6 @@ public class UiConfigBean {
 
     public String getPsyncFailedCount() { return Integer.toString(AmMetrics.psyncFailedCount); }
 
-
     public int getActiveAlarmsCount(String severity) {
         return DAO.getInstance().getActiveAlarmsList(severity).size();
     }
@@ -181,13 +180,10 @@ public class UiConfigBean {
         return DAO.getInstance().getDataManager().getAlertsPerSecondInLastHour();
     }
 
-
-
     public String getBalanceFactor() {
         DecimalFormat df2 = new DecimalFormat("#.##");
         return df2.format(DAO.getInstance().calculateAlertsBalanceFactor());
     }
-
 
     public String getStartTime() {
         return Formatter.getFormatedTimestamp(AmProps.startUpTime);

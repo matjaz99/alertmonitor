@@ -1,3 +1,7 @@
+## 2.2.4-SNAPSHOT
+
+* [ENHANCEMENT] Added buttons for easier configuration of time intervals in query ranges.
+
 ## 2.2.3-SNAPSHOT
 
 * [CHANGE] `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
