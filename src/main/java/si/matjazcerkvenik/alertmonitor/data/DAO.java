@@ -112,6 +112,8 @@ public class DAO {
 
         DEvent event = dataManager.getEvent(id);
 
+        if (event == null) return null;
+
         List<PRule> ruleList = new ArrayList<>();
         try {
             PrometheusApi api = new PrometheusApi();

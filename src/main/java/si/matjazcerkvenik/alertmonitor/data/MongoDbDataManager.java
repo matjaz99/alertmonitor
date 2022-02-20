@@ -76,21 +76,21 @@ public class MongoDbDataManager implements IDataManager {
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("webhook_messages");
 
-            Document doc = Document.parse(new Gson().toJson(message));
-//            Document doc = new Document("_id", new ObjectId());
-//            doc.append("messageId", message.getId())
-//                    .append("timestamp", message.getTimestamp())
-//                    .append("contentLength", message.getContentLength())
-//                    .append("contentType", message.getContentType())
-//                    .append("method", message.getMethod())
-//                    .append("pathInfo", message.getPathInfo())
-//                    .append("protocol", message.getProtocol())
-//                    .append("remoteHost", message.getRemoteHost())
-//                    .append("remotePort", message.getRemotePort())
-//                    .append("requestUri", message.getRequestUri())
-//                    .append("headerMap", message.getHeaderMap())
-//                    .append("parameterMap", message.getParameterMap())
-//                    .append("body", message.getBody());
+//            Document doc = Document.parse(new Gson().toJson(message));
+            Document doc = new Document("_id", new ObjectId());
+            doc.append("id", message.getId())
+                    .append("runtimeId", message.getRuntimeId())
+                    .append("timestamp", message.getTimestamp())
+                    .append("contentLength", message.getContentLength())
+                    .append("contentType", message.getContentType())
+                    .append("method", message.getMethod())
+                    .append("protocol", message.getProtocol())
+                    .append("remoteHost", message.getRemoteHost())
+                    .append("remotePort", message.getRemotePort())
+                    .append("requestUri", message.getRequestUri())
+                    .append("headerMap", message.getHeaderMap())
+                    .append("parameterMap", message.getParameterMap())
+                    .append("body", message.getBody());
 
             // insert one doc
             collection.insertOne(doc);
@@ -216,6 +216,7 @@ public class MongoDbDataManager implements IDataManager {
             return webhookMessageList;
 
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("MongoDbDataManager: getJournal: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
