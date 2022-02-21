@@ -296,10 +296,10 @@ public class MongoDbDataManager implements IDataManager {
         DEvent event = new DEvent();
         event.setUid(doc.getString("uid"));
         event.setCorrelationId(doc.getString("correlationId"));
-        event.setTimestamp(doc.getLong("timestamp"));
-        event.setFirstTimestamp(doc.getLong("firstTimestamp"));
-        event.setLastTimestamp(doc.getLong("lastTimestamp"));
-        event.setClearTimestamp(doc.getLong("clearTimestamp"));
+        event.setTimestamp(((Number) doc.get("timestamp")).longValue());
+        event.setFirstTimestamp(((Number) doc.get("firstTimestamp")).longValue());
+        event.setLastTimestamp(((Number) doc.get("lastTimestamp")).longValue());
+        event.setClearTimestamp(((Number) doc.get("clearTimestamp")).longValue());
         event.setClearUid(doc.getString("clearUid"));
         event.setSource(doc.getString("source"));
         event.setUserAgent(doc.getString("userAgent"));
