@@ -129,9 +129,9 @@ public class MongoDbDataManager implements IDataManager {
 //                WebhookMessage am = gson.fromJson(doc.toJson(), WebhookMessage.class);
 //                System.out.println("converted back: " + am.toString());
                 WebhookMessage m = new WebhookMessage();
-                m.setId(doc.getInteger("id"));
+                m.setId(((Number) doc.get("id")).longValue());
                 m.setRuntimeId(doc.getString("runtimeId"));
-                m.setTimestamp(doc.getLong("timestamp"));
+                m.setTimestamp(((Number) doc.get("timestamp")).longValue());
                 m.setContentLength(doc.getInteger("contentLength"));
                 m.setContentType(doc.getString("contentType"));
                 m.setMethod(doc.getString("method"));
@@ -153,7 +153,7 @@ public class MongoDbDataManager implements IDataManager {
             return webhookMessageList;
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: getWebhookMessages: Exception: " + e.getMessage());
+            logger.error("MongoDbDataManager: getWebhookMessages: Exception: ", e);
             DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
         return null;
