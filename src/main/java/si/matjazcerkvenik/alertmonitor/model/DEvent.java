@@ -81,7 +81,7 @@ public class DEvent implements Cloneable {
 	private String priority;
 
 	/** UID of event that cleared the alert */
-	private String clearUid = "-";
+	private String clearUid = "null";
 
 	/** Comma-separated list of custom tags (labels) */
 	private String tags;

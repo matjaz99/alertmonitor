@@ -1,10 +1,11 @@
 ## 2.2.4-SNAPSHOT
 
 * [ENHANCEMENT] Added buttons for easier configuration of time intervals in query ranges.
+* [ENHANCEMENT] Added hashes (#) in front of tags to emphasize their meaning
 
 ## 2.2.3-SNAPSHOT
 
-* [CHANGE] `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
+* [CHANGE] Environment variable `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
 * [FEATURE] working on MongoDB
 * [FEATURE] Warning messages, under Statistics view (aka. Alertmonitor's internal alarms)
 * [FEATURE] Separate alert.log only for alerts

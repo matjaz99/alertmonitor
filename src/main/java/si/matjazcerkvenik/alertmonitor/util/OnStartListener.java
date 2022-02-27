@@ -75,7 +75,7 @@ public class OnStartListener implements ServletContextListener {
         }
 
         // read configuration from environment variables
-        AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "7").trim());
+        AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
         AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
         if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
         AmProps.ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_SERVER", "http://localhost:9090").trim();
