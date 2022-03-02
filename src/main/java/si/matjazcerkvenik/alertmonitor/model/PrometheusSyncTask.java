@@ -49,131 +49,133 @@ public class PrometheusSyncTask extends TimerTask {
             PrometheusApi api = new PrometheusApi();
             List<PAlert> activeAlerts = api.alerts();
 
-            if (activeAlerts != null) {
-
-                // set flag toBeDeleted=true for all active alerts before executing resync
-                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
-                    n.setToBeDeleted(true);
-                }
-
-                List<DEvent> resyncAlerts = new ArrayList<>();
-                int newAlertsCount = 0;
-
-                for (PAlert alert : activeAlerts) {
-                    logger.debug(alert.toString());
-
-                    DEvent n = new DEvent();
-                    n.setTimestamp(System.currentTimeMillis());
-                    n.setAlertname(alert.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
-                    n.setSource("PSYNC");
-                    n.setUserAgent("Alertmonitor/v1");
-                    n.setInstance(alert.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
-                    n.setHostname(Formatter.stripInstance(n.getInstance()));
-                    n.setNodename(alert.getLabels().getOrDefault(DEvent.KEY_NODENAME, n.getInstance()));
-                    n.setInfo(alert.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
-                    n.setJob(alert.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
-                    n.setTags(alert.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
-                    n.setSeverity(alert.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
-                    n.setPriority(alert.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
-                    n.setGroup(alert.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
-                    n.setEventType(alert.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
-                    n.setProbableCause(alert.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
-                    n.setCurrentValue(alert.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
-                    n.setUrl(alert.getLabels().getOrDefault(DEvent.KEY_URL, ""));
-                    if (alert.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
-                        n.setDescription(alert.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
-                    } else {
-                        n.setDescription(alert.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
-                    }
-
-                    // set prometheusId
-                    String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
-                    String s = "{";
-                    for (int i = 0; i < lblArray.length; i++) {
-                        s += lblArray[i].trim() + "=\"" + alert.getLabels().getOrDefault(lblArray[i].trim(), "-") + "\", ";
-                    }
-                    s = s.substring(0, s.length()-2) + "}";
-                    n.setPrometheusId(s);
-
-                    // set all other labels
-                    n.setOtherLabels(alert.getLabels());
-
-                    if (!alert.getState().equals("firing")) {
-                        // ignore alerts in pending state
-                        continue;
-                    }
-                    n.setStatus("firing");
-
-                    // add other labels directly into tags
-                    // eg: severity (but not clear), priority
-                    if (!n.getSeverity().equals(DSeverity.CLEAR)) {
-                        n.setTags(n.getTags() + "," + n.getSeverity());
-                    }
-                    n.setTags(n.getTags() + "," + n.getPriority());
-
-                    // environment variable substitution
-                    n.setNodename(AlertmanagerProcessor.substitute(n.getNodename()));
-                    n.setInfo(AlertmanagerProcessor.substitute(n.getInfo()));
-                    n.setDescription(AlertmanagerProcessor.substitute(n.getDescription()));
-                    n.setTags(AlertmanagerProcessor.substitute(n.getTags()));
-                    n.setUrl(AlertmanagerProcessor.substitute(n.getUrl()));
-
-                    // set unique ID of event
-                    n.generateUID();
-
-                    // set correlation ID
-                    n.generateCID();
-
-                    logger.debug(n.toString());
-                    resyncAlerts.add(n);
-
-                    if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
-                        logger.info("PSYNC: Alert exists: {uid=" + n.getUid() + ", cid=" + n.getCorrelationId() + ", alertname=" + n.getAlertname() + ", instance=" + n.getInstance() + "}");
-                        DAO.getInstance().getActiveAlerts().get(n.getCorrelationId()).setToBeDeleted(false);
-                    } else {
-                        logger.info("PSYNC: New alert: {uid=" + n.getUid() + ", cid=" + n.getCorrelationId() + ", alertname=" + n.getAlertname() + ", instance=" + n.getInstance() + "}");
-                        DAO.getInstance().addActiveAlert(n);
-                        newAlertsCount++;
-                    }
-
-                } // for each alert
-
-                DAO.getInstance().addToJournal(resyncAlerts);
-
-                // collect all cids that to be deleted
-                List<String> cidToDelete = new ArrayList<>();
-                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
-                    if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
-                }
-
-                // clear those in activeAlerts which were not received (toBeDeleted=true)
-                List<DEvent> temp = new ArrayList<>();
-                for (String cid : cidToDelete) {
-                    logger.info("PSYNC: Removing alert: {cid=" + cid + "}");
-                    DEvent x = DAO.getInstance().getActiveAlerts().get(cid);
-                    // create artificial clear event
-                    DEvent xClone = (DEvent) x.clone();
-                    xClone.setClearTimestamp(System.currentTimeMillis());
-                    xClone.setSeverity(DSeverity.CLEAR);
-                    xClone.setSource("PSYNC");
-                    xClone.generateUID();
-                    temp.add(xClone);
-                    DAO.getInstance().removeActiveAlert(x);
-                }
-                DAO.getInstance().addToJournal(temp);
-
-                logger.info("PSYNC: total psync alerts count: " + resyncAlerts.size());
-                logger.info("PSYNC: new alerts count: " + newAlertsCount);
-                logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
-
-                AmMetrics.psyncSuccessCount++;
-                DAO.getInstance().removeWarning("psync_failed");
-
-            } else { // null response
+            if (activeAlerts == null) {
                 logger.error("PSYNC: null response returned");
+                logger.info("PSYNC: === Periodic synchronization complete ===");
                 AmMetrics.psyncFailedCount++;
                 DAO.getInstance().addWarning("psync_failed", "Synchronization is failing");
+                return;
             }
+
+            // set flag toBeDeleted=true for all active alerts before executing resync
+            for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
+                n.setToBeDeleted(true);
+            }
+
+            // all alerts retrieved by psync
+            List<DEvent> pSyncAlerts = new ArrayList<>();
+            List<DEvent> newAlerts = new ArrayList<>();
+            int newAlertsCount = 0;
+
+            for (PAlert alert : activeAlerts) {
+                logger.debug(alert.toString());
+
+                DEvent e = new DEvent();
+                e.setTimestamp(System.currentTimeMillis());
+                e.setAlertname(alert.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
+                e.setSource("PSYNC");
+                e.setUserAgent("");
+                e.setInstance(alert.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
+                e.setHostname(Formatter.stripInstance(e.getInstance()));
+                e.setNodename(alert.getLabels().getOrDefault(DEvent.KEY_NODENAME, e.getInstance()));
+                e.setInfo(alert.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
+                e.setJob(alert.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
+                e.setTags(alert.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
+                e.setSeverity(alert.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
+                e.setPriority(alert.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
+                e.setGroup(alert.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
+                e.setEventType(alert.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
+                e.setProbableCause(alert.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
+                e.setCurrentValue(alert.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
+                e.setUrl(alert.getLabels().getOrDefault(DEvent.KEY_URL, ""));
+                if (alert.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
+                    e.setDescription(alert.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                } else {
+                    e.setDescription(alert.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                }
+
+                // set prometheusId
+                String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
+                String s = "{";
+                for (int i = 0; i < lblArray.length; i++) {
+                    s += lblArray[i].trim() + "=\"" + alert.getLabels().getOrDefault(lblArray[i].trim(), "-") + "\", ";
+                }
+                s = s.substring(0, s.length()-2) + "}";
+                e.setPrometheusId(s);
+
+                // set all other labels
+                e.setOtherLabels(alert.getLabels());
+
+                if (!alert.getState().equals("firing")) {
+                    // ignore alerts in pending state
+                    continue;
+                }
+                e.setStatus("firing");
+
+                // add tags
+                // eg: severity (but not clear), priority
+                if (!e.getSeverity().equals(DSeverity.CLEAR)) {
+                    e.setTags(e.getTags() + "," + e.getSeverity());
+                }
+                e.setTags(e.getTags() + "," + e.getPriority());
+
+                // environment variable substitution
+                e.setNodename(AlertmanagerProcessor.substitute(e.getNodename()));
+                e.setInfo(AlertmanagerProcessor.substitute(e.getInfo()));
+                e.setDescription(AlertmanagerProcessor.substitute(e.getDescription()));
+                e.setTags(AlertmanagerProcessor.substitute(e.getTags()));
+                e.setUrl(AlertmanagerProcessor.substitute(e.getUrl()));
+
+                // set unique ID of event
+                e.generateUID();
+
+                // set correlation ID
+                e.generateCID();
+
+                logger.debug("PSYNC: " + e.toString());
+                pSyncAlerts.add(e);
+
+                if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
+                    logger.info("PSYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    DAO.getInstance().getActiveAlerts().get(e.getCorrelationId()).setToBeDeleted(false);
+                } else {
+                    logger.info("PSYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    DAO.getInstance().addActiveAlert(e);
+                    newAlerts.add(e);
+                    newAlertsCount++;
+                }
+
+            } // for each alert
+
+            // collect all cids that need to be deleted from active alerts
+            List<String> cidToDelete = new ArrayList<>();
+            for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
+                if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
+            }
+
+            // generate artificial clear event and
+            // remove active alerts which were not received (toBeDeleted=true)
+//                List<DEvent> clearEvents = new ArrayList<>();
+            for (String cid : cidToDelete) {
+                logger.info("PSYNC: Removing active alert: {cid=" + cid + "}");
+                DEvent e = DAO.getInstance().getActiveAlerts().get(cid);
+                // create artificial clear event
+                DEvent eClone = (DEvent) e.clone();
+                eClone.setClearTimestamp(System.currentTimeMillis());
+                eClone.setSeverity(DSeverity.CLEAR);
+                eClone.setSource("PSYNC");
+                eClone.generateUID();
+                newAlerts.add(eClone);
+                DAO.getInstance().removeActiveAlert(e);
+            }
+            DAO.getInstance().addToJournal(newAlerts);
+
+            logger.info("PSYNC: total psync alerts count: " + pSyncAlerts.size());
+            logger.info("PSYNC: new alerts count: " + newAlertsCount);
+            logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
+
+            AmMetrics.psyncSuccessCount++;
+            DAO.getInstance().removeWarning("psync_failed");
 
         } catch (Exception e) {
             logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());

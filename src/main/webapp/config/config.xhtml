@@ -28,6 +28,11 @@
 						<p:inputText value="#{uiConfigBean.promServer}" required="true" label="text"/>
 					</p:inplace>
 
+					<p:outputLabel value="HTTP read timeout (sec): " style="font-weight: bold; font-size: 14px;"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{uiConfigBean.httpReadTimeout}" required="true" label="text"/>
+					</p:inplace>
+
 					<p:outputLabel value="Periodic sync interval (sec): " style="font-weight: bold; font-size: 14px;"/>
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.psyncInterval}" required="true" label="text"/>

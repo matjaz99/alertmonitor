@@ -34,7 +34,7 @@ public class LogFactory {
                 // in production environment (aka when running inside container)
                 alertLog = new SimpleLogger("/opt/alertmonitor/log/alerts.log");
             }
-
+            alertLog.setVerbose(false);
         }
         return alertLog;
     }

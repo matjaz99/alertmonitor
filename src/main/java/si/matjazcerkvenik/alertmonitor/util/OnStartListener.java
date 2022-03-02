@@ -81,6 +81,7 @@ public class OnStartListener implements ServletContextListener {
         AmProps.ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_SERVER", "http://localhost:9090").trim();
         if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
         if (!AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("http")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = "http://" + AmProps.ALERTMONITOR_PROMETHEUS_SERVER;
+        AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC", "120").trim());
         AmProps.ALERTMONITOR_DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
         AmProps.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
         AmProps.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "localhost:9092").trim();

@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
@@ -55,7 +55,7 @@ public class MultiTagRenderer extends Renderer {
 			rw.startElement("div", component);
 			rw.writeAttribute("class", "tagBorder", null);
 			rw.writeAttribute("style", "background-color: " + backgroundColor + "; 	color: " + textColor + "; float: left;", null);
-			rw.write(t.getName());
+			rw.write("#" + t.getName());
 			rw.endElement("div");
 		}
 		

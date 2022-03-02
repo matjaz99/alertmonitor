@@ -13,9 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.web;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
@@ -159,11 +158,21 @@ public class UiQueryBean {
 
     public void executeQueryRange() {
 
+        if (startDate == null) {
+            result = "start date is missing";
+            return;
+        }
+        if (endDate == null) {
+            result = "end date is missing";
+            return;
+        }
+        if (step == null || step.length() == 0) {
+            result = "step is missing";
+            return;
+        }
+
         PrometheusApi api = new PrometheusApi();
         try {
-
-//            long start = (System.currentTimeMillis() / 1000) - 7200;
-//            long end = System.currentTimeMillis() / 1000;
             long start = startDate.getTime() / 1000;
             long end = endDate.getTime() / 1000;
             PQueryMessage msg = api.queryRange(query, start, end, step);

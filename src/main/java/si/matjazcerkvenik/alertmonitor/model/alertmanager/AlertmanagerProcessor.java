@@ -22,7 +22,7 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DSeverity;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.*;
 
@@ -51,15 +51,15 @@ public class AlertmanagerProcessor {
             if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
                 if (n.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     DAO.getInstance().removeActiveAlert(n);
-                    LogFactory.getLogger().info("Removing active alarm: " + n.getCorrelationId());
+                    LogFactory.getLogger().info("Removing active alert: " + n.getCorrelationId());
                 } else {
                     DAO.getInstance().updateActiveAlert(n);
-                    LogFactory.getLogger().info("Updating active alarm: " + n.getCorrelationId());
+                    LogFactory.getLogger().info("Updating active alert: " + n.getCorrelationId());
                 }
             } else {
                 if (!n.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     DAO.getInstance().addActiveAlert(n);
-                    LogFactory.getLogger().info("Adding active alarm: " + n.getCorrelationId());
+                    LogFactory.getLogger().info("Adding active alert: " + n.getCorrelationId());
                 }
             }
 

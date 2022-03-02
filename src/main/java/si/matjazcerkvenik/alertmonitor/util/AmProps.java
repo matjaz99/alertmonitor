@@ -29,6 +29,7 @@ public class AmProps {
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
+    public static int ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = 120;
     public static String ALERTMONITOR_DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
     public static String ALERTMONITOR_KAFKA_SERVER = "localhost:9092";

@@ -13,10 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.*;
@@ -24,9 +23,7 @@ import si.matjazcerkvenik.alertmonitor.util.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ManagedBean
 @SessionScoped
@@ -82,6 +79,15 @@ public class UiConfigBean {
     public String getDataRetention() {
         return AmProps.ALERTMONITOR_DATA_RETENTION_DAYS + "";
     }
+
+    public void setHttpReadTimeout(String interval) {
+
+        AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(interval);
+        LogFactory.getLogger().info("UiConfigBean: http client read timeout changed: " + AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
+    }
+
+    public String getHttpReadTimeout() { return Integer.toString(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC); }
+
 
     public void setKafkaEnabled(boolean kafkaEnabled) {
         AmProps.ALERTMONITOR_KAFKA_ENABLED = kafkaEnabled;

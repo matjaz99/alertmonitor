@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.web;
 
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.alertmonitor.data.DAO;

@@ -3,11 +3,10 @@ package si.matjazcerkvenik.alertmonitor.data;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
-import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;

@@ -22,7 +22,7 @@ import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.*;
 import java.util.stream.Collectors;

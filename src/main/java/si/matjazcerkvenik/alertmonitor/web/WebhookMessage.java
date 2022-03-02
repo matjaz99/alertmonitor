@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.webhook;
+package si.matjazcerkvenik.alertmonitor.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,9 +21,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class WebhookMessage {
-
-	// for MongoDB compatibility
-	private ID _id;
 
 	private long id;
 	private String runtimeId;
@@ -185,14 +182,3 @@ public class WebhookMessage {
 
 }
 
-class ID {
-	public String oid;
-
-	public String getOid() {
-		return oid;
-	}
-
-	public void setOid(String oid) {
-		this.oid = oid;
-	}
-}

@@ -25,15 +25,11 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.DSeverity;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
-import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
-import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.text.DecimalFormat;

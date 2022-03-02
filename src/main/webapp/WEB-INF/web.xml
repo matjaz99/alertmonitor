@@ -38,7 +38,7 @@
     <!-- Define the servlet for webhook messages -->
     <servlet>
         <servlet-name>Webhook Servlet</servlet-name>
-        <servlet-class>si.matjazcerkvenik.alertmonitor.webhook.WebhookServlet</servlet-class>
+        <servlet-class>si.matjazcerkvenik.alertmonitor.web.WebhookServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -49,7 +49,7 @@
     <!-- Define the servlet for metrics -->
     <servlet>
         <servlet-name>Metrics Servlet</servlet-name>
-        <servlet-class>si.matjazcerkvenik.alertmonitor.webhook.PrometheusMetricsServlet</servlet-class>
+        <servlet-class>si.matjazcerkvenik.alertmonitor.web.PrometheusMetricsServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

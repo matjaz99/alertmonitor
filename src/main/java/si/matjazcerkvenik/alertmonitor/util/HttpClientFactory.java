@@ -32,7 +32,7 @@ public class HttpClientFactory {
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC, TimeUnit.SECONDS)
                     .build();
             return client;
         }
@@ -79,7 +79,7 @@ public class HttpClientFactory {
                 }
             });
             builder.connectTimeout(10, TimeUnit.SECONDS);
-            builder.readTimeout(120, TimeUnit.SECONDS);
+            builder.readTimeout(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC, TimeUnit.SECONDS);
 
             return builder.build();
 

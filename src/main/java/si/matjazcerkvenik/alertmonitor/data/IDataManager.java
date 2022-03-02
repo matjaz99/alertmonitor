@@ -1,7 +1,7 @@
 package si.matjazcerkvenik.alertmonitor.data;
 
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.webhook.WebhookMessage;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.List;
 

@@ -2,6 +2,8 @@
 
 * [ENHANCEMENT] Added buttons for easier configuration of time intervals in query ranges.
 * [ENHANCEMENT] Added hashes (#) in front of tags to emphasize their meaning
+* [ENHANCEMENT] Added `ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC` environment variable to set the 
+HTTP client read timeout. Also, configurable in Configuration view.
 
 ## 2.2.3-SNAPSHOT
 
