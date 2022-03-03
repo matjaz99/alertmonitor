@@ -41,6 +41,10 @@ public class UiConfigBean {
         return AmProps.localIpAddress;
     }
 
+    public String getRuntimeId() {
+        return AmProps.ALERTMONITOR_RUNTIME_ID;
+    }
+
 
 
 
@@ -212,10 +216,6 @@ public class UiConfigBean {
     public List<String> getWarnings() {
         if (DAO.getInstance().getWarnings().size() == 0) return null;
         return DAO.getInstance().getWarnings();
-    }
-
-    public String getRuntimeId() {
-        return AmProps.ALERTMONITOR_RUNTIME_ID;
     }
 
 }
