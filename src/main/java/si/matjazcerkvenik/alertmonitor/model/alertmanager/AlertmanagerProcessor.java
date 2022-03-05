@@ -34,32 +34,32 @@ public class AlertmanagerProcessor {
         Gson gson = builder.create();
         AmAlertMessage am = gson.fromJson(wm.getBody(), AmAlertMessage.class);
         LogFactory.getLogger().debug(am.toString());
-        LogFactory.getLogger().info("Number of alerts: " + am.getAlerts().size());
+        LogFactory.getLogger().info("AlertmanagerProcessor: number of alerts: " + am.getAlerts().size());
 
-        List<DEvent> dn = convertToDNotif(wm, am);
+        List<DEvent> eventList = convertToDevent(wm, am);
 
         AmMetrics.amMessagesReceivedCount++;
         AmMetrics.lastEventTimestamp = System.currentTimeMillis();
 
-        DAO.getInstance().addToJournal(dn);
+        DAO.getInstance().addToJournal(eventList);
 
-        for (DEvent n : dn) {
+        for (DEvent e : eventList) {
 
-            if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(n));
+            if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(e));
 
             // correlation
-            if (DAO.getInstance().getActiveAlerts().containsKey(n.getCorrelationId())) {
-                if (n.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    DAO.getInstance().removeActiveAlert(n);
-                    LogFactory.getLogger().info("Removing active alert: " + n.getCorrelationId());
+            if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
+                if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
+                    DAO.getInstance().removeActiveAlert(e);
+                    LogFactory.getLogger().info("AlertmanagerProcessor: clear alert: cid=" + e.getCorrelationId());
                 } else {
-                    DAO.getInstance().updateActiveAlert(n);
-                    LogFactory.getLogger().info("Updating active alert: " + n.getCorrelationId());
+                    DAO.getInstance().updateActiveAlert(e);
+                    LogFactory.getLogger().info("AlertmanagerProcessor: updating alert: cid=" + e.getCorrelationId());
                 }
             } else {
-                if (!n.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    DAO.getInstance().addActiveAlert(n);
-                    LogFactory.getLogger().info("Adding active alert: " + n.getCorrelationId());
+                if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
+                    DAO.getInstance().addActiveAlert(e);
+                    LogFactory.getLogger().info("AlertmanagerProcessor: new alert: cid=" + e.getCorrelationId());
                 }
             }
 
@@ -67,38 +67,40 @@ public class AlertmanagerProcessor {
 
     }
 
-    private static List<DEvent> convertToDNotif(WebhookMessage m, AmAlertMessage am) {
+    private static List<DEvent> convertToDevent(WebhookMessage m, AmAlertMessage am) {
 
-        List<DEvent> notifs = new ArrayList<DEvent>();
+        List<DEvent> eventList = new ArrayList<DEvent>();
 
         for (Iterator<AmAlert> it = am.getAlerts().iterator(); it.hasNext();) {
             AmAlert a = it.next();
 
-            DEvent n = new DEvent();
-            n.setTimestamp(System.currentTimeMillis());
-            n.setSource(m.getRemoteHost());
-            n.setAlertname(a.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
-            n.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
-            n.setInfo(a.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
-            n.setInstance(a.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
-            n.setHostname(Formatter.stripInstance(n.getInstance()));
-            n.setNodename(a.getLabels().getOrDefault(DEvent.KEY_NODENAME, n.getInstance()));
-            n.setJob(a.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
-            n.setTags(a.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
-            n.setSeverity(a.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
-            n.setPriority(a.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
-            n.setGroup(a.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
-            n.setEventType(a.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
-            n.setProbableCause(a.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
-            n.setCurrentValue(a.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
-            n.setUrl(a.getLabels().getOrDefault(DEvent.KEY_URL, ""));
+            DEvent e = new DEvent();
+            e.setTimestamp(System.currentTimeMillis());
+            e.setFirstTimestamp(e.getTimestamp());
+            e.setLastTimestamp(e.getTimestamp());
+            e.setSource(m.getRemoteHost());
+            e.setAlertname(a.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
+            e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
+            e.setInfo(a.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
+            e.setInstance(a.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
+            e.setHostname(Formatter.stripInstance(e.getInstance()));
+            e.setNodename(a.getLabels().getOrDefault(DEvent.KEY_NODENAME, e.getInstance()));
+            e.setJob(a.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
+            e.setTags(a.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
+            e.setSeverity(a.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
+            e.setPriority(a.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
+            e.setGroup(a.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
+            e.setEventType(a.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
+            e.setProbableCause(a.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
+            e.setCurrentValue(a.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
+            e.setUrl(a.getLabels().getOrDefault(DEvent.KEY_URL, ""));
             if (a.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
-                n.setDescription(a.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                e.setDescription(a.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
             } else {
-                n.setDescription(a.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                e.setDescription(a.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
             }
-            n.setStatus(a.getStatus());
-            n.setGeneratorUrl(a.getGeneratorURL());
+            e.setStatus(a.getStatus());
+            e.setGeneratorUrl(a.getGeneratorURL());
 
             // set prometheusId
             String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
@@ -107,43 +109,43 @@ public class AlertmanagerProcessor {
                 s += lblArray[i].trim() + "=\"" + a.getLabels().getOrDefault(lblArray[i].trim(), "-") + "\", ";
             }
             s = s.substring(0, s.length()-2) + "}";
-            n.setPrometheusId(s);
+            e.setPrometheusId(s);
 
             // set all other labels
-            n.setOtherLabels(a.getLabels());
+            e.setOtherLabels(a.getLabels());
 
             // set severity=clear for all events that have status=resolved, but not for those with severity=informational
             if (a.getStatus().equalsIgnoreCase("resolved")) {
-                n.setSeverity(DSeverity.CLEAR);
+                e.setSeverity(DSeverity.CLEAR);
             }
 
             // add other labels directly into tags
             // eg: severity (but not clear), priority
-            if (!n.getSeverity().equals(DSeverity.CLEAR)) {
-                n.setTags(n.getTags() + "," + n.getSeverity());
+            if (!e.getSeverity().equals(DSeverity.CLEAR)) {
+                e.setTags(e.getTags() + "," + e.getSeverity());
             }
-            n.setTags(n.getTags() + "," + n.getPriority());
+            e.setTags(e.getTags() + "," + e.getPriority());
 
             // environment variable substitution
-            n.setNodename(substitute(n.getNodename()));
-            n.setInfo(substitute(n.getInfo()));
-            n.setDescription(substitute(n.getDescription()));
-            n.setTags(substitute(n.getTags()));
-            n.setUrl(substitute(n.getUrl()));
+            e.setNodename(substitute(e.getNodename()));
+            e.setInfo(substitute(e.getInfo()));
+            e.setDescription(substitute(e.getDescription()));
+            e.setTags(substitute(e.getTags()));
+            e.setUrl(substitute(e.getUrl()));
 
             // set unique ID of event
-            n.generateUID();
+            e.generateUID();
 
             // set correlation ID
-            n.generateCID();
+            e.generateCID();
 
-            notifs.add(n);
+            eventList.add(e);
 
-            LogFactory.getLogger().info(n.toString());
+            LogFactory.getLogger().info("AlertmanagerProcessor: " + e.toString());
 
         }
 
-        return notifs;
+        return eventList;
 
     }
 

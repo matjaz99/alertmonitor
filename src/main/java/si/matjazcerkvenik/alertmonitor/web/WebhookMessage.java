@@ -180,5 +180,23 @@ public class WebhookMessage {
 		
 	}
 
+	@Override
+	public String toString() {
+		return "WebhookMessage{" +
+				"id=" + id +
+				", runtimeId='" + runtimeId + '\'' +
+				", timestamp=" + timestamp +
+				", contentLength=" + contentLength +
+				", contentType='" + contentType + '\'' +
+				", method='" + method + '\'' +
+				", protocol='" + protocol + '\'' +
+				", remoteHost='" + remoteHost + '\'' +
+				", remotePort=" + remotePort +
+				", requestUri='" + requestUri + '\'' +
+				", body='" + body + '\'' +
+				", parameterMap=" + parameterMap +
+				", headerMap=" + headerMap +
+				'}';
+	}
 }
 

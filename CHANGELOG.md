@@ -1,5 +1,6 @@
 ## 2.2.4-SNAPSHOT
 
+* [CHANGE] Webhook accepts only POST requests now
 * [ENHANCEMENT] Added buttons for easier configuration of time intervals in query ranges.
 * [ENHANCEMENT] Added hashes (#) in front of tags to emphasize their meaning
 * [ENHANCEMENT] Added `ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC` environment variable to set the 

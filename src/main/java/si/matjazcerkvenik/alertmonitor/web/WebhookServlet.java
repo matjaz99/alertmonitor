@@ -38,11 +38,7 @@ public class WebhookServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		// $ curl http://localhost:8080/DTools/api/webhook/blablabla
-		// $ curl 'http://localhost:8080/DTools/api/webhook/blablabla?a=1&b=2'
-
-		WebhookMessage m = instantiateWebhookMessage(req);
+		resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method not allowed");
 	}
 
 	@Override
@@ -51,40 +47,37 @@ public class WebhookServlet extends HttpServlet {
 
 		WebhookMessage m = instantiateWebhookMessage(req);
 
-//		String userAgent = m.getHeaderMap().getOrDefault("user-agent", "-");
-//		if (userAgent.startsWith("Alertmanager")) {
-//			// example headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json,
-//			AlertmanagerProcessor.processWebhookMessage(m);
-//		}
-
 		try {
 			AlertmanagerProcessor.processWebhookMessage(m);
 		} catch (Exception e) {
-			LogFactory.getLogger().error("doPost(): failed to process webhook message(): " + e.getMessage());
+			LogFactory.getLogger().error("WebhookServlet: doPost(): failed to process webhook message(): " + e.getMessage());
+			LogFactory.getLogger().info("Failed message: \n" + m.toString());
 		}
 
 	}
 
 	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
 
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("{");
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ ");
+		sb.append("protocol=").append(req.getProtocol()).append(", ");
+		sb.append("remoteAddr=").append(req.getRemoteAddr()).append(", ");
+		sb.append("remoteHost=").append(req.getRemoteHost()).append(", ");
+		sb.append("remotePort=").append(req.getRemotePort()).append(", ");
+		sb.append("method=").append(req.getMethod()).append(", ");
+		sb.append("requestURI=").append(req.getRequestURI()).append(", ");
+		sb.append("scheme=").append(req.getScheme()).append(", ");
+		sb.append("characterEncoding=").append(req.getCharacterEncoding()).append(", ");
+		sb.append("contentLength=").append(req.getContentLength()).append(", ");
+		sb.append("contentType=").append(req.getContentType());
+		sb.append(" }");
 
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getCharacterEncoding: " + req.getCharacterEncoding());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getContentLength: " + req.getContentLength());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getContentType: " + req.getContentType());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getMethod: " + req.getMethod());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getProtocol: " + req.getProtocol());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemoteAddr: " + req.getRemoteAddr());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemoteHost: " + req.getRemoteHost());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getRemotePort: " + req.getRemotePort());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getRequestURI: " + req.getRequestURI());
-		LogFactory.getLogger().info("instantiateWebhookMessage(): getScheme: " + req.getScheme());
+		LogFactory.getLogger().info("WebhookServlet: instantiateWebhookMessage(): " + sb.toString());
 
-		LogFactory.getLogger().info("instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
-		LogFactory.getLogger().info("instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
+		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
+		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
 		String body = getReqBody(req);
-		LogFactory.getLogger().info("instantiateWebhookMessage(): body: " + body);
+		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
 		m.setId(AmMetrics.webhookMessagesReceivedCount);

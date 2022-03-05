@@ -81,7 +81,7 @@ public class DEvent implements Cloneable {
 	private String priority;
 
 	/** UID of event that cleared the alert */
-	private String clearUid = "null";
+	private String clearUid = "-";
 
 	/** Comma-separated list of custom tags (labels) */
 	private String tags;
@@ -90,9 +90,17 @@ public class DEvent implements Cloneable {
 	private String description;
 
 	private String group;
+
+	/** Event type according to ITU X.733 */
 	private String eventType = "5";
+
+	/** Probable cause according to ITU X.733 */
 	private String probableCause = "1024";
+
+	/** Current metric value */
 	private String currentValue;
+
+	/** URL of somewhere, eg. grafana */
 	private String url;
 
 	/** Status of alert: firing or resolved */

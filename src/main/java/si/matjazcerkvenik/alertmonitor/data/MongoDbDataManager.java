@@ -160,7 +160,7 @@ public class MongoDbDataManager implements IDataManager {
 
         if (events.size() == 0) return;
 
-        logger.info("MongoDbDataManager: addToJournal (" + events.size() + ")");
+        logger.info("MongoDbDataManager: add to journal (" + events.size() + ")");
 
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
@@ -169,7 +169,7 @@ public class MongoDbDataManager implements IDataManager {
             List<Document> list = new ArrayList<>();
 
             for (DEvent e : events) {
-                LogFactory.getLogger().info("MongoDbDataManager: adding to journal uid=" + e.getUid());
+                LogFactory.getLogger().debug("MongoDbDataManager: adding to journal uid=" + e.getUid());
                 Document doc = Document.parse(new Gson().toJson(e));
                 list.add(doc);
             }
@@ -179,7 +179,7 @@ public class MongoDbDataManager implements IDataManager {
             DAO.getInstance().removeWarning("mongo");
 
         } catch (Exception e) {
-            logger.error("MongoDbDataManager: addToJournal: Exception: " + e.getMessage());
+            logger.error("MongoDbDataManager: addToJournal(): Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
 
@@ -268,7 +268,7 @@ public class MongoDbDataManager implements IDataManager {
 
     @Override
     public DEvent getEvent(String id) {
-        logger.info("MongoDbDataManager: getEvent");
+        logger.info("MongoDbDataManager: getEvent id=" + id);
 
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
@@ -327,12 +327,12 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: cleanDB: started");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
-            MongoCollection<Document> collection = db.getCollection("webhook_messages");
 
-            // Delete Many Documents
             Bson filter = Filters.lte("timestamp",
                     System.currentTimeMillis() - AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000);
+
+            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoCollection<Document> collection = db.getCollection("webhook_messages");
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany);
 

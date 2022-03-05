@@ -178,26 +178,16 @@ public class DAO {
      */
     public void updateActiveAlert(DEvent newEvent) {
         DEvent existingEvent = activeAlerts.get(newEvent.getCorrelationId());
-        // update existing alert
-//        existingEvent.setLastTimestamp(newEvent.getTimestamp());
-//        if (!newEvent.getSource().equalsIgnoreCase("RESYC")) {
-//            // don't count resync alerts
-//            existingEvent.setCounter(existingEvent.getCounter() + 1);
-//            existingEvent.setSource(newEvent.getSource());
-//            existingEvent.setGeneratorUrl(newEvent.getGeneratorUrl());
-//        }
-//        if (!newEvent.getCurrentValue().equals("-")) {
-//            existingEvent.setCurrentValue(newEvent.getCurrentValue());
-//        }
-        // update new alert
+        // take data from existing alert and fill it into new alert
         newEvent.setFirstTimestamp(existingEvent.getFirstTimestamp());
         newEvent.setLastTimestamp(newEvent.getTimestamp());
         if (newEvent.getSource().equalsIgnoreCase("RESYC")) {
-            // resync alert
+            // resync alert, don't increase counter
         } else {
             // regular alert
             newEvent.setCounter(existingEvent.getCounter() + 1);
         }
+        // replace existing with new one
         activeAlerts.put(existingEvent.getCorrelationId(), newEvent);
     }
 
