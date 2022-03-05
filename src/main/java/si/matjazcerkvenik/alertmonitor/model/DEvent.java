@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.model;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.util.HashMap;
@@ -463,9 +464,30 @@ public class DEvent implements Cloneable {
 		correlationId = MD5.getChecksum(alertname + info + instance + job);
 	}
 
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
+//	@Override
+//	protected Object clone() throws CloneNotSupportedException {
+//		return super.clone();
+//	}
+
+	/**
+	 * This will generate a new object, which represents a clear event of this alert.
+	 * @return event
+	 */
+	public DEvent generateClearEvent() {
+		try {
+			long now = System.currentTimeMillis();
+			// create artificial clear event
+			DEvent eClone = (DEvent) this.clone();
+			eClone.setTimestamp(now);
+			eClone.setClearTimestamp(now);
+			eClone.setSeverity(DSeverity.CLEAR);
+			eClone.setSource("PSYNC");
+			eClone.generateUID();
+			return eClone;
+		} catch (CloneNotSupportedException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

@@ -57,15 +57,8 @@ public class PrometheusSyncTask extends TimerTask {
                 return;
             }
 
-            // set flag toBeDeleted=true for all active alerts before executing resync
-            for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
-                n.setToBeDeleted(true);
-            }
-
             // all alerts retrieved by psync
             List<DEvent> pSyncAlerts = new ArrayList<>();
-            List<DEvent> newAlerts = new ArrayList<>();
-            int newAlertsCount = 0;
 
             for (PAlert alert : activeAlerts) {
                 logger.debug(alert.toString());
@@ -135,44 +128,9 @@ public class PrometheusSyncTask extends TimerTask {
                 logger.debug("PSYNC: " + e.toString());
                 pSyncAlerts.add(e);
 
-                if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
-                    logger.info("PSYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
-                    DAO.getInstance().getActiveAlerts().get(e.getCorrelationId()).setToBeDeleted(false);
-                } else {
-                    logger.info("PSYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
-                    DAO.getInstance().addActiveAlert(e);
-                    newAlerts.add(e);
-                    newAlertsCount++;
-                }
-
             } // for each alert
 
-            // collect all cids that need to be deleted from active alerts
-            List<String> cidToDelete = new ArrayList<>();
-            for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
-                if (n.isToBeDeleted()) cidToDelete.add(n.getCorrelationId());
-            }
-
-            // generate artificial clear event and
-            // remove active alerts which were not received (toBeDeleted=true)
-//                List<DEvent> clearEvents = new ArrayList<>();
-            for (String cid : cidToDelete) {
-                logger.info("PSYNC: Removing active alert: {cid=" + cid + "}");
-                DEvent e = DAO.getInstance().getActiveAlerts().get(cid);
-                // create artificial clear event
-                DEvent eClone = (DEvent) e.clone();
-                eClone.setClearTimestamp(System.currentTimeMillis());
-                eClone.setSeverity(DSeverity.CLEAR);
-                eClone.setSource("PSYNC");
-                eClone.generateUID();
-                newAlerts.add(eClone);
-                DAO.getInstance().removeActiveAlert(e);
-            }
-            DAO.getInstance().addToJournal(newAlerts);
-
-            logger.info("PSYNC: total psync alerts count: " + pSyncAlerts.size());
-            logger.info("PSYNC: new alerts count: " + newAlertsCount);
-            logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
+            DAO.getInstance().synchronizeAlerts(pSyncAlerts, true);
 
             AmMetrics.psyncSuccessCount++;
             DAO.getInstance().removeWarning("psync_failed");

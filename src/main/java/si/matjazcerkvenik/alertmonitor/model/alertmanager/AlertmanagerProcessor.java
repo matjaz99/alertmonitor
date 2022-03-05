@@ -34,36 +34,11 @@ public class AlertmanagerProcessor {
         Gson gson = builder.create();
         AmAlertMessage am = gson.fromJson(wm.getBody(), AmAlertMessage.class);
         LogFactory.getLogger().debug(am.toString());
-        LogFactory.getLogger().info("AlertmanagerProcessor: number of alerts: " + am.getAlerts().size());
+        LogFactory.getLogger().info("AlertmanagerProcessor: alerts received: " + am.getAlerts().size());
 
         List<DEvent> eventList = convertToDevent(wm, am);
 
-        AmMetrics.amMessagesReceivedCount++;
-        AmMetrics.lastEventTimestamp = System.currentTimeMillis();
-
-        DAO.getInstance().addToJournal(eventList);
-
-        for (DEvent e : eventList) {
-
-            if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(e));
-
-            // correlation
-            if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
-                if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    DAO.getInstance().removeActiveAlert(e);
-                    LogFactory.getLogger().info("AlertmanagerProcessor: clear alert: cid=" + e.getCorrelationId());
-                } else {
-                    DAO.getInstance().updateActiveAlert(e);
-                    LogFactory.getLogger().info("AlertmanagerProcessor: updating alert: cid=" + e.getCorrelationId());
-                }
-            } else {
-                if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    DAO.getInstance().addActiveAlert(e);
-                    LogFactory.getLogger().info("AlertmanagerProcessor: new alert: cid=" + e.getCorrelationId());
-                }
-            }
-
-        }
+        DAO.getInstance().synchronizeAlerts(eventList, false);
 
     }
 

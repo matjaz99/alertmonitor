@@ -85,7 +85,9 @@ public class MongoDbDataManager implements IDataManager {
                     .append("remotePort", message.getRemotePort())
                     .append("requestUri", message.getRequestUri())
                     .append("headerMap", message.getHeaderMap())
+                    .append("headerMapString", message.getHeaderMapString())
                     .append("parameterMap", message.getParameterMap())
+                    .append("parameterMapString", message.getParameterMapString())
                     .append("body", message.getBody());
 
             // insert one doc
@@ -328,8 +330,9 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
 
+            long daysInMillis = AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000;
             Bson filter = Filters.lte("timestamp",
-                    System.currentTimeMillis() - AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000);
+                    System.currentTimeMillis() - daysInMillis);
 
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("webhook_messages");

@@ -23,11 +23,14 @@ import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class DAO {
+
+    private SimpleLogger logger = LogFactory.getLogger();
 
     /** Singleton instance */
     private static DAO instance;
@@ -114,21 +117,116 @@ public class DAO {
 
         if (event == null) return null;
 
-        List<PRule> ruleList = new ArrayList<>();
         try {
+            List<PRule> ruleList = new ArrayList<>();
             PrometheusApi api = new PrometheusApi();
             ruleList = api.rules();
+            for (PRule r : ruleList) {
+                if (event.getAlertname().equals(r.getName())) {
+                    event.setRuleExpression(r.getQuery());
+                    event.setRuleTimeLimit(r.getDuration());
+                }
+            }
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
         }
 
-        for (PRule r : ruleList) {
-            if (event.getAlertname().equals(r.getName())) {
-                event.setRuleExpression(r.getQuery());
-                event.setRuleTimeLimit(r.getDuration());
-            }
-        }
         return event;
+    }
+
+    public boolean synchronizeAlerts(List<DEvent> alertList, boolean psync) {
+
+        if (psync) {
+
+            // set flag toBeDeleted=true for all active alerts before executing sync
+            for (DEvent e : activeAlerts.values()) {
+                e.setToBeDeleted(true);
+            }
+
+            List<DEvent> newAlerts = new ArrayList<>();
+            int newAlertsCount = 0;
+
+            for (DEvent e : alertList) {
+                if (activeAlerts.containsKey(e.getCorrelationId())) {
+                    logger.info("PSYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
+                } else {
+                    logger.info("PSYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    e.setFirstTimestamp(e.getTimestamp());
+                    e.setLastTimestamp(e.getTimestamp());
+                    addActiveAlert(e);
+                    newAlerts.add(e);
+                    newAlertsCount++;
+                }
+            }
+
+            // collect all cids that need to be deleted from active alerts
+            List<String> cidToDelete = new ArrayList<>();
+            for (DEvent e : activeAlerts.values()) {
+                if (e.isToBeDeleted()) cidToDelete.add(e.getCorrelationId());
+            }
+
+            // generate artificial clear event and
+            // remove active alerts which were not received (toBeDeleted=true)
+            for (String cid : cidToDelete) {
+                logger.info("PSYNC: Removing active alert: {cid=" + cid + "}");
+                DEvent e = activeAlerts.get(cid);
+                LogFactory.getLogger().info("original: " + e.toString());
+                // create artificial clear event
+                DEvent eClone = e.generateClearEvent();
+                LogFactory.getLogger().info("clone:::: " + eClone.toString());
+                newAlerts.add(eClone);
+                removeActiveAlert(e);
+            }
+            addToJournal(newAlerts);
+
+            logger.info("PSYNC: total psync alerts count: " + alertList.size());
+            logger.info("PSYNC: new alerts count: " + newAlertsCount);
+            logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
+
+            return true;
+        }
+
+
+        // regular alarms
+
+        DAO.getInstance().addToJournal(alertList);
+
+        for (DEvent e : alertList) {
+
+            if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(e));
+
+            // correlation
+            if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
+                if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
+                    removeActiveAlert(e);
+                    logger.info("AlertmanagerProcessor: clear alert: cid=" + e.getCorrelationId());
+                } else {
+                    updateActiveAlert(e);
+                    logger.info("AlertmanagerProcessor: updating alert: cid=" + e.getCorrelationId());
+                }
+            } else {
+                if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
+                    e.setFirstTimestamp(e.getTimestamp());
+                    e.setLastTimestamp(e.getTimestamp());
+                    addActiveAlert(e);
+                    logger.info("AlertmanagerProcessor: new alert: cid=" + e.getCorrelationId());
+                }
+            }
+
+        }
+
+        return true;
+
+    }
+
+
+    /**
+     * Return a map of active alerts
+     * @return map of all active alerts
+     */
+    public Map<String, DEvent> getActiveAlerts() {
+        return activeAlerts;
     }
 
     /**
@@ -138,9 +236,6 @@ public class DAO {
      * @param event
      */
     public void addActiveAlert(DEvent event) {
-
-        event.setFirstTimestamp(event.getTimestamp());
-        event.setLastTimestamp(event.getTimestamp());
 
         activeAlerts.put(event.getCorrelationId(), event);
         AmMetrics.raisingEventCount++;
@@ -156,14 +251,6 @@ public class DAO {
             }
         }
 
-    }
-
-    /**
-     * Return a map of active alerts
-     * @return map of all active alerts
-     */
-    public Map<String, DEvent> getActiveAlerts() {
-        return activeAlerts;
     }
 
     /**

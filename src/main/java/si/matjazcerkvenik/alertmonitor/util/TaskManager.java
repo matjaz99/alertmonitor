@@ -13,13 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.model;
+package si.matjazcerkvenik.alertmonitor.util;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.data.DbMaintenanceTask;
-import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.AmProps;
-import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.model.PrometheusSyncTask;
 
 import java.util.Timer;
 

@@ -17,6 +17,7 @@ package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -35,8 +36,10 @@ public class UiAlertBean {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String uid = requestParameterMap.getOrDefault("uid", "null");
         event = DAO.getInstance().getEvent(uid);
-        if (event == null) Growl.showWarningGrowl("Object not found", null);
-        //DAO.getLogger().info("Found alert: " + notif.toString());
+        if (event == null) {
+            Growl.showWarningGrowl("Object not found", null);
+            LogFactory.getLogger().info("Object not found: uid=" + uid);
+        }
     }
 
     public DEvent getEvent() {

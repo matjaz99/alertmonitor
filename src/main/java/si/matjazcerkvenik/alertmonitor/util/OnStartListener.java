@@ -15,8 +15,6 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
-import si.matjazcerkvenik.alertmonitor.model.TaskManager;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.*;

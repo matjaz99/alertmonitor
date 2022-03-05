@@ -49,6 +49,8 @@ public class WebhookServlet extends HttpServlet {
 
 		try {
 			AlertmanagerProcessor.processWebhookMessage(m);
+			AmMetrics.amMessagesReceivedCount++;
+			AmMetrics.lastEventTimestamp = System.currentTimeMillis();
 		} catch (Exception e) {
 			LogFactory.getLogger().error("WebhookServlet: doPost(): failed to process webhook message(): " + e.getMessage());
 			LogFactory.getLogger().info("Failed message: \n" + m.toString());
@@ -59,7 +61,7 @@ public class WebhookServlet extends HttpServlet {
 	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ ");
+		sb.append("{");
 		sb.append("protocol=").append(req.getProtocol()).append(", ");
 		sb.append("remoteAddr=").append(req.getRemoteAddr()).append(", ");
 		sb.append("remoteHost=").append(req.getRemoteHost()).append(", ");
@@ -70,7 +72,7 @@ public class WebhookServlet extends HttpServlet {
 		sb.append("characterEncoding=").append(req.getCharacterEncoding()).append(", ");
 		sb.append("contentLength=").append(req.getContentLength()).append(", ");
 		sb.append("contentType=").append(req.getContentType());
-		sb.append(" }");
+		sb.append("}");
 
 		LogFactory.getLogger().info("WebhookServlet: instantiateWebhookMessage(): " + sb.toString());
 

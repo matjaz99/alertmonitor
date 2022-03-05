@@ -1,3 +1,7 @@
+## 2.2.5-SNAPSHOT
+
+* [ENHANCEMENT] Redesigned synchronization procedure
+
 ## 2.2.4-SNAPSHOT
 
 * [CHANGE] Webhook accepts only POST requests now
