@@ -18,6 +18,9 @@ hr {
 	/*font-size: 14px;*/
 	/*color: #222222;*/
 }
+.boldtext {
+    font-weight: bold;
+}
 #configForm {
     /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
 	/*font-size: 14px;*/

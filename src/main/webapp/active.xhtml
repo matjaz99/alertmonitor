@@ -30,16 +30,15 @@
 					<p:dataTable id="messagesTable" widgetVar="activeTable"
 								 value="#{uiBean.activeAlarms}" var="n"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
-								 sortMode="single"
 								 rowStyleClass="#{n.severity}"
 								 emptyMessage="No data"
 								 cellpadding="0" cellspacing="0" width="100%">
 
-						<p:column headerText="Time" sortBy="#{n.timestamp}">
+						<p:column headerText="Time">
 							<h:outputText value="#{n.formatedTimestamp}" />
 						</p:column>
 
-						<p:column headerText="Alert name" sortBy="#{n.alertname}">
+						<p:column headerText="Alert name">
 							<b>
 							<h:link value="#{n.alertname}" outcome="/alert/alert">
 								<f:param name="uid" value="#{n.uid}" />
@@ -47,7 +46,7 @@
 							</b>
 						</p:column>
 
-						<p:column headerText="Instance" sortBy="#{n.instance}">
+						<p:column headerText="Instance">
 							<h:outputText value="#{n.instance}" />
 						</p:column>
 
@@ -55,19 +54,19 @@
 							<h:outputText value="#{n.info}" />
 						</p:column>
 						
-						<p:column headerText="Severity" sortBy="#{n.severity}">
+						<p:column headerText="Severity">
 							<h:outputText value="#{n.severity}" />
 						</p:column>
 
-						<p:column headerText="Value" sortBy="#{n.currentValue}">
+						<p:column headerText="Value">
 							<h:outputText value="#{n.currentValue}" />
 						</p:column>
 
-						<p:column headerText="Job" sortBy="#{n.job}" >
+						<p:column headerText="Job">
 							<h:outputText value="#{n.job}" />
 						</p:column>
 						
-						<p:column headerText="Description" sortBy="#{n.description}">
+						<p:column headerText="Description">
 							<h:outputText value="#{n.description}" />
 						</p:column>
 

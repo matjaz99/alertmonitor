@@ -305,5 +305,29 @@ public class UiBean {
 		return "bullet_green";
 	}
 
+	public List<Job> getJobs() {
+		// TODO
+
+		result = null;
+
+		List<Target> tList = DAO.getInstance().getTargets();
+
+		if (tList == null) {
+			result = "failed to retrieve jobs";
+			return new ArrayList<>();
+		}
+
+		Map<String, Job> jMap = new HashMap<>();
+
+		for (Target t : tList) {
+			Job job = jMap.getOrDefault(t.getJob(), new Job());
+			job.setJobName(t.getJob());
+			job.getTargetList().add(t);
+			jMap.put(job.getJobName(), job);
+		}
+
+		return new ArrayList<>(jMap.values());
+	}
+
 
 }

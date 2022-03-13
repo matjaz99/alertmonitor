@@ -15,10 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.util.HashMap;
@@ -82,7 +80,7 @@ public class DEvent implements Cloneable {
 	private String priority;
 
 	/** UID of event that cleared the alert */
-	private String clearUid = "-";
+	private String clearUid = "n/a";
 
 	/** Comma-separated list of custom tags (labels) */
 	private String tags;
@@ -109,7 +107,7 @@ public class DEvent implements Cloneable {
 
 	private String generatorUrl;
 
-	/** A helping flag to mark alert to be deleted after resync */
+	/** A helping flag to mark alerts to be deleted after resync */
 	private boolean toBeDeleted = false;
 
 	/** Other labels, such as external_labels or custom labels in alerts. */
@@ -121,20 +119,20 @@ public class DEvent implements Cloneable {
 	private String ruleTimeLimit;
 
 	/** Supported labels */
-	public static final String KEY_ALERTNAME = "alertname";
-	public static final String KEY_INFO = "info";
-	public static final String KEY_INSTANCE = "instance";
-	public static final String KEY_NODENAME = "nodename";
-	public static final String KEY_JOB = "job";
-	public static final String KEY_TAGS = "tags";
-	public static final String KEY_SEVERITY = "severity";
-	public static final String KEY_PRIORITY = "priority";
-	public static final String KEY_GROUP = "group";
-	public static final String KEY_EVENTTYPE = "eventType";
-	public static final String KEY_PROBABLECAUSE = "probableCause";
-	public static final String KEY_URL = "url";
-	public static final String KEY_DESCRIPTION = "description";
-	public static final String KEY_CURRENTVALUE = "currentValue";
+	public static final String LBL_ALERTNAME = "alertname";
+	public static final String LBL_INFO = "info";
+	public static final String LBL_INSTANCE = "instance";
+	public static final String LBL_NODENAME = "nodename";
+	public static final String LBL_JOB = "job";
+	public static final String LBL_TAGS = "tags";
+	public static final String LBL_SEVERITY = "severity";
+	public static final String LBL_PRIORITY = "priority";
+	public static final String LBL_GROUP = "group";
+	public static final String LBL_EVENTTYPE = "eventType";
+	public static final String LBL_PROBABLECAUSE = "probableCause";
+	public static final String LBL_URL = "url";
+	public static final String LBL_DESCRIPTION = "description";
+	public static final String LBL_CURRENTVALUE = "currentValue";
 
 
 	public String getUid() {
@@ -406,19 +404,19 @@ public class DEvent implements Cloneable {
 	public void setOtherLabels(Map<String, String> labels) {
 		if (otherLabels == null) otherLabels = new HashMap<>();
 		otherLabels = labels;
-		otherLabels.remove(KEY_ALERTNAME);
-		otherLabels.remove(KEY_INFO);
-		otherLabels.remove(KEY_INSTANCE);
-		otherLabels.remove(KEY_NODENAME);
-		otherLabels.remove(KEY_JOB);
-		otherLabels.remove(KEY_TAGS);
-		otherLabels.remove(KEY_SEVERITY);
-		otherLabels.remove(KEY_PRIORITY);
-		otherLabels.remove(KEY_GROUP);
-		otherLabels.remove(KEY_EVENTTYPE);
-		otherLabels.remove(KEY_PROBABLECAUSE);
-		otherLabels.remove(KEY_URL);
-		otherLabels.remove(KEY_DESCRIPTION);
+		otherLabels.remove(LBL_ALERTNAME);
+		otherLabels.remove(LBL_INFO);
+		otherLabels.remove(LBL_INSTANCE);
+		otherLabels.remove(LBL_NODENAME);
+		otherLabels.remove(LBL_JOB);
+		otherLabels.remove(LBL_TAGS);
+		otherLabels.remove(LBL_SEVERITY);
+		otherLabels.remove(LBL_PRIORITY);
+		otherLabels.remove(LBL_GROUP);
+		otherLabels.remove(LBL_EVENTTYPE);
+		otherLabels.remove(LBL_PROBABLECAUSE);
+		otherLabels.remove(LBL_URL);
+		otherLabels.remove(LBL_DESCRIPTION);
 
 		String[] lblArray = AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS.split(",");
 		for (int i = 0; i < lblArray.length; i++) {

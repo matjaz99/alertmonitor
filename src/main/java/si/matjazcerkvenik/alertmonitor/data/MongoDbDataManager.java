@@ -70,7 +70,7 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
-            MongoCollection<Document> collection = db.getCollection("webhook_messages");
+            MongoCollection<Document> collection = db.getCollection("webhook");
 
 //            Document doc = Document.parse(new Gson().toJson(message));
             Document doc = new Document("_id", new ObjectId());
@@ -107,7 +107,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getWebhookMessages");
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
-            MongoCollection<Document> collection = db.getCollection("webhook_messages");
+            MongoCollection<Document> collection = db.getCollection("webhook");
 
             List<Document> docsResultList = collection.find(Filters.eq("runtimeId", AmProps.ALERTMONITOR_RUNTIME_ID))
                     .sort(Sorts.descending("id"))
@@ -202,16 +202,16 @@ public class MongoDbDataManager implements IDataManager {
 
             logger.info("MongoDbDataManager: docsResultList size=" + docsResultList.size());
 
-            List<DEvent> webhookMessageList = new ArrayList<>();
+            List<DEvent> eventList = new ArrayList<>();
 
             for (Document doc : docsResultList) {
                 DEvent e = convertToDEvent(doc);
-                webhookMessageList.add(e);
+                eventList.add(e);
             }
 
             DAO.getInstance().removeWarning("mongo");
 
-            return webhookMessageList;
+            return eventList;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -330,12 +330,12 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
 
-            long daysInMillis = AmProps.ALERTMONITOR_DATA_RETENTION_DAYS * 24 * 3600 * 1000;
-            Bson filter = Filters.lte("timestamp",
-                    System.currentTimeMillis() - daysInMillis);
+            long daysInMillis = Integer.toUnsignedLong(AmProps.ALERTMONITOR_DATA_RETENTION_DAYS) * 24 * 3600 * 1000;
+            long diff = (System.currentTimeMillis() - daysInMillis);
+            Bson filter = Filters.lte("timestamp", diff);
 
             MongoDatabase db = mongoClient.getDatabase(dbName);
-            MongoCollection<Document> collection = db.getCollection("webhook_messages");
+            MongoCollection<Document> collection = db.getCollection("webhook");
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany);
 

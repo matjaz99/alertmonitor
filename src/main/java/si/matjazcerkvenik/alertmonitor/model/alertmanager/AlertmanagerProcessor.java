@@ -54,25 +54,25 @@ public class AlertmanagerProcessor {
             e.setFirstTimestamp(e.getTimestamp());
             e.setLastTimestamp(e.getTimestamp());
             e.setSource(m.getRemoteHost());
-            e.setAlertname(a.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
+            e.setAlertname(a.getLabels().getOrDefault(DEvent.LBL_ALERTNAME, "-unknown-"));
             e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
-            e.setInfo(a.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
-            e.setInstance(a.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
+            e.setInfo(a.getLabels().getOrDefault(DEvent.LBL_INFO, "-"));
+            e.setInstance(a.getLabels().getOrDefault(DEvent.LBL_INSTANCE, "-"));
             e.setHostname(Formatter.stripInstance(e.getInstance()));
-            e.setNodename(a.getLabels().getOrDefault(DEvent.KEY_NODENAME, e.getInstance()));
-            e.setJob(a.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
-            e.setTags(a.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
-            e.setSeverity(a.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
-            e.setPriority(a.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
-            e.setGroup(a.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
-            e.setEventType(a.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
-            e.setProbableCause(a.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
-            e.setCurrentValue(a.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
-            e.setUrl(a.getLabels().getOrDefault(DEvent.KEY_URL, ""));
-            if (a.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
-                e.setDescription(a.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+            e.setNodename(a.getLabels().getOrDefault(DEvent.LBL_NODENAME, e.getInstance()));
+            e.setJob(a.getLabels().getOrDefault(DEvent.LBL_JOB, "-"));
+            e.setTags(a.getLabels().getOrDefault(DEvent.LBL_TAGS, ""));
+            e.setSeverity(a.getLabels().getOrDefault(DEvent.LBL_SEVERITY, "indeterminate"));
+            e.setPriority(a.getLabels().getOrDefault(DEvent.LBL_PRIORITY, "low"));
+            e.setGroup(a.getLabels().getOrDefault(DEvent.LBL_GROUP, "unknown"));
+            e.setEventType(a.getLabels().getOrDefault(DEvent.LBL_EVENTTYPE, "5"));
+            e.setProbableCause(a.getLabels().getOrDefault(DEvent.LBL_PROBABLECAUSE, "1024"));
+            e.setCurrentValue(a.getAnnotations().getOrDefault(DEvent.LBL_CURRENTVALUE, "-"));
+            e.setUrl(a.getLabels().getOrDefault(DEvent.LBL_URL, ""));
+            if (a.getLabels().containsKey(DEvent.LBL_DESCRIPTION)) {
+                e.setDescription(a.getLabels().getOrDefault(DEvent.LBL_DESCRIPTION, "-"));
             } else {
-                e.setDescription(a.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                e.setDescription(a.getAnnotations().getOrDefault(DEvent.LBL_DESCRIPTION, "-"));
             }
             e.setStatus(a.getStatus());
             e.setGeneratorUrl(a.getGeneratorURL());

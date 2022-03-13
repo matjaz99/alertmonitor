@@ -1,0 +1,44 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:form id="jobsForm">
+
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+					<ui:repeat var="j" value="#{uiBean.jobs}">
+						<div class="card">
+							<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+								<p:ajax event="load" listener="#{uiBean.getJobs()}"/>
+								<f:facet name="loading">
+									<p:skeleton width="200px" height="21px" class="p-mb-4"/>
+									<p:skeleton width="100%" height="42px"/>
+								</f:facet>
+								<h5>#{j.jobName}</h5>
+<!--								<ui:repeat var="t" value="#{uiBean.jobs.targetList}">-->
+<!--									<p>#{t.hostname}</p>-->
+<!--								</ui:repeat>-->
+								<p:dataTable value="#{j.targetList}" var="t"
+											 cellpadding="0" cellspacing="0" width="100%">
+									<p:outputLabel value="#{t.hostname}"/>
+								</p:dataTable>
+							</p:outputPanel>
+						</div>
+					</ui:repeat>
+
+				</p:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

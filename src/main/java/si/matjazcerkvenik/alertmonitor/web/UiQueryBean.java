@@ -228,7 +228,7 @@ public class UiQueryBean {
             c.set(Calendar.SECOND, 0);
             startDate.setTime(c.getTimeInMillis());
             endDate.setTime(System.currentTimeMillis());
-            step = "1h";
+            step = "15m";
         } else if (s.equals("yesterday")) {
             Calendar c1 = Calendar.getInstance();
             c1.set(Calendar.DAY_OF_MONTH, c1.get(Calendar.DAY_OF_MONTH) - 1);

@@ -65,26 +65,26 @@ public class PrometheusSyncTask extends TimerTask {
 
                 DEvent e = new DEvent();
                 e.setTimestamp(System.currentTimeMillis());
-                e.setAlertname(alert.getLabels().getOrDefault(DEvent.KEY_ALERTNAME, "-unknown-"));
+                e.setAlertname(alert.getLabels().getOrDefault(DEvent.LBL_ALERTNAME, "-unknown-"));
                 e.setSource("PSYNC");
                 e.setUserAgent("");
-                e.setInstance(alert.getLabels().getOrDefault(DEvent.KEY_INSTANCE, "-"));
+                e.setInstance(alert.getLabels().getOrDefault(DEvent.LBL_INSTANCE, "-"));
                 e.setHostname(Formatter.stripInstance(e.getInstance()));
-                e.setNodename(alert.getLabels().getOrDefault(DEvent.KEY_NODENAME, e.getInstance()));
-                e.setInfo(alert.getLabels().getOrDefault(DEvent.KEY_INFO, "-"));
-                e.setJob(alert.getLabels().getOrDefault(DEvent.KEY_JOB, "-"));
-                e.setTags(alert.getLabels().getOrDefault(DEvent.KEY_TAGS, ""));
-                e.setSeverity(alert.getLabels().getOrDefault(DEvent.KEY_SEVERITY, "indeterminate"));
-                e.setPriority(alert.getLabels().getOrDefault(DEvent.KEY_PRIORITY, "low"));
-                e.setGroup(alert.getLabels().getOrDefault(DEvent.KEY_GROUP, "unknown"));
-                e.setEventType(alert.getLabels().getOrDefault(DEvent.KEY_EVENTTYPE, "5"));
-                e.setProbableCause(alert.getLabels().getOrDefault(DEvent.KEY_PROBABLECAUSE, "1024"));
-                e.setCurrentValue(alert.getAnnotations().getOrDefault(DEvent.KEY_CURRENTVALUE, "-"));
-                e.setUrl(alert.getLabels().getOrDefault(DEvent.KEY_URL, ""));
-                if (alert.getLabels().containsKey(DEvent.KEY_DESCRIPTION)) {
-                    e.setDescription(alert.getLabels().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                e.setNodename(alert.getLabels().getOrDefault(DEvent.LBL_NODENAME, e.getInstance()));
+                e.setInfo(alert.getLabels().getOrDefault(DEvent.LBL_INFO, "-"));
+                e.setJob(alert.getLabels().getOrDefault(DEvent.LBL_JOB, "-"));
+                e.setTags(alert.getLabels().getOrDefault(DEvent.LBL_TAGS, ""));
+                e.setSeverity(alert.getLabels().getOrDefault(DEvent.LBL_SEVERITY, "indeterminate"));
+                e.setPriority(alert.getLabels().getOrDefault(DEvent.LBL_PRIORITY, "low"));
+                e.setGroup(alert.getLabels().getOrDefault(DEvent.LBL_GROUP, "unknown"));
+                e.setEventType(alert.getLabels().getOrDefault(DEvent.LBL_EVENTTYPE, "5"));
+                e.setProbableCause(alert.getLabels().getOrDefault(DEvent.LBL_PROBABLECAUSE, "1024"));
+                e.setCurrentValue(alert.getAnnotations().getOrDefault(DEvent.LBL_CURRENTVALUE, "-"));
+                e.setUrl(alert.getLabels().getOrDefault(DEvent.LBL_URL, ""));
+                if (alert.getLabels().containsKey(DEvent.LBL_DESCRIPTION)) {
+                    e.setDescription(alert.getLabels().getOrDefault(DEvent.LBL_DESCRIPTION, "-"));
                 } else {
-                    e.setDescription(alert.getAnnotations().getOrDefault(DEvent.KEY_DESCRIPTION, "-"));
+                    e.setDescription(alert.getAnnotations().getOrDefault(DEvent.LBL_DESCRIPTION, "-"));
                 }
 
                 // set prometheusId
