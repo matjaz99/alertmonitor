@@ -166,17 +166,10 @@ public class DAO {
                 if (e.isToBeDeleted()) cidToDelete.add(e.getCorrelationId());
             }
 
-            // generate artificial clear event and
             // remove active alerts which were not received (toBeDeleted=true)
             for (String cid : cidToDelete) {
                 logger.info("PSYNC: Removing active alert: {cid=" + cid + "}");
-                DEvent e = activeAlerts.get(cid);
-                LogFactory.getLogger().info("original: " + e.toString());
-                // create artificial clear event
-                DEvent eClone = e.generateClearEvent();
-                LogFactory.getLogger().info("clone:::: " + eClone.toString());
-                newAlerts.add(eClone);
-                removeActiveAlert(e);
+                removeActiveAlert(activeAlerts.get(cid));
             }
             addToJournal(newAlerts);
 
@@ -197,9 +190,9 @@ public class DAO {
             if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(e));
 
             // correlation
-            if (DAO.getInstance().getActiveAlerts().containsKey(e.getCorrelationId())) {
+            if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    removeActiveAlert(e);
+                    removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
                     logger.info("AlertmanagerProcessor: clear alert: cid=" + e.getCorrelationId());
                 } else {
                     updateActiveAlert(e);
@@ -280,17 +273,31 @@ public class DAO {
 
     /**
      * Clear arrived and active alert must be removed. Before removing,
-     * all alerts in journal have clearTimestamp corrected to point to clear event.
-     * @param event
+     * all alerts in journal must have clearTimestamp corrected to a point of clear event.
+     * @param activeAlert
      */
-    public void removeActiveAlert(DEvent event) {
-        dataManager.handleAlarmClearing(event);
-        event.setFirstTimestamp(event.getTimestamp());
-        event.setLastTimestamp(event.getTimestamp());
-        activeAlerts.remove(event.getCorrelationId());
+    public void removeActiveAlert(DEvent activeAlert) {
+
+        // create artificial clear event
+        LogFactory.getLogger().info("original: " + activeAlert.toString());
+        DEvent clearEvent = activeAlert.generateClearEvent();
+        clearEvent.setClearUid(clearEvent.getUid());
+        LogFactory.getLogger().info("clone:::: " + clearEvent.toString());
+
+
+        activeAlert.setFirstTimestamp(activeAlert.getTimestamp());
+        activeAlert.setLastTimestamp(clearEvent.getTimestamp());
+        dataManager.handleAlarmClearing(activeAlert);
+        activeAlerts.remove(activeAlert.getCorrelationId());
         removeObsoleteTags();
+
+        // add clear event to journal, just as any other alert
+        List<DEvent> list = new ArrayList<DEvent>();
+        list.add(clearEvent);
+        addToJournal(list);
+
         AmMetrics.clearingEventCount++;
-        LogFactory.getAlertLog().write(event.toString());
+        LogFactory.getAlertLog().write(activeAlert.toString());
     }
 
     /**

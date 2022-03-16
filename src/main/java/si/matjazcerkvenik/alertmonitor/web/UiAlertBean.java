@@ -38,7 +38,7 @@ public class UiAlertBean {
         event = DAO.getInstance().getEvent(uid);
         if (event == null) {
             Growl.showWarningGrowl("Object not found", null);
-            LogFactory.getLogger().info("Object not found: uid=" + uid);
+            LogFactory.getLogger().info("UiAlertBean: object not found: uid=" + uid);
         }
     }
 

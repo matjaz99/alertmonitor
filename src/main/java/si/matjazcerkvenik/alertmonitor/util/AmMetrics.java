@@ -77,6 +77,11 @@ public class AmMetrics {
             .help("Prometheus HTTP API response time")
             .register();
 
+    public static final Gauge alertmonitor_psync_success = Gauge.build()
+            .name("alertmonitor_psync_success")
+            .help("Periodic synchronization success flag.")
+            .register();
+
     public static final Gauge alertmonitor_psync_interval_seconds = Gauge.build()
             .name("alertmonitor_psync_interval_seconds")
             .help("Periodic synchronization interval.")

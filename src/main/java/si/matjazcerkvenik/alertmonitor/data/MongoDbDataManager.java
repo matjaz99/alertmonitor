@@ -277,11 +277,12 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Document doc = collection.find(Filters.eq("uid", id)).first();
-            DEvent event = convertToDEvent(doc);
-
-            DAO.getInstance().removeWarning("mongo");
-
-            return event;
+            System.out.println("DOC SIZE: " + doc.isEmpty());
+            if (doc.size() > 0) {
+                DEvent event = convertToDEvent(doc);
+                DAO.getInstance().removeWarning("mongo");
+                return event;
+            }
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getEvent: Exception: " + e.getMessage());
@@ -320,6 +321,7 @@ public class MongoDbDataManager implements IDataManager {
         event.setGeneratorUrl(doc.getString("generatorUrl"));
         event.setPrometheusId(doc.getString("prometheusId"));
         event.setOtherLabelsString(doc.getString("otherLabelsString"));
+        System.out.println(event.toString());
         return event;
     }
 
@@ -337,11 +339,11 @@ public class MongoDbDataManager implements IDataManager {
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("webhook");
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
-            logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany);
+            logger.info("MongoDbDataManager: cleanDB [webhook]: result" + resultDeleteMany);
 
             MongoCollection<Document> collection2 = db.getCollection("journal");
             DeleteResult resultDeleteMany2 = collection2.deleteMany(filter);
-            logger.info("MongoDbDataManager: cleanDB: result" + resultDeleteMany2);
+            logger.info("MongoDbDataManager: cleanDB [journal]: result" + resultDeleteMany2);
 
             DAO.getInstance().removeWarning("mongo");
 
@@ -361,7 +363,7 @@ public class MongoDbDataManager implements IDataManager {
                     Filters.eq("correlationId", event.getCorrelationId()),
                     Filters.eq("clearTimestamp", 0));
             Bson updateOperation1 = Updates.set("clearTimestamp", event.getClearTimestamp());
-            Bson updateOperation2 = Updates.set("clearUid", event.getClearTimestamp());
+            Bson updateOperation2 = Updates.set("clearUid", event.getUid());
             Bson updates = Updates.combine(updateOperation1, updateOperation2);
             UpdateResult updateResult = collection.updateMany(filter, updates);
             logger.info("MongoDbDataManager: handleAlarmClearing: result" + updateResult);

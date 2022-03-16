@@ -53,7 +53,7 @@ public class PrometheusSyncTask extends TimerTask {
                 logger.error("PSYNC: null response returned");
                 logger.info("PSYNC: === Periodic synchronization complete ===");
                 AmMetrics.psyncFailedCount++;
-                DAO.getInstance().addWarning("psync_failed", "Synchronization is failing");
+                DAO.getInstance().addWarning("psync", "Synchronization is failing");
                 return;
             }
 
@@ -133,12 +133,14 @@ public class PrometheusSyncTask extends TimerTask {
             DAO.getInstance().synchronizeAlerts(pSyncAlerts, true);
 
             AmMetrics.psyncSuccessCount++;
-            DAO.getInstance().removeWarning("psync_failed");
+            AmMetrics.alertmonitor_psync_success.set(1);
+            DAO.getInstance().removeWarning("psync");
 
         } catch (Exception e) {
             logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());
             AmMetrics.psyncFailedCount++;
-            DAO.getInstance().addWarning("psync_failed", "Synchronization is failing");
+            AmMetrics.alertmonitor_psync_success.set(0);
+            DAO.getInstance().addWarning("psync", "Synchronization is failing");
         }
 
         logger.info("PSYNC: === Periodic synchronization complete ===");

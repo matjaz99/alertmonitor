@@ -1,6 +1,7 @@
 ## 2.2.5-SNAPSHOT
 
 * [ENHANCEMENT] Redesigned synchronization procedure
+* [ENHANCEMENT] Added metric `alertmonitor_psync_success` which returns 1 if last psync was successful.
 
 ## 2.2.4-SNAPSHOT
 
