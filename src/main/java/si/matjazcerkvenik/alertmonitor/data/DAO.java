@@ -287,12 +287,12 @@ public class DAO {
 
         activeAlert.setFirstTimestamp(activeAlert.getTimestamp());
         activeAlert.setLastTimestamp(clearEvent.getTimestamp());
-        dataManager.handleAlarmClearing(activeAlert);
+        dataManager.handleAlarmClearing(clearEvent);
         activeAlerts.remove(activeAlert.getCorrelationId());
         removeObsoleteTags();
 
         // add clear event to journal, just as any other alert
-        List<DEvent> list = new ArrayList<DEvent>();
+        List<DEvent> list = new ArrayList<>();
         list.add(clearEvent);
         addToJournal(list);
 

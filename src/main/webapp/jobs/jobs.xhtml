@@ -11,25 +11,16 @@
 
 			<h:form id="jobsForm">
 
-				<p:panelGrid columns="1" cellspacing="5" width="100%">
+				<p:panelGrid columns="4" cellspacing="5" width="100%">
 
 					<ui:repeat var="j" value="#{uiBean.jobs}">
 						<div class="card">
-							<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
-								<p:ajax event="load" listener="#{uiBean.getJobs()}"/>
-								<f:facet name="loading">
-									<p:skeleton width="200px" height="21px" class="p-mb-4"/>
-									<p:skeleton width="100%" height="42px"/>
-								</f:facet>
-								<h5>#{j.jobName}</h5>
-<!--								<ui:repeat var="t" value="#{uiBean.jobs.targetList}">-->
-<!--									<p>#{t.hostname}</p>-->
-<!--								</ui:repeat>-->
-								<p:dataTable value="#{j.targetList}" var="t"
-											 cellpadding="0" cellspacing="0" width="100%">
-									<p:outputLabel value="#{t.hostname}"/>
-								</p:dataTable>
-							</p:outputPanel>
+							<h5>#{j.jobName}</h5>
+							<p:outputLabel value="Size: #{j.targetList.size()}"/>
+							<p:dataTable value="#{j.targetList}" var="t"
+										 cellpadding="0" cellspacing="0" width="100%">
+								<p:outputLabel value="#{t.hostname}"/>
+							</p:dataTable>
 						</div>
 					</ui:repeat>
 

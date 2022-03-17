@@ -38,4 +38,12 @@ public class Job {
     public void setTargetList(List<Target> targetList) {
         this.targetList = targetList;
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobName='" + jobName + '\'' +
+                ", targetList=" + targetList +
+                '}';
+    }
 }

@@ -354,16 +354,16 @@ public class MongoDbDataManager implements IDataManager {
     }
 
     @Override
-    public void handleAlarmClearing(DEvent event) {
+    public void handleAlarmClearing(DEvent clearEvent) {
         try {
             MongoDatabase db = mongoClient.getDatabase(dbName);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Bson filter = Filters.and(
-                    Filters.eq("correlationId", event.getCorrelationId()),
+                    Filters.eq("correlationId", clearEvent.getCorrelationId()),
                     Filters.eq("clearTimestamp", 0));
-            Bson updateOperation1 = Updates.set("clearTimestamp", event.getClearTimestamp());
-            Bson updateOperation2 = Updates.set("clearUid", event.getUid());
+            Bson updateOperation1 = Updates.set("clearTimestamp", clearEvent.getClearTimestamp());
+            Bson updateOperation2 = Updates.set("clearUid", clearEvent.getUid());
             Bson updates = Updates.combine(updateOperation1, updateOperation2);
             UpdateResult updateResult = collection.updateMany(filter, updates);
             logger.info("MongoDbDataManager: handleAlarmClearing: result" + updateResult);

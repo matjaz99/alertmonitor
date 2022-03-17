@@ -104,12 +104,12 @@ public class InMemoryDataManager implements IDataManager {
     }
 
     @Override
-    public void handleAlarmClearing(DEvent event) {
+    public void handleAlarmClearing(DEvent clearEvent) {
         for (DEvent jEvent : journal) {
-            if (jEvent.getCorrelationId().equals(event.getCorrelationId())
+            if (jEvent.getCorrelationId().equals(clearEvent.getCorrelationId())
                     && jEvent.getClearTimestamp() == 0) {
-                jEvent.setClearTimestamp(event.getTimestamp());
-                jEvent.setClearUid(event.getUid());
+                jEvent.setClearTimestamp(clearEvent.getTimestamp());
+                jEvent.setClearUid(clearEvent.getUid());
             }
         }
     }

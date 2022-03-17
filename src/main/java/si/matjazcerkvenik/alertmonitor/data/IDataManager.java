@@ -25,6 +25,6 @@ public interface IDataManager {
 
     public void cleanDB();
 
-    public void handleAlarmClearing(DEvent event);
+    public void handleAlarmClearing(DEvent clearEvent);
 
 }

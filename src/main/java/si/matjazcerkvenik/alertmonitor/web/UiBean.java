@@ -324,6 +324,7 @@ public class UiBean {
 			job.setJobName(t.getJob());
 			job.getTargetList().add(t);
 			jMap.put(job.getJobName(), job);
+			System.out.println("JOB: " + job.toString());
 		}
 
 		return new ArrayList<>(jMap.values());
