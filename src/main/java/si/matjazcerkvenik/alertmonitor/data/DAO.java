@@ -261,7 +261,7 @@ public class DAO {
         // take data from existing alert and fill it into new alert
         newEvent.setFirstTimestamp(existingEvent.getFirstTimestamp());
         newEvent.setLastTimestamp(newEvent.getTimestamp());
-        if (newEvent.getSource().equalsIgnoreCase("RESYC")) {
+        if (newEvent.getSource().equalsIgnoreCase("PSYNC")) {
             // resync alert, don't increase counter
         } else {
             // regular alert
