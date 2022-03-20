@@ -128,7 +128,7 @@ public class DAO {
                 }
             }
         } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error("DAO: failed to load rules for alert: " + id + "; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("DAO: failed to load rules; root cause: " + e.getMessage());
         }
 
         return event;
@@ -183,8 +183,6 @@ public class DAO {
 
         // regular alarms
 
-        DAO.getInstance().addToJournal(alertList);
-
         for (DEvent e : alertList) {
 
             if (AmProps.ALERTMONITOR_KAFKA_ENABLED) KafkaClient.getInstance().publish(AmProps.ALERTMONITOR_KAFKA_TOPIC, Formatter.toJson(e));
@@ -193,21 +191,23 @@ public class DAO {
             if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
-                    logger.info("AlertmanagerProcessor: clear alert: cid=" + e.getCorrelationId());
+                    logger.info("AlertmanagerProcessor: clear alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 } else {
                     updateActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: updating alert: cid=" + e.getCorrelationId());
+                    logger.info("AlertmanagerProcessor: updating alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: new alert: cid=" + e.getCorrelationId());
+                    logger.info("AlertmanagerProcessor: new alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             }
 
         }
+
+        DAO.getInstance().addToJournal(alertList);
 
         return true;
 
@@ -268,7 +268,7 @@ public class DAO {
             newEvent.setCounter(existingEvent.getCounter() + 1);
         }
         // replace existing with new one
-        activeAlerts.put(existingEvent.getCorrelationId(), newEvent);
+        activeAlerts.put(newEvent.getCorrelationId(), newEvent);
     }
 
     /**

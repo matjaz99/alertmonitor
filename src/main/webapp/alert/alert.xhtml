@@ -24,7 +24,9 @@
 				<h:outputText value="#{uiAlertBean.event.prometheusId}" />
 
 				<h:outputText value="severity" />
-				<h:outputText value="#{uiAlertBean.event.severity}" />
+				<am:singletag value="#{uiAlertBean.getTagObject(uiAlertBean.event.severity)}">
+					<p:outputLabel value="#{uiAlertBean.event.severity}" style="color: #222222;"/>
+				</am:singletag>
 
 				<h:outputText value="priority" />
 				<h:outputText value="#{uiAlertBean.event.priority}" />

@@ -17,6 +17,9 @@ package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.model.TagColors;
+import si.matjazcerkvenik.alertmonitor.model.Target;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
@@ -44,6 +47,10 @@ public class UiAlertBean {
 
     public DEvent getEvent() {
         return event;
+    }
+
+    public DTag getTagObject(String severity) {
+        return new DTag(severity, TagColors.getColor(severity));
     }
 
 }

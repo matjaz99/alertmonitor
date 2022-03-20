@@ -78,6 +78,9 @@ public class TagColors {
         if (tagName.equalsIgnoreCase(DSeverity.INDETERMINATE)) {
             return "#8F5CFF";
         }
+        if (tagName.equalsIgnoreCase(DSeverity.CLEAR)) {
+            return "#00D50A";
+        }
 
         return result;
 
