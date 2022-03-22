@@ -300,6 +300,7 @@ public class MongoDbDataManager implements IDataManager {
         event.setLastTimestamp(((Number) doc.get("lastTimestamp")).longValue());
         event.setClearTimestamp(((Number) doc.get("clearTimestamp")).longValue());
         event.setClearUid(doc.getString("clearUid"));
+        event.setCounter(doc.getInteger("counter"));
         event.setSource(doc.getString("source"));
         event.setUserAgent(doc.getString("userAgent"));
         event.setAlertname(doc.getString("alertname"));

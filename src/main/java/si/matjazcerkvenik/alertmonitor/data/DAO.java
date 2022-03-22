@@ -194,7 +194,7 @@ public class DAO {
                     logger.info("AlertmanagerProcessor: clear alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 } else {
                     updateActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: updating alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("AlertmanagerProcessor: updating alert: uid: " + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
@@ -261,12 +261,7 @@ public class DAO {
         // take data from existing alert and fill it into new alert
         newEvent.setFirstTimestamp(existingEvent.getFirstTimestamp());
         newEvent.setLastTimestamp(newEvent.getTimestamp());
-        if (newEvent.getSource().equalsIgnoreCase("PSYNC")) {
-            // resync alert, don't increase counter
-        } else {
-            // regular alert
-            newEvent.setCounter(existingEvent.getCounter() + 1);
-        }
+        newEvent.setCounter(existingEvent.getCounter() + 1);
         // replace existing with new one
         activeAlerts.put(newEvent.getCorrelationId(), newEvent);
     }
