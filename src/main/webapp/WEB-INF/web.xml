@@ -44,7 +44,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Webhook Servlet</servlet-name>
-        <url-pattern>/webhook/*</url-pattern>
+        <url-pattern>/webhook_/*</url-pattern>
     </servlet-mapping>
 
     <!-- Define the servlet for metrics -->

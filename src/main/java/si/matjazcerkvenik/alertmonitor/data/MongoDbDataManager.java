@@ -214,7 +214,6 @@ public class MongoDbDataManager implements IDataManager {
             return eventList;
 
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("MongoDbDataManager: getJournal: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
@@ -277,12 +276,9 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Document doc = collection.find(Filters.eq("uid", id)).first();
-            System.out.println("DOC SIZE: " + doc.isEmpty());
-            if (doc.size() > 0) {
-                DEvent event = convertToDEvent(doc);
-                DAO.getInstance().removeWarning("mongo");
-                return event;
-            }
+            DEvent event = convertToDEvent(doc);
+            DAO.getInstance().removeWarning("mongo");
+            return event;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getEvent: Exception: " + e.getMessage());
@@ -322,7 +318,6 @@ public class MongoDbDataManager implements IDataManager {
         event.setGeneratorUrl(doc.getString("generatorUrl"));
         event.setPrometheusId(doc.getString("prometheusId"));
         event.setOtherLabelsString(doc.getString("otherLabelsString"));
-        System.out.println(event.toString());
         return event;
     }
 

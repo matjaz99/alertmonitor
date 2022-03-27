@@ -2,6 +2,7 @@
 
 * [ENHANCEMENT] Redesigned synchronization procedure
 * [ENHANCEMENT] Added metric `alertmonitor_psync_success` which returns 1 if last psync was successful.
+* [ENHANCEMENT] Added `age` parameter to alert to show difference between first and clear timestamp.
 
 ## 2.2.4-SNAPSHOT
 

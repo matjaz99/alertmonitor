@@ -20,6 +20,8 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
 import si.matjazcerkvenik.alertmonitor.model.TagColors;
 import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.util.AmProps;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +53,16 @@ public class UiAlertBean {
 
     public DTag getTagObject(String severity) {
         return new DTag(severity, TagColors.getColor(severity));
+    }
+
+    public String getAge() {
+        int secUpTotal = 0;
+        if (event.getClearTimestamp() == 0) {
+            secUpTotal = (int) ((System.currentTimeMillis() - event.getFirstTimestamp()) / 1000);
+        } else {
+            secUpTotal = (int) ((event.getClearTimestamp() - event.getFirstTimestamp()) / 1000);
+        }
+        return Formatter.convertToDHMSFormat(secUpTotal);
     }
 
 }

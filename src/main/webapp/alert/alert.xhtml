@@ -20,6 +20,11 @@
 				<h:outputText value="correlationId" />
 				<h:outputText value="#{uiAlertBean.event.correlationId}" />
 
+				<h:outputText value="clearUid" />
+				<h:link value="#{uiAlertBean.event.clearUid}" outcome="/alert/alert">
+					<f:param name="uid" value="#{uiAlertBean.event.clearUid}" />
+				</h:link>
+
 				<h:outputText value="prometheusId" />
 				<h:outputText value="#{uiAlertBean.event.prometheusId}" />
 
@@ -85,10 +90,8 @@
 				<h:outputText value="clearTimestamp" />
 				<h:outputText value="#{uiAlertBean.event.formatedClearTimestamp}" />
 
-				<h:outputText value="clearUid" />
-				<h:link value="#{uiAlertBean.event.clearUid}" outcome="/alert/alert">
-					<f:param name="uid" value="#{uiAlertBean.event.clearUid}" />
-				</h:link>
+				<h:outputText value="age" />
+				<h:outputText value="#{uiAlertBean.age}" />
 
 				<h:outputText value="counter" />
 				<h:outputText value="#{uiAlertBean.event.counter}" />
