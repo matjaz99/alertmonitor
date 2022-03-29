@@ -305,8 +305,11 @@ public class UiBean {
 		return "bullet_green";
 	}
 
+	/**
+	 * Call targets API and sort by jobs.
+	 * @return list of jobs
+	 */
 	public List<Job> getJobs() {
-		// TODO
 
 		result = null;
 
@@ -324,7 +327,6 @@ public class UiBean {
 			job.setJobName(t.getJob());
 			job.getTargetList().add(t);
 			jMap.put(job.getJobName(), job);
-			System.out.println("JOB: " + job.toString());
 		}
 
 		return new ArrayList<>(jMap.values());

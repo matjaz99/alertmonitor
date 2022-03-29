@@ -11,15 +11,15 @@
 
 			<h:form id="jobsForm">
 
-				<p:panelGrid columns="4" cellspacing="5" width="100%">
+				<p:panelGrid columns="2" cellspacing="5" width="100%">
 
 					<ui:repeat var="j" value="#{uiBean.jobs}">
 						<div class="card">
-							<h5>#{j.jobName}</h5>
-							<p:outputLabel value="Size: #{j.targetList.size()}"/>
 							<p:dataTable value="#{j.targetList}" var="t"
-										 cellpadding="0" cellspacing="0" width="100%">
-								<p:outputLabel value="#{t.hostname}"/>
+										 cellpadding="0" cellspacing="0">
+								<p:column headerText="#{j.jobName} (#{j.targetList.size()})">
+									<p:outputLabel value="#{t.hostname}"/>
+								</p:column>
 							</p:dataTable>
 						</div>
 					</ui:repeat>
