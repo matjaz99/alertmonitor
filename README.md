@@ -8,10 +8,10 @@
 
 Alertmonitor is a webapp for displaying active alerts in Prometheus.
 
-Alertmonitor is receiving alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
-Alternatively, if webhook receiver is not configured, Alertmonitor can still pull alerts directly from Prometheus. 
-Ideally both approaches can be used in combination. This way you'll always receive alert immediately when it is fired and yet it offers 
-possibility to *synchronize* alerts with Prometheus in case if any alert has been lost.
+Alertmonitor receives alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
+Alternatively, if webhook receiver is not configured, Alertmonitor can pull alerts directly from Prometheus. 
+Ideally both approaches should be used in combination. This way you'll always receive alert immediately when it is fired, and yet it 
+*synchronizes* alerts with Prometheus in case if any alert (or clear) has been lost.
 
 Alertmonitor automatically correlates firing and resolving alerts to display current state of active alarms.
 
@@ -22,6 +22,8 @@ Alertmonitor supports PromQL for making queries and range queries.
 
 Tags provide a quick way of filtering alerts.
 
+Alertmonitor can store alerts in MongoDB database (disabled by default). It stores all incoming messages 
+and whole journal (history) of alerts. Data is deleted according to retention policy.
 
 Screenshots:
 
@@ -198,7 +200,7 @@ A list of supported environment variables:
 | ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
 | ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka.  Default: hostname:9092 |
 | ALERTMONITOR_KAFKA_TOPIC           | Name of topic.  Default: alertmonitor_notifications |
-| ALERTMONITOR_MONGODB_ENABLED       | Enable or disable storing data to MongoDB. Default: false | 
+| ALERTMONITOR_MONGODB_ENABLED       | Enable or disable storing data to MongoDB.  Default: false | 
 | ALERTMONITOR_MONGODB_CONNECTION_STRING | The connection string for MongoDB (username, password and host). |
 
 ### Environment variable substitution
