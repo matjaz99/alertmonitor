@@ -68,6 +68,17 @@ public class DAO {
         return dataManager;
     }
 
+    public void resetDataManager() {
+        TaskManager.getInstance().stopDbMaintenanceTimer();
+        dataManager.close();
+        if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
+            dataManager = new MongoDbDataManager();
+        } else {
+            dataManager = new InMemoryDataManager();
+        }
+        TaskManager.getInstance().startDbMaintenanceTimer();
+    }
+
     /**
      * Add new webhook message to the list. Also delete oldest messages.
      * @param message incoming message

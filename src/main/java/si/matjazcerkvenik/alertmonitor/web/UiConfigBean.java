@@ -84,6 +84,16 @@ public class UiConfigBean {
         return AmProps.ALERTMONITOR_DATA_RETENTION_DAYS + "";
     }
 
+    public void setMongoDbConnectionString(String mongoDbConnectionString) {
+        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = mongoDbConnectionString;
+        DAO.getInstance().resetDataManager();
+        LogFactory.getLogger().info("UiConfigBean: mongoDB connection string changed: " + AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING);
+    }
+
+    public String getMongoDbConnectionString() {
+        return AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING;
+    }
+
     public void setHttpReadTimeout(String interval) {
 
         AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(interval);

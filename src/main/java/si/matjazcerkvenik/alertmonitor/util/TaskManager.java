@@ -80,4 +80,11 @@ public class TaskManager {
 
     }
 
+    public void stopDbMaintenanceTimer() {
+        if (dbMaintenanceTask != null) {
+            dbMaintenanceTimer.cancel();
+            dbMaintenanceTimer = null;
+        }
+    }
+
 }

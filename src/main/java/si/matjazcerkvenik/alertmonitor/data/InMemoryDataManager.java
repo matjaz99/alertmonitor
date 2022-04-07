@@ -113,4 +113,9 @@ public class InMemoryDataManager implements IDataManager {
             }
         }
     }
+
+    @Override
+    public void close() {
+        // not applicable
+    }
 }

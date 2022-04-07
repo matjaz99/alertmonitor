@@ -26,7 +26,7 @@ services:
       - ALERTMONITOR_KAFKA_TOPIC=alertmonitor_events
       - ALERTMONITOR_PROMETHEUS_ID_LABELS="cluster, region, monitor"
       - ALERTMONITOR_MONGODB_ENABLED=false
-      - ALERTMONITOR_MONGODB_CONNECTION_STRING="mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin"
+      - ALERTMONITOR_MONGODB_CONNECTION_STRING="mongodb://admin:mongodbpassword@promvm:27017/?authSource=admin"
     volumes:
       - /var/log:/opt/alertmonitor/log
     deploy:

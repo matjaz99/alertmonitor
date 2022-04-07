@@ -38,6 +38,11 @@
 						<p:inputText value="#{uiConfigBean.psyncInterval}" required="true" label="text"/>
 					</p:inplace>
 
+					<p:outputLabel value="MongoDB connection string: " class="boldtext"/>
+					<p:inplace editor="true">
+						<p:inputText value="#{uiConfigBean.mongoDbConnectionString}" required="true" label="text"/>
+					</p:inplace>
+
 					<p:outputLabel value="Kafka enabled (experimental): " class="boldtext"/>
 					<p:selectBooleanCheckbox value="#{uiConfigBean.kafkaEnabled}">
 						<p:ajax update="growl" listener="#{uiBean.addMessage}"/>

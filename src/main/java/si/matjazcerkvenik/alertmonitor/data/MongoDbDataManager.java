@@ -371,4 +371,8 @@ public class MongoDbDataManager implements IDataManager {
             DAO.getInstance().addWarning("mongo", "No connection to DB");
         }
     }
+
+    public void close() {
+        mongoClient.close();
+    }
 }

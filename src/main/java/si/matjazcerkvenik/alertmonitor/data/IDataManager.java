@@ -27,4 +27,6 @@ public interface IDataManager {
 
     public void handleAlarmClearing(DEvent clearEvent);
 
+    public void close();
+
 }
