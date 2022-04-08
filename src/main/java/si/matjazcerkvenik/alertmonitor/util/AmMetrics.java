@@ -87,4 +87,33 @@ public class AmMetrics {
             .help("Periodic synchronization interval.")
             .register();
 
+    public static final Counter alertmonitor_db_inserts_total = Counter.build()
+            .name("alertmonitor_db_inserts_total")
+            .help("Total number of insert operations into DB.")
+            .labelNames("catalog")
+            .register();
+
+    public static final Counter alertmonitor_db_queries_total = Counter.build()
+            .name("alertmonitor_db_queries_total")
+            .help("Total number of query operations into DB.")
+            .labelNames("catalog")
+            .register();
+
+    public static final Counter alertmonitor_db_updates_total = Counter.build()
+            .name("alertmonitor_db_updates_total")
+            .help("Total number of update operations into DB.")
+            .labelNames("catalog")
+            .register();
+
+    public static final Counter alertmonitor_db_deletes_total = Counter.build()
+            .name("alertmonitor_db_deletes_total")
+            .help("Total number of delete operations into DB.")
+            .labelNames("catalog")
+            .register();
+
+    public static final Counter alertmonitor_db_failures_total = Counter.build()
+            .name("alertmonitor_db_failures_total")
+            .help("Total number of failed operations with DB.")
+            .register();
+
 }

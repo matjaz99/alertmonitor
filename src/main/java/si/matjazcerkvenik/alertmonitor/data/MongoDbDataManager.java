@@ -27,6 +27,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -94,10 +95,12 @@ public class MongoDbDataManager implements IDataManager {
             collection.insertOne(doc);
 
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_inserts_total.labels("webhook").inc();
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: addWebhookMessage: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
 
     }
@@ -147,12 +150,14 @@ public class MongoDbDataManager implements IDataManager {
             }
 
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_queries_total.labels("webhook").inc();
 
             return webhookMessageList;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getWebhookMessages: Exception: ", e);
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return null;
     }
@@ -179,10 +184,12 @@ public class MongoDbDataManager implements IDataManager {
             collection.insertMany(list, new InsertManyOptions().ordered(false));
 
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_inserts_total.labels("journal").inc();
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: addToJournal(): Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
 
     }
@@ -210,12 +217,14 @@ public class MongoDbDataManager implements IDataManager {
             }
 
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
 
             return eventList;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getJournal: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return null;
     }
@@ -229,12 +238,14 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("journal");
 
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
 
             return collection.countDocuments();
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getJournalSize: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return -1;
     }
@@ -249,11 +260,15 @@ public class MongoDbDataManager implements IDataManager {
 
             Bson filter = Filters.gte("timestamp", System.currentTimeMillis() - 3600 * 1000);
 
+            DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
+
             return (int) collection.countDocuments(filter);
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getNumberOfAlertsInLastHour: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return -1;
     }
@@ -278,11 +293,13 @@ public class MongoDbDataManager implements IDataManager {
             Document doc = collection.find(Filters.eq("uid", id)).first();
             DEvent event = convertToDEvent(doc);
             DAO.getInstance().removeWarning("mongo");
+            AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
             return event;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getEvent: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return null;
     }
@@ -336,16 +353,19 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("webhook");
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB [webhook]: result" + resultDeleteMany);
+            AmMetrics.alertmonitor_db_deletes_total.labels("webhook").inc();
 
             MongoCollection<Document> collection2 = db.getCollection("journal");
             DeleteResult resultDeleteMany2 = collection2.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB [journal]: result" + resultDeleteMany2);
+            AmMetrics.alertmonitor_db_deletes_total.labels("journal").inc();
 
             DAO.getInstance().removeWarning("mongo");
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: cleanDB: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
     }
 
@@ -363,12 +383,14 @@ public class MongoDbDataManager implements IDataManager {
             Bson updates = Updates.combine(updateOperation1, updateOperation2);
             UpdateResult updateResult = collection.updateMany(filter, updates);
             logger.info("MongoDbDataManager: handleAlarmClearing: result" + updateResult);
+            AmMetrics.alertmonitor_db_updates_total.labels("journal").inc();
 
             DAO.getInstance().removeWarning("mongo");
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: handleAlarmClearing: Exception: " + e.getMessage());
             DAO.getInstance().addWarning("mongo", "No connection to DB");
+            AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
     }
 
