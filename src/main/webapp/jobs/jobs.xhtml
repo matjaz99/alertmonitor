@@ -11,6 +11,8 @@
 
 			<h:form id="jobsForm">
 
+				<p:tag id="resultStatus" styleClass="p-mr-2" severity="danger" value="#{uiBean.result}" rendered="#{uiBean.result != null}"></p:tag>
+
 				<p:panelGrid columns="2" cellspacing="5" width="100%">
 
 					<ui:repeat var="j" value="#{uiBean.jobs}">

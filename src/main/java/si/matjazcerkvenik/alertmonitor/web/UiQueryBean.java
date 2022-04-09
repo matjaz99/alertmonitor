@@ -251,9 +251,18 @@ public class UiQueryBean {
             startDate.setTime(c.getTimeInMillis());
             endDate.setTime(System.currentTimeMillis());
             step = "24h";
+        } else if (s.equals("30d")) {
+            Calendar c1 = Calendar.getInstance();
+            c1.set(Calendar.DAY_OF_YEAR, c1.get(Calendar.DAY_OF_YEAR) - 30);
+            c1.set(Calendar.HOUR_OF_DAY, 0);
+            c1.set(Calendar.MINUTE, 0);
+            c1.set(Calendar.SECOND, 0);
+            startDate.setTime(c1.getTimeInMillis());
+            endDate.setTime(System.currentTimeMillis());
+            step = "1d";
         } else if (s.equals("90d")) {
             Calendar c1 = Calendar.getInstance();
-            c1.set(Calendar.MONTH, c1.get(Calendar.MONTH) - 3);
+            c1.set(Calendar.DAY_OF_YEAR, c1.get(Calendar.DAY_OF_YEAR) - 90);
             c1.set(Calendar.DAY_OF_MONTH, 1);
             c1.set(Calendar.HOUR_OF_DAY, 0);
             c1.set(Calendar.MINUTE, 0);

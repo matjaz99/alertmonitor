@@ -1,38 +1,26 @@
-## 2.2.5-SNAPSHOT
-
-* [ENHANCEMENT] Redesigned synchronization procedure
-* [ENHANCEMENT] Added metric `alertmonitor_psync_success` which returns 1 if last psync was successful.
-* [ENHANCEMENT] Added `age` parameter to alert to show difference between first and clear timestamp.
-
-## 2.2.4-SNAPSHOT
+## 2.3 / 2022-04-09
 
 * [CHANGE] Webhook accepts only POST requests now
+* [CHANGE] Environment variable `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
+* [FEATURE] Introducing MongoDB. Webhook messages and journal of alerts is stored in MongoDb (if enabled, otherwise in-memory storage is used)
+* [FEATURE] Warning messages, in Statistics view (aka. Alertmonitor's internal alarms)
+* [FEATURE] Separate alert.log only for alerts
+* [ENHANCEMENT] Redesigned synchronization procedure
+* [ENHANCEMENT] Added metric `alertmonitor_psync_success` which returns 1 if last psync was successful.
+* [ENHANCEMENT] Added metrics for database operations: `alertmonitor_db_inserts_total`, `alertmonitor_db_queries_total`,
+ `alertmonitor_db_updates_total`, `alertmonitor_db_deletes_total`, `alertmonitor_db_failures_total`
+* [ENHANCEMENT] Added `age` parameter to alert to show difference between first and clear timestamp.
 * [ENHANCEMENT] Added buttons for easier configuration of time intervals in query ranges.
 * [ENHANCEMENT] Added hashes (#) in front of tags to emphasize their meaning
 * [ENHANCEMENT] Added `ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC` environment variable to set the 
 HTTP client read timeout. Also, configurable in Configuration view.
-* [BUG] Bugfix (#18)
-
-## 2.2.3-SNAPSHOT
-
-* [CHANGE] Environment variable `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
-* [FEATURE] working on MongoDB
-* [FEATURE] Warning messages, under Statistics view (aka. Alertmonitor's internal alarms)
-* [FEATURE] Separate alert.log only for alerts
-
-
-## 2.2.2-SNAPSHOT
-
-* [ENHANCEMENT] Internal warnings are displayed in Statistics view (such as Prom API not available)
 * [ENHANCEMENT] Added `prometheusId` which consists of a set of labels, that identify this prometheus server. 
 Which labels denote to the ID are configurable with environment variable `ALERTMONITOR_PROMETHEUS_ID_LABELS`. 
 Example: `cluster, region, monitor`.
-
-## 2.2.1-SNAPSHOT
-
 * [ENHANCEMENT] Improved error handling with Prometheus API
 * [ENHANCEMENT] A lot of refactoring
 * [BUG] Fixed (#18)
+* [BUG] Bugfix (#18)
 
 ## 2.2.0 / 2022-01-29
 

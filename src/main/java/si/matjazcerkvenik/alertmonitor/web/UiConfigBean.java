@@ -86,8 +86,8 @@ public class UiConfigBean {
 
     public void setMongoDbConnectionString(String mongoDbConnectionString) {
         AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = mongoDbConnectionString;
-        DAO.getInstance().resetDataManager();
         LogFactory.getLogger().info("UiConfigBean: mongoDB connection string changed: " + AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING);
+        DAO.getInstance().resetDataManager();
     }
 
     public String getMongoDbConnectionString() {
