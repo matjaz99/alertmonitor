@@ -1,4 +1,4 @@
-## 2.3 / 2022-04-09
+## 2.3.0 / 2022-04-09
 
 * [CHANGE] Webhook accepts only POST requests now
 * [CHANGE] Environment variable `ALERTMONITOR_JOURNAL_SIZE` is now obsolete, and it is replaced by `ALERTMONITOR_DATA_RETENTION_DAYS`
