@@ -24,9 +24,14 @@ import java.util.concurrent.TimeUnit;
 
 public class HttpClientFactory {
 
-    public static OkHttpClient instantiateHttpClient() {
+    /**
+     * Secure=true will return HTTPS client, while secure=false will return HTTP client.
+     * @param secure
+     * @return OkHttpClient
+     */
+    public static OkHttpClient instantiateHttpClient(boolean secure) {
 
-        if (!AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https")) {
+        if (!secure) {
 
             LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
 

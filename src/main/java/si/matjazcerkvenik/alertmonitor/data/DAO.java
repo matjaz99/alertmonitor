@@ -285,11 +285,8 @@ public class DAO {
     public void removeActiveAlert(DEvent activeAlert) {
 
         // create artificial clear event
-        LogFactory.getLogger().info("original: " + activeAlert.toString());
         DEvent clearEvent = activeAlert.generateClearEvent();
         clearEvent.setClearUid(clearEvent.getUid());
-        LogFactory.getLogger().info("clone:::: " + clearEvent.toString());
-
 
         activeAlert.setFirstTimestamp(activeAlert.getTimestamp());
         activeAlert.setLastTimestamp(clearEvent.getTimestamp());

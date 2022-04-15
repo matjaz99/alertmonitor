@@ -114,6 +114,8 @@ public class OnStartListener implements ServletContextListener {
         // start periodic sync timer
         TaskManager.getInstance().restartPsyncTimer();
 
+        AmProps.githubVersion = TaskManager.getInstance().getVersionFromGithub();
+
     }
 
     @Override

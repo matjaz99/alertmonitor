@@ -232,7 +232,7 @@ public class PrometheusApi {
 
         try {
 
-            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient();
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https"));
 
             logger.info("PrometheusApi: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();

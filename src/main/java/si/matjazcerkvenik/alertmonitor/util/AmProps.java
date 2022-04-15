@@ -20,6 +20,7 @@ public class AmProps {
     public static String ALERTMONITOR_RUNTIME_ID = "0000-0000-0000-0000";
     public static long startUpTime = 0;
     public static String version = "n/a";
+    public static String githubVersion = "n/a";
     public static boolean isContainerized = false;
     public static String localIpAddress;
 

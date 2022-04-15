@@ -15,13 +15,21 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.net.ssl.SSLException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -229,7 +237,12 @@ public class UiConfigBean {
     }
 
     public String getUpdateVersionWarning() {
-        return null;
+
+        if (AmProps.githubVersion.equals(AmProps.version)) {
+            return null;
+        }
+
+        return AmProps.githubVersion;
     }
 
 }

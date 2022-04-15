@@ -15,6 +15,9 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.data.DbMaintenanceTask;
 import si.matjazcerkvenik.alertmonitor.model.PrometheusSyncTask;
 
@@ -89,6 +92,40 @@ public class TaskManager {
             dbMaintenanceTask.cancel();
             dbMaintenanceTask = null;
         }
+    }
+
+    public String getVersionFromGithub() {
+        try {
+
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(true);
+
+            Request request = new Request.Builder()
+                    .url("https://raw.githubusercontent.com/matjaz99/alertmonitor/master/src/main/webapp/WEB-INF/version.txt")
+                    .addHeader("User-Agent", "Alertmonitor/v1")
+                    .get()
+                    .build();
+
+            Response response = httpClient.newCall(request).execute();
+
+            String code = Integer.toString(response.code());
+            String responseBody = "";
+
+            if (response.body() != null) {
+                responseBody = response.body().string();
+            }
+
+            response.close();
+
+            System.out.println(code + " " + responseBody);
+
+            return responseBody;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 }
