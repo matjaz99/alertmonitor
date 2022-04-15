@@ -228,4 +228,8 @@ public class UiConfigBean {
         return DAO.getInstance().getWarnings();
     }
 
+    public String getUpdateVersionWarning() {
+        return null;
+    }
+
 }

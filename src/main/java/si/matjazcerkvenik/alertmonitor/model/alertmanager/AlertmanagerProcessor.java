@@ -116,7 +116,7 @@ public class AlertmanagerProcessor {
 
             eventList.add(e);
 
-            LogFactory.getLogger().info("AlertmanagerProcessor: " + e.toString());
+            LogFactory.getLogger().debug("AlertmanagerProcessor: " + e.toString());
 
         }
 

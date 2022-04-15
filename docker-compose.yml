@@ -26,7 +26,7 @@ services:
       - ALERTMONITOR_KAFKA_TOPIC=alertmonitor_events
       - ALERTMONITOR_PROMETHEUS_ID_LABELS="cluster, region, monitor"
       - ALERTMONITOR_MONGODB_ENABLED=false
-      - ALERTMONITOR_MONGODB_CONNECTION_STRING="mongodb://admin:mongodbpassword@promvm:27017/?authSource=admin"
+      - ALERTMONITOR_MONGODB_CONNECTION_STRING="mongodb://admin:mongodbpassword@mongodb:27017/?authSource=admin"
     volumes:
       - /var/log:/opt/alertmonitor/log
     deploy:
@@ -37,3 +37,21 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
+
+  mongodb:
+    image: mongo:5.0.6
+    ports:
+      - 27017:27017
+    networks:
+      - monitoring_network
+    environment:
+      MONGO_INITDB_DATABASE: "alertmonitor"
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "mongodbpassword"
+    volumes:
+      #- mongodb_storage:/data/db mongo
+      - ${DATA_DIR}/mongodb:/data/db
+    deploy:
+      mode: replicated
+      replicas: 1
+

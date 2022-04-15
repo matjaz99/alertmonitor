@@ -9,6 +9,12 @@
 		<ui:define name="contentFrame">
 
 			<p:outputLabel value="Alertmonitor #{uiConfigBean.version}" style="font-weight: bold; font-size: 24px;"/>
+
+			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{uiConfigBean.updateVersionWarning != null}">
+				<p:outputLabel value="New version is available: #{uiConfigBean.updateVersionWarning}"/>
+				<br/>
+			</p:panelGrid>
+
 			<p:outputLabel class="plaintext" value="Maintainer: Matjaž Cerkvenik" />
 			<p:outputLabel class="plaintext" value="Alertmonitor home page: " >
 				<h:outputLink value="https://www.matjazcerkvenik.si/projects/alertmonitor" >
