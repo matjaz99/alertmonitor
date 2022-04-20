@@ -1,5 +1,0 @@
-{
-  "status": "error",
-  "errorType": "bad_data",
-  "error": "invalid parameter \"query\": 1:6: parse error: expected type range vector in call to function \"rate\", got instant vector"
-}
