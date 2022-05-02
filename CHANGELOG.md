@@ -1,6 +1,6 @@
 ## 2.3.1-SNAPSHOT
 
-* [FEATURE] Check last version at start
+* [FEATURE] Version check at start
 
 ## 2.3.0 / 2022-04-09
 

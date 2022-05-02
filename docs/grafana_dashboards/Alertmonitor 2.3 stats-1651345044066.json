@@ -1,4 +1,59 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.4.6"
+    },
+    {
+      "type": "panel",
+      "id": "piechart",
+      "name": "Pie chart",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -21,16 +76,12 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 46,
-  "iteration": 1649671066133,
+  "id": null,
+  "iteration": 1651344716113,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -65,12 +116,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 3,
         "x": 0,
         "y": 0
       },
-      "id": 17,
+      "id": 2,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -88,12 +139,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "y85Kc6W7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": false,
           "expr": "alertmonitor_build_info{instance=\"$node\"}",
@@ -109,9 +160,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -146,12 +194,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 3,
         "y": 0
       },
-      "id": 18,
+      "id": 4,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -169,10 +217,14 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
-          "exemplar": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": false,
           "expr": "alertmonitor_build_info{instance=\"$node\"}",
           "format": "time_series",
           "instant": true,
@@ -186,10 +238,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -224,12 +272,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 3,
         "x": 7,
         "y": 0
       },
-      "id": 20,
+      "id": 6,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -247,12 +295,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "y85Kc6W7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": false,
           "expr": "alertmonitor_last_event_timestamp{instance=\"$node\"}",
@@ -268,9 +316,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -305,12 +350,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 3,
         "x": 10,
         "y": 0
       },
-      "id": 14,
+      "id": 8,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -328,12 +373,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "sum(alertmonitor_webhook_messages_received_total{instance=\"$node\"})",
           "format": "time_series",
+          "instant": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -344,9 +394,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -381,12 +428,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 13,
         "y": 0
       },
-      "id": 15,
+      "id": 10,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -404,9 +451,13 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "sum(alertmonitor_journal_messages_total{instance=\"$node\"})",
           "format": "time_series",
@@ -421,9 +472,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -459,7 +507,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 3,
         "x": 17,
         "y": 0
@@ -482,12 +530,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "sum(alertmonitor_active_alerts_count{instance=\"$node\"})",
           "format": "time_series",
+          "instant": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -498,10 +551,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -537,12 +586,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 20,
         "y": 0
       },
-      "id": 34,
+      "id": 14,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -560,12 +609,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "alertmonitor_psync_interval_seconds{instance=\"$node\"}",
@@ -580,10 +629,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "description": "Number of HTTP messages received on webhook",
       "fieldConfig": {
         "defaults": {
@@ -658,9 +703,9 @@
         "h": 5,
         "w": 10,
         "x": 0,
-        "y": 2
+        "y": 3
       },
-      "id": 8,
+      "id": 16,
       "links": [],
       "options": {
         "legend": {
@@ -678,7 +723,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_webhook_messages_received_total{instance=\"$node\"}[5m])) by (method) / 4 * 60",
@@ -693,10 +738,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -821,6 +862,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "informational"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -828,9 +884,9 @@
         "h": 5,
         "w": 10,
         "x": 10,
-        "y": 2
+        "y": 3
       },
-      "id": 2,
+      "id": 18,
       "links": [],
       "options": {
         "legend": {
@@ -848,7 +904,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(alertmonitor_active_alerts_count{instance=\"$node\"}) by (severity)",
@@ -863,9 +919,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -913,9 +966,9 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 2
+        "y": 3
       },
-      "id": 6,
+      "id": 20,
       "links": [],
       "options": {
         "orientation": "auto",
@@ -930,9 +983,13 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "alertmonitor_alerts_balance_factor{instance=\"$node\"}",
           "format": "time_series",
@@ -947,9 +1004,6 @@
       "type": "gauge"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "description": "Number of events entering into journal",
       "fieldConfig": {
         "defaults": {
@@ -1114,9 +1168,9 @@
         "h": 5,
         "w": 10,
         "x": 0,
-        "y": 7
+        "y": 8
       },
-      "id": 10,
+      "id": 22,
       "links": [],
       "options": {
         "legend": {
@@ -1132,6 +1186,10 @@
       "pluginVersion": "8.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_journal_messages_total{instance=\"$node\"}[5m])) by (severity) * 60 / 4",
           "format": "time_series",
@@ -1146,9 +1204,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1267,7 +1322,7 @@
         "h": 5,
         "w": 10,
         "x": 10,
-        "y": 7
+        "y": 8
       },
       "id": 24,
       "links": [],
@@ -1285,6 +1340,10 @@
       "pluginVersion": "8.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "exemplar": true,
           "expr": "sum(alertmonitor_active_alerts_count{instance=\"$node\"}) by (alertname)",
           "format": "time_series",
@@ -1298,10 +1357,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1328,7 +1383,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "light-red",
+                  "fixedColor": "red",
                   "mode": "fixed"
                 }
               }
@@ -1343,7 +1398,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "light-orange",
+                  "fixedColor": "orange",
                   "mode": "fixed"
                 }
               }
@@ -1373,7 +1428,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "light-yellow",
+                  "fixedColor": "yellow",
                   "mode": "fixed"
                 }
               }
@@ -1403,7 +1458,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "light-blue",
+                  "fixedColor": "blue",
                   "mode": "fixed"
                 }
               }
@@ -1415,7 +1470,7 @@
         "h": 7,
         "w": 4,
         "x": 20,
-        "y": 7
+        "y": 8
       },
       "id": 26,
       "links": [],
@@ -1446,7 +1501,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": false,
           "expr": "sum(alertmonitor_active_alerts_count{instance=\"$node\"}) by (severity)",
@@ -1462,10 +1517,6 @@
       "type": "piechart"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "description": "Number of new alerts added to active alert list",
       "fieldConfig": {
         "defaults": {
@@ -1608,6 +1659,21 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "informational"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -1615,9 +1681,9 @@
         "h": 5,
         "w": 10,
         "x": 0,
-        "y": 12
+        "y": 13
       },
-      "id": 23,
+      "id": 28,
       "links": [],
       "options": {
         "legend": {
@@ -1635,7 +1701,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_active_alerts_count{instance=\"$node\"}[5m])) by (severity) * 15",
@@ -1652,111 +1718,154 @@
       "type": "timeseries"
     },
     {
-      "aliasColors": {
-        "critical": "dark-red",
-        "major": "dark-orange",
-        "minor": "light-orange",
-        "warning": "yellow"
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "critical"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "major"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "minor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warning"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "informational"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indeterminate"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 10,
         "x": 10,
-        "y": 12
+        "y": 13
       },
-      "hiddenSeries": false,
-      "id": 27,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
+      "id": 30,
       "options": {
-        "alertThreshold": true
+        "displayMode": "gradient",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false
       },
-      "percentage": false,
-      "pluginVersion": "8.4.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": true,
+      "pluginVersion": "8.4.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
+          "exemplar": false,
           "expr": "sum(alertmonitor_active_alerts_count{instance=\"$node\"}) by (severity)",
           "format": "time_series",
+          "instant": true,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "{{severity}}",
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Active alerts by severity",
-      "tooltip": {
-        "shared": false,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "series",
-        "show": true,
-        "values": [
-          "current"
-        ]
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:399",
-          "decimals": 0,
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:400",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "bargauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1806,15 +1915,61 @@
           },
           "unit": "s"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GET http://prometheus:9090/api/v1/alerts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "POST http://prometheus:9090/api/v1/query"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GET http://prometheus:9090/api/v1/targets"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 5,
         "w": 8,
         "x": 0,
-        "y": 17
+        "y": 18
       },
-      "id": 29,
+      "id": 32,
       "options": {
         "legend": {
           "calcs": [],
@@ -1830,7 +1985,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "alertmonitor_prom_api_duration_seconds_sum{instance=\"$node\"} / alertmonitor_prom_api_duration_seconds_count{instance=\"$node\"}",
@@ -1842,7 +1997,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(rate(alertmonitor_prom_api_duration_seconds_sum{instance=\"$node\"}[5m])) by (endpoint, method) / sum(rate(alertmonitor_prom_api_duration_seconds_count{instance=\"$node\"}[5m])) by (endpoint, method)",
@@ -1856,11 +2011,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "description": "You might have an SLA to serve 95% of requests within 100ms. In that case, configure a histogram to have a bucket with an upper limit of 0.3 seconds. You can then directly express the relative amount of requests served within 300ms and easily alert if the value drops below 0.95.",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1912,15 +2063,61 @@
           },
           "unit": "percentunit"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "http://prometheus:9090/api/v1/alerts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "http://prometheus:9090/api/v1/query"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "http://prometheus:9090/api/v1/targets"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 5,
         "w": 9,
         "x": 8,
-        "y": 17
+        "y": 18
       },
-      "id": 31,
+      "id": 34,
       "options": {
         "legend": {
           "calcs": [
@@ -1941,7 +2138,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(rate(alertmonitor_prom_api_duration_seconds_bucket{le=\"0.1\", instance=\"$node\"}[5m])) by (endpoint) / sum(rate(alertmonitor_prom_api_duration_seconds_count{instance=\"$node\"}[5m])) by (endpoint)",
@@ -1954,11 +2151,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "description": "This time, you do not want to display the percentage of requests served within 300ms, but instead the 95th percentile, i.e. the request duration within which you have served 95% of requests. To do that, you can either configure a summary with a 0.95-quantile and (for example) a 5-minute decay time, or you configure a histogram with a few buckets around the 300ms mark",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2010,15 +2203,61 @@
           },
           "unit": "s"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "50%"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "75%"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "95%"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 5,
         "w": 7,
         "x": 17,
-        "y": 17
+        "y": 18
       },
-      "id": 33,
+      "id": 36,
       "options": {
         "legend": {
           "calcs": [
@@ -2039,7 +2278,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "histogram_quantile(0.5, sum(rate(alertmonitor_prom_api_duration_seconds_bucket{instance=\"$node\"}[5m])) by (le))",
@@ -2050,7 +2289,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "histogram_quantile(0.75, sum(rate(alertmonitor_prom_api_duration_seconds_bucket{instance=\"$node\"}[5m])) by (le))",
@@ -2061,7 +2300,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "histogram_quantile(0.95, sum(rate(alertmonitor_prom_api_duration_seconds_bucket{instance=\"$node\"}[5m])) by (le))",
@@ -2074,11 +2313,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "description": "Number of HTTP messages received on webhook",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2152,9 +2387,9 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 23
       },
-      "id": 35,
+      "id": 38,
       "links": [],
       "options": {
         "legend": {
@@ -2172,7 +2407,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_db_inserts_total{instance=\"$node\"}[5m])) * 15",
@@ -2185,7 +2420,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_db_updates_total{instance=\"$node\"}[5m])) * 15",
@@ -2199,7 +2434,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_db_queries_total{instance=\"$node\"}[5m])) * 15",
@@ -2213,7 +2448,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_db_deletes_total{instance=\"$node\"}[5m])) * 15",
@@ -2227,7 +2462,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(irate(alertmonitor_db_failures_total{instance=\"$node\"}[5m])) by (catalog) * 15",
@@ -2243,40 +2478,14 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
+  "refresh": "30s",
   "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "Prometheus",
-          "value": "Prometheus"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "label": "Datasource",
-        "multi": false,
-        "name": "datasource",
-        "options": [],
-        "query": "prometheus",
-        "queryValue": "",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "type": "datasource"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "alertmonitor:8080",
-          "value": "alertmonitor:8080"
-        },
-        "datasource": {
-          "uid": "${datasource}"
-        },
+        "current": {},
         "definition": "label_values(alertmonitor_build_info{app=\"Alertmonitor\"} , instance)",
         "hide": 0,
         "includeAll": false,
@@ -2292,7 +2501,8 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "type": "query",
+        "datasource": "${DS_PROMETHEUS}"
       }
     ]
   },
@@ -2300,34 +2510,10 @@
     "from": "now-1h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
   "title": "Alertmonitor 2.3 stats",
-  "uid": "EijnQ2Unk",
-  "version": 2,
+  "uid": "keNsrPwnz",
+  "version": 16,
   "weekStart": ""
 }

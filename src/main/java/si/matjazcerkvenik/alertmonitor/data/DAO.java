@@ -202,17 +202,17 @@ public class DAO {
             if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
-                    logger.info("AlertmanagerProcessor: clear alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("AlertmanagerProcessor: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 } else {
                     updateActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: updating alert: uid: " + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("AlertmanagerProcessor: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: new alert: uid: " + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("AlertmanagerProcessor: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             }
 

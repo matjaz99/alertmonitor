@@ -5,6 +5,10 @@ networks:
     driver: overlay
     attachable: true
 
+volumes:
+  mongodb_storage:
+    driver: local
+
 services:
 
   alertmonitor:
@@ -14,6 +18,7 @@ services:
     networks:
       - monitoring_network
     environment:
+      - TZ=${TZ}
       - SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log
       - GRAFANA_HOSTNAME=my.grafana.domain
       - ALERTMONITOR_DATA_RETENTION_DAYS=7
@@ -49,8 +54,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "admin"
       MONGO_INITDB_ROOT_PASSWORD: "mongodbpassword"
     volumes:
-      #- mongodb_storage:/data/db mongo
-      - ${DATA_DIR}/mongodb:/data/db
+      - mongodb_storage:/data/db
     deploy:
       mode: replicated
       replicas: 1
