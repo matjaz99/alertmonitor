@@ -20,7 +20,7 @@
         <primefaces.version>11.0.0</primefaces.version>
 <!--        <prometheus.version>0.6.0</prometheus.version>-->
         <prometheus.version>0.12.0</prometheus.version>
-        <mongodb-driver.version>3.11.0</mongodb-driver.version>
+        <mongodb-driver.version>3.11.3</mongodb-driver.version>
     </properties>
 
     <dependencies>
