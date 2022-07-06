@@ -182,7 +182,7 @@ public class WebhookMessage {
 
 	@Override
 	public String toString() {
-		return "WebhookMessage{" +
+		return "WebhookMessage {" +
 				"id=" + id +
 				", runtimeId='" + runtimeId + '\'' +
 				", timestamp=" + timestamp +

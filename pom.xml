@@ -9,7 +9,7 @@
     <packaging>war</packaging>
 
     <name>alertmonitor</name>
-    <description>Alertmonitor</description>
+    <description>Display Prometheus alerts</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

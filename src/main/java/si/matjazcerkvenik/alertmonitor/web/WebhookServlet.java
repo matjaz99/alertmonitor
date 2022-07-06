@@ -37,7 +37,7 @@ public class WebhookServlet extends HttpServlet {
 	private static final long serialVersionUID = 4274913262329715396L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method not allowed");
 	}
 
@@ -52,8 +52,8 @@ public class WebhookServlet extends HttpServlet {
 			AmMetrics.amMessagesReceivedCount++;
 			AmMetrics.lastEventTimestamp = System.currentTimeMillis();
 		} catch (Exception e) {
-			LogFactory.getLogger().error("WebhookServlet: doPost(): failed to process webhook message(): " + e.getMessage());
-			LogFactory.getLogger().info("Failed message: \n" + m.toString());
+			LogFactory.getLogger().error("WebhookServlet: doPost(): error: " + e.getMessage());
+			LogFactory.getLogger().info("WebhookServlet: doPost(): unable to process incoming message: \n" + m.toString());
 		}
 
 	}
