@@ -80,7 +80,7 @@ Alertmonitor recognizes the following labels:
 
 > Alert's `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
 
-> It is highly recommended to write alert rules in such manner that `instance`, `job` and `info` are always present in the resulting metric.
+> It is highly recommended to write alert rules in such manner that `instance`, `job` and `info` are always present in the resulting alert.
 
 Example of alert rule in Prometheus:
 
@@ -96,7 +96,7 @@ groups:
       info: CPU alert for Node '{{ $labels.instance }}'
       tags: hardware, server, cpu, overload
       url: 'http://${GRAFANA_HOSTNAME}/dashboard/'
-      description: Node {{ $labels.instance }} CPU usage is at {{ $value}}%.
+      description: Node {{ $labels.instance }}
     annotations:
       currentValue: '{{ $value }}%'
 ```
@@ -136,7 +136,7 @@ be used in combination with tags.
 ### Query view
 
 Query view provides a GUI for executing PromQL queries. Two types of queries are supported: `query` and `query_range`. 
-Qhen executing query range, start and end date are configurable.
+When executing query range, start/end date and step are configurable.
 
 ### Journal view
 
