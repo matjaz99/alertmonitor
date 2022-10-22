@@ -39,17 +39,17 @@ import java.util.Map;
  */
 public class PrometheusApi {
 
-    private SimpleLogger logger = LogFactory.getLogger();
+    private final SimpleLogger logger = LogFactory.getLogger();
 
-    private String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
+    private final String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
     private static long requestCount;
 
     /**
      * Execute a simple query
-     * @param query
+     * @param query the query
      * @return query response object
-     * @throws PrometheusApiException
+     * @throws PrometheusApiException error
      */
     public PQueryMessage query(String query) throws PrometheusApiException {
 
@@ -73,12 +73,12 @@ public class PrometheusApi {
 
     /**
      * Execute query_range
-     * @param query - the query
-     * @param start - start time in seconds (UNIX time)
-     * @param end - end time in seconds (UNIX time)
-     * @param step - eg. 5m
+     * @param query the query
+     * @param start start time in seconds (UNIX time)
+     * @param end end time in seconds (UNIX time)
+     * @param step eg. 5m
      * @return query response object
-     * @throws PrometheusApiException
+     * @throws PrometheusApiException error
      */
     public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
 
@@ -105,9 +105,9 @@ public class PrometheusApi {
     /**
      * This method will actually do the execution of request - query or query_range. The result is
      * the same in both cases.
-     * @param request
+     * @param request request
      * @return query response object
-     * @throws PrometheusApiException
+     * @throws PrometheusApiException error
      */
     private PQueryMessage doQueryRequest(Request request) throws PrometheusApiException {
         String responseBody = execute(request);
@@ -218,9 +218,9 @@ public class PrometheusApi {
 
     /**
      * This method will actually execute the given HTTP request.
-     * @param request
+     * @param request prepared request
      * @return response body
-     * @throws PrometheusApiException
+     * @throws PrometheusApiException error
      */
     private String execute(Request request) throws PrometheusApiException {
 

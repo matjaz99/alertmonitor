@@ -15,22 +15,16 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
 import si.matjazcerkvenik.alertmonitor.util.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.net.ssl.SSLException;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @ManagedBean
@@ -99,7 +93,18 @@ public class UiConfigBean {
     }
 
     public String getMongoDbConnectionString() {
-        return AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING;
+        String s = AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING;
+        // mask password
+        String[] a1 = s.split("://");
+        if (a1[1].contains("@")) {
+            String[] a2 = a1[1].split("@");
+            if (a2[0].contains(":")) {
+                String[] a3 = a2[0].split(":");
+                s = s.replace(a3[0] + ":" + a3[1] + "@",
+                        a3[0] + ":" + "•••••••••" + "@");
+            }
+        }
+        return s;
     }
 
     public void setHttpReadTimeout(String interval) {
@@ -147,7 +152,7 @@ public class UiConfigBean {
             PrometheusApi api = new PrometheusApi();
             api.reload();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
         }
 
         return "";
@@ -234,6 +239,12 @@ public class UiConfigBean {
     public List<String> getWarnings() {
         if (DAO.getInstance().getWarnings().size() == 0) return null;
         return DAO.getInstance().getWarnings();
+    }
+
+    public String getCurrentTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
     }
 
     public String getUpdateVersionWarning() {

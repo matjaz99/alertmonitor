@@ -16,6 +16,7 @@
         <welcome-file>config.xhtml</welcome-file>
         <welcome-file>query.xhtml</welcome-file>
         <welcome-file>jobs.xhtml</welcome-file>
+        <welcome-file>report.xhtml</welcome-file>
         <welcome-file>error.xhtml</welcome-file>
         <welcome-file>test.xhtml</welcome-file>
     </welcome-file-list>

@@ -10,6 +10,9 @@ hr {
     height: 1px;
     background: #777777;
 }
+h1 {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial
+}
 /*.ui-widget, .ui-widget .ui-widget {*/
 /*    font-size: 70%;*/
 /*}*/

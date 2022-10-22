@@ -1,0 +1,31 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h1>Final report @ #{uiConfigBean.currentTime}</h1>
+
+			<p:panel header="Alertmonitor - general" footer="Footer Details">
+				<p class="m-0">
+					Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiConfigBean.alarmsCount} alerts and #{uiConfigBean.clearsCount} clears were received.
+					Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on TTT instances.
+				</p>
+			</p:panel>
+
+			<p:panel header="Instances - status" footer="Footer Details">
+				<p class="m-0">
+					TTT instances are currently down. Average availability in last hour is GGG%.
+				</p>
+			</p:panel>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
