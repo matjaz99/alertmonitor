@@ -1,0 +1,11 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+        <ui:repeat var="m" value="#{uiConfigBean.warnings}">
+            <p:tag styleClass="p-mr-2" severity="warning" icon="pi pi-exclamation-triangle" value="#{m}" style="margin-right: 15px;"></p:tag>
+        </ui:repeat>
+
+</ui:composition>

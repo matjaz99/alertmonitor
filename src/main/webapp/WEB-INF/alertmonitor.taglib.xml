@@ -9,6 +9,10 @@
         <source>taglib/tag.xhtml</source>
     </tag>
     <tag>
+        <tag-name>warnings</tag-name>
+        <source>taglib/warnings.xhtml</source>
+    </tag>
+    <tag>
         <tag-name>target</tag-name>
         <source>taglib/target.xhtml</source>
     </tag>

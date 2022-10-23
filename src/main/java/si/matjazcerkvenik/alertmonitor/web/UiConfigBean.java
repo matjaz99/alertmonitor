@@ -205,6 +205,10 @@ public class UiConfigBean {
         return DAO.getInstance().getActiveAlerts().size();
     }
 
+    public int getAllAlarmingInstancesCount() {
+        return DAO.getInstance().getActiveTargets().size();
+    }
+
     public int getNumberOfAlertsInLastHour() {
         return DAO.getInstance().getDataManager().getNumberOfAlertsInLastHour();
     }
@@ -248,11 +252,7 @@ public class UiConfigBean {
     }
 
     public String getUpdateVersionWarning() {
-
-        if (AmProps.githubVersion.equals(AmProps.version)) {
-            return null;
-        }
-
+        if (AmProps.githubVersion.equals(AmProps.version)) return null;
         return AmProps.githubVersion;
     }
 

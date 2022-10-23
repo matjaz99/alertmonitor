@@ -11,16 +11,29 @@
 
 			<h1>Final report @ #{uiConfigBean.currentTime}</h1>
 
-			<p:panel header="Alertmonitor - general" footer="Footer Details">
+			<p:panel header="Alertmonitor status" footer="Footer Details">
 				<p class="m-0">
 					Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiConfigBean.alarmsCount} alerts and #{uiConfigBean.clearsCount} clears were received.
-					Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on TTT instances.
+					Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on #{uiConfigBean.allAlarmingInstancesCount} instances.
+				</p>
+				<am:warnings />
+			</p:panel>
+
+			<p:panel header="Prometheus">
+				<p class="m-0">
+					jshkajh skajh ks kljds
 				</p>
 			</p:panel>
 
-			<p:panel header="Instances - status" footer="Footer Details">
+			<p:panel header="Instances">
 				<p class="m-0">
-					TTT instances are currently down. Average availability in last hour is GGG%.
+					#{uiReportBean.countTargetsDown} instances out of total #{uiReportBean.countTargetsAll} are currently down. Average availability in last hour is #{uiReportBean.averageTargetAvailability}%.
+				</p>
+			</p:panel>
+
+			<p:panel header="Jobs">
+				<p class="m-0">
+					There are #{uiReportBean.countJobsAll} jobs.
 				</p>
 			</p:panel>
 

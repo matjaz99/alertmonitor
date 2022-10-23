@@ -11,10 +11,7 @@
 
 			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{uiConfigBean.warnings != null}">
 				<p:outputLabel value="Warnings" style="font-weight: bold; font-size: 24px;"/>
-				<ui:repeat var="m" value="#{uiConfigBean.warnings}">
-					<p:tag styleClass="p-mr-2" severity="warning" icon="pi pi-exclamation-triangle" value="#{m}" style="margin-right: 15px;"></p:tag>
-				</ui:repeat>
-				<br/>
+				<am:warnings />
 			</p:panelGrid>
 
 			<p:outputLabel value="Statistics" style="font-weight: bold; font-size: 24px;"/>

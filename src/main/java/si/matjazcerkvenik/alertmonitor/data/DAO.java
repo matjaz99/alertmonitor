@@ -304,6 +304,20 @@ public class DAO {
     }
 
     /**
+     * Get targets (instances) with active alerts.
+     * @return
+     */
+    public List<String> getActiveTargets() {
+        Map<String, Target> map = new HashMap<>();
+        for (DEvent e : activeAlerts.values()) {
+            map.put(e.getInstance(), null);
+        }
+        return new ArrayList<>(map.keySet());
+    }
+
+
+
+    /**
      * Remove tags which have no active alerts left.
      */
     private void removeObsoleteTags() {
