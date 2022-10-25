@@ -1,0 +1,11 @@
+report:
+  title: Final report
+  section:
+    - title: Title 1
+      content:
+        - text: This is line number __LINE_NUM__ on page __PAGE_NUM__.
+          placeholders:
+            - keyword: __LINE_NUM__
+              query: count(metric{key=value})
+            - keyword: __PAGE_NUM__
+              query: sum(metric{key=value})

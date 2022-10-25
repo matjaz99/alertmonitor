@@ -14,28 +14,50 @@
 			<p:panel header="Alertmonitor status" footer="Footer Details">
 				<p class="m-0">
 					Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiConfigBean.alarmsCount} alerts and #{uiConfigBean.clearsCount} clears were received.
-					Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on #{uiConfigBean.allAlarmingInstancesCount} instances.
+					Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on #{uiConfigBean.allAlarmingInstancesCount} targets.
 				</p>
 				<am:warnings />
 			</p:panel>
 
 			<p:panel header="Prometheus">
-				<p class="m-0">
-					jshkajh skajh ks kljds
-				</p>
+
+				<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+					<f:facet name="loading">
+						<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+					</f:facet>
+					<p>
+						Prometheus is monitoring #{uiReportBean.countTargetsAll} instances.
+						#{uiReportBean.countTargetsDown} instances are currently down. Average availability of all instances in last hour is #{uiReportBean.averageTargetAvailability}%.
+						<br/>
+						There are #{uiReportBean.countJobsAll} jobs.
+						<br/>
+						Average request duration for 1 / 5 / 15 minute intervals:
+						#{uiReportBean.getPrometheusAverageRequestDuration(1)} / #{uiReportBean.getPrometheusAverageRequestDuration(5)} / #{uiReportBean.getPrometheusAverageRequestDuration(15)}
+					</p>
+				</p:outputPanel>
 			</p:panel>
 
-			<p:panel header="Instances">
-				<p class="m-0">
-					#{uiReportBean.countTargetsDown} instances out of total #{uiReportBean.countTargetsAll} are currently down. Average availability in last hour is #{uiReportBean.averageTargetAvailability}%.
-				</p>
-			</p:panel>
+			<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+				<f:facet name="loading">
+					<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+				</f:facet>
+				<h3>Title</h3>
+				<p>Jobs: #{uiReportBean.countJobsAll}</p>
+				<p>Down: #{uiReportBean.countTargetsDown}</p>
+				<p>All: #{uiReportBean.countTargetsAll}</p>
+				<p>Avail: #{uiReportBean.averageTargetAvailability}%</p>
+			</p:outputPanel>
 
-			<p:panel header="Jobs">
-				<p class="m-0">
-					There are #{uiReportBean.countJobsAll} jobs.
-				</p>
-			</p:panel>
+			<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+				<f:facet name="loading">
+					<p:skeleton width="50%" height="24px" class="p-mb-4"/>
+				</f:facet>
+				<h3>Title</h3>
+				<p>Jobs: #{uiReportBean.countJobsAll}</p>
+				<p>Down: #{uiReportBean.countTargetsDown}</p>
+				<p>All: #{uiReportBean.countTargetsAll}</p>
+				<p>Avail: #{uiReportBean.averageTargetAvailability}%</p>
+			</p:outputPanel>
 
 		</ui:define>
 	</div>

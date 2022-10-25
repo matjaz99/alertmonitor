@@ -31,24 +31,8 @@ public class OnStartListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        AmProps.startUpTime = System.currentTimeMillis();
-
-        // read version file
-        InputStream inputStream = servletContextEvent.getServletContext().getResourceAsStream("/WEB-INF/version.txt");
-        try {
-            DataInputStream dis = new DataInputStream(inputStream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(dis));
-            AmProps.version = br.readLine().trim();
-            dis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            AmProps.localIpAddress = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            AmProps.localIpAddress = "UnknownHost";
-        }
+        AmProps.START_UP_TIME = System.currentTimeMillis();
+        AmProps.ALERTMONITOR_RUNTIME_ID = UUID.randomUUID().toString();
 
         LogFactory.getLogger().info("\n");
         LogFactory.getLogger().info("************************************************");
@@ -57,13 +41,41 @@ public class OnStartListener implements ServletContextListener {
         LogFactory.getLogger().info("*                                              *");
         LogFactory.getLogger().info("************************************************");
         LogFactory.getLogger().info("");
-        LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.version);
-        LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + AmProps.localIpAddress);
 
-        AmProps.ALERTMONITOR_RUNTIME_ID = UUID.randomUUID().toString();
+        // read version file
+        InputStream inputStream = servletContextEvent.getServletContext().getResourceAsStream("/WEB-INF/version.txt");
+        try {
+            DataInputStream dis = new DataInputStream(inputStream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(dis));
+            AmProps.VERSION = br.readLine().trim();
+            dis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            AmProps.LOCAL_IP_ADDRESS = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            AmProps.LOCAL_IP_ADDRESS = "unknown";
+        }
+
+        // is running inside docker
+        try (Stream< String > stream =
+                     Files.lines(Paths.get("/proc/1/cgroup"))) {
+            LogFactory.getLogger().info("Running in container: " + stream.anyMatch(line -> line.contains("/docker")));
+            AmProps.IS_CONTAINERIZED = true;
+        } catch (IOException e) {
+            LogFactory.getLogger().info("Running in container: false");
+            AmProps.IS_CONTAINERIZED = false;
+        }
+
+        // load configuration from env vars
+        AmProps.loadProps();
+
+        // print configuration
+        LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.VERSION);
+        LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + AmProps.LOCAL_IP_ADDRESS);
         LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.ALERTMONITOR_RUNTIME_ID);
-
-        // Don't call DAO before reading env vars!!!
 
         // read all environment variables
         LogFactory.getLogger().info("***** Environment variables *****");
@@ -71,23 +83,6 @@ public class OnStartListener implements ServletContextListener {
         for (Map.Entry <String, String> entry: map.entrySet()) {
             LogFactory.getLogger().info(entry.getKey() + "=" + entry.getValue());
         }
-
-        // read configuration from environment variables
-        AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
-        AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
-        if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
-        AmProps.ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_SERVER", "http://localhost:9090").trim();
-        if (AmProps.ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = AmProps.ALERTMONITOR_PROMETHEUS_SERVER.substring(0, AmProps.ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
-        if (!AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("http")) AmProps.ALERTMONITOR_PROMETHEUS_SERVER = "http://" + AmProps.ALERTMONITOR_PROMETHEUS_SERVER;
-        AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC", "120").trim());
-        AmProps.ALERTMONITOR_DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
-        AmProps.ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
-        AmProps.ALERTMONITOR_KAFKA_SERVER = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_SERVER", "localhost:9092").trim();
-        AmProps.ALERTMONITOR_KAFKA_TOPIC = System.getenv().getOrDefault("ALERTMONITOR_KAFKA_TOPIC", "alertmonitor_events").trim();
-        AmProps.ALERTMONITOR_PROMETHEUS_ID_LABELS = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_ID_LABELS", "cluster, region, monitor").trim();
-        AmProps.ALERTMONITOR_MONGODB_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_ENABLED", "true").trim());
-//        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin").trim();
-        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/?authSource=admin").trim();
 
         // runtime memory info
         int mb = 1024 * 1024;
@@ -99,17 +94,7 @@ public class OnStartListener implements ServletContextListener {
                 + (instance.totalMemory() - instance.freeMemory()) / mb); // used memory
         LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
 
-        // is running inside docker
-        try (Stream< String > stream =
-                 Files.lines(Paths.get("/proc/1/cgroup"))) {
-            LogFactory.getLogger().info("Running in container: " + stream.anyMatch(line -> line.contains("/docker")));
-            AmProps.isContainerized = true;
-        } catch (IOException e) {
-            LogFactory.getLogger().info("Running in container: false");
-            AmProps.isContainerized = false;
-        }
-
-        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.ALERTMONITOR_RUNTIME_ID, AmProps.version, System.getProperty("os.name")).set(AmProps.startUpTime);
+        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.ALERTMONITOR_RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
 
         // start periodic sync timer
         TaskManager.getInstance().restartPsyncTimer();

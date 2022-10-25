@@ -34,13 +34,13 @@ public class UiConfigBean {
     /* FOOTER */
 
     public String getVersion() {
-        return AmProps.version;
+        return AmProps.VERSION;
     }
 
-    public boolean isContainerized() { return AmProps.isContainerized; }
+    public boolean isContainerized() { return AmProps.IS_CONTAINERIZED; }
 
     public String getLocalIpAddress() {
-        return AmProps.localIpAddress;
+        return AmProps.LOCAL_IP_ADDRESS;
     }
 
     public String getRuntimeId() {
@@ -223,11 +223,11 @@ public class UiConfigBean {
     }
 
     public String getStartTime() {
-        return Formatter.getFormatedTimestamp(AmProps.startUpTime);
+        return Formatter.getFormatedTimestamp(AmProps.START_UP_TIME);
     }
 
     public String getUpTime() {
-        int secUpTotal = (int) ((System.currentTimeMillis() - AmProps.startUpTime) / 1000);
+        int secUpTotal = (int) ((System.currentTimeMillis() - AmProps.START_UP_TIME) / 1000);
         return Formatter.convertToDHMSFormat(secUpTotal);
     }
 
@@ -252,7 +252,7 @@ public class UiConfigBean {
     }
 
     public String getUpdateVersionWarning() {
-        if (AmProps.githubVersion.equals(AmProps.version)) return null;
+        if (AmProps.githubVersion.equals(AmProps.VERSION)) return null;
         return AmProps.githubVersion;
     }
 

@@ -16,6 +16,11 @@ public class UiReportBean {
     private final String QUERY_AVERAGE_TARGETS_AVAILABILITY = "avg(avg_over_time(up[1h])) * 100";
     private final String QUERY_COUNT_JOBS_ALL = "count(count(up) by (job))";
 
+    private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_TEMPLATE = "sum(rate(prometheus_http_request_duration_seconds_sum[{__INTERVAL__}m])) / sum(rate(prometheus_http_request_duration_seconds_count[{__INTERVAL__}m])) * 1000";
+    private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_1 = "sum(rate(prometheus_http_request_duration_seconds_sum[1m])) / sum(rate(prometheus_http_request_duration_seconds_count[1m])) * 1000";
+    private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_5 = "sum(rate(prometheus_http_request_duration_seconds_sum[5m])) / sum(rate(prometheus_http_request_duration_seconds_count[5m])) * 1000";
+    private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_15 = "sum(rate(prometheus_http_request_duration_seconds_sum[15m])) / sum(rate(prometheus_http_request_duration_seconds_count[15m])) * 1000";
+
     public String getCountTargetsDown() {
         try {
             PrometheusApi api = new PrometheusApi();
@@ -45,6 +50,14 @@ public class UiReportBean {
 
     public String getCountJobsAll() {
         PQueryMessage queryMessage = executeQuery(QUERY_COUNT_JOBS_ALL);
+        if (queryMessage != null) {
+            return queryMessage.getData().getResult().get(0).getValue()[1].toString();
+        }
+        return "n/a";
+    }
+
+    public String getPrometheusAverageRequestDuration(int historyMinutes) {
+        PQueryMessage queryMessage = executeQuery(QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_TEMPLATE.replace("{__INTERVAL__}", ""+historyMinutes));
         if (queryMessage != null) {
             return queryMessage.getData().getResult().get(0).getValue()[1].toString();
         }
