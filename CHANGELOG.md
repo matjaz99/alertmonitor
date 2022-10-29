@@ -1,8 +1,9 @@
-## 2.3.1-SNAPSHOT
+## 2.4.0 / 2022-10-29
 
 * [FEATURE] Version check at start
-* [FEATURE] Report prototype
-* [ENHANCEMENT] GUI improvements
+* [FEATURE] Internal report, overview of the system, KPIs...
+* [ENHANCEMENT] Pool of Prometheus http clients (preferably 1)
+* [ENHANCEMENT] GUI enhancements (move to top button)
 
 ## 2.3.0 / 2022-04-09
 

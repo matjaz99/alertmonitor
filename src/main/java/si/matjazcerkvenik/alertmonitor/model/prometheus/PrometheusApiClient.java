@@ -37,13 +37,16 @@ import java.util.Map;
 /**
  * This class handles all the communication with Prometheus server via HTTP API.
  */
-public class PrometheusApi {
+public class PrometheusApiClient {
 
     private final SimpleLogger logger = LogFactory.getLogger();
 
     private final String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
     private static long requestCount;
+
+    public PrometheusApiClient() {
+    }
 
     /**
      * Execute a simple query

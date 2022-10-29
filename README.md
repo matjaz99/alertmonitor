@@ -22,8 +22,8 @@ Alertmonitor supports PromQL for making queries and range queries.
 
 Tags provide a quick way of filtering alerts.
 
-Alertmonitor can store alerts in MongoDB database (disabled by default). It stores all incoming messages 
-and whole journal (history) of alerts. Data is deleted according to retention policy.
+Alertmonitor can store alerts in MongoDB database. It stores all incoming messages 
+and whole journal (history) of alerts.
 
 Screenshots:
 
@@ -63,20 +63,20 @@ severity, metric labels, current metric value, alert tags or group name.
 
 Alertmonitor recognizes the following labels:
 
-| Label       |      Description        |
-|-------------|-------------------------|
-| severity    | Optional (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational` |
-| priority    | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low` |
-| info        | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
-| instance    | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter. |
-| nodename        | Optional. Name of this instance. |
-| tags        | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor. |
-| group        | Optional. Custom group name. |
-| url        | Optional. Custom URL that is related to alert. |
-| eventType   | Optional. Event type according to IUT-T X.733 recommendation |
-| probableCause | Optional. Probable cause according to IUT-T X.733 recommendation |
-| description | Optional. Additional description. Value is read from a labels section if it exists, otherwise from annotations section. |
-| currentValue | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!** |
+| Label         | Description                                                                                                                                                                                                                                          |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| severity      | Optional (default=indeterminate). Severity is the weight of event. Possible values: `critical`, `major`, `minor`, `warning`, `clear` and `informational`                                                                                             |
+| priority      | Optional (default=low). Priority tells how urgent is alarm. Possible values: `high`, `medium`, `low`                                                                                                                                                 |
+| info          | Mandatory. Detailed information about the alert. **Important: Info may not contain variables which change over the time (such as current metric value), because it creates new time series of alerts each time and the correlation will not work.!** |
+| instance      | Optional. `instance` is usually already included in metric, but sometimes if alert rule doesn't return instance, you can provide its value here by any other means. Usually IP address and port of exporter.                                         |
+| nodename      | Optional. Name of this instance.                                                                                                                                                                                                                     |
+| tags          | Optional. Custom tags that describe the alert (comma separated). Tags are used for quick filtering in Alertmonitor.                                                                                                                                  |
+| group         | Optional. Custom group name.                                                                                                                                                                                                                         |
+| url           | Optional. Custom URL that is related to alert.                                                                                                                                                                                                       |
+| eventType     | Optional. Event type according to IUT-T X.733 recommendation                                                                                                                                                                                         |
+| probableCause | Optional. Probable cause according to IUT-T X.733 recommendation                                                                                                                                                                                     |
+| description   | Optional. Additional description. Value is read from a labels section if it exists, otherwise from annotations section.                                                                                                                              |
+| currentValue  | Optional. Current metric value. Get it with: `{{ humanize $value }}`. Append units (eg. % or MB) if you need to do so. **Important: Current value may not be in `labels` section of alert rule but inside `annotations`!**                           |
 
 > Alert's `correlationId` is defined by: `alertname`, `info`, `instance` and `job`. Clear event should produce the same `correlationId`.
 
@@ -124,7 +124,9 @@ receivers:
 
 ## Alertmonitor GUI
 
-### Active alerts view
+Alertmonitor offers the following views.
+
+### Active alerts
 
 This view shows all currently active alerts.
 
@@ -133,12 +135,12 @@ Active alerts can be filtered by selecting one or more tags. Deselect all tags t
 Search (in upper right corner) allows searching alerts by: `instance`, `alertname`, `info`, `job`, `description`. Search can 
 be used in combination with tags.
 
-### Query view
+### Query
 
 Query view provides a GUI for executing PromQL queries. Two types of queries are supported: `query` and `query_range`. 
 When executing query range, start/end date and step are configurable.
 
-### Journal view
+### Journal
 
 This view shows all history of received events. The size of journal is limited by `ALERTMONITOR_JOURNAL_SIZE` parameter. 
 When journal reaches its maximum size, the oldest events will be removed (First in, first out).
@@ -146,11 +148,11 @@ When journal reaches its maximum size, the oldest events will be removed (First 
 Remark: all the data in Alertmonitor is based on journal events. For example, Alertmonitor can only show targets, 
 which have at least one alert recorded in journal.
 
-### Webhook view
+### Webhook
 
 This view shows raw messages as they were received by the HTTP webhook.
 
-### Target view
+### Target
 
 Alertmonitor strips protocol and port from `instance` label and what remains is target's hostname or IP address or FQDN.
 
@@ -158,7 +160,7 @@ Alertmonitor then filters alerts and displays those who's hostnames match.
 
 Each target shows number of active alerts and an icon indicating the highest severity of raised alert.
 
-### Statistics view
+### Statistics
 
 This view shows statistical data, such as:
 - number of alerts by severity
@@ -166,19 +168,37 @@ This view shows statistical data, such as:
 - timers (up time, time since last event...)
 - psync success rate
 
-### Configuration view
+### Report
+
+Report is an overview of the whole monitoring system. It shows some statistics of Alertmonitor 
+and Prometheus. It also shows the status of instances, average availability and other KPIs.  
+Most KPIs and metrics are queried from Prometheus.
+
+### Configuration
 
 Here it is possible to change some configuration parameters during runtime.
 
-### About view
+### About
 
 Application meta data, version, build info, maintainers, public channels...
 
 
 ## Persistence
 
-Alertmonitor supports storing data in MongoDB. See configuration.
+Alertmonitor supports the following data storage options:
+- In memory
+- MongoDB
+- Kafka (experimental)
 
+In memory option works out-of-the-box without any configuration.
+
+To enable MongoDB data storage, set the environment variable `ALERTMONITOR_MONGODB_ENABLED` to `true` 
+and configure `ALERTMONITOR_MONGODB_CONNECTION_STRING`.  MongoDB is disabled by default. 
+Data is deleted according to retention policy (`ALERTMONITOR_DATA_RETENTION_DAYS`).  
+Alertmonitor will automatically create new database `alertmonitor` in MongoDB, if it doesn't exist yet.
+
+Kafka is experimental feature. If enabled, Alertmonitor will send all alerts to Kafka topic. 
+This feature might be useful for further processing and analytics of alarms.
 
 
 ## Configuration
@@ -191,17 +211,19 @@ to behaviour of the application, while other variables may be used for other pur
 
 A list of supported environment variables:
 
-| EnvVar                             | Description        |
-|------------------------------------|------------------- |
-| ALERTMONITOR_DATA_RETENTION_DAYS   | History data in days.  Default: 7 |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC    | Periodic synchronisation interval in seconds.  Default: 900 |
-| ALERTMONITOR_PROMETHEUS_SERVER     | The URL of Prometheus server.  Default: http://localhost:9090 |
-| ALERTMONITOR_DATE_FORMAT           | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss |
-| ALERTMONITOR_KAFKA_ENABLED         | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
-| ALERTMONITOR_KAFKA_SERVER          | Hostname and port for Kafka.  Default: hostname:9092 |
-| ALERTMONITOR_KAFKA_TOPIC           | Name of topic.  Default: alertmonitor_notifications |
-| ALERTMONITOR_MONGODB_ENABLED       | Enable or disable storing data to MongoDB.  Default: false | 
-| ALERTMONITOR_MONGODB_CONNECTION_STRING | The connection string for MongoDB (username, password and host). |
+| EnvVar                                    | Description                                                                          |
+|-------------------------------------------|--------------------------------------------------------------------------------------|
+| ALERTMONITOR_DATA_RETENTION_DAYS          | History data in days.  Default: 7                                                    |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC           | Periodic synchronisation interval in seconds.  Default: 900                          |
+| ALERTMONITOR_PROMETHEUS_SERVER            | The URL of Prometheus server.  Default: http://localhost:9090                        |
+| ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE  | Pool size of http clients for communication with Prometheus API. Default: 1          |
+| ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC | Timeout of http client requests. Default: 120                                        |
+| ALERTMONITOR_DATE_FORMAT                  | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss                      |
+| ALERTMONITOR_KAFKA_ENABLED                | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
+| ALERTMONITOR_KAFKA_SERVER                 | Hostname and port for Kafka.  Default: hostname:9092                                 |
+| ALERTMONITOR_KAFKA_TOPIC                  | Name of topic.  Default: alertmonitor_notifications                                  |
+| ALERTMONITOR_MONGODB_ENABLED              | Enable or disable storing data to MongoDB.  Default: false                           | 
+| ALERTMONITOR_MONGODB_CONNECTION_STRING    | The connection string for MongoDB (username, password and host).                     |
 
 ### Environment variable substitution
 
@@ -268,12 +290,12 @@ https://groups.google.com/g/alertmonitor-users
 
 ### Dependencies
 
-Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces for frontend interface.
+Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 11.0 for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
 
 ### Simple-logger maven dependency
 
-Simple-logger is not available on Maven central repo. You can either build it on your own 
+Sorry, simple-logger is not available on Maven central repo. You can either build it on your own 
 or download jar file from [here](http://matjazcerkvenik.si/download/simple-logger-1.7.0.jar).  
 Then manually import it into your local repository:
 

@@ -30,6 +30,9 @@ h1 {
 	/*font-size: 14px;*/
     /*color: #222222;*/
 }
+#reportForm .bottom-margin {
+    margin-bottom: 15px;
+}
 .critical {
 	background-color: #ff0000 !important;
 	background-image: none !important;

@@ -16,8 +16,9 @@
 package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.util.TaskManager;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
@@ -148,11 +149,14 @@ public class UiConfigBean {
 
         LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
-            PrometheusApi api = new PrometheusApi();
             api.reload();
         } catch (Exception e) {
             LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         return "";

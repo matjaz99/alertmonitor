@@ -18,7 +18,8 @@ package si.matjazcerkvenik.alertmonitor.model;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -44,9 +45,10 @@ public class PrometheusSyncTask extends TimerTask {
         logger.info("PSYNC: === starting periodic synchronization ===");
         AmMetrics.lastPsyncTimestamp = System.currentTimeMillis();
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
 
-            PrometheusApi api = new PrometheusApi();
             List<PAlert> activeAlerts = api.alerts();
 
             if (activeAlerts == null) {
@@ -141,6 +143,8 @@ public class PrometheusSyncTask extends TimerTask {
             AmMetrics.psyncFailedCount++;
             AmMetrics.alertmonitor_psync_success.set(0);
             DAO.getInstance().addWarning("psync", "Synchronization is failing");
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         logger.info("PSYNC: === Periodic synchronization complete ===");

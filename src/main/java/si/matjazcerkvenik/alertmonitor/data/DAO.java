@@ -16,10 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.data;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PRule;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PTarget;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -128,9 +125,10 @@ public class DAO {
 
         if (event == null) return null;
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
-            List<PRule> ruleList = new ArrayList<>();
-            PrometheusApi api = new PrometheusApi();
+            List<PRule> ruleList;
             ruleList = api.rules();
             for (PRule r : ruleList) {
                 if (event.getAlertname().equals(r.getName())) {
@@ -140,6 +138,8 @@ public class DAO {
             }
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("DAO: failed to load rules; root cause: " + e.getMessage());
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         return event;
@@ -381,8 +381,9 @@ public class DAO {
      */
     public List<Target> getTargets() {
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
-            PrometheusApi api = new PrometheusApi();
             List<PTarget> pTargets = api.targets();
             Map<String, Target> targetsMap = new HashMap<String, Target>();
 
@@ -406,6 +407,8 @@ public class DAO {
 
         } catch (Exception e) {
             LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         return null;
@@ -414,8 +417,9 @@ public class DAO {
     // the only difference is stripped hostname
     public List<Target> getSmartTargets() {
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
-            PrometheusApi api = new PrometheusApi();
             List<PTarget> pTargets = api.targets();
             Map<String, Target> targetsMap = new HashMap<String, Target>();
 
@@ -440,6 +444,8 @@ public class DAO {
 
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         return null;
@@ -462,8 +468,9 @@ public class DAO {
 
     private List<Target> getTargetsFromProm() {
 
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+
         try {
-            PrometheusApi api = new PrometheusApi();
             List<PTarget> targets = api.targets();
 
             for (PTarget pTarget : targets) {
@@ -476,6 +483,8 @@ public class DAO {
 
         } catch (Exception e) {
             LogFactory.getLogger().error("Exception getting targets", e);
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
         return new ArrayList<>();

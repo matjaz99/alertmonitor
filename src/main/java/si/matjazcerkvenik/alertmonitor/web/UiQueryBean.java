@@ -15,10 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApi;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiException;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
@@ -127,7 +124,7 @@ public class UiQueryBean {
             return;
         }
 
-        PrometheusApi api = new PrometheusApi();
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
         try {
             PQueryMessage msg = api.query(query);
 
@@ -153,6 +150,8 @@ public class UiQueryBean {
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
             result = "failed to get result: " + e.getMessage();
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
     }
 
@@ -171,7 +170,7 @@ public class UiQueryBean {
             return;
         }
 
-        PrometheusApi api = new PrometheusApi();
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
         try {
             long start = startDate.getTime() / 1000;
             long end = endDate.getTime() / 1000;
@@ -199,6 +198,8 @@ public class UiQueryBean {
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error(e.getMessage() + e.getMessage());
             result = "failed to get result: " + e.getMessage();
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
     }
 
@@ -279,7 +280,7 @@ public class UiQueryBean {
         queryResult = null;
         result = null;
 
-        PrometheusApi api = new PrometheusApi();
+        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
         try {
             // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
             //eg. time_of_max(alertmonitor_active_alerts_count[3h])
@@ -324,6 +325,8 @@ public class UiQueryBean {
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error(e.getMessage(), e);
             result = "failed to get result: " + e.getMessage();
+        } finally {
+            PrometheusApiClientPool.getInstance().returnClient(api);
         }
     }
 
