@@ -1,3 +1,7 @@
+## 2.4.1-SNAPSHOT
+
+
+
 ## 2.4.0 / 2022-10-29
 
 * [FEATURE] Version check at start

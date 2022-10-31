@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
+import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
@@ -333,7 +334,7 @@ public class UiQueryBean {
     public String toNormalDate(Object d) {
         try {
             Double dts = Double.parseDouble(d.toString()) * 1000;
-            return Formatter.getFormatedTimestamp(dts.longValue());
+            return Formatter.getFormatedTimestamp(dts.longValue(), AmDateFormat.DATE_TIME);
         } catch (Exception e) {
             LogFactory.getLogger().error(e.getMessage(), e);
         }

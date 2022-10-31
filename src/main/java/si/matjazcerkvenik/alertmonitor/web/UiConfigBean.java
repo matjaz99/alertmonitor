@@ -195,7 +195,7 @@ public class UiConfigBean {
     }
 
 
-    public String getLastPsyncTime() { return Formatter.getFormatedTimestamp(AmMetrics.lastPsyncTimestamp); }
+    public String getLastPsyncTime() { return Formatter.getFormatedTimestamp(AmMetrics.lastPsyncTimestamp, AmDateFormat.TIME); }
 
     public String getPsyncSuccessCount() { return Integer.toString(AmMetrics.psyncSuccessCount); }
 
@@ -227,7 +227,7 @@ public class UiConfigBean {
     }
 
     public String getStartTime() {
-        return Formatter.getFormatedTimestamp(AmProps.START_UP_TIME);
+        return Formatter.getFormatedTimestamp(AmProps.START_UP_TIME, AmDateFormat.DATE_TIME);
     }
 
     public String getUpTime() {
@@ -236,7 +236,7 @@ public class UiConfigBean {
     }
 
     public String getLastEventTime() {
-        return Formatter.getFormatedTimestamp(AmMetrics.lastEventTimestamp);
+        return Formatter.getFormatedTimestamp(AmMetrics.lastEventTimestamp, AmDateFormat.TIME);
     }
 
     public String getTimeSinceLastEvent() {

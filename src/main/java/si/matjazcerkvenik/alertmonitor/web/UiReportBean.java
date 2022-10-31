@@ -8,6 +8,7 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
@@ -123,7 +124,8 @@ public class UiReportBean {
 
         List<String> labels = new ArrayList<>();
         for (int i = 0; i < result.size(); i++) {
-            labels.add(result.get(i)[0].toString());
+            Long dt = Long.parseLong(Formatter.convertScientificNotationToString(result.get(i)[0].toString()));
+            labels.add(Formatter.getFormatedTimestamp(dt * 1000, AmDateFormat.TIME));
         }
         data.setLabels(labels);
 

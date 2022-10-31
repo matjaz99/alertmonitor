@@ -34,14 +34,25 @@ public class Formatter {
 
     /**
      * Format timestamp from millis into readable form.
-     * @param timestamp timestamp in millis
+     * @param timestamp unix timestamp in millis
      * @return readable date
      */
-    public static String getFormatedTimestamp(long timestamp) {
+    public static String getFormatedTimestamp(long timestamp, AmDateFormat format) {
         if (timestamp == 0) return "n/a";
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat(AmProps.ALERTMONITOR_DATE_FORMAT);
+        switch (format){
+            case DATE:
+                sdf = new SimpleDateFormat("yyyy/MM/dd");
+                break;
+            case TIME:
+                sdf = new SimpleDateFormat("H:mm:ss");
+                break;
+            case ISO8601:
+                // TODO
+                break;
+        }
         return sdf.format(cal.getTime());
     }
 
@@ -72,6 +83,14 @@ public class Formatter {
         }
 
         return resp;
+    }
+
+    /**
+     * Convert '1.667248865E9' to '1667248865'
+     * @return non-scientific notated number
+     */
+    public static String convertScientificNotationToString(String scientificNumber) {
+        return String.format("%.0f", Double.parseDouble(scientificNumber));
     }
 
     /**

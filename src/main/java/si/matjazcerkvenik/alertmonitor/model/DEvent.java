@@ -15,6 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
+import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
@@ -169,16 +170,16 @@ public class DEvent implements Cloneable {
 
 	// TODO put this method somewhere else
 	public String getFormatedTimestamp() {
-		return Formatter.getFormatedTimestamp(timestamp);
+		return Formatter.getFormatedTimestamp(timestamp, AmDateFormat.DATE_TIME);
 	}
 	public String getFormatedFirstTimestamp() {
-		return Formatter.getFormatedTimestamp(firstTimestamp);
+		return Formatter.getFormatedTimestamp(firstTimestamp, AmDateFormat.DATE_TIME);
 	}
 	public String getFormatedLastTimestamp() {
-		return Formatter.getFormatedTimestamp(lastTimestamp);
+		return Formatter.getFormatedTimestamp(lastTimestamp, AmDateFormat.DATE_TIME);
 	}
 	public String getFormatedClearTimestamp() {
-		return Formatter.getFormatedTimestamp(clearTimestamp);
+		return Formatter.getFormatedTimestamp(clearTimestamp, AmDateFormat.DATE_TIME);
 	}
 
 	public int getCounter() {
