@@ -30,6 +30,7 @@ public class UiReportBean {
     private final String QUERY_COUNT_JOBS_ALL = "count(count(up) by (job))";
     private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_TEMPLATE = "sum(rate(prometheus_http_request_duration_seconds_sum[__INTERVAL__m])) / sum(rate(prometheus_http_request_duration_seconds_count[__INTERVAL__m])) * 1000";
     private final String QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION = "histogram_quantile(0.90, sum(rate(prometheus_http_request_duration_seconds_bucket[__INTERVAL__m])) by (le)) * 1000";
+    private final String QUERY_PROMETHEUS_AVERAGE_RESPONSE_TIME = "sum(rate(prometheus_http_request_duration_seconds_sum[1m])) / sum(rate(prometheus_http_request_duration_seconds_count[1m])) * 1000";
 
 
     public String getPrometheusUpTime() {
@@ -159,6 +160,17 @@ public class UiReportBean {
             livenessLineModel = createSingleValueLineModel("Liveness", livenessLineModel, queryMessage);
         }
         return livenessLineModel;
+    }
+
+
+    private LineChartModel averageResponseTimeLineModel;
+
+    public LineChartModel getAverageResponseTimeLineModel() {
+        PQueryMessage queryMessage = executeQueryRange(QUERY_PROMETHEUS_AVERAGE_RESPONSE_TIME);
+        if (queryMessage != null) {
+            averageResponseTimeLineModel = createSingleValueLineModel("Average response time (ms)", averageResponseTimeLineModel, queryMessage);
+        }
+        return averageResponseTimeLineModel;
     }
 
 
