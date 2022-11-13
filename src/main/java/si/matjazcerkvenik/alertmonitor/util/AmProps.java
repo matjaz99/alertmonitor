@@ -19,7 +19,7 @@ import java.io.File;
 
 public class AmProps {
 
-    public static String ALERTMONITOR_RUNTIME_ID = "0000-0000-0000-0000";
+    public static String RUNTIME_ID = "0000-0000-0000-0000";
     public static long START_UP_TIME = 0;
     public static String VERSION = "n/a";
     public static String githubVersion = "n/a";
@@ -41,6 +41,7 @@ public class AmProps {
     public static String ALERTMONITOR_PROMETHEUS_ID_LABELS = "cluster, region, monitor";
     public static boolean ALERTMONITOR_MONGODB_ENABLED = false;
     public static String ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin";
+    public static String ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor";
 
     public static void loadProps() {
 
@@ -67,6 +68,7 @@ public class AmProps {
             ALERTMONITOR_PROMETHEUS_SERVER = "https://elasticvm/prometheus";
             ALERTMONITOR_MONGODB_ENABLED = false;
             ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
+            ALERTMONITOR_MONGODB_DB_NAME = "alrtmonitor-dev";
         }
 
     }

@@ -1,5 +1,6 @@
 <ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
@@ -18,13 +19,14 @@
 				<br/>
 				<p:tag id="resultStatus" styleClass="p-mr-2" severity="danger" value="#{uiBean.result}" rendered="#{uiBean.result != null}"></p:tag>
 
-				<p:panelGrid columns="1" cellspacing="5" width="100%">
-
-					<ui:repeat var="t" value="#{uiBean.targets}">
-						<am:target value="#{t}" />
-					</ui:repeat>
-
-				</p:panelGrid>
+				<p:dataView var="target"
+							value="#{uiBean.targets}"
+							gridIcon="pi pi-th-large"
+							layout="grid">
+					<p:dataViewGridItem>
+						<am:target value="#{target}" />
+					</p:dataViewGridItem>
+				</p:dataView>
 
 			</h:form>
 

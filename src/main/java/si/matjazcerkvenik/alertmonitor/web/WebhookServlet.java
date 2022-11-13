@@ -83,7 +83,7 @@ public class WebhookServlet extends HttpServlet {
 
 		WebhookMessage m = new WebhookMessage();
 		m.setId(AmMetrics.webhookMessagesReceivedCount);
-		m.setRuntimeId(AmProps.ALERTMONITOR_RUNTIME_ID);
+		m.setRuntimeId(AmProps.RUNTIME_ID);
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());

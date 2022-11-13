@@ -31,8 +31,7 @@
 					</p>
 				</p:panel>
 
-				<p:panel header="Prometheus" styleClass="bottom-margin">
-
+				<p:panel header="Prometheus targets" styleClass="bottom-margin">
 					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
 						<f:facet name="loading">
 							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
@@ -40,7 +39,7 @@
 						<p>
 							Prometheus is up #{uiReportBean.prometheusUpTime}. There are total #{uiReportBean.countTargetsAll} targets in #{uiReportBean.countJobsAll} jobs.
 							<br/>
-							#{uiReportBean.countTargetsDown} instances are currently down. Average availability of all instances in last hour is
+							#{uiReportBean.countTargetsDown} instances are currently down. Current average availability of all instances over the last hour is
 							#{uiReportBean.averageTargetAvailability}%. Current liveness ratio is #{uiReportBean.targetsLiveness}%.
 						</p>
 						<div class="card">
@@ -51,6 +50,9 @@
 							<p:lineChart model="#{uiReportBean.livenessLineModel}" style="width: 100%; height: 300px;"/>
 						</div>
 					</p:outputPanel>
+				</p:panel>
+
+				<p:panel header="Prometheus API" styleClass="bottom-margin">
 					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
 						<f:facet name="loading">
 							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
@@ -58,7 +60,7 @@
 						<p>
 							Average request duration in last 10 minutes: #{uiReportBean.getPrometheusAverageRequestDuration(10)} ms.
 							<br/>
-							Duration of 90% of requests: #{uiReportBean.prometheus90PercentRequestDuration} ms.
+							Duration of 90% of requests in last 10 minutes: #{uiReportBean.getPrometheus90PercentRequestDuration(10)} ms.
 						</p>
 					</p:outputPanel>
 				</p:panel>

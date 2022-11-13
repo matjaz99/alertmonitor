@@ -42,7 +42,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class MongoDbDataManager implements IDataManager {
 
     private static SimpleLogger logger = LogFactory.getLogger();
-    public static String dbName = "alertmonitor";
+
     private MongoClient mongoClient;
 
     public MongoDbDataManager() {
@@ -70,7 +70,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: addWebhookMessage");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("webhook");
 
 //            Document doc = Document.parse(new Gson().toJson(message));
@@ -109,10 +109,10 @@ public class MongoDbDataManager implements IDataManager {
     public List<WebhookMessage> getWebhookMessages() {
         logger.info("MongoDbDataManager: getWebhookMessages");
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("webhook");
 
-            List<Document> docsResultList = collection.find(Filters.eq("runtimeId", AmProps.ALERTMONITOR_RUNTIME_ID))
+            List<Document> docsResultList = collection.find(Filters.eq("runtimeId", AmProps.RUNTIME_ID))
                     .sort(Sorts.descending("id"))
                     .limit(100)
                     .into(new ArrayList<>());
@@ -170,7 +170,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: add to journal (" + events.size() + ")");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             List<Document> list = new ArrayList<>();
@@ -199,7 +199,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getJournal");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             List<Document> docsResultList = collection.find()
@@ -234,7 +234,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getJournalSize");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             DAO.getInstance().removeWarning("mongo");
@@ -255,7 +255,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getNumberOfAlertsInLastHour");
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Bson filter = Filters.gte("timestamp", System.currentTimeMillis() - 3600 * 1000);
@@ -287,7 +287,7 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getEvent id=" + id);
 
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Document doc = collection.find(Filters.eq("uid", id)).first();
@@ -349,7 +349,7 @@ public class MongoDbDataManager implements IDataManager {
             long diff = (System.currentTimeMillis() - daysInMillis);
             Bson filter = Filters.lte("timestamp", diff);
 
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("webhook");
             DeleteResult resultDeleteMany = collection.deleteMany(filter);
             logger.info("MongoDbDataManager: cleanDB [webhook]: result" + resultDeleteMany);
@@ -372,7 +372,7 @@ public class MongoDbDataManager implements IDataManager {
     @Override
     public void handleAlarmClearing(DEvent clearEvent) {
         try {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
+            MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Bson filter = Filters.and(

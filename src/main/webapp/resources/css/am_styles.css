@@ -98,6 +98,7 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	border-bottom-right-radius: 7px 7px;
 	border-top-left-radius: 7px 7px;
 	border-top-right-radius: 7px 7px;
+	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 	font-size: 12px;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -107,32 +108,6 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-.targetBorder-true {
-	border: 1px solid #ACE49E;
-	border-bottom-left-radius: 7px 7px;
-	border-bottom-right-radius: 7px 7px;
-	border-top-left-radius: 7px 7px;
-	border-top-right-radius: 7px 7px;
-	background: #D3FFEC;
-	font-size: 12px;
-	padding: 7px;
-	margin-right: 13px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.targetBorder-false {
-	border: 1px solid #ECA9BA;
-	border-bottom-left-radius: 7px 7px;
-	border-bottom-right-radius: 7px 7px;
-	border-top-left-radius: 7px 7px;
-	border-top-right-radius: 7px 7px;
-	background: #FDDDDD;
-	font-size: 12px;
-	padding: 7px;
-	margin-right: 13px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
 
 .card {
     background: #F3F3F3;
@@ -141,4 +116,15 @@ body .ui-panelgrid .ui-panelgrid-cell {
     border: 1px solid #CECECE;
     border-radius: 4px;
     margin-bottom: 1.1rem;
+}
+/* override .card style */
+.target-true {
+    background: #F1FDED !important;
+    border: 1px solid #88E355 !important;
+    box-shadow: 0 2px 1px -1px rgba(0, 255, 0, 0.2), 0 1px 1px 0 rgba(0, 255, 0, 0.14), 0 1px 3px 0 rgba(0, 255, 0, 0.12) !important;
+}
+.target-false {
+    background: #FFF6F6 !important;
+    border: 1px solid #F9B9B9 !important;
+    box-shadow: 0 2px 1px -1px rgba(255, 0, 0, 0.2), 0 1px 1px 0 rgba(255, 0, 0, 0.14), 0 1px 3px 0 rgba(255, 0, 0, 0.12) !important;
 }

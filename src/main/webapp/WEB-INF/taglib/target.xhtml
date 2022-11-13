@@ -4,24 +4,36 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
-    <div style="float: left;" class="targetBorder-#{t.up}">
+    <div class="card target-#{target.up}">
+        <div style="display: inline-block;">
+            <div style="float: left;">
+                <div>
+                    <div>
+                        <i class="pi pi-box"/>
+                        <span>
+                            <h:link value="#{target.hostname}" outcome="/targets/instance">
+                                <f:param name="tid" value="#{target.id}" />
+                            </h:link>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div style="color: #777777;">Job: #{target.job}</div>
+                    <div>
+                        <span>
+                            <h:graphicImage library="images" name="/#{uiBean.getTargetHighestPriorityBullet(target)}_mini.png" style="margin-right: 7px;" />
+                            <h:outputText value="Alerts: #{target.alerts.size()}" style="color: #222222;"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-<!--        <h:outputLink value="/alertmonitor/hostname" >-->
-<!--            <h:outputText value="#{t.hostname}" style="color: #222222;"/>-->
-<!--        </h:outputLink>-->
-<!--        <hr/>-->
-<!--        <h:commandLink action="#{uiBean}" value="#{t.hostname}">-->
-<!--            <f:param name="id" value="#{t.id}" />-->
-<!--        </h:commandLink>-->
-<!--        <p:link outcome="/alertmonitor/hostname/hostname.xhtml" value="#{t.hostname}">-->
-<!--            <f:param name="target_id" value="#{t.id}" />-->
-<!--        </p:link>-->
-        <h:link value = "#{t.hostname}" outcome = "/targets/instance">
-            <f:param name="tid" value="#{t.id}" />
-        </h:link>
-        <hr/>
-        <h:graphicImage library="images" name="/#{uiBean.getTargetHighestPriorityBullet(t)}_mini.png" style="margin-right: 7px;" />
-        <h:outputText value="Alerts: #{t.alerts.size()}" style="color: #222222;"/>
+<!--            <div style="float: right;">-->
+<!--                <h:graphicImage library="images" name="/#{uiBean.getTargetHighestPriorityBullet(target)}_mini.png" style="margin-right: 7px;" />-->
+<!--            </div>-->
+<!--            <div style="float: clear;"/>-->
+        </div>
 
     </div>
+
 </ui:composition>

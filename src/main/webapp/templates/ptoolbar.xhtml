@@ -10,13 +10,16 @@
     	<p:menubar id="menubar">
 			<p:menuitem value="Active" url="/alertmonitor" icon="pi pi-fw pi-star" />
 			<p:menuitem value="Query" url="/alertmonitor/query" icon="pi pi-fw pi-send" />
-			<p:submenu label="View" icon="pi pi-fw pi-list">
+			<p:submenu label="Targets" icon="pi pi-fw pi-th-large">
 				<p:menuitem value="by Instance" url="/alertmonitor/targets" icon="pi pi-fw pi-box"/>
 				<p:menuitem value="by Job" url="/alertmonitor/jobs" icon="pi pi-fw pi-bolt"/>
 			</p:submenu>
-			<p:menuitem value="Statistics" url="/alertmonitor/statistics" icon="pi pi-fw pi-chart-line" />
-			<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-cog" />
-			<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
+			<p:submenu label="View" icon="pi pi-fw pi-list">
+				<p:menuitem value="Statistics" url="/alertmonitor/statistics" icon="pi pi-fw pi-chart-line" />
+				<p:menuitem value="Report" url="/alertmonitor/report" icon="pi pi-fw pi-file" />
+				<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-cog" />
+				<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
+			</p:submenu>
 			<f:facet name="options">
 				<p:inputText placeholder="Search" value="#{uiBean.searchString}"/>
 			</f:facet>

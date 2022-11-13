@@ -29,7 +29,7 @@ public class UiReportBean {
     private final String QUERY_TARGETS_LIVENESS = "(count(up == 1) + count(probe_success == 1) - count(probe_success)) / (count(up) - count(probe_success)) * 100";
     private final String QUERY_COUNT_JOBS_ALL = "count(count(up) by (job))";
     private final String QUERY_PROMETHEUS_AVERAGE_REQUEST_DURATION_MILLIS_TEMPLATE = "sum(rate(prometheus_http_request_duration_seconds_sum[__INTERVAL__m])) / sum(rate(prometheus_http_request_duration_seconds_count[__INTERVAL__m])) * 1000";
-    private final String QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION = "histogram_quantile(0.90, sum(rate(prometheus_http_request_duration_seconds_bucket[10m])) by (le)) * 1000";
+    private final String QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION = "histogram_quantile(0.90, sum(rate(prometheus_http_request_duration_seconds_bucket[__INTERVAL__m])) by (le)) * 1000";
 
 
     public String getPrometheusUpTime() {
@@ -92,8 +92,8 @@ public class UiReportBean {
         return "n/a";
     }
 
-    public String getPrometheus90PercentRequestDuration() {
-        PQueryMessage queryMessage = executeQuery(QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION);
+    public String getPrometheus90PercentRequestDuration(int historyMinutes) {
+        PQueryMessage queryMessage = executeQuery(QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION.replace("__INTERVAL__", ""+historyMinutes));
         if (queryMessage != null) {
             Double d = Double.parseDouble(queryMessage.getData().getResult().get(0).getValue()[1].toString());
             return new DecimalFormat("0.00").format(d);

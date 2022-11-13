@@ -32,7 +32,7 @@ public class OnStartListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         AmProps.START_UP_TIME = System.currentTimeMillis();
-        AmProps.ALERTMONITOR_RUNTIME_ID = UUID.randomUUID().toString();
+        AmProps.RUNTIME_ID = UUID.randomUUID().toString();
 
         LogFactory.getLogger().info("\n");
         LogFactory.getLogger().info("************************************************");
@@ -75,7 +75,7 @@ public class OnStartListener implements ServletContextListener {
         // print configuration
         LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.VERSION);
         LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + AmProps.LOCAL_IP_ADDRESS);
-        LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.ALERTMONITOR_RUNTIME_ID);
+        LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.RUNTIME_ID);
 
         // read all environment variables
         LogFactory.getLogger().info("***** Environment variables *****");
@@ -94,7 +94,7 @@ public class OnStartListener implements ServletContextListener {
                 + (instance.totalMemory() - instance.freeMemory()) / mb); // used memory
         LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
 
-        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.ALERTMONITOR_RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
+        AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
 
         // start periodic sync timer
         TaskManager.getInstance().restartPsyncTimer();

@@ -45,7 +45,7 @@ public class UiConfigBean {
     }
 
     public String getRuntimeId() {
-        return AmProps.ALERTMONITOR_RUNTIME_ID;
+        return AmProps.RUNTIME_ID;
     }
 
 
