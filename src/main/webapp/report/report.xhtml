@@ -42,10 +42,19 @@
 							#{uiReportBean.countTargetsDown} instances are currently down. Current average availability of all instances over the last hour is
 							#{uiReportBean.averageTargetAvailability}%. Current liveness ratio is #{uiReportBean.targetsLiveness}%.
 						</p>
+					</p:outputPanel>
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<f:facet name="loading">
+							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+						</f:facet>
 						<div class="card">
 							<p:lineChart model="#{uiReportBean.availabilityLineModel}" style="width: 100%; height: 300px;"/>
 						</div>
-						<br/>
+					</p:outputPanel>
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<f:facet name="loading">
+							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+						</f:facet>
 						<div class="card">
 							<p:lineChart model="#{uiReportBean.livenessLineModel}" style="width: 100%; height: 300px;"/>
 						</div>
@@ -62,6 +71,11 @@
 							<br/>
 							Duration of 90% of requests in last 10 minutes: #{uiReportBean.getPrometheus90PercentRequestDuration(10)} ms.
 						</p>
+					</p:outputPanel>
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<f:facet name="loading">
+							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+						</f:facet>
 						<div class="card">
 							<p:lineChart model="#{uiReportBean.averageResponseTimeLineModel}" style="width: 100%; height: 300px;"/>
 						</div>

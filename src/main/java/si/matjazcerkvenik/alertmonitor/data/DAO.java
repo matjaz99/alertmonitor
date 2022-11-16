@@ -386,19 +386,25 @@ public class DAO {
         try {
             List<PTarget> pTargets = api.targets();
             Map<String, Target> targetsMap = new HashMap<String, Target>();
+            PQueryMessage query = api.query("probe_success == 0");
+            Map<String, String> probe_success_map = new HashMap<String, String>();
+            for (PQueryResult r : query.getData().getResult()){
+                probe_success_map.put(r.getMetric().get("instance"), "down");
+            }
 
             // convert from PTarget to Target
             for (PTarget pTarget : pTargets) {
-                String host = pTarget.getLabels().get("instance");
-                Target t = targetsMap.getOrDefault(host, new Target());
+                String instance = pTarget.getLabels().get("instance");
+                Target t = targetsMap.getOrDefault(instance, new Target());
                 t.setSmartTarget(false);
                 t.setHealth(pTarget.getHealth());
-                t.setHostname(host);
+                if (probe_success_map.containsKey(instance)) t.setHealth(probe_success_map.get(instance));
+                t.setHostname(instance);
                 t.setJob(pTarget.getLabels().get("job"));
                 t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
                 for (DEvent n : getActiveAlerts().values()) {
-                    if (n.getInstance().equals(host)) t.addAlert(n);
+                    if (n.getInstance().equals(instance)) t.addAlert(n);
                 }
                 targetsMap.put(t.getId(), t);
             }
@@ -422,6 +428,15 @@ public class DAO {
         try {
             List<PTarget> pTargets = api.targets();
             Map<String, Target> targetsMap = new HashMap<String, Target>();
+            PQueryMessage query = api.query("probe_success == 0");
+            Map<String, String> probe_success_map = new HashMap<String, String>();
+            for (PQueryResult r : query.getData().getResult()){
+                String instance = r.getMetric().get("instance");
+                for (PTarget pT: pTargets) {
+                    // override up metric with probe_success; instance must match in up and probe_success metric
+                    if (pT.getLabels().get("instance").equals(instance)) pT.setHealth("down");
+                }
+            }
 
             // convert from PTarget to Target
             for (PTarget pTarget : pTargets) {
