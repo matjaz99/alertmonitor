@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.servlets;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -27,10 +27,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DataProvider;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 public class WebhookServlet extends HttpServlet {
 
@@ -46,6 +48,16 @@ public class WebhookServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		WebhookMessage m = instantiateWebhookMessage(req);
+		DAO.getInstance().addWebhookMessage(m);
+
+		DataProvider dataProvider = DAO.getInstance().getDataProvider(m.getRequestUri());
+		if (dataProvider == null) {
+			System.out.println("dataprovider not found: " + m.getRequestUri());
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "DataProvider not found");
+			return;
+		}
+
+		System.out.println("dataprovider found: " + m.getRequestUri());
 
 		try {
 			AlertmanagerProcessor.processWebhookMessage(m);
@@ -91,12 +103,13 @@ public class WebhookServlet extends HttpServlet {
 		m.setProtocol(req.getProtocol());
 		m.setRemoteHost(req.getRemoteHost());
 		m.setRemotePort(req.getRemotePort());
-		m.setRequestUri(req.getRequestURI());
+		String reqUri = req.getRequestURI();
+		// remove trailing slash
+		if (reqUri.endsWith("/")) reqUri = reqUri.substring(0, reqUri.length() - 1);
+		m.setRequestUri(reqUri);
 		m.setBody(body);
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
-
-		DAO.getInstance().addWebhookMessage(m);
 
 		return m;
 	}

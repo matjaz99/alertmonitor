@@ -40,23 +40,12 @@
     <!-- Define the servlet for webhook messages -->
     <servlet>
         <servlet-name>Webhook Servlet</servlet-name>
-        <servlet-class>si.matjazcerkvenik.alertmonitor.web.WebhookServlet</servlet-class>
+        <servlet-class>si.matjazcerkvenik.alertmonitor.web.servlets.WebhookServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Webhook Servlet</servlet-name>
         <url-pattern>/webhook/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- Define the servlet for metrics -->
-    <servlet>
-        <servlet-name>Metrics Servlet</servlet-name>
-        <servlet-class>si.matjazcerkvenik.alertmonitor.web.PrometheusMetricsServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Metrics Servlet</servlet-name>
-        <url-pattern>/metrics</url-pattern>
     </servlet-mapping>
 
     <!-- Startup listener -->

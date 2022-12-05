@@ -1,3 +1,7 @@
+## 2.4.2-SNAPSHOT
+
+* [FEATURE] Data providers
+
 ## 2.4.1-SNAPSHOT
 
 * [ENHANCEMENT] GUI enhancements: Targets view improved grid
@@ -7,7 +11,7 @@
 
 * [FEATURE] Version check at start
 * [FEATURE] Internal report, overview of the system, KPIs, line-charts...
-* [ENHANCEMENT] Pool of Prometheus http clients (preferably 1)
+* [ENHANCEMENT] Pool of Prometheus http clients (preferably 1 to avoid parallelism)
 * [ENHANCEMENT] GUI enhancements: scroll-up button
 
 ## 2.3.0 / 2022-04-09

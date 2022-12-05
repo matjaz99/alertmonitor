@@ -1,0 +1,26 @@
+version: v1
+
+providers:
+  - name: prom1
+    source: prometheus
+    uri: /alertmonitor/webhook/prom1
+    params:
+      server: http://prom-1:9090
+      sync: 60s
+  - name: prom2
+    source: prometheus
+    uri: /alertmonitor/webhook/prom2
+    params:
+      server: http://prom-2:9090
+      clientPoolSize: 1
+      clientReadTimeout: 120s
+    data:
+      retention: 7d
+    sync:
+      interval: 60s
+  - name: cluster-1
+    source: eventlogger
+    uri: /alertmonitor/webhook/eventlogger
+    params:
+      server: http://prom-1:9090
+      sync: 60s

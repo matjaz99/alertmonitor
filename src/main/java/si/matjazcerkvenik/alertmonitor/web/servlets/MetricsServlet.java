@@ -13,13 +13,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.servlets;
 
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,12 +28,17 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-public class PrometheusMetricsServlet extends HttpServlet {
+@WebServlet(
+        name = "MetricsServlet",
+        description = "Serving Prometheus metrics",
+        urlPatterns = "/metrics"
+)
+public class MetricsServlet extends HttpServlet {
 
     private static final long serialVersionUID = -5776148450627134391L;
 
 
-    public PrometheusMetricsServlet() {
+    public MetricsServlet() {
     }
 
     @Override

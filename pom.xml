@@ -5,7 +5,7 @@
 
     <groupId>si.matjazcerkvenik</groupId>
     <artifactId>alertmonitor</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>alertmonitor</name>
@@ -106,6 +106,12 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>${mongodb-driver.version}</version>
+        </dependency>
+<!--        parsing yaml-->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.33</version>
         </dependency>
     </dependencies>
 

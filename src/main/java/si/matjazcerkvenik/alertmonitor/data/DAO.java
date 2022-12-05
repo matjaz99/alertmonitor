@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.data;
 
 import si.matjazcerkvenik.alertmonitor.model.*;
+import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -34,6 +35,8 @@ public class DAO {
 
     private IDataManager dataManager;
 
+    private Map<String, DataProvider> dataProviders = new HashMap<>();
+
     /** Map of active alerts. Key is correlation id */
     private Map<String, DEvent> activeAlerts = new HashMap<>();
 
@@ -46,6 +49,22 @@ public class DAO {
 
 
     private DAO() {
+        if (AmProps.yamlConfig != null) {
+            for (ProviderConfig pc : AmProps.yamlConfig.getProviders()) {
+                DataProvider dp = new DataProvider();
+                dp.setProviderConfig(pc);
+                dataProviders.put(pc.getUri(), dp);
+            }
+        }
+        // create default provider if not configured
+        if (!dataProviders.containsKey("/alertmonitor/webhook")) {
+            DataProvider defaultDP = new DataProvider();
+            defaultDP.getProviderConfig().setName(".default");
+            defaultDP.getProviderConfig().setSource("prometheus");
+            defaultDP.getProviderConfig().setUri("/alertmonitor/webhook");
+            dataProviders.put("/alertmonitor/webhook", defaultDP);
+        }
+
         if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
             dataManager = new MongoDbDataManager();
         } else {
@@ -74,6 +93,10 @@ public class DAO {
             dataManager = new InMemoryDataManager();
         }
         TaskManager.getInstance().startDbMaintenanceTimer();
+    }
+
+    public DataProvider getDataProvider(String name) {
+        return dataProviders.getOrDefault(name, null);
     }
 
     /**

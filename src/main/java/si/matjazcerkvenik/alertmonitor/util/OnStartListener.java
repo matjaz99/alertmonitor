@@ -33,6 +33,7 @@ public class OnStartListener implements ServletContextListener {
 
         AmProps.START_UP_TIME = System.currentTimeMillis();
         AmProps.RUNTIME_ID = UUID.randomUUID().toString();
+        if (new File("/Users/matjaz").exists()) AmProps.DEV_ENV = true;
 
         LogFactory.getLogger().info("\n");
         LogFactory.getLogger().info("************************************************");

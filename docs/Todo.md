@@ -7,13 +7,12 @@
 - tags: filter by operators AND or OR
 - redesigned journal (not table, but a list with show details)
 - copy to clipboard button
-- show targets by job
 - configure labels for CID (if needed also from external_labels)
-- store alarms in MongoDB
 - function time_of_max
 - downsample - from 1 min (ie 4 metrics) create 1 metric
 - generate report, configure data in report, configure query for report
-- add buttons when selecting dates for query_range (1h ago, 7d ago, ...,  now)
+- metric simulator
+- tenants, different providers, data sources
 
 
 https://www.primefaces.org/showcase/ui/data/timeline/basic.xhtml

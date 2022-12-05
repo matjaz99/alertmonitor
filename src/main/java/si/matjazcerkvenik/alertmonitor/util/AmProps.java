@@ -15,6 +15,9 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
+import si.matjazcerkvenik.alertmonitor.model.config.Config;
+import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
+
 import java.io.File;
 
 public class AmProps {
@@ -26,9 +29,12 @@ public class AmProps {
     public static boolean IS_CONTAINERIZED = false;
     public static String LOCAL_IP_ADDRESS;
 
-    public static boolean devEnv = false;
+    public static boolean DEV_ENV = false;
+
+    public static Config yamlConfig;
 
     /** Environment variables */
+    public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/alertmonitor-config.yml";
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
@@ -44,6 +50,10 @@ public class AmProps {
     public static String ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor";
 
     public static void loadProps() {
+
+        // first load config file
+        if (DEV_ENV) ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "alertmonitor-config.yml";
+        yamlConfig = ConfigReader.loadYaml(ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
 
         // read configuration from environment variables
         ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
@@ -64,7 +74,7 @@ public class AmProps {
         ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/?authSource=admin").trim();
 
         // set development environment, override default configuration
-        if (new File("/Users/matjaz").exists()) {
+        if (DEV_ENV) {
             ALERTMONITOR_PROMETHEUS_SERVER = "https://elasticvm/prometheus";
             ALERTMONITOR_MONGODB_ENABLED = false;
             ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
