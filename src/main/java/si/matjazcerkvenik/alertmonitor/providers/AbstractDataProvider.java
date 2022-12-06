@@ -1,11 +1,11 @@
-package si.matjazcerkvenik.alertmonitor.model;
+package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
-public class DataProvider {
+public abstract class AbstractDataProvider {
 
-    private ProviderConfig providerConfig;
+    protected ProviderConfig providerConfig;
 
     public ProviderConfig getProviderConfig() {
         return providerConfig;
@@ -15,8 +15,8 @@ public class DataProvider {
         this.providerConfig = providerConfig;
     }
 
-    public void processIncomingEvent(WebhookMessage m) {
+    public abstract void processIncomingEvent(WebhookMessage m);
 
-    }
+//    public boolean synchronizeAlerts(List<DEvent> alertList, boolean sync);
 
 }

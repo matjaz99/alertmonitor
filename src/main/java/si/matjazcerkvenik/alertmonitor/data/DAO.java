@@ -18,6 +18,9 @@ package si.matjazcerkvenik.alertmonitor.data;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
+import si.matjazcerkvenik.alertmonitor.providers.EventloggerDataProvider;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -35,7 +38,7 @@ public class DAO {
 
     private IDataManager dataManager;
 
-    private Map<String, DataProvider> dataProviders = new HashMap<>();
+    private Map<String, AbstractDataProvider> dataProviders = new HashMap<>();
 
     /** Map of active alerts. Key is correlation id */
     private Map<String, DEvent> activeAlerts = new HashMap<>();
@@ -51,17 +54,28 @@ public class DAO {
     private DAO() {
         if (AmProps.yamlConfig != null) {
             for (ProviderConfig pc : AmProps.yamlConfig.getProviders()) {
-                DataProvider dp = new DataProvider();
-                dp.setProviderConfig(pc);
-                dataProviders.put(pc.getUri(), dp);
+                AbstractDataProvider dp = null;
+                if (pc.getSource().equalsIgnoreCase("prometheus")) {
+                    dp = new PrometheusDataProvider();
+                } else if (pc.getSource().equalsIgnoreCase("eventlogger")) {
+                    dp = new EventloggerDataProvider();
+                } else {
+                    logger.warn("DAO: unknown provider type: " + pc.getSource());
+                }
+                if (dp != null) {
+                    dp.setProviderConfig(pc);
+                    dataProviders.put(pc.getUri(), dp);
+                }
             }
         }
         // create default provider if not configured
         if (!dataProviders.containsKey("/alertmonitor/webhook")) {
-            DataProvider defaultDP = new DataProvider();
-            defaultDP.getProviderConfig().setName(".default");
-            defaultDP.getProviderConfig().setSource("prometheus");
-            defaultDP.getProviderConfig().setUri("/alertmonitor/webhook");
+            ProviderConfig defaultPC = new ProviderConfig();
+            defaultPC.setName(".default");
+            defaultPC.setSource("prometheus");
+            defaultPC.setUri("/alertmonitor/webhook");
+            AbstractDataProvider defaultDP = new PrometheusDataProvider();
+            defaultDP.setProviderConfig(defaultPC);
             dataProviders.put("/alertmonitor/webhook", defaultDP);
         }
 
@@ -70,6 +84,7 @@ public class DAO {
         } else {
             dataManager = new InMemoryDataManager();
         }
+
         TaskManager.getInstance().startDbMaintenanceTimer();
     }
 
@@ -95,12 +110,12 @@ public class DAO {
         TaskManager.getInstance().startDbMaintenanceTimer();
     }
 
-    public DataProvider getDataProvider(String name) {
-        return dataProviders.getOrDefault(name, null);
+    public AbstractDataProvider getDataProvider(String uri) {
+        return dataProviders.getOrDefault(uri, null);
     }
 
     /**
-     * Add new webhook message to the list. Also delete oldest messages.
+     * Add new webhook message to the list.
      * @param message incoming message
      */
     public void addWebhookMessage(WebhookMessage message) {
@@ -168,9 +183,9 @@ public class DAO {
         return event;
     }
 
-    public boolean synchronizeAlerts(List<DEvent> alertList, boolean psync) {
+    public boolean synchronizeAlerts(List<DEvent> alertList, boolean sync) {
 
-        if (psync) {
+        if (sync) {
 
             // set flag toBeDeleted=true for all active alerts before executing sync
             for (DEvent e : activeAlerts.values()) {
@@ -182,10 +197,10 @@ public class DAO {
 
             for (DEvent e : alertList) {
                 if (activeAlerts.containsKey(e.getCorrelationId())) {
-                    logger.info("PSYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    logger.info("SYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                     activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
                 } else {
-                    logger.info("PSYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    logger.info("SYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
@@ -202,14 +217,14 @@ public class DAO {
 
             // remove active alerts which were not received (toBeDeleted=true)
             for (String cid : cidToDelete) {
-                logger.info("PSYNC: Removing active alert: {cid=" + cid + "}");
+                logger.info("SYNC: Removing active alert: {cid=" + cid + "}");
                 removeActiveAlert(activeAlerts.get(cid));
             }
             addToJournal(newAlerts);
 
-            logger.info("PSYNC: total psync alerts count: " + alertList.size());
-            logger.info("PSYNC: new alerts count: " + newAlertsCount);
-            logger.info("PSYNC: alerts to be deleted: " + cidToDelete.size());
+            logger.info("SYNC: total sync alerts count: " + alertList.size());
+            logger.info("SYNC: new alerts count: " + newAlertsCount);
+            logger.info("SYNC: alerts to be deleted: " + cidToDelete.size());
 
             return true;
         }
@@ -225,17 +240,17 @@ public class DAO {
             if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
-                    logger.info("AlertmanagerProcessor: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 } else {
                     updateActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    logger.info("AlertmanagerProcessor: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             }
 

@@ -21,14 +21,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
-import si.matjazcerkvenik.alertmonitor.model.DataProvider;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
@@ -45,28 +43,20 @@ public class WebhookServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 
 		WebhookMessage m = instantiateWebhookMessage(req);
 		DAO.getInstance().addWebhookMessage(m);
 
-		DataProvider dataProvider = DAO.getInstance().getDataProvider(m.getRequestUri());
+		AbstractDataProvider dataProvider = DAO.getInstance().getDataProvider(m.getRequestUri());
 		if (dataProvider == null) {
-			System.out.println("dataprovider not found: " + m.getRequestUri());
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "DataProvider not found");
+			LogFactory.getLogger().warn("WebhookServlet: doPost(): dataprovider not found: " + m.getRequestUri());
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "dataprovider not found");
 			return;
 		}
 
-		System.out.println("dataprovider found: " + m.getRequestUri());
-
-		try {
-			AlertmanagerProcessor.processWebhookMessage(m);
-			AmMetrics.amMessagesReceivedCount++;
-			AmMetrics.lastEventTimestamp = System.currentTimeMillis();
-		} catch (Exception e) {
-			LogFactory.getLogger().error("WebhookServlet: doPost(): error: " + e.getMessage());
-			LogFactory.getLogger().info("WebhookServlet: doPost(): unable to process incoming message: \n" + m.toString());
-		}
+		LogFactory.getLogger().info("WebhookServlet: doPost(): dataprovider found: " + dataProvider.getProviderConfig().getName() + "@" + dataProvider.getProviderConfig().getUri());
+		dataProvider.processIncomingEvent(m);
 
 	}
 

@@ -1,5 +1,6 @@
 version: v1
-
+globals:
+  dateFormat: "yyyy/MM/dd H:mm:ss"
 providers:
   - name: prom1
     source: prometheus
