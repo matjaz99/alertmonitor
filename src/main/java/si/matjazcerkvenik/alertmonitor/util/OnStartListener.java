@@ -97,17 +97,12 @@ public class OnStartListener implements ServletContextListener {
 
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
 
-        // start periodic sync timer
-        TaskManager.getInstance().restartPsyncTimer();
-
         AmProps.githubVersion = TaskManager.getInstance().getVersionFromGithub();
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
-        TaskManager.getInstance().stopPsyncTimer();
 
         LogFactory.getLogger().info("#");
         LogFactory.getLogger().info("# Stopping Alertmonitor");

@@ -114,6 +114,10 @@ public class DAO {
         return dataProviders.getOrDefault(uri, null);
     }
 
+    public List<AbstractDataProvider> getAllDataProviders() {
+        return new ArrayList<>(dataProviders.values());
+    }
+
     /**
      * Add new webhook message to the list.
      * @param message incoming message

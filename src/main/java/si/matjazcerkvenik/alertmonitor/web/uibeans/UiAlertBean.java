@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
@@ -23,6 +23,7 @@ import si.matjazcerkvenik.alertmonitor.model.Target;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.web.Growl;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

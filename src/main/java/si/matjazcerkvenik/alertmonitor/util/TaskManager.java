@@ -19,16 +19,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.data.DbMaintenanceTask;
-import si.matjazcerkvenik.alertmonitor.model.PrometheusSyncTask;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusSyncTask;
 
 import java.util.Timer;
 
 public class TaskManager {
 
     private static TaskManager taskManager;
-
-    private Timer pSyncTimer = null;
-    private PrometheusSyncTask prometheusSyncTask = null;
 
     private Timer dbMaintenanceTimer = null;
     private DbMaintenanceTask dbMaintenanceTask = null;
@@ -40,37 +37,6 @@ public class TaskManager {
         return taskManager;
     }
 
-    public void restartPsyncTimer() {
-
-        stopPsyncTimer();
-
-        if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC == 0) {
-            LogFactory.getLogger().info("PSync is disabled");
-        }
-
-        // start resync timer
-        if (prometheusSyncTask == null) {
-            LogFactory.getLogger().info("Start periodic sync task with period=" + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_psync_interval_seconds.set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
-                pSyncTimer = new Timer("PSyncTimer");
-                prometheusSyncTask = new PrometheusSyncTask();
-                pSyncTimer.schedule(prometheusSyncTask, 5 * 1000, AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
-            }
-        }
-
-    }
-
-    public void stopPsyncTimer() {
-        if (pSyncTimer != null) {
-            pSyncTimer.cancel();
-            pSyncTimer = null;
-        }
-        if (prometheusSyncTask != null) {
-            prometheusSyncTask.cancel();
-            prometheusSyncTask = null;
-        }
-    }
 
     public void startDbMaintenanceTimer() {
 
@@ -116,7 +82,7 @@ public class TaskManager {
 
             response.close();
 
-            System.out.println(code + " " + responseBody);
+            LogFactory.getLogger().info("alertmonitor update check: " + code + " response: " + responseBody);
 
             return responseBody;
 

@@ -13,9 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.model;
+package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.model.DSeverity;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
@@ -42,7 +44,7 @@ public class PrometheusSyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("PSYNC: === starting periodic synchronization ===");
+        logger.info("SYNC: === starting periodic synchronization ===");
         AmMetrics.lastPsyncTimestamp = System.currentTimeMillis();
 
         PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
@@ -52,14 +54,14 @@ public class PrometheusSyncTask extends TimerTask {
             List<PAlert> activeAlerts = api.alerts();
 
             if (activeAlerts == null) {
-                logger.error("PSYNC: null response returned");
-                logger.info("PSYNC: === Periodic synchronization complete ===");
+                logger.error("SYNC: null response returned");
+                logger.info("SYNC: === Periodic synchronization complete ===");
                 AmMetrics.psyncFailedCount++;
-                DAO.getInstance().addWarning("psync", "Synchronization is failing");
+                DAO.getInstance().addWarning("sync", "Synchronization is failing");
                 return;
             }
 
-            // all alerts retrieved by psync
+            // all alerts retrieved by sync
             List<DEvent> pSyncAlerts = new ArrayList<>();
 
             for (PAlert alert : activeAlerts) {
@@ -68,7 +70,7 @@ public class PrometheusSyncTask extends TimerTask {
                 DEvent e = new DEvent();
                 e.setTimestamp(System.currentTimeMillis());
                 e.setAlertname(alert.getLabels().getOrDefault(DEvent.LBL_ALERTNAME, "-unknown-"));
-                e.setSource("PSYNC");
+                e.setSource("SYNC");
                 e.setUserAgent("");
                 e.setInstance(alert.getLabels().getOrDefault(DEvent.LBL_INSTANCE, "-"));
                 e.setHostname(Formatter.stripInstance(e.getInstance()));
@@ -127,7 +129,7 @@ public class PrometheusSyncTask extends TimerTask {
                 // set correlation ID
                 e.generateCID();
 
-                logger.debug("PSYNC: " + e.toString());
+                logger.debug("SYNC: " + e.toString());
                 pSyncAlerts.add(e);
 
             } // for each alert
@@ -136,18 +138,18 @@ public class PrometheusSyncTask extends TimerTask {
 
             AmMetrics.psyncSuccessCount++;
             AmMetrics.alertmonitor_psync_success.set(1);
-            DAO.getInstance().removeWarning("psync");
+            DAO.getInstance().removeWarning("sync");
 
         } catch (Exception e) {
-            logger.error("PSYNC: failed to synchronize alarms; root cause: " + e.getMessage());
+            logger.error("SYNC: failed to synchronize alarms; root cause: " + e.getMessage());
             AmMetrics.psyncFailedCount++;
             AmMetrics.alertmonitor_psync_success.set(0);
-            DAO.getInstance().addWarning("psync", "Synchronization is failing");
+            DAO.getInstance().addWarning("sync", "Synchronization is failing");
         } finally {
             PrometheusApiClientPool.getInstance().returnClient(api);
         }
 
-        logger.info("PSYNC: === Periodic synchronization complete ===");
+        logger.info("SYNC: === Periodic synchronization complete ===");
 
     }
 

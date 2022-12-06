@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.line.LineChartDataSet;

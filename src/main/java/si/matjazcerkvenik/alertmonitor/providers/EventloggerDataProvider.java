@@ -8,4 +8,9 @@ public class EventloggerDataProvider extends AbstractDataProvider {
     public void processIncomingEvent(WebhookMessage m) {
         // TODO
     }
+
+    @Override
+    public void restartSyncTimer() {
+        // TODO
+    }
 }

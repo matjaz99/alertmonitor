@@ -1,5 +1,6 @@
 <ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
@@ -17,6 +18,13 @@
 			<h:form id="configForm">
 
 				<p:panelGrid columns="2">
+
+					<p:outputLabel value="Select Data Provider: " class="boldtext"/>
+					<p:selectOneMenu id="selectedDataProvider" value="#{uiConfigBean.allDataProviders}">
+						<ui:repeat var="dp" value="#{uiConfigBean.allDataProviders}">
+							<f:selectItem itemLabel="#{dp.getProviderConfig().getName()}" itemValue="#{dp.getProviderConfig().getName()}"/>
+						</ui:repeat>
+					</p:selectOneMenu>
 
 					<p:outputLabel value="Data retention (days): " class="boldtext"/>
 					<p:inplace editor="true">
@@ -37,6 +45,9 @@
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.psyncInterval}" required="true" label="text"/>
 					</p:inplace>
+
+					<p:outputLabel value="MongoDB enabled: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.mongoDbEnabled}" />
 
 					<p:outputLabel value="MongoDB connection string: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.mongoDbConnectionString}" />

@@ -13,10 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.util.*;
@@ -26,11 +27,31 @@ import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
 @SessionScoped
 public class UiConfigBean {
+
+    private AbstractDataProvider selectedDataProvider;
+
+    public AbstractDataProvider getSelectedDataProvider() {
+        if (selectedDataProvider == null) {
+            selectedDataProvider = DAO.getInstance().getDataProvider("/alertmonitor/webhook");
+        }
+        return selectedDataProvider;
+    }
+
+    public void setSelectedDataProvider(AbstractDataProvider selectedDataProvider) {
+        this.selectedDataProvider = selectedDataProvider;
+    }
+
+    public List<AbstractDataProvider> getAllDataProviders() {
+        return DAO.getInstance().getAllDataProviders();
+    }
+
+
 
     /* FOOTER */
 
@@ -67,9 +88,9 @@ public class UiConfigBean {
     public void setPsyncInterval(String interval) {
 
         AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-        LogFactory.getLogger().info("UiConfigBean: psync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
 //		Growl.showInfoGrowl("Configuration updated", "");
-        TaskManager.getInstance().restartPsyncTimer();
+        selectedDataProvider.restartSyncTimer();
     }
 
     public String getPsyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
@@ -93,6 +114,10 @@ public class UiConfigBean {
         DAO.getInstance().resetDataManager();
     }
 
+    public String getMongoDbEnabled() {
+        return Boolean.toString(AmProps.ALERTMONITOR_MONGODB_ENABLED);
+    }
+
     public String getMongoDbConnectionString() {
         String s = AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING;
         // mask password
@@ -102,7 +127,7 @@ public class UiConfigBean {
             if (a2[0].contains(":")) {
                 String[] a3 = a2[0].split(":");
                 s = s.replace(a3[0] + ":" + a3[1] + "@",
-                        a3[0] + ":" + "•••••••••" + "@");
+                        a3[0] + ":" + "•••••••" + "@");
             }
         }
         return s;
