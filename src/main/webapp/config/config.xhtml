@@ -20,10 +20,9 @@
 				<p:panelGrid columns="2">
 
 					<p:outputLabel value="Select Data Provider: " class="boldtext"/>
-					<p:selectOneMenu id="selectedDataProvider" value="#{uiConfigBean.allDataProviders}">
-						<ui:repeat var="dp" value="#{uiConfigBean.allDataProviders}">
-							<f:selectItem itemLabel="#{dp.getProviderConfig().getName()}" itemValue="#{dp.getProviderConfig().getName()}"/>
-						</ui:repeat>
+					<p:selectOneMenu id="selectedDataProvider" value="#{uiConfigBean.selectedDataProvider}" dynamic="true" onchange="submit()">
+
+						<f:selectItems value="#{uiConfigBean.allDataProviders}"/>
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Data retention (days): " class="boldtext"/>

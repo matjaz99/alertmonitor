@@ -2,7 +2,7 @@ package si.matjazcerkvenik.alertmonitor.model.config;
 
 import java.util.List;
 
-public class Config {
+public class YamlConfig {
 
     private String version;
 
@@ -28,7 +28,7 @@ public class Config {
 
     @Override
     public String toString() {
-        return "Config{" +
+        return "YamlConfig{" +
                 "providers=" + providers +
                 '}';
     }

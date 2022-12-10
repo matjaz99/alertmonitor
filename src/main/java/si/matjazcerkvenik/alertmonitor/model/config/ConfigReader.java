@@ -10,24 +10,24 @@ import java.io.*;
 public class ConfigReader {
 
     public static void main(String... args) {
-        ConfigReader.loadYaml("alertmonitor-config.yml");
+        ConfigReader.loadYaml("providers.yml");
     }
 
-    public static Config loadYaml(String path) {
+    public static YamlConfig loadYaml(String path) {
         Representer representer = new Representer();
         representer.getPropertyUtils().setSkipMissingProperties(true);
-        Yaml yaml = new Yaml(new Constructor(Config.class), representer);
+        Yaml yaml = new Yaml(new Constructor(YamlConfig.class), representer);
         File f = new File(path);
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(f);
-            Config config = yaml.load(inputStream);
-            LogFactory.getLogger().info("config loaded: " + config.toString());
+            YamlConfig config = yaml.load(inputStream);
+            LogFactory.getLogger().info("providers config loaded: " + config.toString());
             return config;
         } catch (FileNotFoundException e) {
-            LogFactory.getLogger().warn("no alertmonitor-config.yml found at " +  path);
+            LogFactory.getLogger().warn("no providers.yml found at " +  path);
         } catch (Exception e) {
-            LogFactory.getLogger().error("Exception reading alertmonitor-config.yml", e);
+            LogFactory.getLogger().error("Exception reading providers.yml", e);
         }
         return null;
     }

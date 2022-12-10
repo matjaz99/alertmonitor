@@ -18,7 +18,6 @@ package si.matjazcerkvenik.alertmonitor.web.uibeans;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
-import si.matjazcerkvenik.alertmonitor.util.TaskManager;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
@@ -34,21 +33,27 @@ import java.util.List;
 @SessionScoped
 public class UiConfigBean {
 
-    private AbstractDataProvider selectedDataProvider;
+    private String selectedDataProvider;
+    private List<String> allDataProviders;
 
-    public AbstractDataProvider getSelectedDataProvider() {
+    public String getSelectedDataProvider() {
         if (selectedDataProvider == null) {
-            selectedDataProvider = DAO.getInstance().getDataProvider("/alertmonitor/webhook");
+            selectedDataProvider = "/alertmonitor/webhook";
         }
         return selectedDataProvider;
     }
 
-    public void setSelectedDataProvider(AbstractDataProvider selectedDataProvider) {
+    public void setSelectedDataProvider(String selectedDataProvider) {
         this.selectedDataProvider = selectedDataProvider;
+        LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
     }
 
-    public List<AbstractDataProvider> getAllDataProviders() {
-        return DAO.getInstance().getAllDataProviders();
+    public List<String> getAllDataProviders() {
+        allDataProviders = new ArrayList<>();
+        for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
+            allDataProviders.add(adp.getProviderConfig().getUri());
+        }
+        return allDataProviders;
     }
 
 
@@ -90,7 +95,7 @@ public class UiConfigBean {
         AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
         LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
 //		Growl.showInfoGrowl("Configuration updated", "");
-        selectedDataProvider.restartSyncTimer();
+        DAO.getInstance().getDataProvider(selectedDataProvider).restartSyncTimer();
     }
 
     public String getPsyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }

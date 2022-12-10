@@ -110,8 +110,8 @@ public class DAO {
         TaskManager.getInstance().startDbMaintenanceTimer();
     }
 
-    public AbstractDataProvider getDataProvider(String uri) {
-        return dataProviders.getOrDefault(uri, null);
+    public AbstractDataProvider getDataProvider(String key) {
+        return dataProviders.getOrDefault(key, null);
     }
 
     public List<AbstractDataProvider> getAllDataProviders() {

@@ -21,6 +21,7 @@
 				<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
 			</p:submenu>
 			<f:facet name="options">
+				<p:outputLabel value="Provider: #{uiConfigBean.selectedDataProvider}" style="font-size: 11px; color: red; margin-right: 10px;" />
 				<p:inputText placeholder="Search" value="#{uiBean.searchString}"/>
 			</f:facet>
     	</p:menubar>

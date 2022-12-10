@@ -15,6 +15,9 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.*;
@@ -70,13 +73,13 @@ public class OnStartListener implements ServletContextListener {
             AmProps.IS_CONTAINERIZED = false;
         }
 
-        // load configuration from env vars
-        AmProps.loadProps();
-
         // print configuration
         LogFactory.getLogger().info("ALERTMONITOR_VERSION=" + AmProps.VERSION);
         LogFactory.getLogger().info("ALERTMONITOR_IPADDR=" + AmProps.LOCAL_IP_ADDRESS);
         LogFactory.getLogger().info("RUNTIME_ID=" + AmProps.RUNTIME_ID);
+
+        // load configuration from env vars
+        AmProps.loadProps();
 
         // read all environment variables
         LogFactory.getLogger().info("***** Environment variables *****");
@@ -94,6 +97,12 @@ public class OnStartListener implements ServletContextListener {
         LogFactory.getLogger().info("Used Memory: "
                 + (instance.totalMemory() - instance.freeMemory()) / mb); // used memory
         LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
+
+        // first load yaml config file
+        AmProps.yamlConfig = ConfigReader.loadYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
+
+        // init DAO
+        DAO.getInstance();
 
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
 
