@@ -32,6 +32,7 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("unused")
 public class UiBean {
 
 	@ManagedProperty(value="#{uiConfigBean}")
@@ -81,12 +82,14 @@ public class UiBean {
 
 
 	public List<DEvent> getJournal() {
-		return DAO.getInstance().getJournal();
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		return adp.getJournal();
 	}
 
 
 	public List<DEvent> getActiveAlarms() {
-		List<DEvent> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
 		List<DEvent> result = list.stream()
 				.filter(notif -> filterNotification(notif))
 				.collect(Collectors.toList());
@@ -144,7 +147,8 @@ public class UiBean {
 
 
 	public List<DTag> getTags() {
-		List<DTag> daoTagList = DAO.getInstance().getTags();
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		List<DTag> daoTagList = adp.getTags();
 		// add all from daoTagList to tagList which are not present yet
 		for (DTag dt : daoTagList) {
 			boolean found = false;

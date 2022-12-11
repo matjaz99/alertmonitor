@@ -31,7 +31,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         try {
             AmAlertMessage amAlertMessage = AlertmanagerProcessor.processWebhookMessage(m);
             List<DEvent> eventList = AlertmanagerProcessor.convertToDevent(m, amAlertMessage);
-            DAO.getInstance().synchronizeAlerts(eventList, false);
+            synchronizeAlerts(eventList, false);
             AmMetrics.amMessagesReceivedCount++;
             AmMetrics.lastEventTimestamp = System.currentTimeMillis();
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 t.setJob(pTarget.getLabels().get("job"));
                 t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
-                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
+                for (DEvent n : activeAlerts.values()) {
                     if (n.getInstance().equals(instance)) t.addAlert(n);
                 }
                 targetsMap.put(t.getId(), t);
@@ -141,7 +141,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 t.setHostname(host);
                 t.setId(MD5.getChecksum("smarthost" + t.getHostname()));
                 // load active alerts
-                for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
+                for (DEvent n : activeAlerts.values()) {
                     if (n.getHostname().equals(host)) t.addAlert(n);
                 }
                 targetsMap.put(host, t);
@@ -187,7 +187,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             AmMetrics.alertmonitor_psync_interval_seconds.set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
             if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
                 syncTimer = new Timer("SyncTimer");
-                prometheusSyncTask = new PrometheusSyncTask();
+                prometheusSyncTask = new PrometheusSyncTask(this);
                 syncTimer.schedule(prometheusSyncTask, 5 * 1000, AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
             }
         }

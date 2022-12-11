@@ -35,10 +35,10 @@ public class PrometheusSyncTask extends TimerTask {
 
     private SimpleLogger logger = LogFactory.getLogger();
 
-    public static void main(String... args) {
-        AmProps.ALERTMONITOR_PROMETHEUS_SERVER = "http://pgcentos:9090";
-        PrometheusSyncTask rt = new PrometheusSyncTask();
-        rt.run();
+    private AbstractDataProvider dataProvider;
+
+    public PrometheusSyncTask(AbstractDataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class PrometheusSyncTask extends TimerTask {
 
             } // for each alert
 
-            DAO.getInstance().synchronizeAlerts(pSyncAlerts, true);
+            dataProvider.synchronizeAlerts(pSyncAlerts, true);
 
             AmMetrics.psyncSuccessCount++;
             AmMetrics.alertmonitor_psync_success.set(1);

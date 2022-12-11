@@ -20,6 +20,7 @@ import java.util.List;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("unused")
 public class UiReportBean {
 
     private final String QUERY_PROM_UP_TIME = "round(time()-process_start_time_seconds{job=\"prometheus\"})";

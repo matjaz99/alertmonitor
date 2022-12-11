@@ -35,6 +35,7 @@ import java.util.*;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("unused")
 public class UiAlertBean {
 
     @ManagedProperty(value="#{uiConfigBean}")

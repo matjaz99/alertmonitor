@@ -17,6 +17,7 @@ package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -38,8 +39,12 @@ public class MultiTagRenderer extends Renderer {
 		ResponseWriter rw = context.getResponseWriter();
 		
 		//Tags tags = (Tags) component.getAttributes().get("value");
+		// TODO how to get selected provider down here?
+		String dataProviderKey = (String) component.getAttributes().getOrDefault("provider", "/alertmonitor/webhook");
+		System.out.println("RENDERER: dataProviderKey=" + dataProviderKey);
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(dataProviderKey);
 
-        List<DTag> tags = DAO.getInstance().getTags();
+        List<DTag> tags = adp.getTags();
 				
 		rw.startElement("div", component);
 		rw.writeAttribute("style", "float: left;", null);

@@ -16,7 +16,7 @@
 
 						<ui:repeat var="tag" value="#{uiBean.tags}">
 							<div style="float: left;">
-								<am:singletag value="#{tag}">
+								<am:singletag value="#{tag}" provider="#{uiConfigBean.selectedDataProvider}">
 									<p:commandLink id="ajax" update="activeAlertsForm" action="#{uiBean.tagAction(tag)}" style="text-decoration: none;">
 										<p:outputLabel value="##{tag.name}" style="color: #222222;"/>
 									</p:commandLink>

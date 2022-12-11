@@ -28,6 +28,7 @@ import java.util.*;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("unused")
 public class UiQueryBean {
 
     private String query = "up";

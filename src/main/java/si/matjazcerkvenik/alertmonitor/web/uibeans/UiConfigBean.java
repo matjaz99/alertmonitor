@@ -31,6 +31,7 @@ import java.util.List;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("unused")
 public class UiConfigBean {
 
     private String selectedDataProvider;
@@ -213,7 +214,8 @@ public class UiConfigBean {
     }
 
     public long getJournalSize() {
-        return DAO.getInstance().getJournalSize();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getJournalSize();
     }
 
     public long getAlarmsCount() {
@@ -232,15 +234,18 @@ public class UiConfigBean {
     public String getPsyncFailedCount() { return Integer.toString(AmMetrics.psyncFailedCount); }
 
     public int getActiveAlarmsCount(String severity) {
-        return DAO.getInstance().getActiveAlarmsList(severity).size();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getActiveAlarmsList(severity).size();
     }
 
     public int getAllActiveAlarmsCount() {
-        return DAO.getInstance().getActiveAlerts().size();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getActiveAlerts().size();
     }
 
     public int getAllAlarmingInstancesCount() {
-        return DAO.getInstance().getActiveTargets().size();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getActiveTargets().size();
     }
 
     public int getNumberOfAlertsInLastHour() {
@@ -252,8 +257,9 @@ public class UiConfigBean {
     }
 
     public String getBalanceFactor() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         DecimalFormat df2 = new DecimalFormat("#.##");
-        return df2.format(DAO.getInstance().calculateAlertsBalanceFactor());
+        return df2.format(adp.calculateAlertsBalanceFactor());
     }
 
     public String getStartTime() {

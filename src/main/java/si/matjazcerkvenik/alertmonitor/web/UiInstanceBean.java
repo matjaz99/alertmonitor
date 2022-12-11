@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 @ManagedBean
 @ViewScoped
+@SuppressWarnings("unused")
 public class UiInstanceBean {
 
     @ManagedProperty(value="#{uiConfigBean}")
@@ -61,7 +62,8 @@ public class UiInstanceBean {
     }
 
     public List<DEvent> getInstanceActiveAlarms() {
-        List<DEvent> list = new ArrayList<>(DAO.getInstance().getActiveAlerts().values());
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
         List<DEvent> result = list.stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());
@@ -76,7 +78,8 @@ public class UiInstanceBean {
     }
 
     public List<DEvent> getInstanceJournalAlarms() {
-        List<DEvent> result = DAO.getInstance().getJournal().stream()
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        List<DEvent> result = adp.getJournal().stream()
                 .filter(notif -> checkAlert(notif))
                 .collect(Collectors.toList());
         Collections.sort(result, new Comparator<DEvent>() {
