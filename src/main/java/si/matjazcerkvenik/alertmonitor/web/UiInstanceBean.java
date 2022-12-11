@@ -18,10 +18,13 @@ package si.matjazcerkvenik.alertmonitor.web;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.web.uibeans.UiConfigBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -31,14 +34,26 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class UiInstanceBean {
 
+    @ManagedProperty(value="#{uiConfigBean}")
+    private UiConfigBean uiConfigBean;
+
     private Target target;
 
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = requestParameterMap.getOrDefault("tid", "null");
-        target = DAO.getInstance().getSingleTarget(id);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        target = adp.getSingleTarget(id);
         LogFactory.getLogger().info("Found target: " + target.toString());
+    }
+
+    public UiConfigBean getUiConfigBean() {
+        return uiConfigBean;
+    }
+
+    public void setUiConfigBean(UiConfigBean uiConfigBean) {
+        this.uiConfigBean = uiConfigBean;
     }
 
     public Target getTarget() {

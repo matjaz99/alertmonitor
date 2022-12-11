@@ -20,6 +20,7 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
 import si.matjazcerkvenik.alertmonitor.model.TagColors;
 import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
@@ -27,6 +28,7 @@ import si.matjazcerkvenik.alertmonitor.web.Growl;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -35,17 +37,29 @@ import java.util.*;
 @RequestScoped
 public class UiAlertBean {
 
+    @ManagedProperty(value="#{uiConfigBean}")
+    private UiConfigBean uiConfigBean;
+
     private DEvent event;
 
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String uid = requestParameterMap.getOrDefault("uid", "null");
-        event = DAO.getInstance().getEvent(uid);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        event = adp.getEvent(uid);
         if (event == null) {
             Growl.showWarningGrowl("Object not found", null);
             LogFactory.getLogger().info("UiAlertBean: object not found: uid=" + uid);
         }
+    }
+
+    public UiConfigBean getUiConfigBean() {
+        return uiConfigBean;
+    }
+
+    public void setUiConfigBean(UiConfigBean uiConfigBean) {
+        this.uiConfigBean = uiConfigBean;
     }
 
     public DEvent getEvent() {

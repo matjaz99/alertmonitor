@@ -17,6 +17,7 @@ package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.Growl;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -25,12 +26,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 
 @ManagedBean
 @SessionScoped
 public class UiBean {
+
+	@ManagedProperty(value="#{uiConfigBean}")
+	private UiConfigBean uiConfigBean;
 
 	private List<DTag> tagList = new ArrayList<>();
 	private String searchString;
@@ -41,6 +46,14 @@ public class UiBean {
 
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
+	}
+
+	public UiConfigBean getUiConfigBean() {
+		return uiConfigBean;
+	}
+
+	public void setUiConfigBean(UiConfigBean uiConfigBean) {
+		this.uiConfigBean = uiConfigBean;
 	}
 
 	public String getSearchString() {
@@ -61,7 +74,9 @@ public class UiBean {
 	}
 
 	public List<WebhookMessage> getWebhookMessages() {
-		return DAO.getInstance().getWebhookMessages();
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		System.out.println("found adp: " + adp.getProviderConfig().getName());
+		return adp.getWebhookMessages();
 	}
 
 
@@ -240,11 +255,13 @@ public class UiBean {
 
 		result = null;
 
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+
 		List<Target> tList;
 		if (smartTargetsEnabled) {
-			tList = DAO.getInstance().getSmartTargets();
+			tList = adp.getSmartTargets();
 		} else {
-			tList = DAO.getInstance().getTargets();
+			tList = adp.getTargets();
 		}
 
 		if (tList == null) {
@@ -315,7 +332,9 @@ public class UiBean {
 
 		result = null;
 
-		List<Target> tList = DAO.getInstance().getTargets();
+		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+
+		List<Target> tList = adp.getTargets();
 
 		if (tList == null) {
 			result = "failed to retrieve jobs";

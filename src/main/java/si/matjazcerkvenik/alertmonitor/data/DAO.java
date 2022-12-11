@@ -118,19 +118,6 @@ public class DAO {
         return new ArrayList<>(dataProviders.values());
     }
 
-    /**
-     * Add new webhook message to the list.
-     * @param message incoming message
-     */
-    public void addWebhookMessage(WebhookMessage message) {
-        dataManager.addWebhookMessage(message);
-        AmMetrics.webhookMessagesReceivedCount++;
-        AmMetrics.alertmonitor_webhook_messages_received_total.labels(message.getRemoteHost(), message.getMethod().toUpperCase()).inc();
-    }
-
-    public List<WebhookMessage> getWebhookMessages() {
-        return dataManager.getWebhookMessages();
-    }
 
     /**
      * Add new notification to journal. Also delete oldest notifications.
@@ -156,36 +143,7 @@ public class DAO {
         return dataManager.getJournalSize();
     }
 
-    /**
-     * Get single event from journal
-     * @param id unique ID of event
-     * @return event
-     */
-    public DEvent getEvent(String id) {
 
-        DEvent event = dataManager.getEvent(id);
-
-        if (event == null) return null;
-
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
-
-        try {
-            List<PRule> ruleList;
-            ruleList = api.rules();
-            for (PRule r : ruleList) {
-                if (event.getAlertname().equals(r.getName())) {
-                    event.setRuleExpression(r.getQuery());
-                    event.setRuleTimeLimit(r.getDuration());
-                }
-            }
-        } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error("DAO: failed to load rules; root cause: " + e.getMessage());
-        } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
-        }
-
-        return event;
-    }
 
     public boolean synchronizeAlerts(List<DEvent> alertList, boolean sync) {
 
@@ -278,7 +236,7 @@ public class DAO {
     /**
      * Add new alert to active alerts. This method is called when first alert
      * of this type occurs (according to correlationId). First and last timestamps
-     * are set to time of reception (timestamp). Also new tags are added to tagMap.
+     * are set to time of reception (timestamp). Also, new tags are added to tagMap.
      * @param event
      */
     public void addActiveAlert(DEvent event) {
@@ -417,135 +375,35 @@ public class DAO {
 
     }
 
-    /**
-     * Return a list of targets (instances) from Prometheus.
-     * @return list
-     */
-    public List<Target> getTargets() {
-
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
-
-        try {
-            List<PTarget> pTargets = api.targets();
-            Map<String, Target> targetsMap = new HashMap<String, Target>();
-            PQueryMessage query = api.query("probe_success == 0");
-            Map<String, String> probe_success_map = new HashMap<String, String>();
-            for (PQueryResult r : query.getData().getResult()){
-                probe_success_map.put(r.getMetric().get("instance"), "down");
-            }
-
-            // convert from PTarget to Target
-            for (PTarget pTarget : pTargets) {
-                String instance = pTarget.getLabels().get("instance");
-                Target t = targetsMap.getOrDefault(instance, new Target());
-                t.setSmartTarget(false);
-                t.setHealth(pTarget.getHealth());
-                if (probe_success_map.containsKey(instance)) t.setHealth(probe_success_map.get(instance));
-                t.setHostname(instance);
-                t.setJob(pTarget.getLabels().get("job"));
-                t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
-                // load active alerts
-                for (DEvent n : getActiveAlerts().values()) {
-                    if (n.getInstance().equals(instance)) t.addAlert(n);
-                }
-                targetsMap.put(t.getId(), t);
-            }
-
-            return new ArrayList<>(targetsMap.values());
-
-        } catch (Exception e) {
-            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
-        } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
-        }
-
-        return null;
-    }
-
-    // the only difference is stripped hostname
-    public List<Target> getSmartTargets() {
-
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
-
-        try {
-            List<PTarget> pTargets = api.targets();
-            Map<String, Target> targetsMap = new HashMap<String, Target>();
-            PQueryMessage query = api.query("probe_success == 0");
-            Map<String, String> probe_success_map = new HashMap<String, String>();
-            for (PQueryResult r : query.getData().getResult()){
-                String instance = r.getMetric().get("instance");
-                for (PTarget pT: pTargets) {
-                    // override up metric with probe_success; instance must match in up and probe_success metric
-                    if (pT.getLabels().get("instance").equals(instance)) pT.setHealth("down");
-                }
-            }
-
-            // convert from PTarget to Target
-            for (PTarget pTarget : pTargets) {
-                String host = Formatter.stripInstance(pTarget.getLabels().get("instance"));
-                Target t = targetsMap.getOrDefault(host, new Target());
-                t.setSmartTarget(true);
-                boolean up = false;
-                if (pTarget.getHealth().equalsIgnoreCase("up")) up = true;
-                t.setUp(up || t.isUp());
-                t.setHostname(host);
-                t.setId(MD5.getChecksum("smarthost" + t.getHostname()));
-                // load active alerts
-                for (DEvent n : getActiveAlerts().values()) {
-                    if (n.getHostname().equals(host)) t.addAlert(n);
-                }
-                targetsMap.put(host, t);
-            }
-
-            return new ArrayList<>(targetsMap.values());
-
-        } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
-        } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
-        }
-
-        return null;
-
-    }
-
-    public Target getSingleTarget(String id) {
-        List<Target> t1 = getTargets();
-        for (Target t : t1) {
-            if (t.getId().equals(id)) return t;
-        }
-        List<Target> t2 = getSmartTargets();
-        for (Target t : t2) {
-            if (t.getId().equals(id)) return t;
-        }
-        return null;
-    }
 
 
 
-    private List<Target> getTargetsFromProm() {
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
 
-        try {
-            List<PTarget> targets = api.targets();
 
-            for (PTarget pTarget : targets) {
-                Target t = new Target();
-                t.setHostname(Formatter.stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
-                t.setId(MD5.getChecksum("host" + t.getHostname()));
-            }
-
-            // TODO
-
-        } catch (Exception e) {
-            LogFactory.getLogger().error("Exception getting targets", e);
-        } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
-        }
-
-        return new ArrayList<>();
-    }
+//    private List<Target> getTargetsFromProm() {
+//
+//        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+//
+//        try {
+//            List<PTarget> targets = api.targets();
+//
+//            for (PTarget pTarget : targets) {
+//                Target t = new Target();
+//                t.setHostname(Formatter.stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
+//                t.setId(MD5.getChecksum("host" + t.getHostname()));
+//            }
+//
+//            // TODO
+//
+//        } catch (Exception e) {
+//            LogFactory.getLogger().error("Exception getting targets", e);
+//        } finally {
+//            PrometheusApiClientPool.getInstance().returnClient(api);
+//        }
+//
+//        return new ArrayList<>();
+//    }
 
 
     public double calculateAlertsBalanceFactor() {
@@ -568,12 +426,12 @@ public class DAO {
 //    }
 
 
-    public void addWarning(String msgId, String msg) {
-        warnings.put(msgId, msg);
+    public void addWarning(String msgKey, String msg) {
+        warnings.put(msgKey, msg);
     }
 
-    public void removeWarning(String msgId) {
-        warnings.remove(msgId);
+    public void removeWarning(String msgKey) {
+        warnings.remove(msgKey);
     }
 
     public List<String> getWarnings() {

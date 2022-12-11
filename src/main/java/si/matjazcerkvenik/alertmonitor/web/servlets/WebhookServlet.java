@@ -45,8 +45,7 @@ public class WebhookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse response)
 			throws IOException {
 
-		WebhookMessage m = instantiateWebhookMessage(req);
-		DAO.getInstance().addWebhookMessage(m);
+		WebhookMessage m = instantiateWebhookRequest(req);
 
 		AbstractDataProvider dataProvider = DAO.getInstance().getDataProvider(m.getRequestUri());
 		if (dataProvider == null) {
@@ -60,7 +59,7 @@ public class WebhookServlet extends HttpServlet {
 
 	}
 
-	private WebhookMessage instantiateWebhookMessage(HttpServletRequest req) throws IOException {
+	private WebhookMessage instantiateWebhookRequest(HttpServletRequest req) throws IOException {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
