@@ -45,21 +45,21 @@ public class WebhookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse response)
 			throws IOException {
 
-		WebhookMessage m = instantiateWebhookRequest(req);
+		AbstractDataProvider dataProvider = DAO.getInstance().getDataProvider(req.getRequestURI());
 
-		AbstractDataProvider dataProvider = DAO.getInstance().getDataProvider(m.getRequestUri());
 		if (dataProvider == null) {
-			LogFactory.getLogger().warn("WebhookServlet: doPost(): dataprovider not found: " + m.getRequestUri());
+			LogFactory.getLogger().warn("WebhookServlet: doPost(): dataprovider not found: " + req.getRequestURI());
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "dataprovider not found");
 			return;
 		}
 
 		LogFactory.getLogger().info("WebhookServlet: doPost(): dataprovider found: " + dataProvider.getProviderConfig().getName() + "@" + dataProvider.getProviderConfig().getUri());
+		WebhookMessage m = instantiateWebhookRequest(req, dataProvider);
 		dataProvider.processIncomingEvent(m);
 
 	}
 
-	private WebhookMessage instantiateWebhookRequest(HttpServletRequest req) throws IOException {
+	private WebhookMessage instantiateWebhookRequest(HttpServletRequest req, AbstractDataProvider dataProvider) throws IOException {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -83,7 +83,7 @@ public class WebhookServlet extends HttpServlet {
 		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
-		m.setId(AmMetrics.webhookMessagesReceivedCount);
+		m.setId(dataProvider.getWebhookMessagesReceivedCount());
 		m.setRuntimeId(AmProps.RUNTIME_ID);
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());

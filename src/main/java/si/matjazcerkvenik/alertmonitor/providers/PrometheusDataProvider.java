@@ -1,3 +1,18 @@
+/*
+   Copyright 2021 Matjaž Cerkvenik
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
@@ -17,7 +32,6 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     private PrometheusSyncTask prometheusSyncTask = null;
 
     public PrometheusDataProvider() {
-        restartSyncTimer();
     }
 
     @Override
@@ -25,15 +39,14 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         DAO.getInstance().getDataManager().addWebhookMessage(m);
         // TODO fix metrics - for each provider
-        AmMetrics.webhookMessagesReceivedCount++;
-        AmMetrics.alertmonitor_webhook_messages_received_total.labels(m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
+        webhookMessagesReceivedCount++;
+        AmMetrics.alertmonitor_webhook_messages_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
 
         try {
             AmAlertMessage amAlertMessage = AlertmanagerProcessor.processWebhookMessage(m);
             List<DEvent> eventList = AlertmanagerProcessor.convertToDevent(m, amAlertMessage);
             synchronizeAlerts(eventList, false);
-            AmMetrics.amMessagesReceivedCount++;
-            AmMetrics.lastEventTimestamp = System.currentTimeMillis();
+            lastEventTimestamp = System.currentTimeMillis();
         } catch (Exception e) {
             LogFactory.getLogger().error("DataProvider: processIncomingEvent(): unable to process incoming message: \n" + m.toString());
             LogFactory.getLogger().error("DataProvider: processIncomingEvent(): error: " + e.getMessage());
@@ -179,12 +192,11 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC == 0) {
             LogFactory.getLogger().info("Sync is disabled");
         }
-        // TODO fix configuration according to provider config
 
         // start resync timer
         if (prometheusSyncTask == null) {
             LogFactory.getLogger().info("Start periodic sync task with period=" + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_psync_interval_seconds.set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+            AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
             if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
                 syncTimer = new Timer("SyncTimer");
                 prometheusSyncTask = new PrometheusSyncTask(this);

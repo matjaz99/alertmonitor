@@ -76,7 +76,6 @@ public class UiBean {
 
 	public List<WebhookMessage> getWebhookMessages() {
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-		System.out.println("found adp: " + adp.getProviderConfig().getName());
 		return adp.getWebhookMessages();
 	}
 

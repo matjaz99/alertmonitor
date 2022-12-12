@@ -91,16 +91,6 @@ public class UiConfigBean {
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
 
-    public void setPsyncInterval(String interval) {
-
-        AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-//		Growl.showInfoGrowl("Configuration updated", "");
-        DAO.getInstance().getDataProvider(selectedDataProvider).restartSyncTimer();
-    }
-
-    public String getPsyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
-
     public void setDataRetention(String time) {
         try {
             AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(time);
@@ -202,15 +192,13 @@ public class UiConfigBean {
     /* STATISTICS */
 
     public long getWhMsgCount() {
-        return AmMetrics.webhookMessagesReceivedCount;
-    }
-
-    public long getAmMsgCount() {
-        return AmMetrics.amMessagesReceivedCount;
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getWebhookMessagesReceivedCount();
     }
 
     public long getJournalCount() {
-        return AmMetrics.journalReceivedCount;
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getJournalCount();
     }
 
     public long getJournalSize() {
@@ -219,19 +207,36 @@ public class UiConfigBean {
     }
 
     public long getAlarmsCount() {
-        return AmMetrics.raisingEventCount;
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getRaisingEventCount();
     }
 
     public long getClearsCount() {
-        return AmMetrics.clearingEventCount;
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getClearingEventCount();
     }
 
+    public void setSyncInterval(String interval) {
 
-    public String getLastPsyncTime() { return Formatter.getFormatedTimestamp(AmMetrics.lastPsyncTimestamp, AmDateFormat.TIME); }
+        AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
+        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+//		Growl.showInfoGrowl("Configuration updated", "");
+        DAO.getInstance().getDataProvider(selectedDataProvider).restartSyncTimer();
+    }
 
-    public String getPsyncSuccessCount() { return Integer.toString(AmMetrics.psyncSuccessCount); }
+    public String getSyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
 
-    public String getPsyncFailedCount() { return Integer.toString(AmMetrics.psyncFailedCount); }
+    public String getLastSyncTime() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return Formatter.getFormatedTimestamp(adp.getLastSyncTimestamp(), AmDateFormat.TIME); }
+
+    public String getSyncSuccessCount() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return Integer.toString(adp.getSyncSuccessCount()); }
+
+    public String getSyncFailedCount() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return Integer.toString(adp.getSyncFailedCount()); }
 
     public int getActiveAlarmsCount(String severity) {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
@@ -272,11 +277,13 @@ public class UiConfigBean {
     }
 
     public String getLastEventTime() {
-        return Formatter.getFormatedTimestamp(AmMetrics.lastEventTimestamp, AmDateFormat.TIME);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return Formatter.getFormatedTimestamp(adp.getLastEventTimestamp(), AmDateFormat.TIME);
     }
 
     public String getTimeSinceLastEvent() {
-        int secUp = (int) ((System.currentTimeMillis() - AmMetrics.lastEventTimestamp) / 1000);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        int secUp = (int) ((System.currentTimeMillis() - adp.getLastEventTimestamp()) / 1000);
         return Formatter.convertToDHMSFormat(secUp);
     }
 

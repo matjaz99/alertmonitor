@@ -1,3 +1,18 @@
+/*
+   Copyright 2021 Matjaž Cerkvenik
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
@@ -25,12 +40,32 @@ public abstract class AbstractDataProvider {
 
     protected Timer syncTimer = null;
 
+    protected long webhookMessagesReceivedCount = 0;
+
+    protected long journalReceivedCount = 0;
+
+    protected long lastEventTimestamp = 0;
+
+    protected long lastSyncTimestamp = 0;
+    protected int syncSuccessCount = 0;
+    protected int syncFailedCount = 0;
+
+    protected long raisingEventCount = 0;
+    protected long clearingEventCount = 0;
+
     public ProviderConfig getProviderConfig() {
         return providerConfig;
     }
 
     public void setProviderConfig(ProviderConfig providerConfig) {
         this.providerConfig = providerConfig;
+    }
+
+    /**
+     * Start provider tasks, eg. start sync timer.
+     */
+    public void init() {
+        restartSyncTimer();
     }
 
     public abstract void processIncomingEvent(WebhookMessage m);
@@ -45,9 +80,9 @@ public abstract class AbstractDataProvider {
      */
     public void addToJournal(List<DEvent> events) {
         DAO.getInstance().getDataManager().addToJournal(events);
-        AmMetrics.journalReceivedCount++;
+        journalReceivedCount++;
         for (DEvent e : events) {
-            AmMetrics.alertmonitor_journal_messages_total.labels(e.getSeverity()).inc();
+            AmMetrics.alertmonitor_journal_messages_total.labels(providerConfig.getName(), e.getSeverity()).inc();
         }
     }
 
@@ -156,7 +191,7 @@ public abstract class AbstractDataProvider {
     public void addActiveAlert(DEvent event) {
 
         activeAlerts.put(event.getCorrelationId(), event);
-        AmMetrics.raisingEventCount++;
+        raisingEventCount++;
         LogFactory.getAlertLog().write(event.toString());
 
         // parse tags from tags label
@@ -213,7 +248,7 @@ public abstract class AbstractDataProvider {
         list.add(clearEvent);
         addToJournal(list);
 
-        AmMetrics.clearingEventCount++;
+        clearingEventCount++;
         LogFactory.getAlertLog().write(activeAlert.toString());
     }
 
@@ -309,4 +344,39 @@ public abstract class AbstractDataProvider {
 
     public abstract void restartSyncTimer();
 
+    public long getWebhookMessagesReceivedCount() {
+        return webhookMessagesReceivedCount;
+    }
+
+    public long getJournalCount() {
+        return journalReceivedCount;
+    }
+
+    public long getLastEventTimestamp() {
+        return lastEventTimestamp;
+    }
+
+    public long getLastSyncTimestamp() {
+        return lastSyncTimestamp;
+    }
+
+    public void setLastSyncTimestamp(long lastSyncTimestamp) {
+        this.lastSyncTimestamp = lastSyncTimestamp;
+    }
+
+    public int getSyncSuccessCount() {
+        return syncSuccessCount;
+    }
+
+    public int getSyncFailedCount() {
+        return syncFailedCount;
+    }
+
+    public long getRaisingEventCount() {
+        return raisingEventCount;
+    }
+
+    public long getClearingEventCount() {
+        return clearingEventCount;
+    }
 }

@@ -15,19 +15,14 @@
  */
 package si.matjazcerkvenik.alertmonitor.data;
 
-import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.EventloggerDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
-import si.matjazcerkvenik.alertmonitor.util.Formatter;
-import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DAO {
 
@@ -36,8 +31,10 @@ public class DAO {
     /** Singleton instance */
     private static DAO instance;
 
+    /** Access to data */
     private IDataManager dataManager;
 
+    /** A map of dataproviders. Key is URI. */
     private Map<String, AbstractDataProvider> dataProviders = new HashMap<>();
 
     /** Map of warnings in the alertmonitor. It's a map, because it is easier to search and remove */
@@ -49,15 +46,16 @@ public class DAO {
         if (AmProps.yamlConfig != null) {
             for (ProviderConfig pc : AmProps.yamlConfig.getProviders()) {
                 AbstractDataProvider dp = null;
-                if (pc.getSource().equalsIgnoreCase("prometheus")) {
+                if (pc.getType().equalsIgnoreCase("prometheus")) {
                     dp = new PrometheusDataProvider();
-                } else if (pc.getSource().equalsIgnoreCase("eventlogger")) {
+                } else if (pc.getType().equalsIgnoreCase("eventlogger")) {
                     dp = new EventloggerDataProvider();
                 } else {
-                    logger.warn("DAO: unknown provider type: " + pc.getSource());
+                    logger.warn("DAO: unknown provider type: " + pc.getType());
                 }
                 if (dp != null) {
                     dp.setProviderConfig(pc);
+                    dp.init();
                     dataProviders.put(pc.getUri(), dp);
                 }
             }
@@ -66,17 +64,25 @@ public class DAO {
         if (!dataProviders.containsKey("/alertmonitor/webhook")) {
             ProviderConfig defaultPC = new ProviderConfig();
             defaultPC.setName(".default");
-            defaultPC.setSource("prometheus");
+            defaultPC.setType("prometheus");
             defaultPC.setUri("/alertmonitor/webhook");
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);
+            defaultDP.init();
             dataProviders.put("/alertmonitor/webhook", defaultDP);
+        }
+        // print data providers
+        for (AbstractDataProvider adp : dataProviders.values()) {
+            LogFactory.getLogger().info("Registered ProviderConfig[name=" + adp.getProviderConfig().getName()
+                    + ", type=" + adp.getProviderConfig().getType()
+                    + ", uri=" + adp.getProviderConfig().getUri() + "]");
+            AmMetrics.alertmonitor_providers_info.labels(adp.getProviderConfig().getName(), adp.getProviderConfig().getType(), adp.getProviderConfig().getUri()).set(1);
         }
 
         if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
             dataManager = new MongoDbDataManager();
         } else {
-            dataManager = new InMemoryDataManager();
+            dataManager = new MemoryDataManager();
         }
 
         TaskManager.getInstance().startDbMaintenanceTimer();
@@ -99,7 +105,7 @@ public class DAO {
         if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
             dataManager = new MongoDbDataManager();
         } else {
-            dataManager = new InMemoryDataManager();
+            dataManager = new MemoryDataManager();
         }
         TaskManager.getInstance().startDbMaintenanceTimer();
     }
@@ -111,22 +117,6 @@ public class DAO {
     public List<AbstractDataProvider> getAllDataProviders() {
         return new ArrayList<>(dataProviders.values());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

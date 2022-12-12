@@ -17,6 +17,8 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
+import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

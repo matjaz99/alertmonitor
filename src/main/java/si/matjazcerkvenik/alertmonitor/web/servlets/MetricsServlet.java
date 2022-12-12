@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.web.servlets;
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 
 import javax.servlet.annotation.WebServlet;
@@ -46,12 +47,16 @@ public class MetricsServlet extends HttpServlet {
             throws IOException {
 
         // TODO fix metrics for each provider
-//        AmMetrics.alertmonitor_active_alerts_count.clear();
-//        for (DEvent n : DAO.getInstance().getActiveAlerts().values()) {
-//            AmMetrics.alertmonitor_active_alerts_count.labels(n.getAlertname(), n.getSeverity()).inc();
-//        }
-//        AmMetrics.alertmonitor_alerts_balance_factor.set(DAO.getInstance().calculateAlertsBalanceFactor());
-//        AmMetrics.alertmonitor_last_event_timestamp.set(AmMetrics.lastEventTimestamp);
+        for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
+            AmMetrics.alertmonitor_active_alerts_count.clear();
+            for (DEvent n : adp.getActiveAlerts().values()) {
+                AmMetrics.alertmonitor_active_alerts_count.labels(adp.getProviderConfig().getName(), n.getAlertname(), n.getSeverity()).inc();
+            }
+            AmMetrics.alertmonitor_alerts_balance_factor.labels(adp.getProviderConfig().getName()).set(adp.calculateAlertsBalanceFactor());
+            AmMetrics.alertmonitor_last_event_timestamp.labels(adp.getProviderConfig().getName()).set(adp.getLastEventTimestamp());
+        }
+
+
 
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(TextFormat.CONTENT_TYPE_004);

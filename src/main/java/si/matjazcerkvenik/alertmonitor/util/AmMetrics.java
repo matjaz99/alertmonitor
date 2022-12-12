@@ -22,18 +22,6 @@ import io.prometheus.client.Histogram;
 
 public class AmMetrics {
 
-    // internal counters
-    public static long webhookMessagesReceivedCount = 0;
-    public static long amMessagesReceivedCount = 0;
-    public static long journalReceivedCount = 0;
-    // TODO remove these two, it can be calculated from number of alerts by severity
-    public static long raisingEventCount = 0;
-    public static long clearingEventCount = 0;
-    public static long lastEventTimestamp = 0;
-    public static long lastPsyncTimestamp = 0;
-    public static int psyncSuccessCount = 0;
-    public static int psyncFailedCount = 0;
-
     public static CollectorRegistry registry = CollectorRegistry.defaultRegistry;
 
     public static final Gauge alertmonitor_build_info = Gauge.build()
@@ -42,32 +30,40 @@ public class AmMetrics {
             .labelNames("app", "runtimeId", "version", "os")
             .register();
 
+    public static final Gauge alertmonitor_providers_info = Gauge.build()
+            .name("alertmonitor_providers_info")
+            .help("Configured data providers")
+            .labelNames("provider", "type", "uri")
+            .register();
+
     public static final Counter alertmonitor_webhook_messages_received_total = Counter.build()
             .name("alertmonitor_webhook_messages_received_total")
             .help("Total number of received webhook messages.")
-            .labelNames("remotehost", "method")
+            .labelNames("provider", "remotehost", "method")
             .register();
 
     public static final Counter alertmonitor_journal_messages_total = Counter.build()
             .name("alertmonitor_journal_messages_total")
             .help("Total number of messages in journal.")
-            .labelNames("severity")
+            .labelNames("provider", "severity")
             .register();
 
     public static final Gauge alertmonitor_active_alerts_count = Gauge.build()
             .name("alertmonitor_active_alerts_count")
             .help("Currently active alerts by severity and alertname")
-            .labelNames("alertname", "severity")
+            .labelNames("provider", "alertname", "severity")
             .register();
 
     public static final Gauge alertmonitor_alerts_balance_factor = Gauge.build()
             .name("alertmonitor_alerts_balance_factor")
             .help("Balance factor of active alerts")
+            .labelNames("provider")
             .register();
 
     public static final Gauge alertmonitor_last_event_timestamp = Gauge.build()
             .name("alertmonitor_last_event_timestamp")
             .help("Timestamp of last event")
+            .labelNames("provider")
             .register();
 
     public static final Histogram alertmonitor_prom_api_duration_seconds = Histogram.build()
@@ -77,14 +73,17 @@ public class AmMetrics {
             .help("Prometheus HTTP API response time")
             .register();
 
-    public static final Gauge alertmonitor_psync_success = Gauge.build()
-            .name("alertmonitor_psync_success")
-            .help("Periodic synchronization success flag.")
+    /** Return 0 or 1 weather synchronization was successful (1) or failed (0) */
+    public static final Gauge alertmonitor_sync_success = Gauge.build()
+            .name("alertmonitor_sync_success")
+            .help("Synchronization success flag.")
+            .labelNames("provider")
             .register();
 
-    public static final Gauge alertmonitor_psync_interval_seconds = Gauge.build()
-            .name("alertmonitor_psync_interval_seconds")
-            .help("Periodic synchronization interval.")
+    public static final Gauge alertmonitor_sync_interval_seconds = Gauge.build()
+            .name("alertmonitor_sync_interval_seconds")
+            .help("Synchronization interval.")
+            .labelNames("provider")
             .register();
 
     public static final Counter alertmonitor_db_inserts_total = Counter.build()

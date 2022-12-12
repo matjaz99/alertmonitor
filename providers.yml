@@ -3,13 +3,13 @@ globals:
   dateFormat: "yyyy/MM/dd H:mm:ss"
 providers:
   - name: prom1
-    source: prometheus
+    type: prometheus
     uri: /alertmonitor/webhook/prom1
     params:
       server: http://prom-1:9090
       sync: 60s
   - name: prom2
-    source: prometheus
+    type: prometheus
     uri: /alertmonitor/webhook/prom2
     params:
       server: http://prom-2:9090
@@ -20,7 +20,7 @@ providers:
     sync:
       interval: 60s
   - name: cluster-1
-    source: eventlogger
+    type: eventlogger
     uri: /alertmonitor/webhook/eventlogger
     params:
       server: http://prom-1:9090

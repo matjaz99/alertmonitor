@@ -121,6 +121,18 @@ receivers:
     send_resolved: true
 ```
 
+## Data Providers
+
+Since version 3, Alertmonitor supports Data Providers. Data providers are sources that will send data to 
+Alertmonitor. It is possible to define more Prometheus servers or some other sources.
+
+Data Providers are configured in `providers.yml` configuration file.
+
+Each Data Provider has assigned one URI endpoint. All requests received on that endpoint will be processed 
+by corresponding Data Provider.
+
+> It is not recommended to configure two or more providers to send events to the same URI endpoint!
+
 
 ## Alertmonitor GUI
 
@@ -209,21 +221,24 @@ Alertmonitor can be configured with environment variables. Variables starting wi
 to behaviour of the application, while other variables may be used for other purposes 
 (such as logger configuration or custom environment variable substitution).
 
+> With environment variables, only `.default` data provider (Prometheus) can be configured. Other providers 
+are configured in `providers.yml`.
+
 A list of supported environment variables:
 
-| EnvVar                                    | Description                                                                          |
-|-------------------------------------------|--------------------------------------------------------------------------------------|
-| ALERTMONITOR_DATA_RETENTION_DAYS          | History data in days.  Default: 7                                                    |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC           | Periodic synchronisation interval in seconds.  Default: 900                          |
-| ALERTMONITOR_PROMETHEUS_SERVER            | The URL of Prometheus server.  Default: http://localhost:9090                        |
-| ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE  | Pool size of http clients for communication with Prometheus API. Default: 1          |
-| ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC | Timeout of http client requests. Default: 120                                        |
-| ALERTMONITOR_DATE_FORMAT                  | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss                      |
-| ALERTMONITOR_KAFKA_ENABLED                | Enable or disable publishing to Kafka. This is experimental feature!  Default: false |
-| ALERTMONITOR_KAFKA_SERVER                 | Hostname and port for Kafka.  Default: hostname:9092                                 |
-| ALERTMONITOR_KAFKA_TOPIC                  | Name of topic.  Default: alertmonitor_notifications                                  |
-| ALERTMONITOR_MONGODB_ENABLED              | Enable or disable storing data to MongoDB.  Default: false                           | 
-| ALERTMONITOR_MONGODB_CONNECTION_STRING    | The connection string for MongoDB (username, password and host).                     |
+| EnvVar                                    | Description                                                                                            |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| ALERTMONITOR_DATA_RETENTION_DAYS          | History data in days.  Default: 7                                                                      |
+| ALERTMONITOR_PSYNC_INTERVAL_SEC           | Periodic synchronisation interval in seconds.  Default: 900                                            |
+| ALERTMONITOR_PROMETHEUS_SERVER            | The URL of Prometheus server.  Default: http://localhost:9090                                          |
+| ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE  | Pool size of http clients for communication with Prometheus API.  Default: 1                           |
+| ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC | Timeout of http client requests.  Default: 120                                                         |
+| ALERTMONITOR_DATE_FORMAT                  | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss                                        |
+| ALERTMONITOR_KAFKA_ENABLED                | Enable or disable publishing to Kafka. This is experimental feature!  Default: false                   |
+| ALERTMONITOR_KAFKA_SERVER                 | Hostname and port for Kafka.  Default: hostname:9092                                                   |
+| ALERTMONITOR_KAFKA_TOPIC                  | Name of topic.  Default: alertmonitor_notifications                                                    |
+| ALERTMONITOR_MONGODB_ENABLED              | Enable or disable storing data to MongoDB. If disabled, data is stored in memory only.  Default: false | 
+| ALERTMONITOR_MONGODB_CONNECTION_STRING    | The connection string for MongoDB (username, password and host).                                       |
 
 ### Environment variable substitution
 
@@ -238,7 +253,7 @@ Environment variables can be set on system level or directly on docker container
 
 Template syntax in labels to be replaced: `${GRAFANA_HOSTNAME}`.
 
-Alertmonitor will replace all occurrences of templates with corresponding environment variables.
+Alertmonitor will automatically replace all occurrences of templates with corresponding environment variables.
 
 Example when comes this handy: you may link an alert with Grafana dashboard by using `url` label: `http://${GRAFANA_HOSTNAME}/dashboard`. 
 Alertmonitor will search environment variables for suitable substitution and if it finds one, it will produce label: 

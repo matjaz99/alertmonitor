@@ -9,7 +9,7 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:outputLabel value="Status" style="font-weight: bold; font-size: 24px;"/>
+			<p:outputLabel value="Status of provider #{uiConfigBean.selectedDataProvider}" style="font-weight: bold; font-size: 24px;"/>
 			<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{uiConfigBean.warnings != null}">
 				<am:warnings />
 			</p:panelGrid>
@@ -35,12 +35,12 @@
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 					<h3>Counters</h3>
-					<p:outputLabel value="WH msg count: #{uiConfigBean.whMsgCount}" />
-					<p:outputLabel value="AM msg count: #{uiConfigBean.amMsgCount}" />
+					<p:outputLabel value="URI msg count: #{uiConfigBean.whMsgCount}" />
 					<p:outputLabel value="Journal count: #{uiConfigBean.journalCount}" />
 					<p:outputLabel value="Journal size: #{uiConfigBean.journalSize}" />
 					<p:outputLabel value="Firing count: #{uiConfigBean.alarmsCount}" />
 					<p:outputLabel value="Resolved count: #{uiConfigBean.clearsCount}" />
+					<p:outputLabel value="-" />
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
@@ -54,11 +54,11 @@
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
-					<h3>PSync</h3>
-					<p:outputLabel value="PSync interval: #{uiConfigBean.psyncInterval} sec" />
-					<p:outputLabel value="PSync last time: #{uiConfigBean.lastPsyncTime}" />
-					<p:outputLabel value="PSync success: #{uiConfigBean.psyncSuccessCount}" />
-					<p:outputLabel value="PSync fail: #{uiConfigBean.psyncFailedCount}" />
+					<h3>Sync</h3>
+					<p:outputLabel value="Sync interval: #{uiConfigBean.syncInterval} sec" />
+					<p:outputLabel value="Sync last time: #{uiConfigBean.lastSyncTime}" />
+					<p:outputLabel value="Sync success: #{uiConfigBean.syncSuccessCount}" />
+					<p:outputLabel value="Sync fail: #{uiConfigBean.syncFailedCount}" />
 					<p:outputLabel value="-" />
 					<p:outputLabel value="-" />
 				</p:panelGrid>

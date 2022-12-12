@@ -1,6 +1,11 @@
+## 2.4.3-SNAPSHOT
+
+* [CHANGE] Wording *psync* is everywhere replaced with *sync*
+* [CHANGE] Metrics now contain additional `provider` label
+
 ## 2.4.2-SNAPSHOT
 
-* [FEATURE] Data providers
+* [FEATURE] Introducing Data Providers
 
 ## 2.4.1-SNAPSHOT
 

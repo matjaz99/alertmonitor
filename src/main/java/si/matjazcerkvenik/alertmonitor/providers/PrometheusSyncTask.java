@@ -45,7 +45,7 @@ public class PrometheusSyncTask extends TimerTask {
     public void run() {
 
         logger.info("SYNC: === starting periodic synchronization ===");
-        AmMetrics.lastPsyncTimestamp = System.currentTimeMillis();
+        dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
         PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
 
@@ -56,13 +56,13 @@ public class PrometheusSyncTask extends TimerTask {
             if (activeAlerts == null) {
                 logger.error("SYNC: null response returned");
                 logger.info("SYNC: === Periodic synchronization complete ===");
-                AmMetrics.psyncFailedCount++;
+                dataProvider.syncFailedCount++;
                 DAO.getInstance().addWarning("sync", "Synchronization is failing");
                 return;
             }
 
             // all alerts retrieved by sync
-            List<DEvent> pSyncAlerts = new ArrayList<>();
+            List<DEvent> syncAlerts = new ArrayList<>();
 
             for (PAlert alert : activeAlerts) {
                 logger.debug(alert.toString());
@@ -130,20 +130,20 @@ public class PrometheusSyncTask extends TimerTask {
                 e.generateCID();
 
                 logger.debug("SYNC: " + e.toString());
-                pSyncAlerts.add(e);
+                syncAlerts.add(e);
 
             } // for each alert
 
-            dataProvider.synchronizeAlerts(pSyncAlerts, true);
+            dataProvider.synchronizeAlerts(syncAlerts, true);
 
-            AmMetrics.psyncSuccessCount++;
-            AmMetrics.alertmonitor_psync_success.set(1);
+            dataProvider.syncSuccessCount++;
+            AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(1);
             DAO.getInstance().removeWarning("sync");
 
         } catch (Exception e) {
             logger.error("SYNC: failed to synchronize alarms; root cause: " + e.getMessage());
-            AmMetrics.psyncFailedCount++;
-            AmMetrics.alertmonitor_psync_success.set(0);
+            dataProvider.syncFailedCount++;
+            AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
             DAO.getInstance().addWarning("sync", "Synchronization is failing");
         } finally {
             PrometheusApiClientPool.getInstance().returnClient(api);
