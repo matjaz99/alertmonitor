@@ -17,7 +17,7 @@ package si.matjazcerkvenik.alertmonitor.web;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.uibeans.UiConfigBean;
@@ -38,7 +38,7 @@ public class UiInstanceBean {
     @ManagedProperty(value="#{uiConfigBean}")
     private UiConfigBean uiConfigBean;
 
-    private Target target;
+    private DTarget target;
 
     @PostConstruct
     public void init() {
@@ -57,7 +57,7 @@ public class UiInstanceBean {
         this.uiConfigBean = uiConfigBean;
     }
 
-    public Target getTarget() {
+    public DTarget getTarget() {
         return target;
     }
 

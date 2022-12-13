@@ -17,7 +17,7 @@ package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
@@ -38,7 +38,6 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     public void processIncomingEvent(WebhookMessage m) {
 
         DAO.getInstance().getDataManager().addWebhookMessage(m);
-        // TODO fix metrics - for each provider
         webhookMessagesReceivedCount++;
         AmMetrics.alertmonitor_webhook_messages_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
 
@@ -48,8 +47,8 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             synchronizeAlerts(eventList, false);
             lastEventTimestamp = System.currentTimeMillis();
         } catch (Exception e) {
-            LogFactory.getLogger().error("DataProvider: processIncomingEvent(): unable to process incoming message: \n" + m.toString());
-            LogFactory.getLogger().error("DataProvider: processIncomingEvent(): error: " + e.getMessage());
+            LogFactory.getLogger().error("PrometheusDataProvider: processIncomingEvent(): unable to process incoming message: \n" + m.toString());
+            LogFactory.getLogger().error("PrometheusDataProvider: processIncomingEvent(): error: " + e.getMessage());
         }
 
     }
@@ -72,7 +71,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 }
             }
         } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error("DAO: failed to load rules; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("PrometheusDataProvider: failed to load rules; root cause: " + e.getMessage());
         } finally {
             PrometheusApiClientPool.getInstance().returnClient(api);
         }
@@ -85,12 +84,12 @@ public class PrometheusDataProvider extends AbstractDataProvider {
      * @return list
      */
     @Override
-    public List<Target> getTargets() {
+    public List<DTarget> getTargets() {
         PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
-            Map<String, Target> targetsMap = new HashMap<String, Target>();
+            Map<String, DTarget> targetsMap = new HashMap<String, DTarget>();
             PQueryMessage query = api.query("probe_success == 0");
             Map<String, String> probe_success_map = new HashMap<String, String>();
             for (PQueryResult r : query.getData().getResult()){
@@ -100,7 +99,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             // convert from PTarget to Target
             for (PTarget pTarget : pTargets) {
                 String instance = pTarget.getLabels().get("instance");
-                Target t = targetsMap.getOrDefault(instance, new Target());
+                DTarget t = targetsMap.getOrDefault(instance, new DTarget());
                 t.setSmartTarget(false);
                 t.setHealth(pTarget.getHealth()); // original health from querying targets
                 if (probe_success_map.containsKey(instance)) t.setHealth(probe_success_map.get(instance)); // overwrite with the metric probe_success
@@ -117,7 +116,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             return new ArrayList<>(targetsMap.values());
 
         } catch (Exception e) {
-            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
             PrometheusApiClientPool.getInstance().returnClient(api);
         }
@@ -127,14 +126,13 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
     // the only difference is stripped hostname
     @Override
-    public List<Target> getSmartTargets() {
+    public List<DTarget> getSmartTargets() {
         PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
-            Map<String, Target> targetsMap = new HashMap<String, Target>();
+            Map<String, DTarget> targetsMap = new HashMap<String, DTarget>();
             PQueryMessage query = api.query("probe_success == 0");
-            Map<String, String> probe_success_map = new HashMap<String, String>();
             for (PQueryResult r : query.getData().getResult()){
                 String instance = r.getMetric().get("instance");
                 for (PTarget pT: pTargets) {
@@ -146,7 +144,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             // convert from PTarget to Target
             for (PTarget pTarget : pTargets) {
                 String host = Formatter.stripInstance(pTarget.getLabels().get("instance"));
-                Target t = targetsMap.getOrDefault(host, new Target());
+                DTarget t = targetsMap.getOrDefault(host, new DTarget());
                 t.setSmartTarget(true);
                 boolean up = false;
                 if (pTarget.getHealth().equalsIgnoreCase("up")) up = true;
@@ -163,7 +161,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
             return new ArrayList<>(targetsMap.values());
 
         } catch (PrometheusApiException e) {
-            LogFactory.getLogger().error("DAO: failed getting targets; root cause: " + e.getMessage());
+            LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
             PrometheusApiClientPool.getInstance().returnClient(api);
         }
@@ -172,13 +170,13 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     }
 
     @Override
-    public Target getSingleTarget(String id) {
-        List<Target> t1 = getTargets();
-        for (Target t : t1) {
+    public DTarget getSingleTarget(String id) {
+        List<DTarget> t1 = getTargets();
+        for (DTarget t : t1) {
             if (t.getId().equals(id)) return t;
         }
-        List<Target> t2 = getSmartTargets();
-        for (Target t : t2) {
+        List<DTarget> t2 = getSmartTargets();
+        for (DTarget t : t2) {
             if (t.getId().equals(id)) return t;
         }
         return null;

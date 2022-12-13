@@ -37,7 +37,7 @@ public class DAO {
     /** A map of dataproviders. Key is URI. */
     private Map<String, AbstractDataProvider> dataProviders = new HashMap<>();
 
-    /** Map of warnings in the alertmonitor. It's a map, because it is easier to search and remove */
+    /** Map of warnings in the alertmonitor. */
     private Map<String, String> warnings = new HashMap<>();
 
 
@@ -62,10 +62,7 @@ public class DAO {
         }
         // create default provider if not configured
         if (!dataProviders.containsKey("/alertmonitor/webhook")) {
-            ProviderConfig defaultPC = new ProviderConfig();
-            defaultPC.setName(".default");
-            defaultPC.setType("prometheus");
-            defaultPC.setUri("/alertmonitor/webhook");
+            ProviderConfig defaultPC = AmProps.generateProviderConfigFromEnvs();
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);
             defaultDP.init();
@@ -85,7 +82,7 @@ public class DAO {
             dataManager = new MemoryDataManager();
         }
 
-        TaskManager.getInstance().startDbMaintenanceTimer();
+        TaskManager.getInstance().startDbMaintenanceTask();
     }
 
     public static DAO getInstance() {
@@ -100,14 +97,14 @@ public class DAO {
     }
 
     public void resetDataManager() {
-        TaskManager.getInstance().stopDbMaintenanceTimer();
+        TaskManager.getInstance().stopDbMaintenanceTask();
         dataManager.close();
         if (AmProps.ALERTMONITOR_MONGODB_ENABLED) {
             dataManager = new MongoDbDataManager();
         } else {
             dataManager = new MemoryDataManager();
         }
-        TaskManager.getInstance().startDbMaintenanceTimer();
+        TaskManager.getInstance().startDbMaintenanceTask();
     }
 
     public AbstractDataProvider getDataProvider(String key) {

@@ -83,7 +83,7 @@ public class OnStartListener implements ServletContextListener {
         // load configuration from env vars
         AmProps.loadProps();
 
-        // read all environment variables
+        // read and print all environment variables
         LogFactory.getLogger().info("***** Environment variables *****");
         Map<String, String> map = System.getenv();
         for (Map.Entry <String, String> entry: map.entrySet()) {
@@ -100,10 +100,10 @@ public class OnStartListener implements ServletContextListener {
                 + (instance.totalMemory() - instance.freeMemory()) / mb); // used memory
         LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
 
-        // first load yaml config file
+        // load yaml config file
         AmProps.yamlConfig = ConfigReader.loadYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
 
-        // init DAO
+        // initialize DAO
         DAO.getInstance();
 
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);

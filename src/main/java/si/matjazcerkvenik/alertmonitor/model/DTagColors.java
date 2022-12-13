@@ -17,7 +17,7 @@ package si.matjazcerkvenik.alertmonitor.model;
 
 import java.util.Random;
 
-public class TagColors {
+public class DTagColors {
 
     private static String[] colors = {"IndianRed", "Salmon", "LightSalmon", "Pink",
             "HotPink", "PaleVioletRed", "Coral", "Tomato", "Gold", "Khaki", "DarkKhaki",

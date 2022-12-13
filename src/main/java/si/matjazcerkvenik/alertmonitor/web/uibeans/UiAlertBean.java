@@ -18,10 +18,8 @@ package si.matjazcerkvenik.alertmonitor.web.uibeans;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
-import si.matjazcerkvenik.alertmonitor.model.TagColors;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.DTagColors;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
-import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.Growl;
@@ -68,7 +66,7 @@ public class UiAlertBean {
     }
 
     public DTag getTagObject(String severity) {
-        return new DTag(severity, TagColors.getColor(severity));
+        return new DTag(severity, DTagColors.getColor(severity));
     }
 
     public String getAge() {

@@ -19,7 +19,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import si.matjazcerkvenik.alertmonitor.data.DbMaintenanceTask;
-import si.matjazcerkvenik.alertmonitor.providers.PrometheusSyncTask;
 
 import java.util.Timer;
 
@@ -38,7 +37,7 @@ public class TaskManager {
     }
 
 
-    public void startDbMaintenanceTimer() {
+    public void startDbMaintenanceTask() {
 
         if (dbMaintenanceTask == null) {
             LogFactory.getLogger().info("Start DB Maintenance Task");
@@ -49,7 +48,7 @@ public class TaskManager {
 
     }
 
-    public void stopDbMaintenanceTimer() {
+    public void stopDbMaintenanceTask() {
         if (dbMaintenanceTimer != null) {
             dbMaintenanceTimer.cancel();
             dbMaintenanceTimer = null;

@@ -18,31 +18,31 @@ package si.matjazcerkvenik.alertmonitor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Job {
+public class DJob {
 
-    private String jobName;
-    private List<Target> targetList = new ArrayList<>();
+    private String name;
+    private List<DTarget> targetList = new ArrayList<>();
 
-    public String getJobName() {
-        return jobName;
+    public String getName() {
+        return name;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Target> getTargetList() {
+    public List<DTarget> getTargetList() {
         return targetList;
     }
 
-    public void setTargetList(List<Target> targetList) {
+    public void setTargetList(List<DTarget> targetList) {
         this.targetList = targetList;
     }
 
     @Override
     public String toString() {
-        return "Job{" +
-                "jobName='" + jobName + '\'' +
+        return "DJob{" +
+                "name='" + name + '\'' +
                 ", targetList=" + targetList +
                 '}';
     }

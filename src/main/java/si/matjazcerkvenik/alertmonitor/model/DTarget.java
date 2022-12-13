@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Target {
+public class DTarget {
 
     private String id;
     private String hostname;

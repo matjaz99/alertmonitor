@@ -199,7 +199,7 @@ public abstract class AbstractDataProvider {
         for (int i = 0; i < array.length; i++) {
             String tagName = array[i].trim();
             if (tagName.length() > 0) {
-                DTag t = new DTag(tagName, TagColors.getColor(tagName));
+                DTag t = new DTag(tagName, DTagColors.getColor(tagName));
                 tagMap.putIfAbsent(t.getName(), t);
             }
         }
@@ -324,18 +324,18 @@ public abstract class AbstractDataProvider {
         return new ArrayList<>(tagMap.values());
     }
 
-    public abstract List<Target> getTargets();
+    public abstract List<DTarget> getTargets();
 
-    public abstract List<Target> getSmartTargets();
+    public abstract List<DTarget> getSmartTargets();
 
-    public abstract Target getSingleTarget(String id);
+    public abstract DTarget getSingleTarget(String id);
 
     /**
      * Get instances with active alerts.
      * @return list of instances
      */
     public List<String> getActiveTargets() {
-        Map<String, Target> map = new HashMap<>();
+        Map<String, DTarget> map = new HashMap<>();
         for (DEvent e : activeAlerts.values()) {
             map.put(e.getInstance(), null);
         }

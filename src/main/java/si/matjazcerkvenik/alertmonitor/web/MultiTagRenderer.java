@@ -41,6 +41,10 @@ public class MultiTagRenderer extends Renderer {
 		//Tags tags = (Tags) component.getAttributes().get("value");
 		// TODO how to get selected provider down here?
 		String dataProviderKey = (String) component.getAttributes().getOrDefault("provider", "/alertmonitor/webhook");
+		for (Object o:
+			 component.getAttributes().values()) {
+			System.out.println("component attribute: " + o.toString());
+		}
 		System.out.println("RENDERER: dataProviderKey=" + dataProviderKey);
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(dataProviderKey);
 

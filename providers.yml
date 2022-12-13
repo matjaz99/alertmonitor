@@ -1,13 +1,14 @@
 version: v1
-globals:
-  dateFormat: "yyyy/MM/dd H:mm:ss"
+
 providers:
   - name: prom1
     type: prometheus
     uri: /alertmonitor/webhook/prom1
     params:
       server: http://prom-1:9090
-      sync: 60s
+      clientPoolSize: 1
+      clientReadTimeout: 120s
+      syncInterval: 60
   - name: prom2
     type: prometheus
     uri: /alertmonitor/webhook/prom2

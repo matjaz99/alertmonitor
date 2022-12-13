@@ -254,13 +254,13 @@ public class UiBean {
 		this.smartTargetsEnabled = smartTargetsEnabled;
 	}
 
-	public List<Target> getTargets() {
+	public List<DTarget> getTargets() {
 
 		result = null;
 
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
 
-		List<Target> tList;
+		List<DTarget> tList;
 		if (smartTargetsEnabled) {
 			tList = adp.getSmartTargets();
 		} else {
@@ -282,7 +282,7 @@ public class UiBean {
 	 * @param target
 	 * @return true if matches
 	 */
-	private boolean filterTarget(Target target) {
+	private boolean filterTarget(DTarget target) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {
 			if (!target.getHostname().toLowerCase().contains(searchString.toLowerCase())) return false;
@@ -290,7 +290,7 @@ public class UiBean {
 		return true;
 	}
 
-	public String getTargetHighestPriorityBullet(Target target) {
+	public String getTargetHighestPriorityBullet(DTarget target) {
 		int critical = 0;
 		int major = 0;
 		int minor = 0;
@@ -331,26 +331,26 @@ public class UiBean {
 	 * Call targets API and sort by jobs.
 	 * @return list of jobs
 	 */
-	public List<Job> getJobs() {
+	public List<DJob> getJobs() {
 
 		result = null;
 
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
 
-		List<Target> tList = adp.getTargets();
+		List<DTarget> tList = adp.getTargets();
 
 		if (tList == null) {
 			result = "failed to retrieve jobs";
 			return new ArrayList<>();
 		}
 
-		Map<String, Job> jMap = new HashMap<>();
+		Map<String, DJob> jMap = new HashMap<>();
 
-		for (Target t : tList) {
-			Job job = jMap.getOrDefault(t.getJob(), new Job());
-			job.setJobName(t.getJob());
+		for (DTarget t : tList) {
+			DJob job = jMap.getOrDefault(t.getJob(), new DJob());
+			job.setName(t.getJob());
 			job.getTargetList().add(t);
-			jMap.put(job.getJobName(), job);
+			jMap.put(job.getName(), job);
 		}
 
 		return new ArrayList<>(jMap.values());

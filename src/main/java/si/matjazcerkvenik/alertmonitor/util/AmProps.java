@@ -15,8 +15,12 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
+import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.model.config.YamlConfig;
 import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AmProps {
 
@@ -30,6 +34,8 @@ public class AmProps {
     public static boolean DEV_ENV = false;
 
     public static YamlConfig yamlConfig;
+
+    public static final String ALERTMONITOR_DEFAULT_WEBHOOK_URI = "/alertmonitor/webhook";
 
     /** Environment variables */
     public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/providers.yml";
@@ -76,6 +82,23 @@ public class AmProps {
             ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
         }
 
+    }
+
+    public static ProviderConfig generateProviderConfigFromEnvs() {
+        ProviderConfig config = new ProviderConfig();
+        config.setName(".default");
+        config.setType("prometheus");
+        config.setUri(ALERTMONITOR_DEFAULT_WEBHOOK_URI);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("server", ALERTMONITOR_PROMETHEUS_SERVER);
+        params.put("clientPoolSize", ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE);
+        params.put("clientReadTimeout", ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
+        params.put("syncInterval", ALERTMONITOR_PSYNC_INTERVAL_SEC);
+
+        config.setParams(params);
+
+        return config;
     }
 
 }

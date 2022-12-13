@@ -16,7 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
-import si.matjazcerkvenik.alertmonitor.model.Target;
+import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.List;
@@ -35,19 +35,19 @@ public class EventloggerDataProvider extends AbstractDataProvider {
     }
 
     @Override
-    public List<Target> getTargets() {
+    public List<DTarget> getTargets() {
         // TODO
         return null;
     }
 
     @Override
-    public List<Target> getSmartTargets() {
+    public List<DTarget> getSmartTargets() {
         // TODO
         return null;
     }
 
     @Override
-    public Target getSingleTarget(String id) {
+    public DTarget getSingleTarget(String id) {
         // TODO
         return null;
     }
