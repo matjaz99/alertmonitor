@@ -17,8 +17,6 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
-import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -101,7 +99,8 @@ public class OnStartListener implements ServletContextListener {
         LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
 
         // load yaml config file
-        AmProps.yamlConfig = ConfigReader.loadYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
+        AmProps.yamlConfig = ConfigReader.loadProvidersYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
+        System.out.println(AmProps.yamlConfig.toString());
 
         // initialize DAO
         DAO.getInstance();

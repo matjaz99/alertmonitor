@@ -35,19 +35,21 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class UiConfigBean {
 
-    private String selectedDataProvider;
+    private String selectedDataProvider = AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI;
+
     private List<String> allDataProviders;
 
     public String getSelectedDataProvider() {
-        if (selectedDataProvider == null) {
-            selectedDataProvider = "/alertmonitor/webhook";
-        }
         return selectedDataProvider;
     }
 
     public void setSelectedDataProvider(String selectedDataProvider) {
         this.selectedDataProvider = selectedDataProvider;
         LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
+    }
+
+    public String getSelectedDataProviderName() {
+        return DAO.getInstance().getDataProvider(selectedDataProvider).getProviderConfig().getName();
     }
 
     public List<String> getAllDataProviders() {

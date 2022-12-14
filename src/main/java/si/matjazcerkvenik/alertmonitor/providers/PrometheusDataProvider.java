@@ -34,6 +34,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     public static final String DP_PARAM_KEY_SERVER = "server";
     public static final String DP_PARAM_KEY_SYNC_INTERVAL_SEC = "syncInterval";
     public static final String DP_PARAM_KEY_CLIENT_POOL_SIZE = "clientPoolSize";
+    public static final String DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC = "clientConnectTimeout";
     public static final String DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC = "clientReadTimeout";
 
     public PrometheusDataProvider() {
@@ -44,7 +45,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         DAO.getInstance().getDataManager().addWebhookMessage(m);
         webhookMessagesReceivedCount++;
-        AmMetrics.alertmonitor_webhook_messages_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
+        AmMetrics.alertmonitor_webhook_requests_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
 
         try {
             AmAlertMessage amAlertMessage = AlertmanagerProcessor.processWebhookMessage(m);

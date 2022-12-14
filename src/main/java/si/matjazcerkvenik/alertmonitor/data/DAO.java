@@ -15,6 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.data;
 
+import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.EventloggerDataProvider;

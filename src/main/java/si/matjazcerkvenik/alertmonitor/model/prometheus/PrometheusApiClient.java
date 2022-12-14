@@ -49,7 +49,6 @@ public class PrometheusApiClient {
     private static long requestCount;
 
     private String server;
-
     private boolean secureClient = false;
     private int connectTimeout = 10;
     private int readTimeout = 120;
@@ -77,7 +76,7 @@ public class PrometheusApiClient {
      */
     public PQueryMessage query(String query) throws PrometheusApiException {
 
-        logger.info("PrometheusApi: query: " + query);
+        logger.info("PrometheusApi[" + name + "]: query: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -106,7 +105,7 @@ public class PrometheusApiClient {
      */
     public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
 
-        logger.info("PrometheusApi: queryRange: " + query);
+        logger.info("PrometheusApi[" + name + "]: queryRange: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -259,15 +258,15 @@ public class PrometheusApiClient {
             // TODO new env var connect timeout
             OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout);
 
-            logger.info("PrometheusApi: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
+            logger.info("PrometheusApi[" + name + "]: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();
-            logger.info("PrometheusApi: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("PrometheusApi[" + name + "]: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
 
             code = Integer.toString(response.code());
 
             if (response.body() != null) {
                 responseBody = response.body().string();
-                logger.debug("PrometheusApi: request[" + requestCount + "] body: " + responseBody);
+                logger.debug("PrometheusApi[" + name + "]: request[" + requestCount + "] body: " + responseBody);
             }
 
             response.close();
@@ -275,27 +274,27 @@ public class PrometheusApiClient {
             DAO.getInstance().removeWarning("prom_api");
 
         } catch (UnknownHostException e) {
-            logger.error("PrometheusApi: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
+            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
             DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Host");
         } catch (SocketTimeoutException e) {
-            logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
+            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
             DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Timeout");
         } catch (SocketException e) {
-            logger.error("PrometheusApi: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
+            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
             DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Socket Error");
         } catch (SSLException e) {
-            logger.error("PrometheusApi: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
+            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
             DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("SSL Exception");
         } catch (Exception e) {
-            logger.error("PrometheusApi: request[" + requestCount + "] failed: Exception: ", e);
+            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
             DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Exception");

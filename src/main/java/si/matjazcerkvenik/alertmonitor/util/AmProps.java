@@ -31,19 +31,17 @@ public class AmProps {
     public static String githubVersion = "n/a";
     public static boolean IS_CONTAINERIZED = false;
     public static String LOCAL_IP_ADDRESS;
-
     public static boolean DEV_ENV = false;
-
     public static YamlConfig yamlConfig;
-
     public static final String ALERTMONITOR_DEFAULT_WEBHOOK_URI = "/alertmonitor/webhook";
 
     /** Environment variables */
-    public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/providers.yml";
+    public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/alertmonitor/providers.yml";
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
     public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
     public static int ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE = 1;
+    public static int ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC = 10;
     public static int ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = 120;
     public static String ALERTMONITOR_DATE_FORMAT = "yyyy/MM/dd H:mm:ss";
     public static boolean ALERTMONITOR_KAFKA_ENABLED = false;
@@ -64,6 +62,7 @@ public class AmProps {
         if (ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) ALERTMONITOR_PROMETHEUS_SERVER = ALERTMONITOR_PROMETHEUS_SERVER.substring(0, ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
         if (!ALERTMONITOR_PROMETHEUS_SERVER.startsWith("http")) ALERTMONITOR_PROMETHEUS_SERVER = "http://" + ALERTMONITOR_PROMETHEUS_SERVER;
         ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE", "1").trim());
+        ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC", "10").trim());
         ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC", "120").trim());
         ALERTMONITOR_DATE_FORMAT = System.getenv().getOrDefault("ALERTMONITOR_DATE_FORMAT", "yyyy/MM/dd H:mm:ss").trim();
         ALERTMONITOR_KAFKA_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_KAFKA_ENABLED", "false").trim());
@@ -94,6 +93,7 @@ public class AmProps {
         Map<String, Object> params = new HashMap<>();
         params.put(PrometheusDataProvider.DP_PARAM_KEY_SERVER, ALERTMONITOR_PROMETHEUS_SERVER);
         params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE, ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC, ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC);
         params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
         params.put(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, ALERTMONITOR_PSYNC_INTERVAL_SEC);
 

@@ -36,15 +36,15 @@ public class AmMetrics {
             .labelNames("provider", "type", "uri")
             .register();
 
-    public static final Counter alertmonitor_webhook_messages_received_total = Counter.build()
-            .name("alertmonitor_webhook_messages_received_total")
-            .help("Total number of received webhook messages.")
+    public static final Counter alertmonitor_webhook_requests_received_total = Counter.build()
+            .name("alertmonitor_webhook_requests_received_total")
+            .help("Total number of received webhook requests from remotehost.")
             .labelNames("provider", "remotehost", "method")
             .register();
 
-    public static final Counter alertmonitor_journal_messages_total = Counter.build()
-            .name("alertmonitor_journal_messages_total")
-            .help("Total number of messages in journal.")
+    public static final Counter alertmonitor_journal_events_total = Counter.build()
+            .name("alertmonitor_journal_events_total")
+            .help("Total number of events in journal.")
             .labelNames("provider", "severity")
             .register();
 

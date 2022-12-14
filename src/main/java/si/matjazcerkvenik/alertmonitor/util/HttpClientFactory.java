@@ -33,6 +33,8 @@ public class HttpClientFactory {
      */
     public static OkHttpClient instantiateHttpClient(boolean secure, int connectTimeout, int readTimeout) {
 
+        // TODO basic authentication (see cdrpr)
+
         if (!secure) {
 
             LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");

@@ -2,7 +2,10 @@
 
 * [CHANGE] Wording *psync* is everywhere replaced with *sync*
 * [CHANGE] Metrics now contain additional `provider` label
-* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set configuration file path.
+* [CHANGE] Metric `alertmonitor_webhook_messages_received_total` renamed to `alertmonitor_webhook_requests_received_total`
+* [CHANGE] Metric `alertmonitor_journal_messages_total` renamed to `alertmonitor_journal_events_total`
+* [FEATURE] Added environment variables `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set configuration file path 
+and `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection establishment timeout.
 
 ## 2.4.2-SNAPSHOT
 

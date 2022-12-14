@@ -18,7 +18,6 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -45,15 +44,11 @@ public abstract class AbstractDataProvider {
     protected Timer syncTimer = null;
 
     protected long webhookMessagesReceivedCount = 0;
-
     protected long journalReceivedCount = 0;
-
     protected long lastEventTimestamp = 0;
-
     protected long lastSyncTimestamp = 0;
     protected int syncSuccessCount = 0;
     protected int syncFailedCount = 0;
-
     protected long raisingEventCount = 0;
     protected long clearingEventCount = 0;
 
@@ -70,10 +65,11 @@ public abstract class AbstractDataProvider {
      */
     public void init() {
         // TODO error handling!
+        LogFactory.getLogger().info(providerConfig.toString());
         String server = providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
         Boolean secure = server.startsWith("https");
         Integer poolSize = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE));
-        Integer connTimeout = 10; // TODO param, env var
+        Integer connTimeout = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC));
         Integer readTimeout = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
 
         prometheusApiClientPool = new PrometheusApiClientPool(providerConfig.getName(), poolSize, secure, connTimeout, readTimeout, server);
@@ -87,14 +83,14 @@ public abstract class AbstractDataProvider {
     }
 
     /**
-     * Add new notification to journal. Also delete oldest notifications.
+     * Add new notification to journal. Also delete the oldest notifications.
      * @param events notifications
      */
     public void addToJournal(List<DEvent> events) {
         DAO.getInstance().getDataManager().addToJournal(events);
         journalReceivedCount++;
         for (DEvent e : events) {
-            AmMetrics.alertmonitor_journal_messages_total.labels(providerConfig.getName(), e.getSeverity()).inc();
+            AmMetrics.alertmonitor_journal_events_total.labels(providerConfig.getName(), e.getSeverity()).inc();
         }
     }
 
