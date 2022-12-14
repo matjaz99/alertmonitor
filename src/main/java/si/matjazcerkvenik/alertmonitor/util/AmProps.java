@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.util;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.model.config.YamlConfig;
 import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,10 +92,10 @@ public class AmProps {
         config.setUri(ALERTMONITOR_DEFAULT_WEBHOOK_URI);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("server", ALERTMONITOR_PROMETHEUS_SERVER);
-        params.put("clientPoolSize", ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE);
-        params.put("clientReadTimeout", ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
-        params.put("syncInterval", ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_SERVER, ALERTMONITOR_PROMETHEUS_SERVER);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE, ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, ALERTMONITOR_PSYNC_INTERVAL_SEC);
 
         config.setParams(params);
 

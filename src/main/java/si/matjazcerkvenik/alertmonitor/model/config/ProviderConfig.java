@@ -65,6 +65,14 @@ public class ProviderConfig {
         this.params = params;
     }
 
+    public String getParam(String key) {
+        return String.valueOf(params.getOrDefault(key, null));
+    }
+
+    public void setParam(String key, String value) {
+        params.put(key, value);
+    }
+
     @Override
     public String toString() {
         return "ProviderConfig{" +

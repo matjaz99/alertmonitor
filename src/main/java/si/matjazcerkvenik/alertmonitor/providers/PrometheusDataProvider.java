@@ -31,6 +31,11 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
     private PrometheusSyncTask prometheusSyncTask = null;
 
+    public static final String DP_PARAM_KEY_SERVER = "server";
+    public static final String DP_PARAM_KEY_SYNC_INTERVAL_SEC = "syncInterval";
+    public static final String DP_PARAM_KEY_CLIENT_POOL_SIZE = "clientPoolSize";
+    public static final String DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC = "clientReadTimeout";
+
     public PrometheusDataProvider() {
     }
 
@@ -59,7 +64,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         if (event == null) return null;
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        PrometheusApiClient api = prometheusApiClientPool.getClient();
 
         try {
             List<PRule> ruleList;
@@ -73,7 +78,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed to load rules; root cause: " + e.getMessage());
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            prometheusApiClientPool.returnClient(api);
         }
 
         return event;
@@ -85,7 +90,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
      */
     @Override
     public List<DTarget> getTargets() {
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        PrometheusApiClient api = prometheusApiClientPool.getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
@@ -118,7 +123,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         } catch (Exception e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            prometheusApiClientPool.returnClient(api);
         }
 
         return null;
@@ -127,7 +132,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     // the only difference is stripped hostname
     @Override
     public List<DTarget> getSmartTargets() {
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        PrometheusApiClient api = prometheusApiClientPool.getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
@@ -163,7 +168,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         } catch (PrometheusApiException e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            prometheusApiClientPool.returnClient(api);
         }
 
         return null;
@@ -187,19 +192,19 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         stopSyncTimer();
 
-        if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC == 0) {
+        // TODO handle exception
+        Integer i = Integer.parseInt(providerConfig.getParam(DP_PARAM_KEY_SYNC_INTERVAL_SEC));
+        if (i == 0) {
             LogFactory.getLogger().info("Sync is disabled");
         }
 
         // start resync timer
         if (prometheusSyncTask == null) {
-            LogFactory.getLogger().info("Start periodic sync task with period=" + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
-            if (AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC > 0) {
-                syncTimer = new Timer("SyncTimer");
-                prometheusSyncTask = new PrometheusSyncTask(this);
-                syncTimer.schedule(prometheusSyncTask, 5 * 1000, AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC * 1000);
-            }
+            LogFactory.getLogger().info("Start periodic sync task with period=" + i);
+            AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(i);
+            syncTimer = new Timer("SyncTimer");
+            prometheusSyncTask = new PrometheusSyncTask(this);
+            syncTimer.schedule(prometheusSyncTask, 5 * 1000, i * 1000);
         }
 
     }

@@ -47,7 +47,7 @@ public class PrometheusSyncTask extends TimerTask {
         logger.info("SYNC: === starting periodic synchronization ===");
         dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        PrometheusApiClient api = dataProvider.getPrometheusApiClientPool().getClient();
 
         try {
 
@@ -146,7 +146,7 @@ public class PrometheusSyncTask extends TimerTask {
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
             DAO.getInstance().addWarning("sync", "Synchronization is failing");
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            dataProvider.getPrometheusApiClientPool().returnClient(api);
         }
 
         logger.info("SYNC: === Periodic synchronization complete ===");

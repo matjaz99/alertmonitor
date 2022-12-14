@@ -228,6 +228,7 @@ A list of supported environment variables:
 
 | EnvVar                                    | Description                                                                                            |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE    | Filepath to providers configuration file.  Default: /opt/providers.yml                                 |
 | ALERTMONITOR_DATA_RETENTION_DAYS          | History data in days.  Default: 7                                                                      |
 | ALERTMONITOR_PSYNC_INTERVAL_SEC           | Periodic synchronisation interval in seconds.  Default: 900                                            |
 | ALERTMONITOR_PROMETHEUS_SERVER            | The URL of Prometheus server.  Default: http://localhost:9090                                          |

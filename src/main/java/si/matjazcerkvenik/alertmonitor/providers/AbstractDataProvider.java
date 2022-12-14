@@ -18,6 +18,8 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -37,6 +39,8 @@ public abstract class AbstractDataProvider {
 
     /** Map of tags of active alerts. Key is the tag name */
     protected Map<String, DTag> tagMap = new HashMap<>();
+
+    protected PrometheusApiClientPool prometheusApiClientPool;
 
     protected Timer syncTimer = null;
 
@@ -65,6 +69,14 @@ public abstract class AbstractDataProvider {
      * Start provider tasks, eg. start sync timer.
      */
     public void init() {
+        // TODO error handling!
+        String server = providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
+        Boolean secure = server.startsWith("https");
+        Integer poolSize = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE));
+        Integer connTimeout = 10; // TODO param, env var
+        Integer readTimeout = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
+
+        prometheusApiClientPool = new PrometheusApiClientPool(providerConfig.getName(), poolSize, secure, connTimeout, readTimeout, server);
         restartSyncTimer();
     }
 
@@ -379,4 +391,9 @@ public abstract class AbstractDataProvider {
     public long getClearingEventCount() {
         return clearingEventCount;
     }
+
+    public PrometheusApiClientPool getPrometheusApiClientPool() {
+        return prometheusApiClientPool;
+    }
+
 }

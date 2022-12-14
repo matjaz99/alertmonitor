@@ -26,18 +26,20 @@ public class HttpClientFactory {
 
     /**
      * Secure=true will return HTTPS client, while secure=false will return HTTP client.
-     * @param secure
+     * @param secure use secure https connection
+     * @param connectTimeout connect timeout in seconds
+     * @param readTimeout read timeout in seconds
      * @return OkHttpClient
      */
-    public static OkHttpClient instantiateHttpClient(boolean secure) {
+    public static OkHttpClient instantiateHttpClient(boolean secure, int connectTimeout, int readTimeout) {
 
         if (!secure) {
 
             LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC, TimeUnit.SECONDS)
+                    .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                    .readTimeout(readTimeout, TimeUnit.SECONDS)
                     .build();
             return client;
         }
@@ -83,8 +85,8 @@ public class HttpClientFactory {
                     return true;
                 }
             });
-            builder.connectTimeout(10, TimeUnit.SECONDS);
-            builder.readTimeout(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC, TimeUnit.SECONDS);
+            builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+            builder.readTimeout(readTimeout, TimeUnit.SECONDS);
 
             return builder.build();
 

@@ -62,7 +62,7 @@ public class TaskManager {
     public String getVersionFromGithub() {
         try {
 
-            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(true);
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(true, 10, 30);
 
             Request request = new Request.Builder()
                     .url("https://raw.githubusercontent.com/matjaz99/alertmonitor/master/src/main/webapp/WEB-INF/version.txt")

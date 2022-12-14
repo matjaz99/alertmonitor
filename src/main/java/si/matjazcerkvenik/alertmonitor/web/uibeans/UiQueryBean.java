@@ -15,13 +15,16 @@
  */
 package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -31,6 +34,9 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class UiQueryBean {
 
+    @ManagedProperty(value="#{uiConfigBean}")
+    private UiConfigBean uiConfigBean;
+
     private String query = "up";
     private String result;
     private List<PQueryResult> queryResult;
@@ -38,6 +44,14 @@ public class UiQueryBean {
     private Date startDate;
     private Date endDate;
     private String step = "1m";
+
+    public UiConfigBean getUiConfigBean() {
+        return uiConfigBean;
+    }
+
+    public void setUiConfigBean(UiConfigBean uiConfigBean) {
+        this.uiConfigBean = uiConfigBean;
+    }
 
     public String getQuery() {
         return query;
@@ -126,7 +140,8 @@ public class UiQueryBean {
             return;
         }
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             PQueryMessage msg = api.query(query);
 
@@ -153,7 +168,7 @@ public class UiQueryBean {
             LogFactory.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
     }
 
@@ -172,7 +187,8 @@ public class UiQueryBean {
             return;
         }
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             long start = startDate.getTime() / 1000;
             long end = endDate.getTime() / 1000;
@@ -201,7 +217,7 @@ public class UiQueryBean {
             LogFactory.getLogger().error(e.getMessage() + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
     }
 
@@ -282,7 +298,8 @@ public class UiQueryBean {
         queryResult = null;
         result = null;
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
             //eg. time_of_max(alertmonitor_active_alerts_count[3h])
@@ -328,7 +345,7 @@ public class UiQueryBean {
             LogFactory.getLogger().error(e.getMessage(), e);
             result = "failed to get result: " + e.getMessage();
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
     }
 

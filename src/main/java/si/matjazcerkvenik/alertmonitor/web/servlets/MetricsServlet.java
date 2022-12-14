@@ -46,17 +46,15 @@ public class MetricsServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws IOException {
 
-        // TODO fix metrics for each provider
+        AmMetrics.alertmonitor_active_alerts_count.clear();
+
         for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
-            AmMetrics.alertmonitor_active_alerts_count.clear();
-            for (DEvent n : adp.getActiveAlerts().values()) {
-                AmMetrics.alertmonitor_active_alerts_count.labels(adp.getProviderConfig().getName(), n.getAlertname(), n.getSeverity()).inc();
+            for (DEvent e : adp.getActiveAlerts().values()) {
+                AmMetrics.alertmonitor_active_alerts_count.labels(adp.getProviderConfig().getName(), e.getAlertname(), e.getSeverity()).inc();
             }
             AmMetrics.alertmonitor_alerts_balance_factor.labels(adp.getProviderConfig().getName()).set(adp.calculateAlertsBalanceFactor());
             AmMetrics.alertmonitor_last_event_timestamp.labels(adp.getProviderConfig().getName()).set(adp.getLastEventTimestamp());
         }
-
-
 
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(TextFormat.CONTENT_TYPE_004);

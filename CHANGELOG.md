@@ -2,6 +2,7 @@
 
 * [CHANGE] Wording *psync* is everywhere replaced with *sync*
 * [CHANGE] Metrics now contain additional `provider` label
+* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set configuration file path.
 
 ## 2.4.2-SNAPSHOT
 

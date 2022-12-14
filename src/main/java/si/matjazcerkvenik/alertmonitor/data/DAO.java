@@ -61,12 +61,12 @@ public class DAO {
             }
         }
         // create default provider if not configured
-        if (!dataProviders.containsKey("/alertmonitor/webhook")) {
+        if (!dataProviders.containsKey(AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI)) {
             ProviderConfig defaultPC = AmProps.generateProviderConfigFromEnvs();
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);
             defaultDP.init();
-            dataProviders.put("/alertmonitor/webhook", defaultDP);
+            dataProviders.put(AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI, defaultDP);
         }
         // print data providers
         for (AbstractDataProvider adp : dataProviders.values()) {

@@ -41,11 +41,32 @@ public class PrometheusApiClient {
 
     private final SimpleLogger logger = LogFactory.getLogger();
 
+    /** Name of this client - provider name */
+    private String name = ".default";
+
     private final String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
     private static long requestCount;
 
-    public PrometheusApiClient() {
+    private String server;
+
+    private boolean secureClient = false;
+    private int connectTimeout = 10;
+    private int readTimeout = 120;
+
+    public PrometheusApiClient(boolean secure, int connectTimeout, int readTimeout, String server) {
+        this.secureClient = secure;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
+        this.server = server;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -64,7 +85,7 @@ public class PrometheusApiClient {
                 .build();
 
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query")
+                .url(server + "/api/v1/query")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .post(formBody)
@@ -96,7 +117,7 @@ public class PrometheusApiClient {
                 .build();
 
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/query_range")
+                .url(server + "/api/v1/query_range")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .post(formBody)
@@ -132,7 +153,7 @@ public class PrometheusApiClient {
     public List<PAlert> alerts() throws PrometheusApiException {
 
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/alerts")
+                .url(server + "/api/v1/alerts")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
@@ -156,7 +177,7 @@ public class PrometheusApiClient {
     public List<PTarget> targets() throws PrometheusApiException {
 
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/targets")
+                .url(server + "/api/v1/targets")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
@@ -179,7 +200,7 @@ public class PrometheusApiClient {
 
     public void reload() throws PrometheusApiException {
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/-/reload")
+                .url(server + "/-/reload")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .post(RequestBody.create("".getBytes()))
                 .build();
@@ -189,7 +210,7 @@ public class PrometheusApiClient {
 
     public List<PRule> rules() throws PrometheusApiException {
         Request request = new Request.Builder()
-                .url(AmProps.ALERTMONITOR_PROMETHEUS_SERVER + "/api/v1/rules")
+                .url(server + "/api/v1/rules")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
                 .get()
                 .build();
@@ -235,7 +256,8 @@ public class PrometheusApiClient {
 
         try {
 
-            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(AmProps.ALERTMONITOR_PROMETHEUS_SERVER.startsWith("https"));
+            // TODO new env var connect timeout
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout);
 
             logger.info("PrometheusApi: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();
@@ -279,7 +301,7 @@ public class PrometheusApiClient {
             throw new PrometheusApiException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;
-            AmMetrics.alertmonitor_prom_api_duration_seconds.labels(request.method(), code, request.url().toString()).observe(duration);
+            AmMetrics.alertmonitor_prom_api_duration_seconds.labels(name, request.method(), code, request.url().toString()).observe(duration);
         }
 
         return responseBody;

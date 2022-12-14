@@ -19,6 +19,7 @@ import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
@@ -81,12 +82,14 @@ public class UiConfigBean {
     /* CONFIGURATION */
 
     public String getPromServer() {
-        return AmProps.ALERTMONITOR_PROMETHEUS_SERVER;
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
     }
 
     public void setPromServer(String server) {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         if (server.endsWith("/")) server = server.substring(0, server.length()-1);
-        AmProps.ALERTMONITOR_PROMETHEUS_SERVER = server;
+        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER, server);
         LogFactory.getLogger().info("UiConfigBean: prometheus server changed: " + server);
 //		Growl.showInfoGrowl("Configuration updated", "");
     }
@@ -130,12 +133,15 @@ public class UiConfigBean {
     }
 
     public void setHttpReadTimeout(String interval) {
-
-        AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC = Integer.parseInt(interval);
-        LogFactory.getLogger().info("UiConfigBean: http client read timeout changed: " + AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, interval);
+        LogFactory.getLogger().info("UiConfigBean: http client read timeout changed: " + interval);
     }
 
-    public String getHttpReadTimeout() { return Integer.toString(AmProps.ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC); }
+    public String getHttpReadTimeout() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC);
+    }
 
 
     public void setKafkaEnabled(boolean kafkaEnabled) {
@@ -170,14 +176,15 @@ public class UiConfigBean {
 
         LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
 
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
 
         try {
             api.reload();
         } catch (Exception e) {
             LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
 
         return "";
@@ -217,14 +224,18 @@ public class UiConfigBean {
     }
 
     public void setSyncInterval(String interval) {
-
-        AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(interval);
-        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        Integer i = Integer.parseInt(interval);
+        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, String.valueOf(i));
+        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + i);
 //		Growl.showInfoGrowl("Configuration updated", "");
-        DAO.getInstance().getDataProvider(selectedDataProvider).restartSyncTimer();
+        adp.restartSyncTimer();
     }
 
-    public String getSyncInterval() { return Integer.toString(AmProps.ALERTMONITOR_PSYNC_INTERVAL_SEC); }
+    public String getSyncInterval() {
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
+    }
 
     public String getLastSyncTime() {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);

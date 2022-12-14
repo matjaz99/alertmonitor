@@ -20,14 +20,17 @@ import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,6 +40,9 @@ import java.util.List;
 @SessionScoped
 @SuppressWarnings("unused")
 public class UiReportBean {
+
+    @ManagedProperty(value="#{uiConfigBean}")
+    private UiConfigBean uiConfigBean;
 
     private final String QUERY_PROM_UP_TIME = "round(time()-process_start_time_seconds{job=\"prometheus\"})";
     private final String QUERY_COUNT_TARGETS_ALL = "count(up)";
@@ -48,6 +54,13 @@ public class UiReportBean {
     private final String QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION = "histogram_quantile(0.90, sum(rate(prometheus_http_request_duration_seconds_bucket[__INTERVAL__m])) by (le)) * 1000";
     private final String QUERY_PROMETHEUS_AVERAGE_RESPONSE_TIME = "sum(rate(prometheus_http_request_duration_seconds_sum[1m])) / sum(rate(prometheus_http_request_duration_seconds_count[1m])) * 1000";
 
+    public UiConfigBean getUiConfigBean() {
+        return uiConfigBean;
+    }
+
+    public void setUiConfigBean(UiConfigBean uiConfigBean) {
+        this.uiConfigBean = uiConfigBean;
+    }
 
     public String getPrometheusUpTime() {
         PQueryMessage queryMessage = executeQuery(QUERY_PROM_UP_TIME);
@@ -192,26 +205,28 @@ public class UiReportBean {
 
 
     private PQueryMessage executeQuery(String query) {
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             return api.query(query);
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQuery: " + query + ": exception: ", e);
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
         return null;
     }
 
     private PQueryMessage executeQueryRange(String query) {
-        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             long t = System.currentTimeMillis() / 1000;
             return api.queryRange(query, (t - 3600), t, "1m");
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQueryRange: " + query + ": exception: ", e);
         } finally {
-            PrometheusApiClientPool.getInstance().returnClient(api);
+            adp.getPrometheusApiClientPool().returnClient(api);
         }
         return null;
     }
