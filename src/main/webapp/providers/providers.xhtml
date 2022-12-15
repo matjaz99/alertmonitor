@@ -1,0 +1,52 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:outputLabel value="Data providers" style="font-weight: bold; font-size: 24px;"/>
+			<p:outputLabel class="plaintext" value="(click on parameter to edit)" />
+
+			<br/>
+			<br/>
+
+			<h:form id="providersForm">
+
+				<p:panelGrid columns="1" cellspacing="5" width="100%">
+					<ui:repeat var="p" value="#{uiConfigBean.allDataProviders}">
+						<div class="card">
+							<p:panelGrid columns="2">
+
+								<p:outputLabel value="Provider name: " class="boldtext"/>
+								<p:outputLabel value="#{p.providerConfig.name}" />
+
+								<p:outputLabel value="Provider type: " class="boldtext"/>
+								<p:outputLabel value="#{p.providerConfig.type}" />
+
+								<p:outputLabel value="Provider URI: " class="boldtext"/>
+								<p:outputLabel value="#{p.providerConfig.uri}" />
+
+							</p:panelGrid>
+
+							<p:dataTable value="#{p.providerConfig.params}" var="c"
+										 cellpadding="0" cellspacing="0">
+								<p:column headerText="Params">
+									<p:outputLabel value="#{c}"/>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</ui:repeat>
+				</p:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

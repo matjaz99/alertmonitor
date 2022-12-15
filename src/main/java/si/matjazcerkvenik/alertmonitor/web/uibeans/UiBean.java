@@ -90,7 +90,7 @@ public class UiBean {
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
 		List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
 		List<DEvent> result = list.stream()
-				.filter(notif -> filterNotification(notif))
+				.filter(notif -> filterEvent(notif))
 				.collect(Collectors.toList());
 
 		// if you sort alerts here, then sorting in columns is not working
@@ -108,21 +108,22 @@ public class UiBean {
 	/**
 	 * Return true if notification satisfies conditions to be displayed in GUI.
 	 * Search field is checked and selected tags are checked.
-	 * @param notif alert
+	 * @param event alert
 	 * @return true to display alert
 	 */
-	private boolean filterNotification(DEvent notif) {
+	private boolean filterEvent(DEvent event) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {
-			if (!notif.getInstance().toLowerCase().contains(searchString.toLowerCase())
-					&& !notif.getAlertname().toLowerCase().contains(searchString.toLowerCase())
-					&& !notif.getInfo().toLowerCase().contains(searchString.toLowerCase())
-					&& !notif.getJob().toLowerCase().contains(searchString.toLowerCase())
-					&& !notif.getDescription().toLowerCase().contains(searchString.toLowerCase())) return false;
+			if (!event.getInstance().toLowerCase().contains(searchString.toLowerCase())
+					&& !event.getAlertname().toLowerCase().contains(searchString.toLowerCase())
+					&& !event.getInfo().toLowerCase().contains(searchString.toLowerCase())
+					&& !event.getJob().toLowerCase().contains(searchString.toLowerCase())
+					&& !event.getDescription().toLowerCase().contains(searchString.toLowerCase()))
+				return false;
 		}
 
 		// read tags
-		String[] array = notif.getTags().split(",");
+		String[] array = event.getTags().split(",");
 		for (int i = 0; i < array.length; i++) {
 			String tagName = array[i].trim();
 
@@ -130,10 +131,10 @@ public class UiBean {
 				if (t.getName().equals(tagName) && t.isSelected()) {
 					return true;
 				}
-				if (t.getName().equals(notif.getSeverity()) && t.isSelected()) {
+				if (t.getName().equals(event.getSeverity()) && t.isSelected()) {
 					return true;
 				}
-				if (t.getName().equals(notif.getPriority()) && t.isSelected()) {
+				if (t.getName().equals(event.getPriority()) && t.isSelected()) {
 					return true;
 				}
 			}

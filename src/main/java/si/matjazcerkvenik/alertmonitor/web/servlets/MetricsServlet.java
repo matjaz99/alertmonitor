@@ -56,6 +56,13 @@ public class MetricsServlet extends HttpServlet {
             AmMetrics.alertmonitor_last_event_timestamp.labels(adp.getProviderConfig().getName()).set(adp.getLastEventTimestamp());
         }
 
+        Runtime instance = Runtime.getRuntime();
+        AmMetrics.alertmonitor_memory_total_bytes.set(instance.totalMemory());
+        AmMetrics.alertmonitor_memory_free_bytes.set(instance.freeMemory());
+        AmMetrics.alertmonitor_memory_max_bytes.set(instance.maxMemory());
+        // used memory = total - free
+        AmMetrics.alertmonitor_available_processors.set(instance.availableProcessors());
+
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(TextFormat.CONTENT_TYPE_004);
 

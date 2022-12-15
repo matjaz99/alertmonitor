@@ -35,7 +35,7 @@ public class DAO {
     /** Access to data */
     private IDataManager dataManager;
 
-    /** A map of dataproviders. Key is URI. */
+    /** A map of dataproviders. Key is name. */
     private Map<String, AbstractDataProvider> dataProviders = new HashMap<>();
 
     /** Map of warnings in the alertmonitor. */
@@ -57,7 +57,7 @@ public class DAO {
                 if (dp != null) {
                     dp.setProviderConfig(pc);
                     dp.init();
-                    dataProviders.put(pc.getUri(), dp);
+                    dataProviders.put(pc.getName(), dp);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class DAO {
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);
             defaultDP.init();
-            dataProviders.put(AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI, defaultDP);
+            dataProviders.put(defaultPC.getName(), defaultDP);
         }
         // print data providers
         for (AbstractDataProvider adp : dataProviders.values()) {
@@ -110,6 +110,13 @@ public class DAO {
 
     public AbstractDataProvider getDataProvider(String key) {
         return dataProviders.getOrDefault(key, null);
+    }
+
+    public AbstractDataProvider getDataProviderByUri(String uri) {
+        for (AbstractDataProvider adp : DAO.instance.getAllDataProviders()) {
+            if (adp.getProviderConfig().getUri().equalsIgnoreCase(uri)) return adp;
+        }
+        return null;
     }
 
     public List<AbstractDataProvider> getAllDataProviders() {

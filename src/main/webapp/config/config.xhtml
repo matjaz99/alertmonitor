@@ -19,9 +19,18 @@
 
 				<p:panelGrid columns="2">
 
+					<p:outputLabel value="Log level: " class="boldtext"/>
+					<p:selectOneMenu id="selectedLogLevel" value="#{uiConfigBean.selectedLogLevel}" dynamic="true" onchange="submit()">
+						<f:selectItem itemLabel="ERROR" itemValue="ERROR"/>
+						<f:selectItem itemLabel="WARN" itemValue="WARN"/>
+						<f:selectItem itemLabel="INFO" itemValue="INFO"/>
+						<f:selectItem itemLabel="DEBUG" itemValue="DEBUG"/>
+						<f:selectItem itemLabel="TRACE" itemValue="TRACE"/>
+					</p:selectOneMenu>
+
 					<p:outputLabel value="Select Data Provider: " class="boldtext"/>
 					<p:selectOneMenu id="selectedDataProvider" value="#{uiConfigBean.selectedDataProvider}" dynamic="true" onchange="submit()">
-						<f:selectItems value="#{uiConfigBean.allDataProviders}"/>
+						<f:selectItems value="#{uiConfigBean.allDataProviderNames}"/>
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Data retention (days): " class="boldtext"/>

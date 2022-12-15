@@ -18,11 +18,20 @@ providers:
       clientPoolSize: 1
       clientConnectTimeout: 10
       clientReadTimeout: 120
-      syncInterval: 300
+      syncInterval: 70
     data:
       retention: 7d
     sync:
       interval: 60s
+  - name: elasticvm
+    type: prometheus
+    uri: /alertmonitor/webhook/elasticvm
+    params:
+      server: http://elasticvm:9090
+      clientPoolSize: 1
+      clientConnectTimeout: 10
+      clientReadTimeout: 120
+      syncInterval: 60
   - name: eventlogger
     type: eventlogger
     uri: /alertmonitor/webhook/eventlogger

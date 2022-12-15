@@ -35,7 +35,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class UiConfigBean {
 
-    private String selectedDataProvider = AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI;
+    private String selectedDataProvider = ".default";
+    private String selectedLogLevel = "INFO";
 
     private List<String> allDataProviders;
 
@@ -48,19 +49,40 @@ public class UiConfigBean {
         LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
     }
 
-    public String getSelectedDataProviderName() {
-        return DAO.getInstance().getDataProvider(selectedDataProvider).getProviderConfig().getName();
-    }
-
-    public List<String> getAllDataProviders() {
+    public List<String> getAllDataProviderNames() {
         allDataProviders = new ArrayList<>();
         for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
-            allDataProviders.add(adp.getProviderConfig().getUri());
+            allDataProviders.add(adp.getProviderConfig().getName());
         }
         return allDataProviders;
     }
 
+    public List<AbstractDataProvider> getAllDataProviders() {
+        return DAO.getInstance().getAllDataProviders();
+    }
 
+    public String getSelectedLogLevel() {
+        return selectedLogLevel;
+    }
+
+    public void setSelectedLogLevel(String selectedLogLevel) {
+        this.selectedLogLevel = selectedLogLevel;
+        if (selectedLogLevel.equalsIgnoreCase("trace")) {
+            LogFactory.getLogger().setLogLevel(1);
+        } else if (selectedLogLevel.equalsIgnoreCase("debug")) {
+            LogFactory.getLogger().setLogLevel(2);
+        } else if (selectedLogLevel.equalsIgnoreCase("info")) {
+            LogFactory.getLogger().setLogLevel(3);
+        } else if (selectedLogLevel.equalsIgnoreCase("warn")) {
+            LogFactory.getLogger().setLogLevel(4);
+        } else if (selectedLogLevel.equalsIgnoreCase("error")) {
+            LogFactory.getLogger().setLogLevel(5);
+        } else if (selectedLogLevel.equalsIgnoreCase("fatal")) {
+            LogFactory.getLogger().setLogLevel(6);
+        } else {
+            LogFactory.getLogger().setLogLevel(3);
+        }
+    }
 
     /* FOOTER */
 

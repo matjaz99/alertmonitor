@@ -88,16 +88,6 @@ public class OnStartListener implements ServletContextListener {
             LogFactory.getLogger().info(entry.getKey() + "=" + entry.getValue());
         }
 
-        // runtime memory info
-        int mb = 1024 * 1024;
-        Runtime instance = Runtime.getRuntime();
-        LogFactory.getLogger().info("***** Heap utilization statistics [MB] *****");
-        LogFactory.getLogger().info("Total Memory: " + instance.totalMemory() / mb); // available memory
-        LogFactory.getLogger().info("Free Memory: " + instance.freeMemory() / mb); // free memory
-        LogFactory.getLogger().info("Used Memory: "
-                + (instance.totalMemory() - instance.freeMemory()) / mb); // used memory
-        LogFactory.getLogger().info("Max Memory: " + instance.maxMemory() / mb); // Maximum available memory
-
         // load yaml config file
         AmProps.yamlConfig = ConfigReader.loadProvidersYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
         System.out.println(AmProps.yamlConfig.toString());

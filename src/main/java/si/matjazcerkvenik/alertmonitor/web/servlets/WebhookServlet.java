@@ -45,10 +45,10 @@ public class WebhookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse response)
 			throws IOException {
 
-		AbstractDataProvider dataProvider = DAO.getInstance().getDataProvider(req.getRequestURI());
+		AbstractDataProvider dataProvider = DAO.getInstance().getDataProviderByUri(req.getRequestURI());
 
 		if (dataProvider == null) {
-			LogFactory.getLogger().warn("WebhookServlet: doPost(): dataprovider not found: " + req.getRequestURI());
+			LogFactory.getLogger().warn("WebhookServlet: doPost(): dataprovider not found for endpoint: " + req.getRequestURI());
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "dataprovider not found");
 			return;
 		}

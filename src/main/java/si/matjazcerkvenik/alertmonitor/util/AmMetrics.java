@@ -115,4 +115,24 @@ public class AmMetrics {
             .help("Total number of failed operations with DB.")
             .register();
 
+    public static final Gauge alertmonitor_memory_total_bytes = Gauge.build()
+            .name("alertmonitor_memory_total_bytes")
+            .help("Total memory in bytes")
+            .register();
+
+    public static final Gauge alertmonitor_memory_free_bytes = Gauge.build()
+            .name("alertmonitor_memory_free_bytes")
+            .help("Free memory in bytes")
+            .register();
+
+    public static final Gauge alertmonitor_memory_max_bytes = Gauge.build()
+            .name("alertmonitor_memory_max_bytes")
+            .help("Max memory in bytes")
+            .register();
+
+    public static final Gauge alertmonitor_available_processors = Gauge.build()
+            .name("alertmonitor_available_processors")
+            .help("Number of available processors")
+            .register();
+
 }

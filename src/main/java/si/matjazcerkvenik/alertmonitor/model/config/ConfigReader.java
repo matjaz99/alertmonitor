@@ -31,6 +31,7 @@ public class ConfigReader {
         representer.getPropertyUtils().setSkipMissingProperties(true);
         Yaml yaml = new Yaml(new Constructor(YamlConfig.class), representer);
         File f = new File(path);
+        if (!f.exists()) return null;
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(f);

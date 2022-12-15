@@ -16,12 +16,13 @@
 			</p:submenu>
 			<p:submenu label="View" icon="pi pi-fw pi-list">
 				<p:menuitem value="Statistics" url="/alertmonitor/statistics" icon="pi pi-fw pi-chart-line" />
+				<p:menuitem value="Providers" url="/alertmonitor/providers" icon="pi pi-fw pi-sitemap" />
 				<p:menuitem value="Report" url="/alertmonitor/report" icon="pi pi-fw pi-file" />
 				<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-cog" />
 				<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
 			</p:submenu>
 			<f:facet name="options">
-				<p:outputLabel value="Provider: #{uiConfigBean.selectedDataProviderName}" style="font-size: 11px; color: red; margin-right: 10px;" />
+				<p:outputLabel value="Provider: #{uiConfigBean.selectedDataProvider}" style="font-size: 12px; color: #c10000; margin-right: 10px;" />
 				<p:inputText placeholder="Search" value="#{uiBean.searchString}"/>
 			</f:facet>
     	</p:menubar>
