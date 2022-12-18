@@ -223,26 +223,31 @@ public class UiConfigBean {
     /* STATISTICS */
 
     public long getWhMsgCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getWebhookMessagesReceivedCount();
     }
 
     public long getJournalCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getJournalCount();
     }
 
     public long getJournalSize() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getJournalSize();
     }
 
     public long getAlarmsCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getRaisingEventCount();
     }
 
     public long getClearsCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getClearingEventCount();
     }
@@ -323,8 +328,9 @@ public class UiConfigBean {
     }
 
     public List<String> getWarnings() {
-        if (DAO.getInstance().getWarnings().size() == 0) return null;
-        return DAO.getInstance().getWarnings();
+        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+        if (adp.getWarnings().size() == 0) return null;
+        return adp.getWarnings();
     }
 
     public String getCurrentTime() {

@@ -15,6 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 import java.util.ArrayList;
@@ -25,10 +27,10 @@ public class PrometheusApiClientPool {
     private int count = 0;
     private List<PrometheusApiClient> pool = new ArrayList<>();
 
-    public PrometheusApiClientPool(String name, int poolSize, boolean secure, int connectTimeout, int readTimeout, String server) {
+    public PrometheusApiClientPool(AbstractDataProvider dataProvider) {
+        Integer poolSize = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE));
         for (int i = 0; i < poolSize; i++) {
-            PrometheusApiClient c = new PrometheusApiClient(secure, connectTimeout, readTimeout, server);
-            c.setName(name);
+            PrometheusApiClient c = new PrometheusApiClient(dataProvider);
             pool.add(c);
         }
     }

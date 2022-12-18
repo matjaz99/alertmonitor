@@ -15,7 +15,6 @@
  */
 package si.matjazcerkvenik.alertmonitor.data;
 
-import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.EventloggerDataProvider;
@@ -37,10 +36,6 @@ public class DAO {
 
     /** A map of dataproviders. Key is name. */
     private Map<String, AbstractDataProvider> dataProviders = new HashMap<>();
-
-    /** Map of warnings in the alertmonitor. */
-    private Map<String, String> warnings = new HashMap<>();
-
 
 
     private DAO() {
@@ -163,16 +158,16 @@ public class DAO {
 //    }
 
 
-    public void addWarning(String msgKey, String msg) {
-        warnings.put(msgKey, msg);
+    public void addWarningToAllProviders(String msgKey, String msg) {
+        for (AbstractDataProvider adp : dataProviders.values()) {
+            adp.addWarning(msgKey, msg);
+        }
     }
 
-    public void removeWarning(String msgKey) {
-        warnings.remove(msgKey);
-    }
-
-    public List<String> getWarnings() {
-        return new ArrayList<>(warnings.values());
+    public void removeWarningFromAllProviders(String msgKey) {
+        for (AbstractDataProvider adp : dataProviders.values()) {
+            adp.removeWarning(msgKey);
+        }
     }
 
 }

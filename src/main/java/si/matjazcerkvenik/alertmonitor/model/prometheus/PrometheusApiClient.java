@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
+import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
@@ -41,31 +43,31 @@ public class PrometheusApiClient {
 
     private final SimpleLogger logger = LogFactory.getLogger();
 
-    /** Name of this client - provider name */
-    private String name = ".default";
-
     private final String HTTP_CLIENT_USER_AGENT = "Alertmonitor/v1";
 
     private static long requestCount;
 
+    private AbstractDataProvider dataProvider;
+
+    /* Extracted from providerConfig */
+    /** Name of this client - provider name */
+    private String name = ".default";
     private String server;
     private boolean secureClient = false;
     private int connectTimeout = 10;
     private int readTimeout = 120;
 
-    public PrometheusApiClient(boolean secure, int connectTimeout, int readTimeout, String server) {
-        this.secureClient = secure;
-        this.connectTimeout = connectTimeout;
-        this.readTimeout = readTimeout;
-        this.server = server;
+    public PrometheusApiClient(AbstractDataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+        name = dataProvider.getProviderConfig().getName();
+        server = dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
+        secureClient = server.startsWith("https");
+        connectTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC));
+        readTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -271,32 +273,32 @@ public class PrometheusApiClient {
 
             response.close();
 
-            DAO.getInstance().removeWarning("prom_api");
+            dataProvider.removeWarning("prom_api");
 
         } catch (UnknownHostException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
-            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Host");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
-            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Timeout");
         } catch (SocketException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
-            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Socket Error");
         } catch (SSLException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
-            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("SSL Exception");
         } catch (Exception e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
-            DAO.getInstance().addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
             throw new PrometheusApiException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;

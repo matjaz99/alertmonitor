@@ -43,6 +43,9 @@ public abstract class AbstractDataProvider {
 
     protected Timer syncTimer = null;
 
+    /** Map of warnings in this data provider. */
+    private Map<String, String> warnings = new HashMap<>();
+
     protected long webhookMessagesReceivedCount = 0;
     protected long journalReceivedCount = 0;
     protected long lastEventTimestamp = 0;
@@ -66,13 +69,7 @@ public abstract class AbstractDataProvider {
     public void init() {
         // TODO error handling!
         LogFactory.getLogger().info(providerConfig.toString());
-        String server = providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
-        Boolean secure = server.startsWith("https");
-        Integer poolSize = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE));
-        Integer connTimeout = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC));
-        Integer readTimeout = Integer.parseInt(providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
-
-        prometheusApiClientPool = new PrometheusApiClientPool(providerConfig.getName(), poolSize, secure, connTimeout, readTimeout, server);
+        prometheusApiClientPool = new PrometheusApiClientPool(this);
         restartSyncTimer();
     }
 
@@ -100,10 +97,6 @@ public abstract class AbstractDataProvider {
      */
     public List<DEvent> getJournal() {
         return DAO.getInstance().getDataManager().getJournal();
-    }
-
-    public long getJournalSize() {
-        return DAO.getInstance().getDataManager().getJournalSize();
     }
 
     public DEvent getEvent(String id) {
@@ -350,6 +343,18 @@ public abstract class AbstractDataProvider {
         return new ArrayList<>(map.keySet());
     }
 
+    public void addWarning(String msgKey, String msg) {
+        warnings.put(msgKey, msg);
+    }
+
+    public void removeWarning(String msgKey) {
+        warnings.remove(msgKey);
+    }
+
+    public List<String> getWarnings() {
+        return new ArrayList<>(warnings.values());
+    }
+
     public abstract void restartSyncTimer();
 
     public long getWebhookMessagesReceivedCount() {
@@ -358,6 +363,10 @@ public abstract class AbstractDataProvider {
 
     public long getJournalCount() {
         return journalReceivedCount;
+    }
+
+    public long getJournalSize() {
+        return DAO.getInstance().getDataManager().getJournalSize();
     }
 
     public long getLastEventTimestamp() {

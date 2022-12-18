@@ -57,7 +57,7 @@ public class PrometheusSyncTask extends TimerTask {
                 logger.error("SYNC: null response returned");
                 logger.info("SYNC: === Periodic synchronization complete ===");
                 dataProvider.syncFailedCount++;
-                DAO.getInstance().addWarning("sync", "Synchronization is failing");
+                dataProvider.addWarning("sync", "Synchronization is failing");
                 return;
             }
 
@@ -138,13 +138,13 @@ public class PrometheusSyncTask extends TimerTask {
 
             dataProvider.syncSuccessCount++;
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(1);
-            DAO.getInstance().removeWarning("sync");
+            dataProvider.removeWarning("sync");
 
         } catch (Exception e) {
             logger.error("SYNC: failed to synchronize alarms; root cause: " + e.getMessage());
             dataProvider.syncFailedCount++;
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
-            DAO.getInstance().addWarning("sync", "Synchronization is failing");
+            dataProvider.addWarning("sync", "Synchronization is failing");
         } finally {
             dataProvider.getPrometheusApiClientPool().returnClient(api);
         }
