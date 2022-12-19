@@ -17,11 +17,18 @@ package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.List;
 
 public class EventloggerDataProvider extends AbstractDataProvider {
+
+    @Override
+    public void init() {
+        logger.info(providerConfig.toString());
+        addWarning("notSupportedProvider", "Provider not supported");
+    }
 
     @Override
     public void processIncomingEvent(WebhookMessage m) {

@@ -253,6 +253,7 @@ public class UiConfigBean {
     }
 
     public void setSyncInterval(String interval) {
+        // TODO fix
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         Integer i = Integer.parseInt(interval);
         adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, String.valueOf(i));
@@ -262,28 +263,34 @@ public class UiConfigBean {
     }
 
     public String getSyncInterval() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
     }
 
     public String getLastSyncTime() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return Formatter.getFormatedTimestamp(adp.getLastSyncTimestamp(), AmDateFormat.TIME); }
 
     public String getSyncSuccessCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return Integer.toString(adp.getSyncSuccessCount()); }
 
     public String getSyncFailedCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return Integer.toString(adp.getSyncFailedCount()); }
 
     public int getActiveAlarmsCount(String severity) {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getActiveAlarmsList(severity).size();
     }
 
     public int getAllActiveAlarmsCount() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getActiveAlerts().size();
     }
@@ -302,6 +309,7 @@ public class UiConfigBean {
     }
 
     public String getBalanceFactor() {
+        // TODO moved to provider
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         DecimalFormat df2 = new DecimalFormat("#.##");
         return df2.format(adp.calculateAlertsBalanceFactor());

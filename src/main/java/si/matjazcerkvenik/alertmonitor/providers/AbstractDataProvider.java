@@ -24,6 +24,7 @@ import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public abstract class AbstractDataProvider {
      */
     public void init() {
         // TODO error handling!
-        LogFactory.getLogger().info(providerConfig.toString());
+        logger.info(providerConfig.toString());
         prometheusApiClientPool = new PrometheusApiClientPool(this);
         restartSyncTimer();
     }
@@ -377,8 +378,29 @@ public abstract class AbstractDataProvider {
         return lastSyncTimestamp;
     }
 
+    public String getLastSyncTimestampFormatted() {
+        return Formatter.getFormatedTimestamp(lastSyncTimestamp, AmDateFormat.TIME);
+    }
+
     public void setLastSyncTimestamp(long lastSyncTimestamp) {
         this.lastSyncTimestamp = lastSyncTimestamp;
+    }
+
+    public String getSyncInterval() {
+        return providerConfig.getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
+    }
+
+    public int getActiveAlarmsCount(String severity) {
+        return getActiveAlarmsList(severity).size();
+    }
+
+    public int getAllActiveAlarmsCount() {
+        return activeAlerts.size();
+    }
+
+    public String getBalanceFactor() {
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        return df2.format(calculateAlertsBalanceFactor());
     }
 
     public int getSyncSuccessCount() {

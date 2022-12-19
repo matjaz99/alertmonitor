@@ -50,12 +50,12 @@
 
 								<p:panelGrid columns="1" cellspacing="5" width="100%">
 									<h3>Active alerts</h3>
-									<p:outputLabel value="Critical: #{uiConfigBean.getActiveAlarmsCount('critical')}" />
-									<p:outputLabel value="Major: #{uiConfigBean.getActiveAlarmsCount('major')}" />
-									<p:outputLabel value="Minor: #{uiConfigBean.getActiveAlarmsCount('minor')}" />
-									<p:outputLabel value="Warning: #{uiConfigBean.getActiveAlarmsCount('warning')}" />
-									<p:outputLabel value="Total alerts: #{uiConfigBean.allActiveAlarmsCount}" />
-									<p:outputLabel value="Balance factor: #{uiConfigBean.balanceFactor}" />
+									<p:outputLabel value="Critical: #{p.getActiveAlarmsCount('critical')}" />
+									<p:outputLabel value="Major: #{p.getActiveAlarmsCount('major')}" />
+									<p:outputLabel value="Minor: #{p.getActiveAlarmsCount('minor')}" />
+									<p:outputLabel value="Warning: #{p.getActiveAlarmsCount('warning')}" />
+									<p:outputLabel value="Total alerts: #{p.allActiveAlarmsCount}" />
+									<p:outputLabel value="Balance factor: #{p.balanceFactor}" />
 								</p:panelGrid>
 
 								<p:panelGrid columns="1" cellspacing="5" width="100%">
@@ -80,10 +80,10 @@
 
 								<p:panelGrid columns="1" cellspacing="5" width="100%">
 									<h3>Sync</h3>
-									<p:outputLabel value="Sync interval: #{uiConfigBean.syncInterval} sec" />
-									<p:outputLabel value="Sync last time: #{uiConfigBean.lastSyncTime}" />
-									<p:outputLabel value="Sync success: #{uiConfigBean.syncSuccessCount}" />
-									<p:outputLabel value="Sync fail: #{uiConfigBean.syncFailedCount}" />
+									<p:outputLabel value="Sync interval: #{p.syncInterval} sec" />
+									<p:outputLabel value="Sync last time: #{p.lastSyncTimestampFormatted}" />
+									<p:outputLabel value="Sync success: #{p.syncSuccessCount}" />
+									<p:outputLabel value="Sync fail: #{p.syncFailedCount}" />
 									<p:outputLabel value="-" />
 									<p:outputLabel value="-" />
 								</p:panelGrid>
