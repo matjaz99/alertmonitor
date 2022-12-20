@@ -47,7 +47,7 @@ public class DAO {
                 } else if (pc.getType().equalsIgnoreCase("eventlogger")) {
                     dp = new EventloggerDataProvider();
                 } else {
-                    logger.warn("DAO: unknown provider type: " + pc.getType());
+                    logger.warn("DAO: unknown data provider type: " + pc.getType());
                 }
                 if (dp != null) {
                     dp.setProviderConfig(pc);
@@ -57,7 +57,7 @@ public class DAO {
             }
         }
         // create default provider if not configured
-        if (!dataProviders.containsKey(AmProps.ALERTMONITOR_DEFAULT_WEBHOOK_URI)) {
+        if (!dataProviders.containsKey(".default")) {
             ProviderConfig defaultPC = AmProps.generateProviderConfigFromEnvs();
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);

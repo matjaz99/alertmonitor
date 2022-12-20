@@ -44,7 +44,7 @@ public class PrometheusSyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("SYNC: === starting periodic synchronization ===");
+        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === starting periodic synchronization ===");
         dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
         PrometheusApiClient api = dataProvider.getPrometheusApiClientPool().getClient();
@@ -54,8 +54,8 @@ public class PrometheusSyncTask extends TimerTask {
             List<PAlert> activeAlerts = api.alerts();
 
             if (activeAlerts == null) {
-                logger.error("SYNC: null response returned");
-                logger.info("SYNC: === Periodic synchronization complete ===");
+                logger.error("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: null response returned");
+                logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === Periodic synchronization complete ===");
                 dataProvider.syncFailedCount++;
                 dataProvider.addWarning("sync", "Synchronization is failing");
                 return;
@@ -129,7 +129,7 @@ public class PrometheusSyncTask extends TimerTask {
                 // set correlation ID
                 e.generateCID();
 
-                logger.debug("SYNC: " + e.toString());
+                logger.debug("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: " + e.toString());
                 syncAlerts.add(e);
 
             } // for each alert
@@ -141,7 +141,7 @@ public class PrometheusSyncTask extends TimerTask {
             dataProvider.removeWarning("sync");
 
         } catch (Exception e) {
-            logger.error("SYNC: failed to synchronize alarms; root cause: " + e.getMessage());
+            logger.error("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: failed to synchronize alarms; root cause: " + e.getMessage());
             dataProvider.syncFailedCount++;
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
             dataProvider.addWarning("sync", "Synchronization is failing");
@@ -149,7 +149,7 @@ public class PrometheusSyncTask extends TimerTask {
             dataProvider.getPrometheusApiClientPool().returnClient(api);
         }
 
-        logger.info("SYNC: === Periodic synchronization complete ===");
+        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === Periodic synchronization complete ===");
 
     }
 

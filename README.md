@@ -126,10 +126,17 @@ receivers:
 Since version 3, Alertmonitor supports Data Providers. Data providers are sources that will send data to 
 Alertmonitor. It is possible to define more Prometheus servers or some other sources.
 
+Alertmonitor supports the following data providers:
+- Prometheus
+- Eventlogger
+
 Data Providers are configured in `providers.yml` configuration file.
 
-Each Data Provider has assigned one URI endpoint. All requests received on that endpoint will be processed 
-by corresponding Data Provider.
+If no providers are defined, there still exists a single data provider (called `.default`) that is constructed from 
+the environment variables and is bound to the `/alertmonitor/webhook` URI endpoint. All requests received on that 
+endpoint will be processed by `.default` data provider process.
+
+> All URI endpoints **must** start with `/alertmonitor/webhook`.
 
 > It is not recommended to configure two or more providers to send events to the same URI endpoint!
 
@@ -222,7 +229,7 @@ to behaviour of the application, while other variables may be used for other pur
 (such as logger configuration or custom environment variable substitution).
 
 > With environment variables, only `.default` data provider (Prometheus) can be configured. Other providers 
-are configured in `providers.yml`.
+are configured in `providers.yml` (see Data Providers).
 
 A list of supported environment variables:
 
@@ -241,6 +248,23 @@ A list of supported environment variables:
 | ALERTMONITOR_KAFKA_TOPIC                      | Name of topic.  Default: alertmonitor_notifications                                                    |
 | ALERTMONITOR_MONGODB_ENABLED                  | Enable or disable storing data to MongoDB. If disabled, data is stored in memory only.  Default: false | 
 | ALERTMONITOR_MONGODB_CONNECTION_STRING        | The connection string for MongoDB (username, password and host).                                       |
+
+### Security
+
+#### Secure HTTPS protocol
+
+Alertmonitor supports `http` and `https` protocols for communication with data providers.
+
+In case of `https`, no certificate validity is checked.
+
+#### Basic authentication
+
+Http client in Alertmonitor supports basic authentication when connecting to the data provider (only for https clients).
+
+Currently, username and password can only be provided via `SERVER` variable using syntax: 
+
+`https://username:password@hostname:port`
+
 
 ### Environment variable substitution
 

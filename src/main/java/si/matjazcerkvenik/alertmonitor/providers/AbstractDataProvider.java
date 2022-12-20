@@ -119,10 +119,10 @@ public abstract class AbstractDataProvider {
 
             for (DEvent e : alertList) {
                 if (activeAlerts.containsKey(e.getCorrelationId())) {
-                    logger.info("SYNC: Alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    logger.info("SYNC[" + providerConfig.getName() + "]: alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                     activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
                 } else {
-                    logger.info("SYNC: New alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    logger.info("SYNC[" + providerConfig.getName() + "]: new alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
@@ -139,14 +139,14 @@ public abstract class AbstractDataProvider {
 
             // remove active alerts which were not received (toBeDeleted=true)
             for (String cid : cidToDelete) {
-                logger.info("SYNC: Removing active alert: {cid=" + cid + "}");
+                logger.info("SYNC[" + providerConfig.getName() + "]: removing active alert: {cid=" + cid + "}");
                 removeActiveAlert(activeAlerts.get(cid));
             }
             addToJournal(newAlerts);
 
-            logger.info("SYNC: total sync alerts count: " + alertList.size());
-            logger.info("SYNC: new alerts count: " + newAlertsCount);
-            logger.info("SYNC: alerts to be deleted: " + cidToDelete.size());
+            logger.info("SYNC[" + providerConfig.getName() + "]: total sync alerts count: " + alertList.size());
+            logger.info("SYNC[" + providerConfig.getName() + "]: new alerts count: " + newAlertsCount);
+            logger.info("SYNC[" + providerConfig.getName() + "]: alerts to be deleted: " + cidToDelete.size());
 
             return true;
         }
@@ -162,17 +162,17 @@ public abstract class AbstractDataProvider {
             if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
-                    logger.info("SYNC: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 } else {
                     updateActiveAlert(e);
-                    logger.info("SYNC: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    logger.info("SYNC: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
             }
 

@@ -1,3 +1,7 @@
+## 2.4.4-SNAPSHOT
+
+* [FEATURE] Http client supports basic authentication for connection to providers
+
 ## 2.4.3-SNAPSHOT
 
 * [CHANGE] Wording *psync* is everywhere replaced with *sync*

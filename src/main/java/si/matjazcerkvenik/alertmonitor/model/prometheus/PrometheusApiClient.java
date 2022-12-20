@@ -53,6 +53,8 @@ public class PrometheusApiClient {
     /** Name of this client - provider name */
     private String name = ".default";
     private String server;
+    private String basicAuthUsername;
+    private String basicAuthPassword;
     private boolean secureClient = false;
     private int connectTimeout = 10;
     private int readTimeout = 120;
@@ -60,7 +62,18 @@ public class PrometheusApiClient {
     public PrometheusApiClient(AbstractDataProvider dataProvider) {
         this.dataProvider = dataProvider;
         name = dataProvider.getProviderConfig().getName();
-        server = dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
+        String srv = dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
+        // https://username:password@hostname:port
+        if (srv.contains("@")) {
+            String[] sArray1 = srv.split("//");
+            String[] sArray2 = sArray1[1].split("@");
+            String[] sArray3 = sArray2[0].split(":");
+            basicAuthUsername = sArray3[0];
+            basicAuthPassword = sArray3[1];
+            server = sArray1[0] + "//" + sArray2[1];
+        } else {
+            server = srv;
+        }
         secureClient = server.startsWith("https");
         connectTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC));
         readTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
@@ -258,7 +271,7 @@ public class PrometheusApiClient {
         try {
 
             // TODO new env var connect timeout
-            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout);
+            OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout, basicAuthUsername, basicAuthPassword);
 
             logger.info("PrometheusApi[" + name + "]: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();

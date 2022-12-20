@@ -15,10 +15,11 @@
  */
 package si.matjazcerkvenik.alertmonitor.util;
 
-import okhttp3.OkHttpClient;
+import okhttp3.*;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 
 import javax.net.ssl.*;
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
@@ -31,13 +32,11 @@ public class HttpClientFactory {
      * @param readTimeout read timeout in seconds
      * @return OkHttpClient
      */
-    public static OkHttpClient instantiateHttpClient(boolean secure, int connectTimeout, int readTimeout) {
-
-        // TODO basic authentication (see cdrpr)
+    public static OkHttpClient instantiateHttpClient(boolean secure, int connectTimeout, int readTimeout, String username, String password) {
 
         if (!secure) {
 
-            LogFactory.getLogger().info("HttpClientFactory: instantiating HTTP client");
+            LogFactory.getLogger().debug("HttpClientFactory: instantiating HTTP client");
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(connectTimeout, TimeUnit.SECONDS)
@@ -48,7 +47,7 @@ public class HttpClientFactory {
 
         // continue if https
 
-        LogFactory.getLogger().info("HttpClientFactory: instantiating HTTPS client");
+        LogFactory.getLogger().debug("HttpClientFactory: instantiating HTTPS client");
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
@@ -87,12 +86,27 @@ public class HttpClientFactory {
                     return true;
                 }
             });
+
+            if (username != null && password != null) {
+                builder.authenticator(new Authenticator() {
+                    @Override
+                    public Request authenticate(Route route, Response response) throws IOException {
+                        if (response.request().header("Authorization") != null)
+                            return null;  //if you've tried to authorize and failed, give up
+
+                        String credential = Credentials.basic(username, password);
+                        return response.request().newBuilder().header("Authorization", credential).build();
+                    }
+                });
+            }
+
             builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
             builder.readTimeout(readTimeout, TimeUnit.SECONDS);
 
             return builder.build();
 
         } catch (Exception e) {
+            LogFactory.getLogger().error("Exception instantiating http client: ", e);
             return null;
         }
 

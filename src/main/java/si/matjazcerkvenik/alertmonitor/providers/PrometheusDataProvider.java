@@ -194,18 +194,19 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         stopSyncTimer();
 
         // TODO handle exception
-        Integer i = Integer.parseInt(providerConfig.getParam(DP_PARAM_KEY_SYNC_INTERVAL_SEC));
-        if (i == 0) {
+        Integer interval = Integer.parseInt(providerConfig.getParam(DP_PARAM_KEY_SYNC_INTERVAL_SEC));
+        AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(interval);
+        if (interval == 0) {
             LogFactory.getLogger().info("Sync is disabled");
         }
 
         // start resync timer
         if (prometheusSyncTask == null) {
-            LogFactory.getLogger().info("Start periodic sync task with period=" + i);
-            AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(i);
+            LogFactory.getLogger().info("Start periodic sync task with period=" + interval);
             syncTimer = new Timer("SyncTimer");
             prometheusSyncTask = new PrometheusSyncTask(this);
-            syncTimer.schedule(prometheusSyncTask, 5 * 1000, i * 1000);
+            int randomDelay = (int) (Math.random() * 30 + 5);
+            syncTimer.schedule(prometheusSyncTask, randomDelay * 1000, interval * 1000);
         }
 
     }
