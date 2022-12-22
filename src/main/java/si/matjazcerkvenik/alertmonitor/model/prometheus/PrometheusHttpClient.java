@@ -18,11 +18,9 @@ package si.matjazcerkvenik.alertmonitor.model.prometheus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
-import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.HttpClientFactory;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -39,7 +37,7 @@ import java.util.Map;
 /**
  * This class handles all the communication with Prometheus server via HTTP API.
  */
-public class PrometheusApiClient {
+public class PrometheusHttpClient {
 
     private final SimpleLogger logger = LogFactory.getLogger();
 
@@ -59,7 +57,7 @@ public class PrometheusApiClient {
     private int connectTimeout = 10;
     private int readTimeout = 120;
 
-    public PrometheusApiClient(AbstractDataProvider dataProvider) {
+    public PrometheusHttpClient(AbstractDataProvider dataProvider) {
         this.dataProvider = dataProvider;
         name = dataProvider.getProviderConfig().getName();
         String srv = dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
@@ -87,9 +85,9 @@ public class PrometheusApiClient {
      * Execute a simple query
      * @param query the query
      * @return query response object
-     * @throws PrometheusApiException error
+     * @throws PrometheusHttpClientException error
      */
-    public PQueryMessage query(String query) throws PrometheusApiException {
+    public PQueryMessage query(String query) throws PrometheusHttpClientException {
 
         logger.info("PrometheusApi[" + name + "]: query: " + query);
 
@@ -116,9 +114,9 @@ public class PrometheusApiClient {
      * @param end end time in seconds (UNIX time)
      * @param step eg. 5m
      * @return query response object
-     * @throws PrometheusApiException error
+     * @throws PrometheusHttpClientException error
      */
-    public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusApiException {
+    public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusHttpClientException {
 
         logger.info("PrometheusApi[" + name + "]: queryRange: " + query);
 
@@ -145,9 +143,9 @@ public class PrometheusApiClient {
      * the same in both cases.
      * @param request request
      * @return query response object
-     * @throws PrometheusApiException error
+     * @throws PrometheusHttpClientException error
      */
-    private PQueryMessage doQueryRequest(Request request) throws PrometheusApiException {
+    private PQueryMessage doQueryRequest(Request request) throws PrometheusHttpClientException {
         String responseBody = execute(request);
 
         if (responseBody != null && responseBody.trim().length() > 0) {
@@ -164,7 +162,7 @@ public class PrometheusApiClient {
         return null;
     }
 
-    public List<PAlert> alerts() throws PrometheusApiException {
+    public List<PAlert> alerts() throws PrometheusHttpClientException {
 
         Request request = new Request.Builder()
                 .url(server + "/api/v1/alerts")
@@ -188,7 +186,7 @@ public class PrometheusApiClient {
 
     }
 
-    public List<PTarget> targets() throws PrometheusApiException {
+    public List<PTarget> targets() throws PrometheusHttpClientException {
 
         Request request = new Request.Builder()
                 .url(server + "/api/v1/targets")
@@ -212,7 +210,7 @@ public class PrometheusApiClient {
 
     }
 
-    public void reload() throws PrometheusApiException {
+    public void reload() throws PrometheusHttpClientException {
         Request request = new Request.Builder()
                 .url(server + "/-/reload")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
@@ -222,7 +220,7 @@ public class PrometheusApiClient {
         execute(request);
     }
 
-    public List<PRule> rules() throws PrometheusApiException {
+    public List<PRule> rules() throws PrometheusHttpClientException {
         Request request = new Request.Builder()
                 .url(server + "/api/v1/rules")
                 .addHeader("User-Agent", HTTP_CLIENT_USER_AGENT)
@@ -258,9 +256,9 @@ public class PrometheusApiClient {
      * This method will actually execute the given HTTP request.
      * @param request prepared request
      * @return response body
-     * @throws PrometheusApiException error
+     * @throws PrometheusHttpClientException error
      */
-    private String execute(Request request) throws PrometheusApiException {
+    private String execute(Request request) throws PrometheusHttpClientException {
 
         requestCount++;
 
@@ -292,27 +290,27 @@ public class PrometheusApiClient {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable");
-            throw new PrometheusApiException("Unknown Host");
+            throw new PrometheusHttpClientException("Unknown Host");
         } catch (SocketTimeoutException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable");
-            throw new PrometheusApiException("Timeout");
+            throw new PrometheusHttpClientException("Timeout");
         } catch (SocketException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable");
-            throw new PrometheusApiException("Socket Error");
+            throw new PrometheusHttpClientException("Socket Error");
         } catch (SSLException e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable");
-            throw new PrometheusApiException("SSL Exception");
+            throw new PrometheusHttpClientException("SSL Exception");
         } catch (Exception e) {
             logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable");
-            throw new PrometheusApiException("Unknown Exception");
+            throw new PrometheusHttpClientException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;
             AmMetrics.alertmonitor_prom_api_duration_seconds.labels(name, request.method(), code, request.url().toString()).observe(duration);

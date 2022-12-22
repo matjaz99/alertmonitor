@@ -18,7 +18,7 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClientPool;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -40,7 +40,7 @@ public abstract class AbstractDataProvider {
     /** Map of tags of active alerts. Key is the tag name */
     protected Map<String, DTag> tagMap = new HashMap<>();
 
-    protected PrometheusApiClientPool prometheusApiClientPool;
+    protected PrometheusHttpClientPool prometheusHttpClientPool;
 
     protected Timer syncTimer = null;
 
@@ -70,7 +70,7 @@ public abstract class AbstractDataProvider {
     public void init() {
         // TODO error handling!
         logger.info(providerConfig.toString());
-        prometheusApiClientPool = new PrometheusApiClientPool(this);
+        prometheusHttpClientPool = new PrometheusHttpClientPool(this);
         restartSyncTimer();
     }
 
@@ -419,8 +419,8 @@ public abstract class AbstractDataProvider {
         return clearingEventCount;
     }
 
-    public PrometheusApiClientPool getPrometheusApiClientPool() {
-        return prometheusApiClientPool;
+    public PrometheusHttpClientPool getPrometheusApiClientPool() {
+        return prometheusHttpClientPool;
     }
 
 }

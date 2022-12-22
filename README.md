@@ -179,13 +179,15 @@ Alertmonitor then filters alerts and displays those who's hostnames match.
 
 Each target shows number of active alerts and an icon indicating the highest severity of raised alert.
 
-### Statistics
+### Providers
 
-This view shows statistical data, such as:
+Show configured data providers.
+
+Quick statistics is shown for each data provider:
 - number of alerts by severity
 - number of received messages/alerts
 - timers (up time, time since last event...)
-- psync success rate
+- synchronization success rate
 
 ### Report
 
@@ -225,11 +227,11 @@ This feature might be useful for further processing and analytics of alarms.
 ### Application configuration
 
 Alertmonitor can be configured with environment variables. Variables starting with `ALERTMONITOR_*` are related 
-to behaviour of the application, while other variables may be used for other purposes 
-(such as logger configuration or custom environment variable substitution).
+to behaviour of the application, while other variables may be used for other purposes such as log 
+configuration or custom environment variable substitution.
 
 > With environment variables, only `.default` data provider (Prometheus) can be configured. Other providers 
-are configured in `providers.yml` (see Data Providers).
+are configured in `providers.yml` (see Data Providers). 
 
 A list of supported environment variables:
 
@@ -255,15 +257,13 @@ A list of supported environment variables:
 
 Alertmonitor supports `http` and `https` protocols for communication with data providers.
 
-In case of `https`, no certificate validity is checked.
+In case of `https`, no certificate validation is checked.
 
 #### Basic authentication
 
 Http client in Alertmonitor supports basic authentication when connecting to the data provider (only for https clients).
 
-Currently, username and password can only be provided via `SERVER` variable using syntax: 
-
-`https://username:password@hostname:port`
+Currently, username and password can only be provided via `SERVER` variable using syntax `https://username:password@hostname:port`.
 
 
 ### Environment variable substitution
@@ -277,12 +277,12 @@ Environment variables can be set on system level or directly on docker container
       - GRAFANA_HOSTNAME: my.grafana.domain
 ```
 
-Template syntax in labels to be replaced: `${GRAFANA_HOSTNAME}`.
+Template in labels to be replaced: `${GRAFANA_HOSTNAME}`.
 
 Alertmonitor will automatically replace all occurrences of templates with corresponding environment variables.
 
 Example when comes this handy: you may link an alert with Grafana dashboard by using `url` label: `http://${GRAFANA_HOSTNAME}/dashboard`. 
-Alertmonitor will search environment variables for suitable substitution and if it finds one, it will produce label: 
+Alertmonitor will replace all occurrences of template with corresponding environment variable: 
 `url: http://my.grafana.domain/dashboard`.
 
 Environment variable substitution works on the following labels:
@@ -309,7 +309,7 @@ Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
 - `alertmonitor_prom_api_duration_seconds`
-- `alertmonitor_psync_interval_seconds`
+- `alertmonitor_sync_interval_seconds`
 
 
 ## Log files

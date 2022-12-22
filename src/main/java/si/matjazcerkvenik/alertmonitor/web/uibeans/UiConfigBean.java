@@ -16,9 +16,8 @@
 package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
@@ -201,7 +200,7 @@ public class UiConfigBean {
         LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
 
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
 
         try {
             api.reload();
@@ -222,38 +221,38 @@ public class UiConfigBean {
 
     /* STATISTICS */
 
-    public long getWhMsgCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getWebhookMessagesReceivedCount();
-    }
+//    public long getWhMsgCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getWebhookMessagesReceivedCount();
+//    }
 
-    public long getJournalCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getJournalCount();
-    }
+//    public long getJournalCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getJournalCount();
+//    }
 
-    public long getJournalSize() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getJournalSize();
-    }
+//    public long getJournalSize() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getJournalSize();
+//    }
+//
+//    public long getAlarmsCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getRaisingEventCount();
+//    }
 
-    public long getAlarmsCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getRaisingEventCount();
-    }
-
-    public long getClearsCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getClearingEventCount();
-    }
+//    public long getClearsCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getClearingEventCount();
+//    }
 
     public void setSyncInterval(String interval) {
-        // TODO fix
+        // TODO implement
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         Integer i = Integer.parseInt(interval);
         adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, String.valueOf(i));
@@ -268,32 +267,32 @@ public class UiConfigBean {
         return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
     }
 
-    public String getLastSyncTime() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return Formatter.getFormatedTimestamp(adp.getLastSyncTimestamp(), AmDateFormat.TIME); }
+//    public String getLastSyncTime() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return Formatter.getFormatedTimestamp(adp.getLastSyncTimestamp(), AmDateFormat.TIME); }
+//
+//    public String getSyncSuccessCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return Integer.toString(adp.getSyncSuccessCount()); }
 
-    public String getSyncSuccessCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return Integer.toString(adp.getSyncSuccessCount()); }
-
-    public String getSyncFailedCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return Integer.toString(adp.getSyncFailedCount()); }
-
-    public int getActiveAlarmsCount(String severity) {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getActiveAlarmsList(severity).size();
-    }
-
-    public int getAllActiveAlarmsCount() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getActiveAlerts().size();
-    }
+//    public String getSyncFailedCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return Integer.toString(adp.getSyncFailedCount()); }
+//
+//    public int getActiveAlarmsCount(String severity) {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getActiveAlarmsList(severity).size();
+//    }
+//
+//    public int getAllActiveAlarmsCount() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getActiveAlerts().size();
+//    }
 
     public int getAllAlarmingInstancesCount() {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
@@ -308,12 +307,12 @@ public class UiConfigBean {
         return DAO.getInstance().getDataManager().getAlertsPerSecondInLastHour();
     }
 
-    public String getBalanceFactor() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        DecimalFormat df2 = new DecimalFormat("#.##");
-        return df2.format(adp.calculateAlertsBalanceFactor());
-    }
+//    public String getBalanceFactor() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        DecimalFormat df2 = new DecimalFormat("#.##");
+//        return df2.format(adp.calculateAlertsBalanceFactor());
+//    }
 
     public String getStartTime() {
         return Formatter.getFormatedTimestamp(AmProps.START_UP_TIME, AmDateFormat.DATE_TIME);

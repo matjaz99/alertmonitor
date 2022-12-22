@@ -15,13 +15,11 @@
  */
 package si.matjazcerkvenik.alertmonitor.providers;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DSeverity;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -44,10 +42,10 @@ public class PrometheusSyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === starting periodic synchronization ===");
+        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === starting synchronization ===");
         dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
-        PrometheusApiClient api = dataProvider.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getPrometheusApiClientPool().getClient();
 
         try {
 
@@ -149,7 +147,7 @@ public class PrometheusSyncTask extends TimerTask {
             dataProvider.getPrometheusApiClientPool().returnClient(api);
         }
 
-        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === Periodic synchronization complete ===");
+        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === synchronization complete ===");
 
     }
 

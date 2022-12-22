@@ -15,13 +15,13 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
-public class PrometheusApiException extends Exception {
+public class PrometheusHttpClientException extends Exception {
 
-    public PrometheusApiException(String message) {
+    public PrometheusHttpClientException(String message) {
         super(message);
     }
 
-    public PrometheusApiException(String message, Throwable cause) {
+    public PrometheusHttpClientException(String message, Throwable cause) {
         super(message, cause);
     }
 

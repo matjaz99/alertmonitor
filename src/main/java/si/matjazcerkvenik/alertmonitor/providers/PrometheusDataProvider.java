@@ -65,7 +65,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         if (event == null) return null;
 
-        PrometheusApiClient api = prometheusApiClientPool.getClient();
+        PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 
         try {
             List<PRule> ruleList;
@@ -76,10 +76,10 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                     event.setRuleTimeLimit(r.getDuration());
                 }
             }
-        } catch (PrometheusApiException e) {
+        } catch (PrometheusHttpClientException e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed to load rules; root cause: " + e.getMessage());
         } finally {
-            prometheusApiClientPool.returnClient(api);
+            prometheusHttpClientPool.returnClient(api);
         }
 
         return event;
@@ -91,7 +91,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
      */
     @Override
     public List<DTarget> getTargets() {
-        PrometheusApiClient api = prometheusApiClientPool.getClient();
+        PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
@@ -124,7 +124,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         } catch (Exception e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
-            prometheusApiClientPool.returnClient(api);
+            prometheusHttpClientPool.returnClient(api);
         }
 
         return null;
@@ -133,7 +133,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     // the only difference is stripped hostname
     @Override
     public List<DTarget> getSmartTargets() {
-        PrometheusApiClient api = prometheusApiClientPool.getClient();
+        PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 
         try {
             List<PTarget> pTargets = api.targets();
@@ -166,10 +166,10 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
             return new ArrayList<>(targetsMap.values());
 
-        } catch (PrometheusApiException e) {
+        } catch (PrometheusHttpClientException e) {
             LogFactory.getLogger().error("PrometheusDataProvider: failed getting targets; root cause: " + e.getMessage());
         } finally {
-            prometheusApiClientPool.returnClient(api);
+            prometheusHttpClientPool.returnClient(api);
         }
 
         return null;

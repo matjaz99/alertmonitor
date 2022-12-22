@@ -22,20 +22,20 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrometheusApiClientPool {
+public class PrometheusHttpClientPool {
 
     private int count = 0;
-    private List<PrometheusApiClient> pool = new ArrayList<>();
+    private List<PrometheusHttpClient> pool = new ArrayList<>();
 
-    public PrometheusApiClientPool(AbstractDataProvider dataProvider) {
+    public PrometheusHttpClientPool(AbstractDataProvider dataProvider) {
         Integer poolSize = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE));
         for (int i = 0; i < poolSize; i++) {
-            PrometheusApiClient c = new PrometheusApiClient(dataProvider);
+            PrometheusHttpClient c = new PrometheusHttpClient(dataProvider);
             pool.add(c);
         }
     }
 
-    public synchronized PrometheusApiClient getClient() {
+    public synchronized PrometheusHttpClient getClient() {
 
         while (pool.isEmpty()) {
             try {
@@ -48,7 +48,7 @@ public class PrometheusApiClientPool {
 
     }
 
-    public synchronized void returnClient(PrometheusApiClient client) {
+    public synchronized void returnClient(PrometheusHttpClient client) {
         pool.add(client);
         notifyAll();
     }

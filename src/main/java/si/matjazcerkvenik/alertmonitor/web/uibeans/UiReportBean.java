@@ -22,8 +22,7 @@ import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClient;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusApiClientPool;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -206,7 +205,7 @@ public class UiReportBean {
 
     private PQueryMessage executeQuery(String query) {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             return api.query(query);
         } catch (Exception e) {
@@ -219,7 +218,7 @@ public class UiReportBean {
 
     private PQueryMessage executeQueryRange(String query) {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-        PrometheusApiClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             long t = System.currentTimeMillis() / 1000;
             return api.queryRange(query, (t - 3600), t, "1m");
