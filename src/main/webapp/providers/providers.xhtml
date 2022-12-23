@@ -11,100 +11,98 @@
 
 			<p:outputLabel value="Data providers" style="font-weight: bold; font-size: 24px;"/>
 
-			<br/>
-
 			<h:form id="providersForm">
 
-				<p:panelGrid columns="1" cellspacing="5" width="100%">
-					<ui:repeat var="p" value="#{uiConfigBean.allDataProviders}">
-						<div class="card">
-							<p:panelGrid columns="2">
+				<p:accordionPanel multiple="true"
+								  widgetVar="multiple"
+								  activeIndex="-1"
+								  value="#{uiConfigBean.allDataProviders}" var="p">
+					<p:tab>
 
-								<p:outputLabel value="Provider name: " class="boldtext"/>
-								<p:outputLabel value="#{p.providerConfig.name}" />
+						<f:facet name="title">
+							<p:outputLabel value="#{p.providerConfig.name}" class="boldtext"/>
+							<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{p.warnings != null}">
+								<am:warnings value="#{p}" />
+							</p:panelGrid>
+							<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{p.warnings == null || p.warnings.size() == 0}">
+								<p:tag styleClass="p-mr-2" severity="success" icon="pi pi-check" value="Working OK" style="margin-right: 15px;"></p:tag>
+							</p:panelGrid>
+						</f:facet>
 
-								<p:outputLabel value="Status: " class="boldtext"/>
-								<p:outputPanel>
-									<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{p.warnings != null}">
-										<am:warnings value="#{p}" />
-									</p:panelGrid>
-									<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{p.warnings == null || p.warnings.size() == 0}">
-										<p:tag styleClass="p-mr-2" severity="success" icon="pi pi-check" value="Working OK" style="margin-right: 15px;"></p:tag>
-									</p:panelGrid>
-								</p:outputPanel>
+						<p:panelGrid columns="2">
 
-								<p:outputLabel value="Provider type: " class="boldtext"/>
-								<p:outputLabel value="#{p.providerConfig.type}" />
+							<p:outputLabel value="Provider ID: " class="boldtext"/>
+							<p:outputLabel value="#{p.providerConfig.id}" />
 
-								<p:outputLabel value="Provider URI: " class="boldtext"/>
-								<p:outputLabel value="#{p.providerConfig.uri}" />
+							<p:outputLabel value="Provider type: " class="boldtext"/>
+							<p:outputLabel value="#{p.providerConfig.type}" />
 
-								<p:outputLabel value="Report: " class="boldtext"/>
-								<p:outputLabel value="TODO link" />
+							<p:outputLabel value="Provider URI: " class="boldtext"/>
+							<p:outputLabel value="#{p.providerConfig.uri}" />
 
+							<p:outputLabel value="Report: " class="boldtext"/>
+							<p:outputLabel value="TODO link" />
+
+							<p:outputLabel value="Last sync time: " class="boldtext"/>
+							<p:outputLabel value="#{p.lastSyncTimestampFormatted}" />
+
+						</p:panelGrid>
+
+
+						<p:panelGrid columns="5" cellpadding="0" cellspacing="15" width="100%" style="border: none">
+
+							<p:panelGrid columns="1" cellspacing="5" width="100%">
+								<p:outputLabel value="Active alerts" class="boldtext"/>
+								<p:outputLabel value="Critical: #{p.getActiveAlarmsCount('critical')}" />
+								<p:outputLabel value="Major: #{p.getActiveAlarmsCount('major')}" />
+								<p:outputLabel value="Minor: #{p.getActiveAlarmsCount('minor')}" />
+								<p:outputLabel value="Warning: #{p.getActiveAlarmsCount('warning')}" />
+								<p:outputLabel value="Total alerts: #{p.allActiveAlarmsCount}" />
+								<p:outputLabel value="Balance factor: #{p.balanceFactor}" />
 							</p:panelGrid>
 
-
-
-
-							<p:panelGrid columns="5" cellpadding="0" cellspacing="15" width="100%" style="border: none">
-
-								<p:panelGrid columns="1" cellspacing="5" width="100%">
-									<p:outputLabel value="Active alerts" class="boldtext"/>
-									<p:outputLabel value="Critical: #{p.getActiveAlarmsCount('critical')}" />
-									<p:outputLabel value="Major: #{p.getActiveAlarmsCount('major')}" />
-									<p:outputLabel value="Minor: #{p.getActiveAlarmsCount('minor')}" />
-									<p:outputLabel value="Warning: #{p.getActiveAlarmsCount('warning')}" />
-									<p:outputLabel value="Total alerts: #{p.allActiveAlarmsCount}" />
-									<p:outputLabel value="Balance factor: #{p.balanceFactor}" />
-								</p:panelGrid>
-
-								<p:panelGrid columns="1" cellspacing="5" width="100%">
-									<p:outputLabel value="Counters" class="boldtext"/>
-									<p:outputLabel value="URI requests: #{p.webhookMessagesReceivedCount}" />
-									<p:outputLabel value="Journal events: #{p.journalCount}" />
-									<p:outputLabel value="Journal size: #{p.journalSize}" />
-									<p:outputLabel value="Firing count: #{p.raisingEventCount}" />
-									<p:outputLabel value="Resolved count: #{p.clearingEventCount}" />
-									<p:outputLabel value="-" />
-								</p:panelGrid>
-
-								<p:panelGrid columns="1" cellspacing="5" width="100%">
-									<p:outputLabel value="Timers" class="boldtext"/>
-									<p:outputLabel value="Start time: #{uiConfigBean.startTime}" />
-									<p:outputLabel value="Up time: #{uiConfigBean.upTime}" />
-									<p:outputLabel value="Last event time: #{uiConfigBean.lastEventTime}" />
-									<p:outputLabel value="Time since last event: #{uiConfigBean.timeSinceLastEvent}" />
-									<p:outputLabel value="Events in last hour: #{uiConfigBean.numberOfAlertsInLastHour}" />
-									<p:outputLabel value="Avg. events per second: #{uiConfigBean.alertsPerSecondInLastHour}" />
-								</p:panelGrid>
-
-								<p:panelGrid columns="1" cellspacing="5" width="100%">
-									<p:outputLabel value="Sync" class="boldtext"/>
-									<p:outputLabel value="Sync interval: #{p.syncInterval} sec" />
-									<p:outputLabel value="Sync last time: #{p.lastSyncTimestampFormatted}" />
-									<p:outputLabel value="Sync success: #{p.syncSuccessCount}" />
-									<p:outputLabel value="Sync fail: #{p.syncFailedCount}" />
-									<p:outputLabel value="-" />
-									<p:outputLabel value="-" />
-								</p:panelGrid>
-
+							<p:panelGrid columns="1" cellspacing="5" width="100%">
+								<p:outputLabel value="Counters" class="boldtext"/>
+								<p:outputLabel value="URI requests: #{p.webhookMessagesReceivedCount}" />
+								<p:outputLabel value="Journal events: #{p.journalCount}" />
+								<p:outputLabel value="Journal size: #{p.journalSize}" />
+								<p:outputLabel value="Firing count: #{p.raisingEventCount}" />
+								<p:outputLabel value="Resolved count: #{p.clearingEventCount}" />
+								<p:outputLabel value="-" />
 							</p:panelGrid>
 
+							<p:panelGrid columns="1" cellspacing="5" width="100%">
+								<p:outputLabel value="Timers" class="boldtext"/>
+								<p:outputLabel value="Start time: #{uiConfigBean.startTime}" />
+								<p:outputLabel value="Up time: #{uiConfigBean.upTime}" />
+								<p:outputLabel value="Last event time: #{uiConfigBean.lastEventTime}" />
+								<p:outputLabel value="Time since last event: #{uiConfigBean.timeSinceLastEvent}" />
+								<p:outputLabel value="Events in last hour: #{uiConfigBean.numberOfAlertsInLastHour}" />
+								<p:outputLabel value="Avg. events per second: #{uiConfigBean.alertsPerSecondInLastHour}" />
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" cellspacing="5" width="100%">
+								<p:outputLabel value="Sync" class="boldtext"/>
+								<p:outputLabel value="Sync interval: #{p.syncInterval} sec" />
+								<p:outputLabel value="-" />
+								<p:outputLabel value="Sync success: #{p.syncSuccessCount}" />
+								<p:outputLabel value="Sync fail: #{p.syncFailedCount}" />
+								<p:outputLabel value="-" />
+								<p:outputLabel value="-" />
+							</p:panelGrid>
+
+						</p:panelGrid>
 
 
-							<p:dataTable value="#{p.providerConfig.params}" var="c"
-										 cellpadding="0" cellspacing="0">
-								<p:column headerText="Params">
-									<p:outputLabel value="#{c}"/>
-								</p:column>
-							</p:dataTable>
+						<p:dataTable value="#{p.providerConfig.params}" var="c"
+									 cellpadding="0" cellspacing="0">
+							<p:column headerText="Params">
+								<p:outputLabel value="#{c}"/>
+							</p:column>
+						</p:dataTable>
 
-						</div>
-						<br/>
-						<br/>
-					</ui:repeat>
-				</p:panelGrid>
+					</p:tab>
+				</p:accordionPanel>
 
 			</h:form>
 

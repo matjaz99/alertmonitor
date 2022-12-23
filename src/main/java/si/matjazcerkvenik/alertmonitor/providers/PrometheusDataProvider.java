@@ -198,6 +198,8 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(interval);
         if (interval == 0) {
             LogFactory.getLogger().info("Sync is disabled");
+            addWarning("SyncDisabled", "Synchronization is disabled");
+            return;
         }
 
         // start resync timer

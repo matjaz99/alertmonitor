@@ -17,7 +17,6 @@ package si.matjazcerkvenik.alertmonitor.util;
 
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
 import si.matjazcerkvenik.alertmonitor.model.config.YamlConfig;
-import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 
 import java.util.HashMap;
@@ -37,8 +36,9 @@ public class AmProps {
 
     /** Environment variables */
     public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/alertmonitor/providers.yml";
+    public static String ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = ".default";
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
-    public static int ALERTMONITOR_PSYNC_INTERVAL_SEC = 300;
+    public static int ALERTMONITOR_SYNC_INTERVAL_SEC = 60;
     public static String ALERTMONITOR_PROMETHEUS_SERVER = "http://localhost:9090";
     public static int ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE = 1;
     public static int ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC = 10;
@@ -49,14 +49,17 @@ public class AmProps {
     public static String ALERTMONITOR_KAFKA_TOPIC = "alertmonitor_alerts";
     public static String ALERTMONITOR_PROMETHEUS_ID_LABELS = "cluster, region, monitor";
     public static boolean ALERTMONITOR_MONGODB_ENABLED = false;
-    public static String ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin";
+    public static String ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@localhost:27017/test?w=majority&authSource=admin";
     public static String ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor";
 
     public static void loadProps() {
 
         // read configuration from environment variables
+        ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE", "/opt/alertmonitor/providers.yml").trim();
+        ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME", ".default").trim();
         ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
-        ALERTMONITOR_PSYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
+        ALERTMONITOR_SYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
+        ALERTMONITOR_SYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_SYNC_INTERVAL_SEC", "60").trim());
         if (ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) ALERTMONITOR_PROMETHEUS_SERVER = ALERTMONITOR_PROMETHEUS_SERVER.substring(0, ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
         ALERTMONITOR_PROMETHEUS_SERVER = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_SERVER", "http://localhost:9090").trim();
         if (ALERTMONITOR_PROMETHEUS_SERVER.endsWith("/")) ALERTMONITOR_PROMETHEUS_SERVER = ALERTMONITOR_PROMETHEUS_SERVER.substring(0, ALERTMONITOR_PROMETHEUS_SERVER.length()-1);
@@ -71,7 +74,7 @@ public class AmProps {
         ALERTMONITOR_PROMETHEUS_ID_LABELS = System.getenv().getOrDefault("ALERTMONITOR_PROMETHEUS_ID_LABELS", "cluster, region, monitor").trim();
         ALERTMONITOR_MONGODB_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_ENABLED", "false").trim());
 //        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin").trim();
-        ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/?authSource=admin").trim();
+        ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@localhost:27017/?authSource=admin").trim();
 
         // set development environment, override default configuration
         if (DEV_ENV) {
@@ -86,7 +89,8 @@ public class AmProps {
 
     public static ProviderConfig generateProviderConfigFromEnvs() {
         ProviderConfig config = new ProviderConfig();
-        config.setName(".default");
+        config.setName(ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME);
+        config.setId(MD5.getChecksum(ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME));
         config.setType("prometheus");
         config.setUri(ALERTMONITOR_DEFAULT_WEBHOOK_URI);
 
@@ -95,7 +99,7 @@ public class AmProps {
         params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE, ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE);
         params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC, ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC);
         params.put(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC);
-        params.put(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, ALERTMONITOR_PSYNC_INTERVAL_SEC);
+        params.put(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, ALERTMONITOR_SYNC_INTERVAL_SEC);
 
         config.setParams(params);
 

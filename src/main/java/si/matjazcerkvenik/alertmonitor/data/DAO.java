@@ -57,7 +57,7 @@ public class DAO {
             }
         }
         // create default provider if not configured
-        if (!dataProviders.containsKey(".default")) {
+        if (!dataProviders.containsKey(AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME)) {
             ProviderConfig defaultPC = AmProps.generateProviderConfigFromEnvs();
             AbstractDataProvider defaultDP = new PrometheusDataProvider();
             defaultDP.setProviderConfig(defaultPC);
@@ -66,7 +66,7 @@ public class DAO {
         }
         // print data providers
         for (AbstractDataProvider adp : dataProviders.values()) {
-            LogFactory.getLogger().info("Registered ProviderConfig[name=" + adp.getProviderConfig().getName()
+            LogFactory.getLogger().info("DAO: Registered ProviderConfig[name=" + adp.getProviderConfig().getName()
                     + ", type=" + adp.getProviderConfig().getType()
                     + ", uri=" + adp.getProviderConfig().getUri() + "]");
             AmMetrics.alertmonitor_providers_info.labels(adp.getProviderConfig().getName(), adp.getProviderConfig().getType(), adp.getProviderConfig().getUri()).set(1);

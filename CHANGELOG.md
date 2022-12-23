@@ -1,6 +1,9 @@
 ## 2.4.4-SNAPSHOT
 
 * [CHANGE] Removed statistics view (content moved elsewhere)
+* [CHANGE] Updated primefaces version 11 to 12
+* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_INTERVAL_SEC` is now deprecated, instead `ALERTMONITOR_SYNC_INTERVAL_SEC` should be used.
+* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME` to set the name of default data provider.
 * [ENHANCEMENT] Http client supports basic authentication for connection to providers
 
 ## 2.4.3-SNAPSHOT
@@ -10,8 +13,8 @@
 * [CHANGE] Metric `alertmonitor_webhook_messages_received_total` renamed to `alertmonitor_webhook_requests_received_total`
 * [CHANGE] Metric `alertmonitor_journal_messages_total` renamed to `alertmonitor_journal_events_total`
 * [FEATURE] Providers view with configuration
-* [FEATURE] Added environment variables `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set configuration file path 
-and `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection establishment timeout.
+* [FEATURE] Added environment variables `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set providers configuration file path 
+and `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection establishment timeout
 
 ## 2.4.2-SNAPSHOT
 

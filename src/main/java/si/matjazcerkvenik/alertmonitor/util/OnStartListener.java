@@ -90,7 +90,6 @@ public class OnStartListener implements ServletContextListener {
 
         // load yaml config file
         AmProps.yamlConfig = ConfigReader.loadProvidersYaml(AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE);
-        System.out.println(AmProps.yamlConfig.toString());
 
         // initialize DAO
         DAO.getInstance();

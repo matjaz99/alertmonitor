@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.io.*;
 import java.util.List;
@@ -31,10 +32,9 @@ public class ConfigReader {
         representer.getPropertyUtils().setSkipMissingProperties(true);
         Yaml yaml = new Yaml(new Constructor(YamlConfig.class), representer);
         File f = new File(path);
-        if (!f.exists()) return null;
-        InputStream inputStream;
         try {
-            inputStream = new FileInputStream(f);
+            if (!f.exists()) throw new FileNotFoundException();
+            InputStream inputStream = new FileInputStream(f);
             YamlConfig config = yaml.load(inputStream);
             LogFactory.getLogger().info("providers config loaded: " + f.getAbsolutePath());
             verifyConfigAndSetDefaults(config.getProviders());
@@ -57,6 +57,7 @@ public class ConfigReader {
         for (ProviderConfig pc : configs) {
 
             if (pc.getName() == null) pc.setName("Provider_" + pc.hashCode());
+            pc.setId(MD5.getChecksum(pc.getName()));
             if (pc.getUri() == null) throw new ConfigException("missing uri parameter");
             if (pc.getType().equalsIgnoreCase("prometheus")) {
                 // TODO check params

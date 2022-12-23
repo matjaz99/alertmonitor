@@ -41,3 +41,12 @@ providers:
       clientConnectTimeout: 10
       clientReadTimeout: 120
       syncInterval: 0
+  - name: dummy
+    type: prometheus
+    uri: /alertmonitor/webhook/dummy
+    params:
+      server: http://dummy:12345/dummy
+      clientPoolSize: 10
+      clientConnectTimeout: 10
+      clientReadTimeout: 120
+      syncInterval: 0

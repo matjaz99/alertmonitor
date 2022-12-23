@@ -231,25 +231,28 @@ to behaviour of the application, while other variables may be used for other pur
 configuration or custom environment variable substitution.
 
 > With environment variables, only `.default` data provider (Prometheus) can be configured. Other providers 
-are configured in `providers.yml` (see Data Providers). 
+are configured in `providers.yml` (see Data Providers). If providers config file is not found, default data provider 
+is constructed from environment variables.
 
 A list of supported environment variables:
 
-| EnvVar                                        | Description                                                                                            |
-|-----------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE        | File path to providers.yml configuration file.  Default: /opt/alertmonitor/providers.yml               |
-| ALERTMONITOR_DATA_RETENTION_DAYS              | History data in days.  Default: 7                                                                      |
-| ALERTMONITOR_PSYNC_INTERVAL_SEC               | Periodic synchronisation interval in seconds.  Default: 900                                            |
-| ALERTMONITOR_PROMETHEUS_SERVER                | The URL of Prometheus server.  Default: http://localhost:9090                                          |
-| ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE      | Pool size of http clients for communication with Prometheus API.  Default: 1                           |
-| ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC     | Timeout of http client requests.  Default: 120                                                         |
-| ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC  | Connection timeout of http client. Default: 10                                                         |
-| ALERTMONITOR_DATE_FORMAT                      | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss                                        |
-| ALERTMONITOR_KAFKA_ENABLED                    | Enable or disable publishing to Kafka. This is experimental feature!  Default: false                   |
-| ALERTMONITOR_KAFKA_SERVER                     | Hostname and port for Kafka.  Default: hostname:9092                                                   |
-| ALERTMONITOR_KAFKA_TOPIC                      | Name of topic.  Default: alertmonitor_notifications                                                    |
-| ALERTMONITOR_MONGODB_ENABLED                  | Enable or disable storing data to MongoDB. If disabled, data is stored in memory only.  Default: false | 
-| ALERTMONITOR_MONGODB_CONNECTION_STRING        | The connection string for MongoDB (username, password and host).                                       |
+| EnvVar                                           | Description                                                                                            |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE           | File path to providers.yml configuration file.  Default: /opt/alertmonitor/providers.yml               |
+| ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME | Name of default data provider.  Default: .default                                                      |
+| ALERTMONITOR_DATA_RETENTION_DAYS                 | History data in days.  Default: 7                                                                      |
+| ALERTMONITOR_SYNC_INTERVAL_SEC                   | Periodic synchronisation interval in seconds.  Default: 900                                            |
+| ALERTMONITOR_PROMETHEUS_SERVER                   | The URL of Prometheus server.  Default: http://localhost:9090                                          |
+| ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE         | Pool size of http clients for communication with Prometheus API.  Default: 1                           |
+| ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC        | Timeout of http client requests.  Default: 120                                                         |
+| ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC     | Connection timeout of http client. Default: 10                                                         |
+| ALERTMONITOR_DATE_FORMAT                         | Date format for displaying in GUI.  Default: yyyy/MM/dd H:mm:ss                                        |
+| ALERTMONITOR_KAFKA_ENABLED                       | Enable or disable publishing to Kafka. This is experimental feature!  Default: false                   |
+| ALERTMONITOR_KAFKA_SERVER                        | Hostname and port for Kafka.  Default: hostname:9092                                                   |
+| ALERTMONITOR_KAFKA_TOPIC                         | Name of topic.  Default: alertmonitor_notifications                                                    |
+| ALERTMONITOR_MONGODB_ENABLED                     | Enable or disable storing data to MongoDB. If disabled, data is stored in memory only.  Default: false | 
+| ALERTMONITOR_MONGODB_CONNECTION_STRING           | The connection string for MongoDB (username, password and host).                                       |
+
 
 ### Security
 
@@ -303,13 +306,24 @@ GET /alertmonitor/metrics
 
 Alertmonitor supports the following metrics in Prometheus format:
 - `alertmonitor_build_info`
-- `alertmonitor_webhook_messages_received_total`
-- `alertmonitor_journal_messages_total`
+- `alertmonitor_providers_info`
+- `alertmonitor_webhook_requests_received_total`
+- `alertmonitor_journal_events_total`
 - `alertmonitor_active_alerts_count`
 - `alertmonitor_alerts_balance_factor`
 - `alertmonitor_last_event_timestamp`
 - `alertmonitor_prom_api_duration_seconds`
+- `alertmonitor_sync_success`
 - `alertmonitor_sync_interval_seconds`
+- `alertmonitor_db_inserts_total`
+- `alertmonitor_db_queries_total`
+- `alertmonitor_db_updates_total`
+- `alertmonitor_db_deletes_total`
+- `alertmonitor_db_failures_total`
+- `alertmonitor_memory_total_bytes`
+- `alertmonitor_memory_free_bytes`
+- `alertmonitor_memory_max_bytes`
+- `alertmonitor_available_processors`
 
 
 ## Log files
