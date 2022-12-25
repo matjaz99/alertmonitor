@@ -45,7 +45,7 @@ public abstract class AbstractDataProvider {
     protected Timer syncTimer = null;
 
     /** Map of warnings in this data provider. */
-    private Map<String, String> warnings = new HashMap<>();
+    private Map<String, DWarning> warnings = new HashMap<>();
 
     protected long webhookMessagesReceivedCount = 0;
     protected long journalReceivedCount = 0;
@@ -344,15 +344,29 @@ public abstract class AbstractDataProvider {
         return new ArrayList<>(map.keySet());
     }
 
-    public void addWarning(String msgKey, String msg) {
-        warnings.put(msgKey, msg);
+    /**
+     * Add new warning. If this is the first real 'warning', then remove the 'success' warning.
+     * @param msgKey
+     * @param msg
+     * @param severity
+     */
+    public void addWarning(String msgKey, String msg, String severity) {
+        warnings.remove("success");
+        warnings.put(msgKey, new DWarning(severity, msg));
     }
 
+    /**
+     * If this is the last warning to be removed from the list, then create a 'success' warning.
+     * @param msgKey
+     */
     public void removeWarning(String msgKey) {
         warnings.remove(msgKey);
+        if (warnings.size() == 0) {
+            warnings.put("success", new DWarning(DWarning.DWARNING_SEVERITY_CLEAR, "Working OK"));
+        }
     }
 
-    public List<String> getWarnings() {
+    public List<DWarning> getWarnings() {
         return new ArrayList<>(warnings.values());
     }
 

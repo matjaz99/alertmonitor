@@ -17,6 +17,7 @@ package si.matjazcerkvenik.alertmonitor.providers;
 
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DSeverity;
+import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.*;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PAlert;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
@@ -42,7 +43,6 @@ public class PrometheusSyncTask extends TimerTask {
     @Override
     public void run() {
 
-        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === starting synchronization ===");
         dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
         PrometheusHttpClient api = dataProvider.getPrometheusApiClientPool().getClient();
@@ -53,9 +53,8 @@ public class PrometheusSyncTask extends TimerTask {
 
             if (activeAlerts == null) {
                 logger.error("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: null response returned");
-                logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === Periodic synchronization complete ===");
                 dataProvider.syncFailedCount++;
-                dataProvider.addWarning("sync", "Synchronization is failing");
+                dataProvider.addWarning("sync", "Synchronization is failing", DWarning.DWARNING_SEVERITY_WARNING);
                 return;
             }
 
@@ -142,12 +141,10 @@ public class PrometheusSyncTask extends TimerTask {
             logger.error("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: failed to synchronize alarms; root cause: " + e.getMessage());
             dataProvider.syncFailedCount++;
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
-            dataProvider.addWarning("sync", "Synchronization is failing");
+            dataProvider.addWarning("sync", "Synchronization is failing", DWarning.DWARNING_SEVERITY_WARNING);
         } finally {
             dataProvider.getPrometheusApiClientPool().returnClient(api);
         }
-
-        logger.info("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: === synchronization complete ===");
 
     }
 

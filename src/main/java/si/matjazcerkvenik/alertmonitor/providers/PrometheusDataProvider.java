@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
+import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
@@ -198,7 +199,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(interval);
         if (interval == 0) {
             LogFactory.getLogger().info("Sync is disabled");
-            addWarning("SyncDisabled", "Synchronization is disabled");
+            addWarning("SyncDisabled", "Synchronization is disabled", DWarning.DWARNING_SEVERITY_WARNING);
             return;
         }
 

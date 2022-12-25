@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
@@ -334,9 +335,8 @@ public class UiConfigBean {
         return Formatter.convertToDHMSFormat(secUp);
     }
 
-    public List<String> getWarnings() {
+    public List<DWarning> getWarnings() {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        if (adp.getWarnings().size() == 0) return null;
         return adp.getWarnings();
     }
 

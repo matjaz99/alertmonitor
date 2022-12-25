@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.model.prometheus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
+import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
@@ -89,7 +90,7 @@ public class PrometheusHttpClient {
      */
     public PQueryMessage query(String query) throws PrometheusHttpClientException {
 
-        logger.info("PrometheusApi[" + name + "]: query: " + query);
+        logger.info("PrometheusHttpClient[" + name + "]: query: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -118,7 +119,7 @@ public class PrometheusHttpClient {
      */
     public PQueryMessage queryRange(String query, long start, long end, String step) throws PrometheusHttpClientException {
 
-        logger.info("PrometheusApi[" + name + "]: queryRange: " + query);
+        logger.info("PrometheusHttpClient[" + name + "]: queryRange: " + query);
 
         RequestBody formBody = new FormBody.Builder()
                 // add url encoded parameters
@@ -153,7 +154,6 @@ public class PrometheusHttpClient {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             PQueryMessage msg = gson.fromJson(responseBody, PQueryMessage.class);
-            logger.info("status: " + msg.getStatus());
 
             return msg;
 
@@ -268,18 +268,17 @@ public class PrometheusHttpClient {
 
         try {
 
-            // TODO new env var connect timeout
             OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout, basicAuthUsername, basicAuthPassword);
 
-            logger.info("PrometheusApi[" + name + "]: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
+            logger.info("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();
-            logger.info("PrometheusApi[" + name + "]: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
 
             code = Integer.toString(response.code());
 
             if (response.body() != null) {
                 responseBody = response.body().string();
-                logger.debug("PrometheusApi[" + name + "]: request[" + requestCount + "] body: " + responseBody);
+                logger.debug("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] body: " + responseBody);
             }
 
             response.close();
@@ -287,29 +286,29 @@ public class PrometheusHttpClient {
             dataProvider.removeWarning("prom_api");
 
         } catch (UnknownHostException e) {
-            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
-            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Unknown Host");
         } catch (SocketTimeoutException e) {
-            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
-            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Timeout");
         } catch (SocketException e) {
-            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
             code = "0";
-            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Socket Error");
         } catch (SSLException e) {
-            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
             code = "0";
-            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("SSL Exception");
         } catch (Exception e) {
-            logger.error("PrometheusApi[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
             code = "0";
-            dataProvider.addWarning("prom_api", "Prometheus API not reachable");
+            dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Unknown Exception");
         } finally {
             double duration = (System.currentTimeMillis() - before) * 1.0 / 1000;

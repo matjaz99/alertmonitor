@@ -28,20 +28,25 @@ import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @ManagedBean
-@SessionScoped
+//@RequestScoped
+//@SessionScoped
+@ViewScoped
 @SuppressWarnings("unused")
 public class UiReportBean {
 
-    @ManagedProperty(value="#{uiConfigBean}")
-    private UiConfigBean uiConfigBean;
+//    @ManagedProperty(value="#{uiConfigBean}")
+//    private UiConfigBean uiConfigBean;
+
+    private AbstractDataProvider adp;
 
     private final String QUERY_PROM_UP_TIME = "round(time()-process_start_time_seconds{job=\"prometheus\"})";
     private final String QUERY_COUNT_TARGETS_ALL = "count(up)";
@@ -53,13 +58,25 @@ public class UiReportBean {
     private final String QUERY_PROMETHEUS_90_PERCENT_REQUEST_DURATION = "histogram_quantile(0.90, sum(rate(prometheus_http_request_duration_seconds_bucket[__INTERVAL__m])) by (le)) * 1000";
     private final String QUERY_PROMETHEUS_AVERAGE_RESPONSE_TIME = "sum(rate(prometheus_http_request_duration_seconds_sum[1m])) / sum(rate(prometheus_http_request_duration_seconds_count[1m])) * 1000";
 
-    public UiConfigBean getUiConfigBean() {
-        return uiConfigBean;
+    @PostConstruct
+    public void init() {
+        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String id = requestParameterMap.getOrDefault("provider", "null");
+        adp = DAO.getInstance().getDataProviderById(id);
+        LogFactory.getLogger().info("UiReportBean: init: found provider: " + adp.getProviderConfig().getName() + "@" + adp.getProviderConfig().getUri());
     }
 
-    public void setUiConfigBean(UiConfigBean uiConfigBean) {
-        this.uiConfigBean = uiConfigBean;
+    public AbstractDataProvider getAdp() {
+        return adp;
     }
+
+//    public UiConfigBean getUiConfigBean() {
+//        return uiConfigBean;
+//    }
+//
+//    public void setUiConfigBean(UiConfigBean uiConfigBean) {
+//        this.uiConfigBean = uiConfigBean;
+//    }
 
     public String getPrometheusUpTime() {
         PQueryMessage queryMessage = executeQuery(QUERY_PROM_UP_TIME);
@@ -204,7 +221,6 @@ public class UiReportBean {
 
 
     private PQueryMessage executeQuery(String query) {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
         PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             return api.query(query);
@@ -217,7 +233,6 @@ public class UiReportBean {
     }
 
     private PQueryMessage executeQueryRange(String query) {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
         PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
         try {
             long t = System.currentTimeMillis() / 1000;

@@ -103,8 +103,15 @@ public class DAO {
         TaskManager.getInstance().startDbMaintenanceTask();
     }
 
-    public AbstractDataProvider getDataProvider(String key) {
-        return dataProviders.getOrDefault(key, null);
+    public AbstractDataProvider getDataProvider(String name) {
+        return dataProviders.getOrDefault(name, null);
+    }
+
+    public AbstractDataProvider getDataProviderById(String id) {
+        for (AbstractDataProvider adp : DAO.instance.getAllDataProviders()) {
+            if (adp.getProviderConfig().getId().equalsIgnoreCase(id)) return adp;
+        }
+        return null;
     }
 
     public AbstractDataProvider getDataProviderByUri(String uri) {
@@ -158,9 +165,9 @@ public class DAO {
 //    }
 
 
-    public void addWarningToAllProviders(String msgKey, String msg) {
+    public void addWarningToAllProviders(String msgKey, String msg, String severity) {
         for (AbstractDataProvider adp : dataProviders.values()) {
-            adp.addWarning(msgKey, msg);
+            adp.addWarning(msgKey, msg, severity);
         }
     }
 

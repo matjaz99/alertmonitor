@@ -10,24 +10,21 @@
 		<ui:define name="contentFrame">
 
 			<h:form id="reportForm">
-				<h1>Alertmonitor report @ #{uiConfigBean.currentTime}</h1>
+				<h1>Report for: #{uiReportBean.adp.providerConfig.name}</h1>
 
 				<p:panel header="Alertmonitor status" styleClass="bottom-margin">
-					<am:warnings />
-					<p:panelGrid columns="1" cellpadding="0" cellspacing="15" width="100%" styleClass="ui-noborder" rendered="#{uiConfigBean.warnings == null}">
-						<p:tag styleClass="p-mr-2" severity="success" icon="pi pi-check" value="Working OK" style="margin-right: 15px;"></p:tag>
-					</p:panelGrid>
+					<am:warnings value="#{uiReportBean.adp.warnings}" />
 					<p class="m-0">
-						Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiConfigBean.alarmsCount} alerts and #{uiConfigBean.clearsCount} clears were received.
-						In last hour there were #{uiConfigBean.numberOfAlertsInLastHour} events.
-						Currently, there are #{uiConfigBean.allActiveAlarmsCount} active alerts on #{uiConfigBean.allAlarmingInstancesCount} targets.
+						Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiReportBean.adp.raisingEventCount} alerts and #{uiReportBean.adp.clearingEventCount} clears were received.
+						In last hour there were uiReportBean.adp.numberOfAlertsInLastHour events.
+						Currently, there are #{uiReportBean.adp.allActiveAlarmsCount} active alerts on #{uiReportBean.adp.activeTargets.size()} targets.
 					</p>
-					<p:outputLabel value="Critical: #{uiConfigBean.getActiveAlarmsCount('critical')}" /><br/>
-					<p:outputLabel value="Major: #{uiConfigBean.getActiveAlarmsCount('major')}" /><br/>
-					<p:outputLabel value="Minor: #{uiConfigBean.getActiveAlarmsCount('minor')}" /><br/>
-					<p:outputLabel value="Warning: #{uiConfigBean.getActiveAlarmsCount('warning')}" /><br/>
+					<p:outputLabel value="Critical: #{uiReportBean.adp.getActiveAlarmsCount('critical')}" /><br/>
+					<p:outputLabel value="Major: #{uiReportBean.adp.getActiveAlarmsCount('major')}" /><br/>
+					<p:outputLabel value="Minor: #{uiReportBean.adp.getActiveAlarmsCount('minor')}" /><br/>
+					<p:outputLabel value="Warning: #{uiReportBean.adp.getActiveAlarmsCount('warning')}" /><br/>
 					<p class="m-0">
-						Periodic synchronization interval is #{uiConfigBean.syncInterval} seconds. Since start there were #{uiConfigBean.syncSuccessCount} successful syncs and #{uiConfigBean.syncFailedCount} failed.
+						Periodic synchronization interval is set to #{uiReportBean.adp.syncInterval} seconds. Since start there were #{uiReportBean.adp.syncSuccessCount} successful syncs and #{uiReportBean.adp.syncFailedCount} failed.
 					</p>
 				</p:panel>
 

@@ -1,10 +1,12 @@
 ## 2.4.4-SNAPSHOT
 
 * [CHANGE] Removed statistics view (content moved elsewhere)
+* [CHANGE] Internal report moved to providers. Report is now shown separately for each provider.
 * [CHANGE] Updated primefaces version 11 to 12
 * [CHANGE] Environment variable `ALERTMONITOR_PSYNC_INTERVAL_SEC` is now deprecated, instead `ALERTMONITOR_SYNC_INTERVAL_SEC` should be used.
 * [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME` to set the name of default data provider.
 * [ENHANCEMENT] Http client supports basic authentication for connection to providers
+* [ENHANCEMENT] Improved warning messages, added severity levels
 
 ## 2.4.3-SNAPSHOT
 
@@ -18,7 +20,7 @@ and `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection estab
 
 ## 2.4.2-SNAPSHOT
 
-* [FEATURE] Introducing Data Providers
+* [FEATURE] Introducing Data Providers. Until now only one Prometheus was supported; now you can have many.
 
 ## 2.4.1-SNAPSHOT
 

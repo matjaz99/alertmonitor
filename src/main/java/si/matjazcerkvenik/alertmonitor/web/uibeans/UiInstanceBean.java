@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.web;
+package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
@@ -43,10 +43,10 @@ public class UiInstanceBean {
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = requestParameterMap.getOrDefault("tid", "null");
+        String id = requestParameterMap.getOrDefault("target", "null");
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
         target = adp.getSingleTarget(id);
-        LogFactory.getLogger().info("Found target: " + target.toString());
+        LogFactory.getLogger().info("UiInstanceBean: init: found target: " + target.toString());
     }
 
     public UiConfigBean getUiConfigBean() {
