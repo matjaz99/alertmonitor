@@ -27,13 +27,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @ManagedBean
 @ViewScoped
 @SuppressWarnings("unused")
-public class UiInstanceBean {
+public class UiInstanceBean implements Serializable {
+
+    private static final long serialVersionUID = 7961535598744624L;
 
     @ManagedProperty(value="#{uiConfigBean}")
     private UiConfigBean uiConfigBean;

@@ -45,7 +45,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     public void processIncomingEvent(WebhookMessage m) {
 
         DAO.getInstance().getDataManager().addWebhookMessage(m);
-        webhookMessagesReceivedCount++;
+        webhookRequestsReceivedCount++;
         AmMetrics.alertmonitor_webhook_requests_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
 
         try {

@@ -16,6 +16,7 @@
 package si.matjazcerkvenik.alertmonitor.web.servlets;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,12 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
-import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
-public class WebhookServlet extends HttpServlet {
+public class WebhookServlet extends HttpServlet implements Serializable {
 
 	private static final long serialVersionUID = 4274913262329715396L;
 
@@ -83,7 +83,7 @@ public class WebhookServlet extends HttpServlet {
 		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
-		m.setId(dataProvider.getWebhookMessagesReceivedCount());
+		m.setId(dataProvider.getWebhookRequestsReceivedCount());
 		m.setRuntimeId(AmProps.RUNTIME_ID);
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());

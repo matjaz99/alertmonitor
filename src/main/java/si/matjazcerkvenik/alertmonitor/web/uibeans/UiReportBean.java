@@ -31,6 +31,7 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,9 @@ import java.util.Map;
 //@SessionScoped
 @ViewScoped
 @SuppressWarnings("unused")
-public class UiReportBean {
+public class UiReportBean implements Serializable {
+
+    private static final long serialVersionUID = 484765215984854L;
 
 //    @ManagedProperty(value="#{uiConfigBean}")
 //    private UiConfigBean uiConfigBean;
@@ -221,26 +224,26 @@ public class UiReportBean {
 
 
     private PQueryMessage executeQuery(String query) {
-        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
         try {
             return api.query(query);
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQuery: " + query + ": exception: ", e);
         } finally {
-            adp.getPrometheusApiClientPool().returnClient(api);
+            adp.getHttpClientPool().returnClient(api);
         }
         return null;
     }
 
     private PQueryMessage executeQueryRange(String query) {
-        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
         try {
             long t = System.currentTimeMillis() / 1000;
             return api.queryRange(query, (t - 3600), t, "1m");
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQueryRange: " + query + ": exception: ", e);
         } finally {
-            adp.getPrometheusApiClientPool().returnClient(api);
+            adp.getHttpClientPool().returnClient(api);
         }
         return null;
     }

@@ -22,6 +22,7 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.Growl;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,9 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 @SuppressWarnings("unused")
-public class UiBean {
+public class UiBean implements Serializable {
+
+	private static final long serialVersionUID = 479421012028252L;
 
 	@ManagedProperty(value="#{uiConfigBean}")
 	private UiConfigBean uiConfigBean;

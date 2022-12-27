@@ -83,6 +83,7 @@ public class AmProps {
             ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
             ALERTMONITOR_MONGODB_DB_NAME = "alrtmonitor-dev";
             ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
+            ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = "MONIS";
         }
 
     }

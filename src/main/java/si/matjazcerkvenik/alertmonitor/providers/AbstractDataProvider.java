@@ -47,7 +47,7 @@ public abstract class AbstractDataProvider {
     /** Map of warnings in this data provider. */
     private Map<String, DWarning> warnings = new HashMap<>();
 
-    protected long webhookMessagesReceivedCount = 0;
+    protected long webhookRequestsReceivedCount = 0;
     protected long journalReceivedCount = 0;
     protected long lastEventTimestamp = 0;
     protected long lastSyncTimestamp = 0;
@@ -372,8 +372,8 @@ public abstract class AbstractDataProvider {
 
     public abstract void restartSyncTimer();
 
-    public long getWebhookMessagesReceivedCount() {
-        return webhookMessagesReceivedCount;
+    public long getWebhookRequestsReceivedCount() {
+        return webhookRequestsReceivedCount;
     }
 
     public long getJournalCount() {
@@ -433,7 +433,7 @@ public abstract class AbstractDataProvider {
         return clearingEventCount;
     }
 
-    public PrometheusHttpClientPool getPrometheusApiClientPool() {
+    public PrometheusHttpClientPool getHttpClientPool() {
         return prometheusHttpClientPool;
     }
 

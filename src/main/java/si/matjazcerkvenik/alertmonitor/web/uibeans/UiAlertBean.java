@@ -29,12 +29,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.*;
 
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiAlertBean {
+public class UiAlertBean implements Serializable {
+
+    private static final long serialVersionUID = 2791411831853745037L;
 
     @ManagedProperty(value="#{uiConfigBean}")
     private UiConfigBean uiConfigBean;

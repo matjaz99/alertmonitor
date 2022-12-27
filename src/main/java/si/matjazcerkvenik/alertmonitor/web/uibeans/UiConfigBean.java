@@ -24,7 +24,7 @@ import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.text.DecimalFormat;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,9 +33,11 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 @SuppressWarnings("unused")
-public class UiConfigBean {
+public class UiConfigBean implements Serializable {
 
-    private String selectedDataProvider = ".default";
+    private static final long serialVersionUID = 320547795413589L;
+
+    private String selectedDataProvider = AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME;
     private String selectedLogLevel = "INFO";
 
     private List<String> allDataProviders;
@@ -201,14 +203,14 @@ public class UiConfigBean {
         LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
 
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        PrometheusHttpClient api = adp.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
 
         try {
             api.reload();
         } catch (Exception e) {
             LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
         } finally {
-            adp.getPrometheusApiClientPool().returnClient(api);
+            adp.getHttpClientPool().returnClient(api);
         }
 
         return "";

@@ -45,7 +45,7 @@ public class PrometheusSyncTask extends TimerTask {
 
         dataProvider.setLastSyncTimestamp(System.currentTimeMillis());
 
-        PrometheusHttpClient api = dataProvider.getPrometheusApiClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
 
         try {
 
@@ -143,7 +143,7 @@ public class PrometheusSyncTask extends TimerTask {
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(0);
             dataProvider.addWarning("sync", "Synchronization is failing", DWarning.DWARNING_SEVERITY_WARNING);
         } finally {
-            dataProvider.getPrometheusApiClientPool().returnClient(api);
+            dataProvider.getHttpClientPool().returnClient(api);
         }
 
     }
