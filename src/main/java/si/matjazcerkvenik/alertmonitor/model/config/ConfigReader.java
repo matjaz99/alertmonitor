@@ -23,7 +23,9 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.util.MD5;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigReader {
 
@@ -37,7 +39,7 @@ public class ConfigReader {
             InputStream inputStream = new FileInputStream(f);
             YamlConfig config = yaml.load(inputStream);
             LogFactory.getLogger().info("providers config loaded: " + f.getAbsolutePath());
-            verifyConfigAndSetDefaults(config.getProviders());
+            verifyConfigs(config.getProviders());
             return config;
         } catch (FileNotFoundException e) {
             LogFactory.getLogger().warn("ConfigReader: no file providers.yml found at " +  path);
@@ -53,23 +55,30 @@ public class ConfigReader {
      * Check all parameters if they suit the selected provider type and set default values where needed.
      * @return true if config is valid
      */
-    public static List<ProviderConfig> verifyConfigAndSetDefaults(List<ProviderConfig> configs) throws ConfigException {
+    public static List<ProviderConfig> verifyConfigs(List<ProviderConfig> configs) throws ConfigException {
+
+        if (configs == null) throw new ConfigException("config is null");
+
         for (ProviderConfig pc : configs) {
 
-            if (pc.getName() == null) pc.setName("Provider_" + pc.hashCode());
+            // check mandatory parameters
+            LogFactory.getLogger().info("checking provider config: " + pc.getName());
+            if (pc.getName() == null) throw new ConfigException("missing provider name");
             pc.setId(MD5.getChecksum(pc.getName()));
-            if (pc.getUri() == null) throw new ConfigException("missing uri parameter");
+            if (pc.getUri() == null) throw new ConfigException("missing provider uri");
+            if (pc.getType() == null) throw new ConfigException("missing provider type");
+
+            // add empty map if whole params section is missing, it will be filled below
+            if (pc.getParams() == null) pc.setParams(new HashMap<>());
+
             if (pc.getType().equalsIgnoreCase("prometheus")) {
-                // TODO check params
-                Object connTim = pc.getParams().get(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC);
-                LogFactory.getLogger().info("connT: " + connTim.toString());
-                if (connTim == null || connTim.toString().length() == 0) {
-                    connTim = "10";
-                    pc.setParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC, String.valueOf(connTim));
-                    LogFactory.getLogger().info("default 10 set");
-                } else {
-                    // check if number
-                }
+
+                checkParam(pc.getParams(), PrometheusDataProvider.DP_PARAM_KEY_SERVER, "http://undefined-hostname-config:9090");
+                checkParam(pc.getParams(), PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE, "1");
+                checkParam(pc.getParams(), PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC, "10");
+                checkParam(pc.getParams(), PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, "60");
+                checkParam(pc.getParams(), PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, "60");
+
             } else if (pc.getType().equalsIgnoreCase("eventlogger")) {
 
             } else {
@@ -80,6 +89,19 @@ public class ConfigReader {
 
 
         return configs;
+    }
+
+    /**
+     * Check if param exists. If not, then fill it with default value.
+     * @param params
+     * @param defaultValue
+     */
+    private static void checkParam(Map<String, Object> params, String paramName, String defaultValue) {
+        Object p = params.get(paramName);
+        if (p == null) {
+            params.put(paramName, defaultValue);
+            LogFactory.getLogger().warn("param " + paramName + " is missing; default will be used: " + defaultValue);
+        }
     }
 
 }

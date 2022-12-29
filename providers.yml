@@ -6,9 +6,6 @@ providers:
     uri: /alertmonitor/webhook/promvm
     params:
       server: https://promvm/prometheus
-      clientPoolSize: 1
-      clientConnectTimeout: 10
-      clientReadTimeout: 120
       syncInterval: 120
   - name: swarm1
     type: prometheus
@@ -37,16 +34,7 @@ providers:
     uri: /alertmonitor/webhook/eventlogger
     params:
       server: http://swarm1:7073/eventlogger
-      clientPoolSize: 1
-      clientConnectTimeout: 10
-      clientReadTimeout: 120
       syncInterval: 0
   - name: dummy
     type: prometheus
     uri: /alertmonitor/webhook/dummy
-    params:
-      server: http://dummy:12345/dummy
-      clientPoolSize: 10
-      clientConnectTimeout: 10
-      clientReadTimeout: 120
-      syncInterval: 0

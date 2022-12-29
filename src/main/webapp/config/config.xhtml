@@ -28,11 +28,6 @@
 						<f:selectItem itemLabel="TRACE" itemValue="TRACE"/>
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Select Data Provider: " class="boldtext"/>
-					<p:selectOneMenu id="selectedDataProvider" value="#{uiConfigBean.selectedDataProvider}" dynamic="true" onchange="submit()">
-						<f:selectItems value="#{uiConfigBean.allDataProviderNames}"/>
-					</p:selectOneMenu>
-
 					<p:outputLabel value="Data retention (days): " class="boldtext"/>
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.dataRetention}" required="true" label="text"/>

@@ -46,9 +46,6 @@ public class UiReportBean implements Serializable {
 
     private static final long serialVersionUID = 484765215984854L;
 
-//    @ManagedProperty(value="#{uiConfigBean}")
-//    private UiConfigBean uiConfigBean;
-
     private AbstractDataProvider adp;
 
     private final String QUERY_PROM_UP_TIME = "round(time()-process_start_time_seconds{job=\"prometheus\"})";
@@ -72,14 +69,6 @@ public class UiReportBean implements Serializable {
     public AbstractDataProvider getAdp() {
         return adp;
     }
-
-//    public UiConfigBean getUiConfigBean() {
-//        return uiConfigBean;
-//    }
-//
-//    public void setUiConfigBean(UiConfigBean uiConfigBean) {
-//        this.uiConfigBean = uiConfigBean;
-//    }
 
     public String getPrometheusUpTime() {
         PQueryMessage queryMessage = executeQuery(QUERY_PROM_UP_TIME);

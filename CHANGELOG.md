@@ -1,3 +1,5 @@
+## 2.4.5-SNAPSHOT
+
 ## 2.4.4-SNAPSHOT
 
 * [CHANGE] Removed statistics view (content moved elsewhere)
