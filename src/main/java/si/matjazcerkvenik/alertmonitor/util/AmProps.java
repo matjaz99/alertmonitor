@@ -55,6 +55,7 @@ public class AmProps {
     public static void loadProps() {
 
         // read configuration from environment variables
+        // these are defaults if nothing is configured
         ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE", "/opt/alertmonitor/providers.yml").trim();
         ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME", ".default").trim();
         ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
@@ -83,7 +84,7 @@ public class AmProps {
             ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
             ALERTMONITOR_MONGODB_DB_NAME = "alrtmonitor-dev";
             ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
-            ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = "MONIS";
+            //ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = "MONIS";
         }
 
     }

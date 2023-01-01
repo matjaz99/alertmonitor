@@ -46,42 +46,9 @@
 
 						</p:panelGrid>
 
+						<br/>
 
-						<p:panelGrid columns="5" cellpadding="0" cellspacing="15" width="100%" style="border: none">
-
-							<p:panelGrid columns="1" cellspacing="5" width="100%">
-								<p:outputLabel value="Active alerts" class="boldtext"/>
-								<p:outputLabel value="Critical: #{p.getActiveAlarmsCount('critical')}" />
-								<p:outputLabel value="Major: #{p.getActiveAlarmsCount('major')}" />
-								<p:outputLabel value="Minor: #{p.getActiveAlarmsCount('minor')}" />
-								<p:outputLabel value="Warning: #{p.getActiveAlarmsCount('warning')}" />
-								<p:outputLabel value="Total alerts: #{p.allActiveAlarmsCount}" />
-								<p:outputLabel value="Balance factor: #{p.balanceFactor}" />
-							</p:panelGrid>
-
-							<p:panelGrid columns="1" cellspacing="5" width="100%">
-								<p:outputLabel value="Counters" class="boldtext"/>
-								<p:outputLabel value="URI requests: #{p.webhookRequestsReceivedCount}" />
-								<p:outputLabel value="Journal events: #{p.journalCount}" />
-								<p:outputLabel value="Journal size: #{p.journalSize}" />
-								<p:outputLabel value="Firing count: #{p.raisingEventCount}" />
-								<p:outputLabel value="Resolved count: #{p.clearingEventCount}" />
-								<p:outputLabel value="-" />
-							</p:panelGrid>
-
-							<p:panelGrid columns="1" cellspacing="5" width="100%">
-								<p:outputLabel value="Sync" class="boldtext"/>
-								<p:outputLabel value="Sync interval: #{p.syncInterval} sec" />
-								<p:outputLabel value="-" />
-								<p:outputLabel value="Sync success: #{p.syncSuccessCount}" />
-								<p:outputLabel value="Sync fail: #{p.syncFailedCount}" />
-								<p:outputLabel value="-" />
-								<p:outputLabel value="-" />
-							</p:panelGrid>
-
-						</p:panelGrid>
-
-
+						<p:outputLabel value="Configuration parameters" class="boldtext"/>
 						<p:dataTable value="#{p.providerConfig.params}" var="c"
 									 cellpadding="0" cellspacing="0">
 							<p:column headerText="Params">

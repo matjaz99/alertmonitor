@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class ConfigReader {
 
-    public static YamlConfig loadProvidersYaml(String path) {
+    public static YamlConfig loadProvidersYamlConfig(String path) {
         Representer representer = new Representer();
         representer.getPropertyUtils().setSkipMissingProperties(true);
         Yaml yaml = new Yaml(new Constructor(YamlConfig.class), representer);
@@ -86,7 +86,6 @@ public class ConfigReader {
             }
 
         }
-
 
         return configs;
     }

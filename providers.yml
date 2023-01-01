@@ -35,6 +35,12 @@ providers:
     params:
       server: http://swarm1:7073/eventlogger
       syncInterval: 0
-  - name: dummy
+  - name: no-params
     type: prometheus
     uri: /alertmonitor/webhook/dummy
+  - name: sync-off
+    type: prometheus
+    uri: /alertmonitor/webhook/test
+    params:
+      server: http://test:9090
+      syncInterval: 0

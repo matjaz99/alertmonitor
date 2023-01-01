@@ -19,12 +19,20 @@
 						In last hour there were uiReportBean.adp.numberOfAlertsInLastHour events.
 						Currently, there are #{uiReportBean.adp.allActiveAlarmsCount} active alerts on #{uiReportBean.adp.activeTargets.size()} targets.
 					</p>
+					<p:outputLabel value="Active alarms:" class="boldtext"/><br/>
 					<p:outputLabel value="Critical: #{uiReportBean.adp.getActiveAlarmsCount('critical')}" /><br/>
 					<p:outputLabel value="Major: #{uiReportBean.adp.getActiveAlarmsCount('major')}" /><br/>
 					<p:outputLabel value="Minor: #{uiReportBean.adp.getActiveAlarmsCount('minor')}" /><br/>
-					<p:outputLabel value="Warning: #{uiReportBean.adp.getActiveAlarmsCount('warning')}" /><br/>
+					<p:outputLabel value="Warning: #{uiReportBean.adp.getActiveAlarmsCount('warning')}" />
+					<p class="m-0">
+						<p:outputLabel value="Alarms balance factor: "/>
+						<p:outputLabel value="#{uiReportBean.adp.balanceFactor}" />
+					</p>
 					<p class="m-0">
 						Periodic synchronization interval is set to #{uiReportBean.adp.syncInterval} seconds. Since start there were #{uiReportBean.adp.syncSuccessCount} successful syncs and #{uiReportBean.adp.syncFailedCount} failed.
+					</p>
+					<p class="m-0">
+						This provider listens for incoming requests on #{uiReportBean.adp.providerConfig.uri} webhook. So far a total of #{uiReportBean.adp.webhookRequestsReceivedCount} requests were received which contain #{uiReportBean.adp.journalCount} events. Current journal size is: #{uiReportBean.adp.journalSize}.
 					</p>
 				</p:panel>
 

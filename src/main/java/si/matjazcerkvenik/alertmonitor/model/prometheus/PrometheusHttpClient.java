@@ -260,7 +260,7 @@ public class PrometheusHttpClient {
      */
     private String execute(Request request) throws PrometheusHttpClientException {
 
-        requestCount++;
+        long reqID = requestCount++;
 
         String responseBody = null;
         long before = System.currentTimeMillis();
@@ -270,15 +270,15 @@ public class PrometheusHttpClient {
 
             OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout, basicAuthUsername, basicAuthPassword);
 
-            logger.info("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] " + request.method().toUpperCase() + " " + request.url().toString());
+            logger.info("PrometheusHttpClient[" + name + "]: request[" + reqID + "] " + request.method().toUpperCase() + " " + request.url().toString());
             Response response = httpClient.newCall(request).execute();
-            logger.info("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] code=" + response.code() + ", success=" + response.isSuccessful());
+            logger.info("PrometheusHttpClient[" + name + "]: request[" + reqID + "] code=" + response.code() + ", success=" + response.isSuccessful());
 
             code = Integer.toString(response.code());
 
             if (response.body() != null) {
                 responseBody = response.body().string();
-                logger.debug("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] body: " + responseBody);
+                logger.debug("PrometheusHttpClient[" + name + "]: request[" + reqID + "] body: " + responseBody);
             }
 
             response.close();
@@ -286,27 +286,27 @@ public class PrometheusHttpClient {
             dataProvider.removeWarning("prom_api");
 
         } catch (UnknownHostException e) {
-            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: UnknownHostException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: UnknownHostException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Unknown Host");
         } catch (SocketTimeoutException e) {
-            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SocketTimeoutException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: SocketTimeoutException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Timeout");
         } catch (SocketException e) {
-            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SocketException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: SocketException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Socket Error");
         } catch (SSLException e) {
-            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: SSLException: " + e.getMessage());
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: SSLException: " + e.getMessage());
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("SSL Exception");
         } catch (Exception e) {
-            logger.error("PrometheusHttpClient[" + name + "]: request[" + requestCount + "] failed: Exception: ", e);
+            logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: Exception: ", e);
             code = "0";
             dataProvider.addWarning("prom_api", "Prometheus API not reachable", DWarning.DWARNING_SEVERITY_CRITICAL);
             throw new PrometheusHttpClientException("Unknown Exception");
