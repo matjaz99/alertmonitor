@@ -107,6 +107,14 @@ public class UiConfigBean implements Serializable {
 
     /* CONFIGURATION */
 
+    public List<ConfigParam> getProviderConfigParams(AbstractDataProvider abstractDataProvider) {
+        List<ConfigParam> configParamsList = new ArrayList<>();
+        for (String k : abstractDataProvider.getProviderConfig().getParams().keySet()) {
+            configParamsList.add(new ConfigParam(k, abstractDataProvider.getProviderConfig().getParam(k)));
+        }
+        return configParamsList;
+    }
+
     public String getPromServer() {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
         return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
