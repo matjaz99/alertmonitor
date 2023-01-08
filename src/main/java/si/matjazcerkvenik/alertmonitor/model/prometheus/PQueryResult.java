@@ -15,11 +15,14 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.prometheus;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class PQueryResult {
+public class PQueryResult implements Serializable {
+
+    private static final long serialVersionUID = 164835749125L;
 
     private Map<String, String> metric;
     private Object[] value; // timestamp-value pair

@@ -37,6 +37,12 @@ public class EventloggerDataProvider extends AbstractDataProvider {
     }
 
     @Override
+    public String reloadPrometheusAction() {
+        // TODO
+        return null;
+    }
+
+    @Override
     public DEvent getEvent(String id) {
         // TODO
         return super.getEvent(id);

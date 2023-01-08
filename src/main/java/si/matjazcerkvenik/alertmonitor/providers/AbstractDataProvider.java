@@ -18,6 +18,7 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
+import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClientPool;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -28,7 +29,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractDataProvider {
+public abstract class AbstractDataProvider implements IParamChangedCallback {
 
     protected SimpleLogger logger = LogFactory.getLogger();
 
@@ -64,17 +65,38 @@ public abstract class AbstractDataProvider {
         this.providerConfig = providerConfig;
     }
 
+    @Override
+    public void updateParam(String key, String newValue) {
+        if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_SERVER)) {
+            if (newValue.endsWith("/")) newValue = newValue.substring(0, newValue.length()-1);
+        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC)) {
+
+        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC)) {
+
+        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC)) {
+
+        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE)) {
+
+        }
+        prometheusHttpClientPool.destroy();
+        providerConfig.setParam(key, newValue);
+        logger.info("AbstractDataProvider: updateParam: " + newValue);
+        prometheusHttpClientPool = new PrometheusHttpClientPool(this);
+        restartSyncTimer();
+    }
+
     /**
      * Start provider tasks, eg. start sync timer.
      */
     public void init() {
-        // TODO error handling!
         logger.info(providerConfig.toString());
         prometheusHttpClientPool = new PrometheusHttpClientPool(this);
         restartSyncTimer();
     }
 
     public abstract void processIncomingEvent(WebhookMessage m);
+
+    public abstract String reloadPrometheusAction();
 
     public List<WebhookMessage> getWebhookMessages() {
         return DAO.getInstance().getDataManager().getWebhookMessages();

@@ -61,6 +61,25 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     }
 
     @Override
+    public String reloadPrometheusAction() {
+
+        LogFactory.getLogger().debug("PrometheusDataProvider: reloadPrometheusAction called");
+
+        PrometheusHttpClient api = prometheusHttpClientPool.getClient();
+
+        try {
+            api.reload();
+        } catch (Exception e) {
+            logger.error("PrometheusDataProvider: reloadPrometheusAction exception: ", e);
+        } finally {
+            prometheusHttpClientPool.returnClient(api);
+        }
+
+        return "";
+
+    }
+
+    @Override
     public DEvent getEvent(String id) {
         DEvent event = super.getEvent(id);
 

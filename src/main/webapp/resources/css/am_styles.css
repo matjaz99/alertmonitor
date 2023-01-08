@@ -90,7 +90,10 @@ h1 {
 body .ui-panelgrid .ui-panelgrid-cell {
     padding: 0.5rem;
 }
-
+/* tables like active alarms */
+body .ui-datatable .ui-datatable-data tr td {
+    padding: 0.5rem;
+}
 
 .tagBorder {
 	border: 1px solid #888;

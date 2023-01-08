@@ -44,18 +44,27 @@
 							<p:outputLabel value="Last sync time: " class="boldtext"/>
 							<p:outputLabel value="#{p.lastSyncTimestampFormatted}" />
 
+							<p:outputLabel value="Reload Prometheus: " class="boldtext"/>
+							<p:commandButton id="cmdBtn" value="Reload" action="#{p.reloadPrometheusAction()}" update="cmdBtn" styleClass="ui-button-danger ui-button-flat" />
+
 						</p:panelGrid>
 
 						<br/>
 
 						<p:outputLabel value="Configuration parameters" class="boldtext"/>
+						<p:outputLabel id="cfgParamTooltip">
+							<i class="pi pi-info-circle" style="font-size: 0.7 rem"></i>
+							<p:tooltip for="cfgParamTooltip" value="Click on value to change it. BUT, changes are not permanent!" position="top"/>
+						</p:outputLabel>
 						<p:dataTable value="#{uiConfigBean.getProviderConfigParams(p)}" var="c"
 									 cellpadding="0" cellspacing="0">
 							<p:column headerText="Key">
 								<p:outputLabel value="#{c.key}"/>
 							</p:column>
 							<p:column headerText="Value">
-								<p:outputLabel value="#{c.value}"/>
+								<p:inplace editor="true">
+									<p:inputText value="#{c.value}" required="true" label="text"/>
+								</p:inplace>
 							</p:column>
 						</p:dataTable>
 

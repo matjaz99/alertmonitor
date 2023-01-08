@@ -60,6 +60,14 @@ public class PrometheusHttpClient {
 
     public PrometheusHttpClient(AbstractDataProvider dataProvider) {
         this.dataProvider = dataProvider;
+        configureClient();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void configureClient() {
         name = dataProvider.getProviderConfig().getName();
         String srv = dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
         // https://username:password@hostname:port
@@ -76,10 +84,6 @@ public class PrometheusHttpClient {
         secureClient = server.startsWith("https");
         connectTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC));
         readTimeout = Integer.parseInt(dataProvider.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC));
-    }
-
-    public String getName() {
-        return name;
     }
 
     /**

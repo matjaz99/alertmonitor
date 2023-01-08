@@ -110,28 +110,31 @@ public class UiConfigBean implements Serializable {
     public List<ConfigParam> getProviderConfigParams(AbstractDataProvider abstractDataProvider) {
         List<ConfigParam> configParamsList = new ArrayList<>();
         for (String k : abstractDataProvider.getProviderConfig().getParams().keySet()) {
-            configParamsList.add(new ConfigParam(k, abstractDataProvider.getProviderConfig().getParam(k)));
+            configParamsList.add(new ConfigParam(k, abstractDataProvider.getProviderConfig().getParam(k), abstractDataProvider));
         }
         return configParamsList;
     }
 
-    public String getPromServer() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
-    }
-
-    public void setPromServer(String server) {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        if (server.endsWith("/")) server = server.substring(0, server.length()-1);
-        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER, server);
-        LogFactory.getLogger().info("UiConfigBean: prometheus server changed: " + server);
-//		Growl.showInfoGrowl("Configuration updated", "");
-    }
+//    @Deprecated
+//    public String getPromServer() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER);
+//    }
+//
+//    @Deprecated
+//    public void setPromServer(String server) {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        if (server.endsWith("/")) server = server.substring(0, server.length()-1);
+//        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SERVER, server);
+//        LogFactory.getLogger().info("UiConfigBean: prometheus server changed: " + server);
+////		Growl.showInfoGrowl("Configuration updated", "");
+//    }
 
     public void setDataRetention(String time) {
         try {
             AmProps.ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(time);
             LogFactory.getLogger().info("UiConfigBean: data retention changed: " + AmProps.ALERTMONITOR_DATA_RETENTION_DAYS);
+//            Growl.showInfoGrowl("Configuration updated", "");
         } catch (Exception e) {
             LogFactory.getLogger().error("UiConfigBean: Exception: " + e.getMessage());
         }
@@ -166,16 +169,16 @@ public class UiConfigBean implements Serializable {
         return s;
     }
 
-    public void setHttpReadTimeout(String interval) {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, interval);
-        LogFactory.getLogger().info("UiConfigBean: http client read timeout changed: " + interval);
-    }
-
-    public String getHttpReadTimeout() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC);
-    }
+//    public void setHttpReadTimeout(String interval) {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC, interval);
+//        LogFactory.getLogger().info("UiConfigBean: http client read timeout changed: " + interval);
+//    }
+//
+//    public String getHttpReadTimeout() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC);
+//    }
 
 
     public void setKafkaEnabled(boolean kafkaEnabled) {
@@ -206,24 +209,24 @@ public class UiConfigBean implements Serializable {
         return AmProps.ALERTMONITOR_KAFKA_TOPIC;
     }
 
-    public String reloadPrometheusAction() {
-
-        LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
-
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
-
-        try {
-            api.reload();
-        } catch (Exception e) {
-            LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
-        } finally {
-            adp.getHttpClientPool().returnClient(api);
-        }
-
-        return "";
-
-    }
+//    public String reloadPrometheusAction() {
+//
+//        LogFactory.getLogger().debug("UiConfigBean: reloadPrometheusAction called");
+//
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+//
+//        try {
+//            api.reload();
+//        } catch (Exception e) {
+//            LogFactory.getLogger().error("UiConfigBean: reloadPrometheusAction exception: ", e);
+//        } finally {
+//            adp.getHttpClientPool().returnClient(api);
+//        }
+//
+//        return "";
+//
+//    }
 
 
 
@@ -262,21 +265,21 @@ public class UiConfigBean implements Serializable {
 //        return adp.getClearingEventCount();
 //    }
 
-    public void setSyncInterval(String interval) {
-        // TODO implement
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        Integer i = Integer.parseInt(interval);
-        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, String.valueOf(i));
-        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + i);
-//		Growl.showInfoGrowl("Configuration updated", "");
-        adp.restartSyncTimer();
-    }
-
-    public String getSyncInterval() {
-        // TODO moved to provider
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
-    }
+//    public void setSyncInterval(String interval) {
+//        // TODO implement
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        Integer i = Integer.parseInt(interval);
+//        adp.getProviderConfig().setParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC, String.valueOf(i));
+//        LogFactory.getLogger().info("UiConfigBean: sync interval changed: " + i);
+////		Growl.showInfoGrowl("Configuration updated", "");
+//        adp.restartSyncTimer();
+//    }
+//
+//    public String getSyncInterval() {
+//        // TODO moved to provider
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getProviderConfig().getParam(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC);
+//    }
 
 //    public String getLastSyncTime() {
 //        // TODO moved to provider

@@ -9,17 +9,44 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 
-			<p:outputLabel value="Configuration" style="font-weight: bold; font-size: 24px;"/>
-			<p:outputLabel class="plaintext" value="(click on parameter to edit)" />
+			<p:outputLabel value="Runtime configuration" style="font-weight: bold; font-size: 24px;"/>
 
-			<br/>
 			<br/>
 
 			<h:form id="configForm">
 
 				<p:panelGrid columns="2">
 
-					<p:outputLabel value="Log level: " class="boldtext"/>
+					<p:outputLabel value="Runtime ID: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.runtimeId}" />
+
+					<p:outputLabel value="Local IP address: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.localIpAddress}" />
+
+					<p:outputLabel value="Containerized: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.containerized}" />
+
+					<p:outputLabel value="Start time: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.startTime}" />
+
+					<p:outputLabel value="Up time: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.upTime}" />
+
+					<p:outputLabel value="Last event time: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.lastEventTime}" />
+
+					<p:outputLabel value="Time since last event: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.timeSinceLastEvent}" />
+
+					<p:outputLabel value="Events in last hour: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.numberOfAlertsInLastHour}" />
+
+					<p:outputLabel value="Avg. events per second: " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.alertsPerSecondInLastHour}" />
+
+					<p:outputLabel value="Log level: " class="boldtext">
+						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
+					</p:outputLabel>
 					<p:selectOneMenu id="selectedLogLevel" value="#{uiConfigBean.selectedLogLevel}" dynamic="true" onchange="submit()">
 						<f:selectItem itemLabel="ERROR" itemValue="ERROR"/>
 						<f:selectItem itemLabel="WARN" itemValue="WARN"/>
@@ -28,24 +55,11 @@
 						<f:selectItem itemLabel="TRACE" itemValue="TRACE"/>
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Data retention (days): " class="boldtext"/>
+					<p:outputLabel value="Data retention (days): " class="boldtext">
+						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
+					</p:outputLabel>
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.dataRetention}" required="true" label="text"/>
-					</p:inplace>
-
-					<p:outputLabel value="Prometheus server: " class="boldtext"/>
-					<p:inplace editor="true">
-						<p:inputText value="#{uiConfigBean.promServer}" required="true" label="text"/>
-					</p:inplace>
-
-					<p:outputLabel value="HTTP read timeout (sec): " class="boldtext"/>
-					<p:inplace editor="true">
-						<p:inputText value="#{uiConfigBean.httpReadTimeout}" required="true" label="text"/>
-					</p:inplace>
-
-					<p:outputLabel value="Periodic sync interval (sec): " class="boldtext"/>
-					<p:inplace editor="true">
-						<p:inputText value="#{uiConfigBean.syncInterval}" required="true" label="text"/>
 					</p:inplace>
 
 					<p:outputLabel value="MongoDB enabled: " class="boldtext"/>
@@ -54,24 +68,26 @@
 					<p:outputLabel value="MongoDB connection string: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.mongoDbConnectionString}" />
 
-					<p:outputLabel value="Kafka enabled (experimental): " class="boldtext"/>
+					<p:outputLabel value="Kafka enabled (experimental): " class="boldtext">
+						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
+					</p:outputLabel>
 					<p:selectBooleanCheckbox value="#{uiConfigBean.kafkaEnabled}">
 						<p:ajax update="growl" listener="#{uiBean.addMessage}"/>
 					</p:selectBooleanCheckbox>
 
-					<p:outputLabel value="Kafka server: " class="boldtext"/>
+					<p:outputLabel value="Kafka server: " class="boldtext">
+						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
+					</p:outputLabel>
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.kafkaServer}" required="true" label="text"/>
 					</p:inplace>
 
-					<p:outputLabel value="Kafka topic: " class="boldtext"/>
+					<p:outputLabel value="Kafka topic: " class="boldtext">
+						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
+					</p:outputLabel>
 					<p:inplace editor="true">
 						<p:inputText value="#{uiConfigBean.kafkaTopic}" required="true" label="text"/>
 					</p:inplace>
-
-					<p:outputLabel value="Reload Prometheus: " class="boldtext"/>
-						<p:commandButton id="cmdBtn" value="Reload" action="#{uiConfigBean.reloadPrometheusAction()}" update="cmdBtn" styleClass="ui-button-outlined ui-button-danger" >
-					</p:commandButton>
 
 				</p:panelGrid>
 

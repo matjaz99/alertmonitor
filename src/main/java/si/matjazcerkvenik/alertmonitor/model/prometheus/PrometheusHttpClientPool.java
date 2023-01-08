@@ -36,7 +36,6 @@ public class PrometheusHttpClientPool {
     }
 
     public synchronized PrometheusHttpClient getClient() {
-
         while (pool.isEmpty()) {
             try {
                 wait();
@@ -45,7 +44,6 @@ public class PrometheusHttpClientPool {
             }
         }
         return pool.remove(0);
-
     }
 
     public synchronized void returnClient(PrometheusHttpClient client) {
