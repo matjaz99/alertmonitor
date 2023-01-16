@@ -11,7 +11,7 @@
 
 			<p:outputLabel value="Data providers" style="font-weight: bold; font-size: 24px;"/>
 
-			<h:form id="providersForm">
+
 
 				<p:accordionPanel multiple="true"
 								  widgetVar="multiple"
@@ -24,6 +24,8 @@
 							<am:warnings value="#{p.warnings}" />
 							<p:outputLabel value="Alarms: #{p.allActiveAlarmsCount}" style="margin-left: 20px; font-size: 12px;" />
 						</f:facet>
+
+						<h:form id="providersForm">
 
 						<p:panelGrid columns="2">
 
@@ -68,12 +70,14 @@
 							</p:column>
 						</p:dataTable>
 
+						</h:form>
+
 						<br/>
 
 					</p:tab>
 				</p:accordionPanel>
 
-			</h:form>
+
 
 		</ui:define>
 	</div>

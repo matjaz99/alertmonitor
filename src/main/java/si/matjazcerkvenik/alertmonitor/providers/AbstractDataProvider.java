@@ -18,18 +18,20 @@ package si.matjazcerkvenik.alertmonitor.providers;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.*;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClientPool;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractDataProvider implements IParamChangedCallback {
+public abstract class AbstractDataProvider implements IParamChangedCallback, Serializable {
+
+    private static final long serialVersionUID = 477894562015341L;
 
     protected SimpleLogger logger = LogFactory.getLogger();
 
@@ -78,6 +80,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback {
         } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE)) {
 
         }
+        if (prometheusHttpClientPool == null) return;
         prometheusHttpClientPool.destroy();
         providerConfig.setParam(key, newValue);
         logger.info("AbstractDataProvider: updateParam: " + newValue);

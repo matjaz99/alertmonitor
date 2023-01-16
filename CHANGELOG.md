@@ -1,5 +1,7 @@
 ## 2.4.5-SNAPSHOT
 
+* [CHANGE] Moved all configuration parameters from configuration view to providers
+
 ## 2.4.4-SNAPSHOT
 
 * [CHANGE] Removed statistics view (content moved elsewhere)
