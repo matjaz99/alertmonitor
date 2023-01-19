@@ -345,7 +345,7 @@ https://groups.google.com/g/alertmonitor-users
 
 ### Dependencies
 
-Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 11.0 for frontend interface.
+Alertmonitor is written in Java. It's a maven project. It runs as web app on Apache Tomcat server and uses JSF 2.2 with Primefaces 12.0 for frontend interface.
 In version 1.5.1 I switched from Java 8 to Java 13. I had to add `javax.annotations` dependency to pom.xml file.
 
 ### Simple-logger maven dependency
