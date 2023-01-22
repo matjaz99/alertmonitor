@@ -15,12 +15,21 @@
  */
 package si.matjazcerkvenik.alertmonitor.providers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.model.DWarning;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
+import si.matjazcerkvenik.alertmonitor.model.eventlogger.EEvent;
+import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventloggerDataProvider extends AbstractDataProvider {
@@ -33,7 +42,49 @@ public class EventloggerDataProvider extends AbstractDataProvider {
 
     @Override
     public void processIncomingEvent(WebhookMessage m) {
-        // TODO
+        DAO.getInstance().getDataManager().addWebhookMessage(m);
+        webhookRequestsReceivedCount++;
+        AmMetrics.alertmonitor_webhook_requests_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
+
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            EEvent am = gson.fromJson(m.getBody(), EEvent.class);
+
+            DEvent e = new DEvent();
+            e.setTimestamp(System.currentTimeMillis());
+            e.setFirstTimestamp(e.getTimestamp());
+            e.setLastTimestamp(e.getTimestamp());
+            e.setSource(m.getRemoteHost());
+            e.setAlertname(am.getAlarmName());
+            e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
+            e.setInfo(am.getSourceInfo());
+            e.setInstance(am.getAlarmSource());
+            e.setHostname(Formatter.stripInstance(e.getInstance()));
+            e.setNodename(am.getAlarmSource());
+            e.setJob("eventlogger");
+            e.setTags("eventlogger, log");
+            e.setSeverity(am.getSeverityString());
+            e.setPriority("low");
+            e.setGroup("unknown");
+            e.setEventType("5");
+            e.setProbableCause("1024");
+            e.setCurrentValue("-");
+            e.setUrl("");
+            e.setDescription(am.getAdditionalInfo());
+            e.generateUID();
+            e.generateCID();
+
+            System.out.println("GOT EVENT: " + e.toString());
+
+            List<DEvent> list = new ArrayList<>();
+            list.add(e);
+            synchronizeAlerts(list, false);
+            lastEventTimestamp = System.currentTimeMillis();
+        } catch (Exception e) {
+            LogFactory.getLogger().error("EventloggerDataProvider: processIncomingEvent(): unable to process incoming message: \n" + m.toString());
+            LogFactory.getLogger().error("EventloggerDataProvider: processIncomingEvent(): error: " + e.getMessage());
+        }
     }
 
     @Override

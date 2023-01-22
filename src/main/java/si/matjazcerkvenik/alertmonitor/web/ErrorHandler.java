@@ -30,20 +30,20 @@ public class ErrorHandler {
     }
 
     public String getMessage(){
-        String val =  (String)FacesContext.getCurrentInstance().getExternalContext().
+        String val = (String) FacesContext.getCurrentInstance().getExternalContext().
                 getRequestMap().get("javax.servlet.error.message");
         return val;
     }
 
     public String getExceptionType(){
-        String val = FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.exception_type").toString();
+        String val = (String) FacesContext.getCurrentInstance().getExternalContext().
+                getRequestMap().get("javax.servlet.error.exception_type");
         return val;
     }
 
     public String getException(){
-        String val =  (String)((Exception)FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.exception")).toString();
+        String val = (String) FacesContext.getCurrentInstance().getExternalContext().
+                getRequestMap().get("javax.servlet.error.exception");
         return val;
     }
 
