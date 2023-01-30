@@ -285,9 +285,15 @@ public class PrometheusHttpClient {
                 logger.debug("PrometheusHttpClient[" + name + "]: request[" + reqID + "] body: " + responseBody);
             }
 
-            response.close();
+            if (response.code() == 401) {
+                dataProvider.addWarning("prom_api", "Unauthorized", DWarning.DWARNING_SEVERITY_WARNING);
+            } else if (response.code() == 404) {
+                dataProvider.addWarning("prom_api", "API not found", DWarning.DWARNING_SEVERITY_WARNING);
+            } else {
+                dataProvider.removeWarning("prom_api");
+            }
 
-            dataProvider.removeWarning("prom_api");
+            response.close();
 
         } catch (UnknownHostException e) {
             logger.error("PrometheusHttpClient[" + name + "]: request[" + reqID + "] failed: UnknownHostException: " + e.getMessage());
