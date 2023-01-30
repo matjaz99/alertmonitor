@@ -64,7 +64,7 @@ public class EventloggerDataProvider extends AbstractDataProvider {
             e.setNodename(am.getAlarmSource());
             e.setJob("eventlogger");
             e.setTags("eventlogger, log");
-            e.setSeverity(am.getSeverityString());
+            e.setSeverity(am.getSeverityString().toLowerCase());
             e.setPriority("low");
             e.setGroup("unknown");
             e.setEventType("5");

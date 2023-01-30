@@ -22,7 +22,7 @@ public class EEvent {
     private long timestamp = 0;
     private String alarmName = "Alarm incident";
     private int severity = 0;
-    private String severityString = "Indeterminate";
+    private String severityString = "indeterminate";
     private String notificationType = "alarm";
     private String sourceInfo = "";
     private String additionalInfo = "";

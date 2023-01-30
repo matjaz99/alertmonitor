@@ -150,7 +150,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>8080</port>
+                    <port>7070</port>
                     <path>/alertmonitor</path>
                 </configuration>
             </plugin>
