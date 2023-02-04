@@ -2,7 +2,7 @@ package si.matjazcerkvenik.alertmonitor.model;
 
 public class DWarning {
 
-    private String severity = DWARNING_SEVERITY_WARNING;
+    private String severity;
     private String message;
 
     public static final String DWARNING_SEVERITY_CRITICAL = "danger";

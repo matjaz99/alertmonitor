@@ -80,7 +80,7 @@ public class WebhookServlet extends HttpServlet implements Serializable {
 		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): parameterMap: " + getReqParamsAsString(req));
 		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): headers: " + getReqHeadersAsString(req));
 		String body = getReqBody(req);
-		LogFactory.getLogger().debug("WebhookServlet: instantiateWebhookMessage(): body: " + body);
+		LogFactory.getLogger().trace("WebhookServlet: instantiateWebhookMessage(): body: " + body);
 
 		WebhookMessage m = new WebhookMessage();
 		m.setId(dataProvider.getWebhookRequestsReceivedCount());

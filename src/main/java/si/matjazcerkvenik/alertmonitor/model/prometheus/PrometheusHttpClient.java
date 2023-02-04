@@ -292,9 +292,9 @@ public class PrometheusHttpClient {
             } else if (response.code() == 404) {
                 dataProvider.addWarning("prom_api", "URL not found", DWarning.DWARNING_SEVERITY_WARNING);
             } else if (response.code() >= 400 && response.code() < 500) {
-                dataProvider.addWarning("prom_api", "Client error", DWarning.DWARNING_SEVERITY_WARNING);
+                dataProvider.addWarning("prom_api", "Client error " + response.code(), DWarning.DWARNING_SEVERITY_WARNING);
             } else if (response.code() >= 500 && response.code() < 600) {
-                dataProvider.addWarning("prom_api", "Server error", DWarning.DWARNING_SEVERITY_WARNING);
+                dataProvider.addWarning("prom_api", "Server error " + response.code(), DWarning.DWARNING_SEVERITY_WARNING);
             } else {
                 dataProvider.removeWarning("prom_api");
             }
