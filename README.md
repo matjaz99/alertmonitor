@@ -6,7 +6,11 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a webapp for displaying active alerts in Prometheus.
+Alertmonitor is a webapp for displaying alerts in tabular and colorful way. Plain and simple. 
+View alerts from one or more Prometheus servers, centrally in one place. 
+Other datasources will be supported eventually.
+
+
 
 Alertmonitor receives alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
 Alternatively, if webhook receiver is not configured, Alertmonitor can pull alerts directly from Prometheus. 
@@ -254,6 +258,7 @@ A list of supported environment variables:
 | ALERTMONITOR_MONGODB_CONNECTION_STRING           | The connection string for MongoDB (username, password and host).                                       |
 
 
+
 ### Security
 
 #### Secure HTTPS protocol
@@ -266,7 +271,7 @@ In case of `https`, no certificate validation is checked.
 
 Http client in Alertmonitor supports basic authentication when connecting to the data provider (only for https clients).
 
-Currently, username and password can only be provided via `SERVER` variable using syntax `https://username:password@hostname:port`.
+Currently, username and password can only be provided via `ALERTMONITOR_PROMETHEUS_SERVER` variable using syntax `https://username:password@hostname:port`.
 
 
 ### Environment variable substitution

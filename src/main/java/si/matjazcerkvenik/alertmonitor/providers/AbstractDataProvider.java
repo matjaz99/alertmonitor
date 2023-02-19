@@ -375,7 +375,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
      * @param msg
      * @param severity
      */
-    public void addWarning(String msgKey, String msg, String severity) {
+    public synchronized void addWarning(String msgKey, String msg, String severity) {
         warnings.remove("success");
         warnings.put(msgKey, new DWarning(severity, msg));
     }
@@ -384,14 +384,14 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
      * If this is the last warning to be removed from the list, then create a 'success' warning.
      * @param msgKey
      */
-    public void removeWarning(String msgKey) {
+    public synchronized void removeWarning(String msgKey) {
         warnings.remove(msgKey);
         if (warnings.size() == 0) {
             warnings.put("success", new DWarning(DWarning.DWARNING_SEVERITY_CLEAR, "Working OK"));
         }
     }
 
-    public List<DWarning> getWarnings() {
+    public synchronized List<DWarning> getWarnings() {
         logger.info("----> getWarnings: provider=" + providerConfig.getName() + ", size=" + warnings.size() + ", " + warnings.toString());
         return new ArrayList<>(warnings.values());
     }

@@ -49,8 +49,9 @@ public class PrometheusHttpClient {
     private AbstractDataProvider dataProvider;
 
     /* Extracted from providerConfig */
-    /** Name of this client - provider name */
+    /** Name of this client = provider name */
     private String name = ".default";
+    /** connection string in syntax: https://username:password@hostname:port */
     private String server;
     private String basicAuthUsername;
     private String basicAuthPassword;
@@ -274,15 +275,15 @@ public class PrometheusHttpClient {
 
             OkHttpClient httpClient = HttpClientFactory.instantiateHttpClient(secureClient, connectTimeout, readTimeout, basicAuthUsername, basicAuthPassword);
 
-            logger.info("PrometheusHttpClient[" + name + "]: request[" + reqID + "] " + request.method().toUpperCase() + " " + request.url().toString());
+            logger.info("PrometheusHttpClient[" + name + "]: request[" + reqID + "] " + request.method().toUpperCase() + " " + request.url());
             Response response = httpClient.newCall(request).execute();
             logger.info("PrometheusHttpClient[" + name + "]: request[" + reqID + "] code=" + response.code() + ", success=" + response.isSuccessful());
 
             code = Integer.toString(response.code());
 
-            if (response.body() != null) {
+            if (response.body() != null && response.code()/100 == 2) {
                 responseBody = response.body().string();
-                logger.debug("PrometheusHttpClient[" + name + "]: request[" + reqID + "] body: " + responseBody);
+                logger.trace("PrometheusHttpClient[" + name + "]: request[" + reqID + "] body: " + responseBody);
             }
 
             if (response.code() >= 300 && response.code() < 400) {
