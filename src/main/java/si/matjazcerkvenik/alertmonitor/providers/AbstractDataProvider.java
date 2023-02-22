@@ -144,7 +144,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
 
             for (DEvent e : alertList) {
                 if (activeAlerts.containsKey(e.getCorrelationId())) {
-                    logger.info("SYNC[" + providerConfig.getName() + "]: alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
+                    logger.debug("SYNC[" + providerConfig.getName() + "]: alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                     activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
                 } else {
                     logger.info("SYNC[" + providerConfig.getName() + "]: new alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
