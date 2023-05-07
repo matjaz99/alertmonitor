@@ -24,6 +24,8 @@ import si.matjazcerkvenik.alertmonitor.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -321,13 +323,6 @@ public class UiConfigBean implements Serializable {
         return DAO.getInstance().getDataManager().getAlertsPerSecondInLastHour();
     }
 
-//    public String getBalanceFactor() {
-//        // TODO moved to provider
-//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-//        DecimalFormat df2 = new DecimalFormat("#.##");
-//        return df2.format(adp.calculateAlertsBalanceFactor());
-//    }
-
     public String getStartTime() {
         return Formatter.getFormatedTimestamp(AmProps.START_UP_TIME, AmDateFormat.DATE_TIME);
     }
@@ -362,6 +357,17 @@ public class UiConfigBean implements Serializable {
     public String getUpdateVersionWarning() {
         if (AmProps.githubVersion.equals(AmProps.VERSION)) return null;
         return AmProps.githubVersion;
+    }
+
+    public void buttonAction(String provider) {
+        selectedDataProvider = provider;
+        System.out.println("Welcome to " + provider);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/alertmonitor");
+        } catch (IOException e) {
+            System.out.println("IOException " + e.getMessage());
+        }
+//        return "/active";
     }
 
 }

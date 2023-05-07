@@ -1,6 +1,7 @@
 ## 2.4.5-SNAPSHOT
 
 * [CHANGE] Moved all configuration parameters from configuration view to providers
+* [ENHANCEMENT] Added link to active alerts directly from providers.
 
 ## 2.4.4-SNAPSHOT
 

@@ -126,45 +126,6 @@ public class DAO {
     }
 
 
-
-//    private List<Target> getTargetsFromProm() {
-//
-//        PrometheusApiClient api = PrometheusApiClientPool.getInstance().getClient();
-//
-//        try {
-//            List<PTarget> targets = api.targets();
-//
-//            for (PTarget pTarget : targets) {
-//                Target t = new Target();
-//                t.setHostname(Formatter.stripInstance(pTarget.getDiscoveredLabels().get("__address__")));
-//                t.setId(MD5.getChecksum("host" + t.getHostname()));
-//            }
-//
-//            // TODO
-//
-//        } catch (Exception e) {
-//            LogFactory.getLogger().error("Exception getting targets", e);
-//        } finally {
-//            PrometheusApiClientPool.getInstance().returnClient(api);
-//        }
-//
-//        return new ArrayList<>();
-//    }
-
-
-
-
-//    public String getLocalIpAddress() {
-//        if (localIpAddress != null) return localIpAddress;
-//        try {
-//            localIpAddress = InetAddress.getLocalHost().getHostAddress();
-//        } catch (UnknownHostException e) {
-//            localIpAddress = "UnknownHost";
-//        }
-//        return localIpAddress;
-//    }
-
-
     public void addWarningToAllProviders(String msgKey, String msg, String severity) {
         for (AbstractDataProvider adp : dataProviders.values()) {
             adp.addWarning(msgKey, msg, severity);

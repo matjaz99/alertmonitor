@@ -12,7 +12,6 @@
 			<p:outputLabel value="Data providers" style="font-weight: bold; font-size: 24px;"/>
 
 
-
 				<p:accordionPanel multiple="true"
 								  widgetVar="multiple"
 								  activeIndex="-1"
@@ -20,9 +19,12 @@
 					<p:tab>
 
 						<f:facet name="title">
+
 							<p:outputLabel value="#{p.providerConfig.name}" class="boldtext"  style="font-size: 20px;"/>
+
 							<am:warnings value="#{p.warnings}" />
 							<p:outputLabel value="Alarms: #{p.allActiveAlarmsCount}" style="margin-left: 20px; font-size: 12px;" />
+
 						</f:facet>
 
 						<h:form id="providersForm">
@@ -37,6 +39,10 @@
 
 							<p:outputLabel value="Provider URI: " class="boldtext"/>
 							<p:outputLabel value="#{p.providerConfig.uri}" />
+
+							<p:outputLabel value="Active alarms: " class="boldtext"/>
+							<p:commandLink type="submit" action="#{uiConfigBean.buttonAction(p.providerConfig.name)}" ajax="false"
+										   value="View alarms (#{p.allActiveAlarmsCount})"/>
 
 							<p:outputLabel value="Report: " class="boldtext"/>
 							<p:link value="View report" outcome="/report/report">

@@ -392,7 +392,6 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     }
 
     public synchronized List<DWarning> getWarnings() {
-        logger.info("----> getWarnings: provider=" + providerConfig.getName() + ", size=" + warnings.size() + ", " + warnings.toString());
         return new ArrayList<>(warnings.values());
     }
 
