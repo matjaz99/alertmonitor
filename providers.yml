@@ -3,6 +3,7 @@ version: v1
 providers:
   - name: promvm
     type: prometheus
+    # Alertmanager should send alerts to this URI
     uri: /alertmonitor/webhook/promvm
     params:
       server: https://promvm/prometheus

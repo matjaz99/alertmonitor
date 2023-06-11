@@ -15,27 +15,43 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class WebhookMessage {
 
+	@BsonProperty(value = "id")
 	private long id;
+	@BsonProperty(value = "runtimeId")
 	private String runtimeId;
+	@BsonProperty(value = "timestamp")
 	private long timestamp;
+	@BsonProperty(value = "contentLength")
 	private int contentLength;
+	@BsonProperty(value = "contentType")
 	private String contentType;
+	@BsonProperty(value = "method")
 	private String method;
+	@BsonProperty(value = "protocol")
 	private String protocol;
+	@BsonProperty(value = "remoteHost")
 	private String remoteHost;
+	@BsonProperty(value = "remotePort")
 	private int remotePort;
+	@BsonProperty(value = "requestUri")
 	private String requestUri;
+	@BsonProperty(value = "body")
 	private String body;
 	private Map<String, String> parameterMap;
 	private Map<String, String> headerMap;
+	@BsonProperty(value = "parameterMapString")
 	private String parameterMapString;
+	@BsonProperty(value = "headerMapString")
 	private String headerMapString;
 
 	public long getId() {

@@ -50,6 +50,8 @@ public class AmProps {
     public static String ALERTMONITOR_PROMETHEUS_ID_LABELS = "cluster, region, monitor";
     public static boolean ALERTMONITOR_MONGODB_ENABLED = false;
     public static String ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@localhost:27017/test?w=majority&authSource=admin";
+    public static int ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC = 5;
+    public static int ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC = 30;
     public static String ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor";
 
     public static void loadProps() {
@@ -76,14 +78,17 @@ public class AmProps {
         ALERTMONITOR_MONGODB_ENABLED = Boolean.parseBoolean(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_ENABLED", "false").trim());
 //        AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@promvm:27017/test?w=majority&authSource=admin").trim();
         ALERTMONITOR_MONGODB_CONNECTION_STRING = System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECTION_STRING", "mongodb://admin:mongodbpassword@localhost:27017/?authSource=admin").trim();
+        ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC", "5").trim());
+        ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC", "30").trim());
 
         // set development environment, override default configuration
         if (DEV_ENV) {
             ALERTMONITOR_PROMETHEUS_SERVER = "https://elasticvm/prometheus";
-            ALERTMONITOR_MONGODB_ENABLED = false;
+            ALERTMONITOR_MONGODB_ENABLED = true;
             ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
-            ALERTMONITOR_MONGODB_DB_NAME = "alrtmonitor-dev";
-            ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
+            ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor-dev";
+//            ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
+            ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/Users/matjaz/Library/CloudStorage/Dropbox/monis/config/alertmonitor-providers.yml";
             //ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = "MONIS";
         }
 

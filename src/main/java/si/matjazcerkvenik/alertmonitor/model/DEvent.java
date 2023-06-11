@@ -15,6 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.AmProps;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -24,99 +26,133 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class DEvent implements Cloneable {
 	
 	/** Unique ID of notification */
+	@BsonProperty(value = "uid")
 	private String uid;
 	
 	/** Correlation ID identifies the same type of events */
+	@BsonProperty(value = "correlationId")
 	private String correlationId;
 
 	/** Labels that identify the prometheus */
+	@BsonProperty(value = "prometheusId")
 	private String prometheusId;
 	
 	/** Timestamp of first occurrence */
+	@BsonProperty(value = "timestamp")
 	private long timestamp;
 	
 	/** Counter of identical events (according to NID) */
+	@BsonProperty(value = "counter")
 	private int counter = 1;
 
 	/** Timestamp of first occurrence */
+	@BsonProperty(value = "firstTimestamp")
 	private long firstTimestamp;
 
 	/** Timestamp of last occurrence */
+	@BsonProperty(value = "lastTimestamp")
 	private long lastTimestamp;
 
 	/** Timestamp when alert was cleared */
+	@BsonProperty(value = "clearTimestamp")
 	private long clearTimestamp;
 	
 	/** Source IP who sent the notification */
+	@BsonProperty(value = "source")
 	private String source;
 	
 	/** User-agent from http header */
+	@BsonProperty(value = "userAgent")
 	private String userAgent;
 
 	/** Name of alert */
+	@BsonProperty(value = "alertname")
 	private String alertname;
 
 	/** Information about alert */
+	@BsonProperty(value = "info")
 	private String info;
 
 	/** Prometheus job scraper name */
+	@BsonProperty(value = "job")
 	private String job;
 	
 	/** IP address of node */
+	@BsonProperty(value = "instance")
 	private String instance;
 	
 	/** Name or hostname of node */
+	@BsonProperty(value = "nodename")
 	private String nodename;
 
 	/** Stripped hostname. Instance without protocol and port, resolved to IP address */
+	@BsonProperty(value = "hostname")
 	private String hostname;
 	
 	/** Severity of notification */
+	@BsonProperty(value = "severity")
 	private String severity;
 	
 	/** Urgency of notification */
+	@BsonProperty(value = "priority")
 	private String priority;
 
 	/** UID of event that cleared the alert */
+	@BsonProperty(value = "clearUid")
 	private String clearUid = "n/a";
 
 	/** Comma-separated list of custom tags (labels) */
+	@BsonProperty(value = "tags")
 	private String tags;
 
 	/** Additional description of notification */
+	@BsonProperty(value = "description")
 	private String description;
 
+	@BsonProperty(value = "group")
 	private String group;
 
 	/** Event type according to ITU X.733 */
+	@BsonProperty(value = "eventType")
 	private String eventType = "5";
 
 	/** Probable cause according to ITU X.733 */
+	@BsonProperty(value = "probableCause")
 	private String probableCause = "1024";
 
 	/** Current metric value */
+	@BsonProperty(value = "currentValue")
 	private String currentValue;
 
 	/** URL of somewhere, eg. grafana */
+	@BsonProperty(value = "url")
 	private String url;
 
 	/** Status of alert: firing or resolved */
+	@BsonIgnore
 	private String status;
 
+	@BsonIgnore
 	private String generatorUrl;
 
 	/** A helping flag to mark alerts to be deleted after resync */
+	@BsonIgnore
 	private boolean toBeDeleted = false;
 
 	/** Other labels, such as external_labels or custom labels in alerts. */
 	private Map<String, String> otherLabels;
+
+	@BsonProperty(value = "otherLabelsString")
 	private String otherLabelsString;
 
 	/** A rule that caused this notification */
+	@BsonIgnore
 	private String ruleExpression = "";
+	@BsonIgnore
 	private String ruleTimeLimit;
 
 	/** Supported labels */

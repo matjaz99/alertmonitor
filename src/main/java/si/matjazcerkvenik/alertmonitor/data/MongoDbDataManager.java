@@ -24,6 +24,8 @@ import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
@@ -39,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoDbDataManager implements IDataManager {
 
@@ -51,13 +56,17 @@ public class MongoDbDataManager implements IDataManager {
 
         int timeoutSeconds = 5;
 
+        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
+
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyToSocketSettings(builder -> {
-                    builder.connectTimeout(timeoutSeconds * 1000, MILLISECONDS);
-                    builder.readTimeout(timeoutSeconds * 1000, MILLISECONDS);
+                    builder.connectTimeout(AmProps.ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC, SECONDS);
+                    builder.readTimeout(AmProps.ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC, SECONDS);
                 })
-                .applyToClusterSettings( builder -> builder.serverSelectionTimeout(timeoutSeconds * 1000, MILLISECONDS))
+                .applyToClusterSettings( builder -> builder.serverSelectionTimeout(AmProps.ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC, SECONDS))
                 .applyConnectionString(new ConnectionString(AmProps.ALERTMONITOR_MONGODB_CONNECTION_STRING))
+                .codecRegistry(codecRegistry)
                 .build();
 
         mongoClient = MongoClients.create(settings);
@@ -72,28 +81,10 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-            MongoCollection<Document> collection = db.getCollection("webhook");
-
-//            Document doc = Document.parse(new Gson().toJson(message));
-            Document doc = new Document("_id", new ObjectId());
-            doc.append("id", message.getId())
-                    .append("runtimeId", message.getRuntimeId())
-                    .append("timestamp", message.getTimestamp())
-                    .append("contentLength", message.getContentLength())
-                    .append("contentType", message.getContentType())
-                    .append("method", message.getMethod())
-                    .append("protocol", message.getProtocol())
-                    .append("remoteHost", message.getRemoteHost())
-                    .append("remotePort", message.getRemotePort())
-                    .append("requestUri", message.getRequestUri())
-                    .append("headerMap", message.getHeaderMap())
-                    .append("headerMapString", message.getHeaderMapString())
-                    .append("parameterMap", message.getParameterMap())
-                    .append("parameterMapString", message.getParameterMapString())
-                    .append("body", message.getBody());
+            MongoCollection<WebhookMessage> collection = db.getCollection("webhook", WebhookMessage.class);
 
             // insert one doc
-            collection.insertOne(doc);
+            collection.insertOne(message);
 
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_inserts_total.labels("webhook").inc();
@@ -111,49 +102,19 @@ public class MongoDbDataManager implements IDataManager {
         logger.info("MongoDbDataManager: getWebhookMessages");
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-            MongoCollection<Document> collection = db.getCollection("webhook");
+            MongoCollection<WebhookMessage> collection = db.getCollection("webhook", WebhookMessage.class);
 
-            List<Document> docsResultList = collection.find(Filters.eq("runtimeId", AmProps.RUNTIME_ID))
+            List<WebhookMessage> docsResultList = collection.find(Filters.eq("runtimeId", AmProps.RUNTIME_ID))
                     .sort(Sorts.descending("id"))
                     .limit(100)
                     .into(new ArrayList<>());
 
             logger.info("MongoDbDataManager: docsResultList size=" + docsResultList.size());
 
-            List<WebhookMessage> webhookMessageList = new ArrayList<>();
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            for (Document doc : docsResultList) {
-                // document: {"_id": {"$oid": "62044887878b4423baf8d9c7"}, "id": 46, "timestamp": {"$numberLong": "1644447879359"}, "contentLength": 1952, "contentType": "application/json", "method": "POST", "protocol": "HTTP/1.1", "remoteHost": "192.168.0.123", "remotePort": 36312, "requestUri": "/alertmonitor/webhook", "body": "{\"receiver\":\"alertmonitor\",\"status\":\"firing\",\"alerts\":[{\"status\":\"firing\",\"labels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"info\":\"SSH on gitlab.iskratel.si:22 has been down for more than 10 minutes.\",\"instance\":\"gitlab.iskratel.si:22\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"annotations\":{\"description\":\"SSH on gitlab.iskratel.si:22 has been down for more than 10 minutes.\",\"summary\":\"SSH on gitlab.iskratel.si:22 is down\"},\"startsAt\":\"2022-02-09T18:54:10.322Z\",\"endsAt\":\"0001-01-01T00:00:00Z\",\"generatorURL\":\"http://promvm.home.net/prometheus/graph?g0.expr=probe_success%7Bjob%3D%22blackbox-ssh%22%7D+%3D%3D+0\\u0026g0.tab=1\",\"fingerprint\":\"6a7e625056f7fa79\"},{\"status\":\"firing\",\"labels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"info\":\"SSH on prom.devops.iskratel.cloud:22 has been down for more than 10 minutes.\",\"instance\":\"prom.devops.iskratel.cloud:22\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"annotations\":{\"description\":\"SSH on prom.devops.iskratel.cloud:22 has been down for more than 10 minutes.\",\"summary\":\"SSH on prom.devops.iskratel.cloud:22 is down\"},\"startsAt\":\"2022-02-09T18:54:25.322Z\",\"endsAt\":\"0001-01-01T00:00:00Z\",\"generatorURL\":\"http://promvm.home.net/prometheus/graph?g0.expr=probe_success%7Bjob%3D%22blackbox-ssh%22%7D+%3D%3D+0\\u0026g0.tab=1\",\"fingerprint\":\"22e2e031457e143b\"}],\"groupLabels\":{\"alertname\":\"SSH Not Responding\"},\"commonLabels\":{\"alarmcode\":\"300070\",\"alertname\":\"SSH Not Responding\",\"cluster\":\"monis-cluster\",\"job\":\"blackbox-ssh\",\"monitor\":\"monis\",\"region\":\"si-home\",\"severity\":\"minor\",\"tags\":\"ssh\"},\"commonAnnotations\":{},\"externalURL\":\"http://promvm.home.net:9093\",\"version\":\"4\",\"groupKey\":\"{}/{severity=~\\\"^(critical|major|minor|warning|informational|indeterminate)$\\\"}:{alertname=\\\"SSH Not Responding\\\"}\",\"truncatedAlerts\":0}", "parameterMap": {}, "headerMap": {"content-length": "1952", "host": "192.168.0.16:8080", "content-type": "application/json", "user-agent": "Alertmanager/0.23.0"}}
-//                System.out.println("document: " + doc.toJson());
-//                WebhookMessage am = gson.fromJson(doc.toJson(), WebhookMessage.class);
-//                System.out.println("converted back: " + am.toString());
-                WebhookMessage m = new WebhookMessage();
-                m.setId(((Number) doc.get("id")).longValue());
-                m.setRuntimeId(doc.getString("runtimeId"));
-                m.setTimestamp(((Number) doc.get("timestamp")).longValue());
-                m.setContentLength(doc.getInteger("contentLength"));
-                m.setContentType(doc.getString("contentType"));
-                m.setMethod(doc.getString("method"));
-                m.setProtocol(doc.getString("protocol"));
-                m.setRemoteHost(doc.getString("remoteHost"));
-                m.setRemotePort(doc.getInteger("remotePort"));
-                m.setRequestUri(doc.getString("requestUri"));
-                m.setBody(doc.getString("body"));
-                m.setHeaderMapString(doc.getString("headerMapString"));
-                m.setParameterMapString(doc.getString("parameterMapString"));
-
-                // there are exceptions thrown if document.getString(xx) does not exist
-
-                webhookMessageList.add(m);
-            }
-
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_queries_total.labels("webhook").inc();
 
-            return webhookMessageList;
+            return docsResultList;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getWebhookMessages: Exception: ", e);
@@ -172,17 +133,9 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-            MongoCollection<Document> collection = db.getCollection("journal");
+            MongoCollection<DEvent> collection = db.getCollection("journal", DEvent.class);
 
-            List<Document> list = new ArrayList<>();
-
-            for (DEvent e : events) {
-                LogFactory.getLogger().debug("MongoDbDataManager: adding to journal uid=" + e.getUid());
-                Document doc = Document.parse(new Gson().toJson(e));
-                list.add(doc);
-            }
-
-            collection.insertMany(list, new InsertManyOptions().ordered(false));
+            collection.insertMany(events, new InsertManyOptions().ordered(false));
 
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_inserts_total.labels("journal").inc();
@@ -201,26 +154,19 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-            MongoCollection<Document> collection = db.getCollection("journal");
+            MongoCollection<DEvent> collection = db.getCollection("journal", DEvent.class);
 
-            List<Document> docsResultList = collection.find()
+            List<DEvent> docsResultList = collection.find()
                     .sort(Sorts.descending("timestamp"))
                     .limit(1000)
                     .into(new ArrayList<>());
 
             logger.info("MongoDbDataManager: docsResultList size=" + docsResultList.size());
 
-            List<DEvent> eventList = new ArrayList<>();
-
-            for (Document doc : docsResultList) {
-                DEvent e = convertToDEvent(doc);
-                eventList.add(e);
-            }
-
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
 
-            return eventList;
+            return docsResultList;
 
         } catch (Exception e) {
             logger.error("MongoDbDataManager: getJournal: Exception: " + e.getMessage());
