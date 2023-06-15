@@ -34,6 +34,8 @@ services:
       - ALERTMONITOR_PROMETHEUS_ID_LABELS="cluster, region, monitor"
       - ALERTMONITOR_MONGODB_ENABLED=false
       - ALERTMONITOR_MONGODB_CONNECTION_STRING="mongodb://admin:mongodbpassword@mongodb:27017/?authSource=admin"
+      - ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC="5"
+      - ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC="30"
     volumes:
       - /var/log:/opt/alertmonitor/log
     deploy:

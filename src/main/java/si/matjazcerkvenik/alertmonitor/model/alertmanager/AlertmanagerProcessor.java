@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DSeverity;
+import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
+import si.matjazcerkvenik.alertmonitor.model.config.YamlConfig;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
@@ -81,6 +83,18 @@ public class AlertmanagerProcessor {
             }
             s = s.substring(0, s.length()-2) + "}";
             e.setPrometheusId(s);
+
+            // set provider name
+            if (AmProps.yamlConfig != null) {
+                for (ProviderConfig pc : AmProps.yamlConfig.getProviders()) {
+                    if (pc.getUri().equalsIgnoreCase(m.getRequestUri())) {
+                        e.setProvider(pc.getName());
+                        break;
+                    }
+                }
+            } else {
+                e.setProvider(AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME);
+            }
 
             // set all other labels
             e.setOtherLabels(a.getLabels());

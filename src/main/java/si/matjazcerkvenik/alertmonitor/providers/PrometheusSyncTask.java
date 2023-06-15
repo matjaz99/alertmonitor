@@ -59,7 +59,7 @@ public class PrometheusSyncTask extends TimerTask {
             }
 
             // all alerts retrieved by sync
-            List<DEvent> syncAlerts = new ArrayList<>();
+            List<DEvent> syncAlertsList = new ArrayList<>();
 
             for (PAlert alert : activeAlerts) {
                 logger.debug(alert.toString());
@@ -97,6 +97,9 @@ public class PrometheusSyncTask extends TimerTask {
                 s = s.substring(0, s.length()-2) + "}";
                 e.setPrometheusId(s);
 
+                // set provider name
+                e.setProvider(dataProvider.providerConfig.getName());
+
                 // set all other labels
                 e.setOtherLabels(alert.getLabels());
 
@@ -127,11 +130,11 @@ public class PrometheusSyncTask extends TimerTask {
                 e.generateCID();
 
                 logger.debug("SYNCTASK[" + dataProvider.getProviderConfig().getName() + "]: " + e.toString());
-                syncAlerts.add(e);
+                syncAlertsList.add(e);
 
             } // for each alert
 
-            dataProvider.synchronizeAlerts(syncAlerts, true);
+            dataProvider.synchronizeAlerts(syncAlertsList, true);
 
             dataProvider.syncSuccessCount++;
             AmMetrics.alertmonitor_sync_success.labels(dataProvider.providerConfig.getName()).set(1);

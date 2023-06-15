@@ -40,6 +40,10 @@ public class DEvent implements Cloneable {
 	/** Labels that identify the prometheus */
 	@BsonProperty(value = "prometheusId")
 	private String prometheusId;
+
+	/** Provider name who sent alert */
+	@BsonProperty(value = "provider")
+	private String provider;
 	
 	/** Timestamp of first occurrence */
 	@BsonProperty(value = "timestamp")
@@ -194,6 +198,14 @@ public class DEvent implements Cloneable {
 
 	public void setPrometheusId(String prometheusId) {
 		this.prometheusId = prometheusId;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 	public long getTimestamp() {

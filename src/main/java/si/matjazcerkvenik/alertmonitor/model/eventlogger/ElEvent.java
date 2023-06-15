@@ -15,7 +15,7 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.eventlogger;
 
-public class EEvent {
+public class ElEvent {
 
     private String alarmId;
     private String alarmSource;

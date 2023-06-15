@@ -139,7 +139,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
                 e.setToBeDeleted(true);
             }
 
-            List<DEvent> newAlerts = new ArrayList<>();
+            List<DEvent> newAlertsList = new ArrayList<>();
             int newAlertsCount = 0;
 
             for (DEvent e : alertList) {
@@ -151,7 +151,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
                     e.setFirstTimestamp(e.getTimestamp());
                     e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    newAlerts.add(e);
+                    newAlertsList.add(e);
                     newAlertsCount++;
                 }
             }
@@ -167,7 +167,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
                 logger.info("SYNC[" + providerConfig.getName() + "]: removing active alert: {cid=" + cid + "}");
                 removeActiveAlert(activeAlerts.get(cid));
             }
-            addToJournal(newAlerts);
+            addToJournal(newAlertsList);
 
             logger.info("SYNC[" + providerConfig.getName() + "]: total sync alerts count: " + alertList.size());
             logger.info("SYNC[" + providerConfig.getName() + "]: new alerts count: " + newAlertsCount);

@@ -230,15 +230,16 @@ public class MongoDbDataManager implements IDataManager {
     }
 
     @Override
-    public DEvent getEvent(String id) {
-        logger.info("MongoDbDataManager: getEvent id=" + id);
+    public DEvent getEvent(String uid) {
+        logger.info("MongoDbDataManager: getEvent id=" + uid);
 
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-            MongoCollection<Document> collection = db.getCollection("journal");
+//            MongoCollection<Document> collection = db.getCollection("journal");
+            MongoCollection<DEvent> collection = db.getCollection("journal", DEvent.class);
 
-            Document doc = collection.find(Filters.eq("uid", id)).first();
-            DEvent event = convertToDEvent(doc);
+            DEvent event = collection.find(Filters.eq("uid", uid)).first();
+//            DEvent event = convertToDEvent(doc);
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
             return event;

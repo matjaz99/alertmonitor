@@ -21,9 +21,7 @@ import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.model.DWarning;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
-import si.matjazcerkvenik.alertmonitor.model.eventlogger.EEvent;
+import si.matjazcerkvenik.alertmonitor.model.eventlogger.ElEvent;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
@@ -49,7 +47,7 @@ public class EventloggerDataProvider extends AbstractDataProvider {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            EEvent am = gson.fromJson(m.getBody(), EEvent.class);
+            ElEvent am = gson.fromJson(m.getBody(), ElEvent.class);
 
             DEvent e = new DEvent();
             e.setTimestamp(System.currentTimeMillis());
