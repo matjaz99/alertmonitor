@@ -17,13 +17,14 @@
 					<p class="m-0">
 						Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiReportBean.adp.raisingEventCount} alerts and #{uiReportBean.adp.clearingEventCount} clears were received.
 						In last hour there were uiReportBean.adp.numberOfAlertsInLastHour events.
-						Currently, there are #{uiReportBean.adp.allActiveAlarmsCount} active alerts on #{uiReportBean.adp.activeTargets.size()} targets.
+						Currently, there are #{uiReportBean.adp.allActiveAlarmsCount} active alerts on #{uiReportBean.adp.activeTargets.size()} targets:
 					</p>
-					<p:outputLabel value="Active alarms:" class="boldtext"/><br/>
-					<p:outputLabel value="Critical: #{uiReportBean.adp.getActiveAlarmsCount('critical')}" /><br/>
-					<p:outputLabel value="Major: #{uiReportBean.adp.getActiveAlarmsCount('major')}" /><br/>
-					<p:outputLabel value="Minor: #{uiReportBean.adp.getActiveAlarmsCount('minor')}" /><br/>
-					<p:outputLabel value="Warning: #{uiReportBean.adp.getActiveAlarmsCount('warning')}" />
+					<ul>
+						<li><p:outputLabel value="Critical: #{uiReportBean.adp.getActiveAlarmsCount('critical')}" /></li>
+						<li><p:outputLabel value="Major: #{uiReportBean.adp.getActiveAlarmsCount('major')}" /></li>
+						<li><p:outputLabel value="Minor: #{uiReportBean.adp.getActiveAlarmsCount('minor')}" /></li>
+						<li><p:outputLabel value="Warning: #{uiReportBean.adp.getActiveAlarmsCount('warning')}" /></li>
+					</ul>
 					<p class="m-0">
 						<p:outputLabel value="Alarms balance factor: "/>
 						<p:outputLabel value="#{uiReportBean.adp.balanceFactor}" />

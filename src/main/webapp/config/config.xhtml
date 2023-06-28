@@ -68,6 +68,12 @@
 					<p:outputLabel value="MongoDB connection string: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.mongoDbConnectionString}" />
 
+					<p:outputLabel value="MongoDB connect timeout (sec): " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.mongoDbConnectTimeout}" />
+
+					<p:outputLabel value="MongoDB read timeout (sec): " class="boldtext"/>
+					<p:outputLabel value="#{uiConfigBean.mongoDbReadTimeout}" />
+
 					<p:outputLabel value="Kafka enabled (experimental): " class="boldtext">
 						<i class="pi pi-pencil" style="font-size: 0.5 rem"></i>
 					</p:outputLabel>

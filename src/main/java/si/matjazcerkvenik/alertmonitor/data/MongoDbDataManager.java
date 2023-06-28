@@ -235,11 +235,9 @@ public class MongoDbDataManager implements IDataManager {
 
         try {
             MongoDatabase db = mongoClient.getDatabase(AmProps.ALERTMONITOR_MONGODB_DB_NAME);
-//            MongoCollection<Document> collection = db.getCollection("journal");
             MongoCollection<DEvent> collection = db.getCollection("journal", DEvent.class);
 
             DEvent event = collection.find(Filters.eq("uid", uid)).first();
-//            DEvent event = convertToDEvent(doc);
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();
             return event;
@@ -250,40 +248,6 @@ public class MongoDbDataManager implements IDataManager {
             AmMetrics.alertmonitor_db_failures_total.labels().inc();
         }
         return null;
-    }
-
-    private DEvent convertToDEvent(Document doc) {
-        DEvent event = new DEvent();
-        event.setUid(doc.getString("uid"));
-        event.setCorrelationId(doc.getString("correlationId"));
-        event.setTimestamp(((Number) doc.get("timestamp")).longValue());
-        event.setFirstTimestamp(((Number) doc.get("firstTimestamp")).longValue());
-        event.setLastTimestamp(((Number) doc.get("lastTimestamp")).longValue());
-        event.setClearTimestamp(((Number) doc.get("clearTimestamp")).longValue());
-        event.setClearUid(doc.getString("clearUid"));
-        event.setCounter(doc.getInteger("counter"));
-        event.setSource(doc.getString("source"));
-        event.setUserAgent(doc.getString("userAgent"));
-        event.setAlertname(doc.getString("alertname"));
-        event.setInfo(doc.getString("info"));
-        event.setInstance(doc.getString("instance"));
-        event.setHostname(doc.getString("hostname"));
-        event.setNodename(doc.getString("nodename"));
-        event.setJob(doc.getString("job"));
-        event.setTags(doc.getString("tags"));
-        event.setSeverity(doc.getString("severity"));
-        event.setPriority(doc.getString("priority"));
-        event.setGroup(doc.getString("group"));
-        event.setEventType(doc.getString("eventType"));
-        event.setProbableCause(doc.getString("probableCause"));
-        event.setCurrentValue(doc.getString("currentValue"));
-        event.setUrl(doc.getString("url"));
-        event.setDescription(doc.getString("description"));
-        event.setStatus(doc.getString("status"));
-        event.setGeneratorUrl(doc.getString("generatorUrl"));
-        event.setPrometheusId(doc.getString("prometheusId"));
-        event.setOtherLabelsString(doc.getString("otherLabelsString"));
-        return event;
     }
 
     @Override

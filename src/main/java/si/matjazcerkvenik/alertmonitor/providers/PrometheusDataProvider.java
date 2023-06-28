@@ -213,7 +213,6 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
         stopSyncTimer();
 
-        // TODO handle exception
         Integer interval = Integer.parseInt(providerConfig.getParam(DP_PARAM_KEY_SYNC_INTERVAL_SEC));
         AmMetrics.alertmonitor_sync_interval_seconds.labels(providerConfig.getName()).set(interval);
         if (interval == 0) {

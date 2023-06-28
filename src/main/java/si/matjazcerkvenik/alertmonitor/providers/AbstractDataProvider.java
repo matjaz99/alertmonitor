@@ -67,18 +67,15 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         this.providerConfig = providerConfig;
     }
 
+    /**
+     * Update provider config
+     * @param key key
+     * @param newValue new value
+     */
     @Override
     public void updateParam(String key, String newValue) {
         if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_SERVER)) {
             if (newValue.endsWith("/")) newValue = newValue.substring(0, newValue.length()-1);
-        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_SYNC_INTERVAL_SEC)) {
-
-        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_CONNECT_TIMEOUT_SEC)) {
-
-        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_READ_TIMEOUT_SEC)) {
-
-        } else if (key.equalsIgnoreCase(PrometheusDataProvider.DP_PARAM_KEY_CLIENT_POOL_SIZE)) {
-
         }
         if (prometheusHttpClientPool == null) return;
         prometheusHttpClientPool.destroy();
@@ -213,7 +210,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
      * Add new alert to active alerts. This method is called when first alert
      * of this type occurs (according to correlationId). First and last timestamps
      * are set to time of reception (timestamp). Also, new tags are added to tagMap.
-     * @param event
+     * @param event new event
      */
     public void addActiveAlert(DEvent event) {
 
@@ -241,7 +238,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
      * (according to existing alert).
      * Alert then finally replaces reference in activeAlert map so it points to new
      * alert.
-     * @param newEvent last received notificatioin
+     * @param newEvent last received event
      */
     public void updateActiveAlert(DEvent newEvent) {
         DEvent existingEvent = activeAlerts.get(newEvent.getCorrelationId());
@@ -256,7 +253,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     /**
      * Clear arrived and active alert must be removed. Before removing,
      * all alerts in journal must have clearTimestamp corrected to a point of clear event.
-     * @param activeAlert
+     * @param activeAlert active alert
      */
     public void removeActiveAlert(DEvent activeAlert) {
 
@@ -341,6 +338,12 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
                 .collect(Collectors.toList());
         return list;
 
+    }
+
+    public List<DEvent> getNumberOfAlertsInLastHour() {
+//        DAO.getInstance().getDataManager().addToJournal(events);
+        // TODO
+        return null;
     }
 
     /**
