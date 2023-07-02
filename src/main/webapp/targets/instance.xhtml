@@ -20,7 +20,7 @@
 
 				<h:form>
 					<p:accordionPanel dynamic="true" cache="true">
-						<p:tab title="Active alerts">
+						<p:tab title="Active alerts (#{uiInstanceBean.instanceActiveAlarms.size()})">
 							<p:dataTable id="tAlertsTable" widgetVar="notifsTable"
 										 value="#{uiInstanceBean.instanceActiveAlarms}" var="a"
 										 rowStyleClass="#{a.severity}"
@@ -112,27 +112,21 @@
 
 							</p:dataTable>
 						</p:tab>
-						<p:tab title="Timeline">
-							<div class="card">
-								<p:timeline id="timeline" value="#{uiInstanceBean.model}"
-											editable="false" eventMargin="10" eventMarginAxis="0"
-											start="#{uiInstanceBean.start}" end="#{uiInstanceBean.end}"
-											stackEvents="false" widgetVar="timelineWdgt">
-									<f:facet name="menu">
-										<p:commandButton type="button" icon="pi pi-chevron-left" styleClass="ml-2" onclick="PF('timelineWdgt').move(-0.3);" />
-										<p:commandButton type="button" icon="pi pi-chevron-right" styleClass="ml-2" onclick="PF('timelineWdgt').move(0.3);" />
-										<p:commandButton type="button" icon="pi pi-search-minus" styleClass="ml-2" onclick="PF('timelineWdgt').zoom(-0.5);" />
-										<p:commandButton type="button" icon="pi pi-search-plus" styleClass="ml-2" onclick="PF('timelineWdgt').zoom(0.5);" />
-									</f:facet>
-
-									<f:facet name="loading">
-										<h2>Loading timeline...</h2>
-									</f:facet>
-								</p:timeline>
-							</div>
-						</p:tab>
 					</p:accordionPanel>
 
+					<br/>
+
+					<div class="card">
+						<p:timeline id="timeline" value="#{uiInstanceBean.model}"
+									editable="false" eventMargin="10" eventMarginAxis="0"
+									start="#{uiInstanceBean.start}" end="#{uiInstanceBean.end}"
+									stackEvents="false" widgetVar="timelineWdgt">
+
+							<f:facet name="loading">
+								<h2>Loading timeline...</h2>
+							</f:facet>
+						</p:timeline>
+					</div>
 
 				</h:form>
 

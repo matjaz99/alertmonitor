@@ -17,6 +17,8 @@
 					<p:ajax listener="#{uiBean.getTargets}" update="targetsForm"/>
 				</p:toggleSwitch>
 				<br/>
+				<p:outputLabel value="Size: #{uiBean.targets.size()}"/>
+				<br/>
 				<p:tag id="resultStatus" styleClass="p-mr-2" severity="danger" value="#{uiBean.result}" rendered="#{uiBean.result != null}"></p:tag>
 
 				<p:dataView var="target"

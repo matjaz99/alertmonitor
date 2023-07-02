@@ -104,6 +104,10 @@ public class UiConfigBean implements Serializable {
         return AmProps.RUNTIME_ID;
     }
 
+    public String getProvidersFilePath() {
+        return AmProps.ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE;
+    }
+
 
 
 

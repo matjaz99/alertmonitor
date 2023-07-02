@@ -120,8 +120,8 @@ body .ui-datatable .ui-datatable-data tr td {
     border-radius: 4px;
     margin-bottom: 1.1rem;
 }
-/* override .card style */
-.target-true {
+/* override .card style in targets. add to <div class="card target-#{target.up}"> */
+/*.target-true {
     background: #89FF61 !important;
     border: 1px solid #2C7B00 !important;
     box-shadow: 0 2px 1px -1px rgba(0, 255, 0, 0.2), 0 1px 1px 0 rgba(0, 255, 0, 0.14), 0 1px 3px 0 rgba(0, 255, 0, 0.12) !important;
@@ -130,4 +130,7 @@ body .ui-datatable .ui-datatable-data tr td {
     background: #FF7474 !important;
     border: 1px solid #750000 !important;
     box-shadow: 0 2px 1px -1px rgba(255, 0, 0, 0.2), 0 1px 1px 0 rgba(255, 0, 0, 0.14), 0 1px 3px 0 rgba(255, 0, 0, 0.12) !important;
-}
+}*/
+
+
+

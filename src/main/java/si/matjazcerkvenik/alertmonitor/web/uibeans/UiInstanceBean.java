@@ -162,7 +162,7 @@ public class UiInstanceBean implements Serializable {
                         .endDate(end)
                         .editable(true)
                         .group(e.getAlertname())
-                        .styleClass("sdfg".toLowerCase())
+                        .styleClass(e.getSeverity().toLowerCase())
                         .build();
 
                 model.add(event);

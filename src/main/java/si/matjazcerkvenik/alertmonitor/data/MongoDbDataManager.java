@@ -158,7 +158,7 @@ public class MongoDbDataManager implements IDataManager {
 
             List<DEvent> docsResultList = collection.find()
                     .sort(Sorts.descending("timestamp"))
-                    .limit(1000)
+                    .limit(5000)
                     .into(new ArrayList<>());
 
             logger.info("MongoDbDataManager: docsResultList size=" + docsResultList.size());

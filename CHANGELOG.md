@@ -1,11 +1,13 @@
 ## 2.4.5-SNAPSHOT
 
 * [CHANGE] Moved all configuration parameters from configuration view to providers
-* [FEATURE] Journal Timeline
+* [FEATURE] Journal Timeline in instance view
 * [ENHANCEMENT] Added link to active alerts directly from providers
+* [ENHANCEMENT] Show targets count in targets view
 * [ENHANCEMENT] Added POJO support in MongoDB client
 * [ENHANCEMENT] Added configuration option for `ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC` and `ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC`
 * [ENHANCEMENT] Added `provider` attribute to alerts
+* [ENHANCEMENT] Added provider file path to config view
 
 ## 2.4.4-SNAPSHOT
 

@@ -14,6 +14,8 @@
                             <h:link value="#{target.hostname}" outcome="/targets/instance">
                                 <f:param name="target" value="#{target.id}" />
                             </h:link>
+                            <h:outputText value="UP" rendered="#{target.up}" style="margin-left: 20px; color: green; font-weight: bold" />
+                            <h:outputText value="DOWN" rendered="#{!target.up}" style="margin-left: 20px; color: red; font-weight: bold" />
                         </span>
                     </div>
                 </div>
