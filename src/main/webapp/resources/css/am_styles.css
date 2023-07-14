@@ -133,4 +133,7 @@ body .ui-datatable .ui-datatable-data tr td {
 }*/
 
 
+.vis-label.vis-nested-group.vis-group-level-1 {
+  background-color: white;
+}
 

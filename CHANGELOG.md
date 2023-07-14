@@ -1,6 +1,11 @@
+## 2.4.6-SNAPSHOT
+
+Working on timeline
+
 ## 2.4.5-SNAPSHOT
 
 * [CHANGE] Moved all configuration parameters from configuration view to providers
+* [CHANGE] Removed parameter `lastTimestamp` from alerts as it seems useless
 * [FEATURE] Journal Timeline in instance view
 * [ENHANCEMENT] Added link to active alerts directly from providers
 * [ENHANCEMENT] Show targets count in targets view

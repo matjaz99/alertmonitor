@@ -117,14 +117,19 @@
 					<br/>
 
 					<div class="card">
-						<p:timeline id="timeline" value="#{uiInstanceBean.model}"
+						<p:timeline id="timeline" value="#{uiInstanceBean.model}" var="event" varGroup="e"
 									editable="false" eventMargin="10" eventMarginAxis="0"
 									start="#{uiInstanceBean.start}" end="#{uiInstanceBean.end}"
 									stackEvents="false" widgetVar="timelineWdgt">
 
 							<f:facet name="loading">
-								<h2>Loading timeline...</h2>
+								<h3 style="color: #676767;">Loading timeline...</h3>
 							</f:facet>
+
+
+
+							<h:outputText value="#{event.info}"/>
+
 						</p:timeline>
 					</div>
 

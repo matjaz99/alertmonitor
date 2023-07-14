@@ -16,13 +16,13 @@
 package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
 import org.primefaces.model.timeline.TimelineEvent;
+import org.primefaces.model.timeline.TimelineGroup;
 import org.primefaces.model.timeline.TimelineModel;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
-import si.matjazcerkvenik.alertmonitor.web.uibeans.UiConfigBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,8 +30,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,7 +74,7 @@ public class UiInstanceBean implements Serializable {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
         List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
         List<DEvent> result = list.stream()
-                .filter(notif -> checkAlert(notif))
+                .filter(notif -> checkInstance(notif))
                 .collect(Collectors.toList());
         Collections.sort(result, new Comparator<DEvent>() {
             @Override
@@ -87,7 +89,7 @@ public class UiInstanceBean implements Serializable {
     public List<DEvent> getInstanceJournalAlarms() {
         AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
         List<DEvent> result = adp.getJournal().stream()
-                .filter(notif -> checkAlert(notif))
+                .filter(notif -> checkInstance(notif))
                 .collect(Collectors.toList());
         Collections.sort(result, new Comparator<DEvent>() {
             @Override
@@ -99,7 +101,7 @@ public class UiInstanceBean implements Serializable {
         return result;
     }
 
-    private boolean checkAlert(DEvent n) {
+    private boolean checkInstance(DEvent n) {
         if (target.isSmartTarget()) {
             if (n.getHostname().equals(target.getHostname())) return true;
         } else {
@@ -130,18 +132,19 @@ public class UiInstanceBean implements Serializable {
 
 
 
-    private TimelineModel<String, ?> model;
+    private TimelineModel<DEvent, String> model;
     private LocalDateTime start;
     private LocalDateTime end;
 
-    public TimelineModel<String, ?> getModel() {
+    public TimelineModel<DEvent, String> getModel() {
 
-        List<DEvent> dEvents = getInstanceJournalAlarms();
+        // get journal alerts for this instance from db
+        List<DEvent> journalEvents = getInstanceJournalAlarms();
 
         HashMap<String, List<DEvent>> tempMap = new HashMap<>();
 
-        for (DEvent e : dEvents) {
-            System.out.println("getModel: event: " + e.toString());
+        for (DEvent e : journalEvents) {
+            if (e.getSeverity().equalsIgnoreCase("clear")) continue;
             List<DEvent> list = tempMap.getOrDefault(e.getCorrelationId(), new ArrayList<>());
             list.add(e);
             tempMap.put(e.getCorrelationId(), list);
@@ -151,17 +154,35 @@ public class UiInstanceBean implements Serializable {
         model = new TimelineModel<>();
 
         // set initial start / end dates for the axis of the timeline
-        start = LocalDate.of(-140, 1, 1).atStartOfDay();
-        end = LocalDate.of(-140, 1, 2).atStartOfDay();
+        start = LocalDate.of(2023, 7, 1).atStartOfDay();
+        end = LocalDate.of(2023, 8, 1).atStartOfDay();
+
+        long now = System.currentTimeMillis();
 
         for (String s : tempMap.keySet()) {
+
+            TimelineGroup<String> group = new TimelineGroup<>(s, tempMap.get(s).get(0).getAlertname(), 1);
+            model.addGroup(group);
+
             for (DEvent e : tempMap.get(s)) {
-                TimelineEvent event = TimelineEvent.builder()
-                        .data(e.getInfo())
-                        .startDate(start)
-                        .endDate(end)
-                        .editable(true)
-                        .group(e.getAlertname())
+                LocalDateTime startEvent = Instant.ofEpochMilli(e.getFirstTimestamp()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                long endEventMillis = 0;
+                if (e.getClearTimestamp() == 0) {
+                    endEventMillis = e.getTimestamp();
+                } else if (e.getFirstTimestamp() == e.getTimestamp()) {
+                    endEventMillis = now;
+                } else {
+                    endEventMillis = e.getClearTimestamp();
+                }
+                LocalDateTime endEvent = Instant.ofEpochMilli(endEventMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+
+                TimelineEvent event = TimelineEvent.<DEvent>builder()
+                        .data(e)
+                        .startDate(startEvent)
+                        .endDate(endEvent)
+                        .editable(false)
+                        .group(s)
                         .styleClass(e.getSeverity().toLowerCase())
                         .build();
 

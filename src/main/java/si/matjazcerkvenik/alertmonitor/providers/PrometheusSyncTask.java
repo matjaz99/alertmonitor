@@ -60,12 +60,13 @@ public class PrometheusSyncTask extends TimerTask {
 
             // all alerts retrieved by sync
             List<DEvent> syncAlertsList = new ArrayList<>();
+            long now = System.currentTimeMillis();
 
             for (PAlert alert : activeAlerts) {
                 logger.debug(alert.toString());
 
                 DEvent e = new DEvent();
-                e.setTimestamp(System.currentTimeMillis());
+                e.setTimestamp(now);
                 e.setAlertname(alert.getLabels().getOrDefault(DEvent.LBL_ALERTNAME, "-unknown-"));
                 e.setSource("SYNC");
                 e.setUserAgent("");

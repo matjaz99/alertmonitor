@@ -49,8 +49,7 @@ public class AlertmanagerProcessor {
 
             DEvent e = new DEvent();
             e.setTimestamp(System.currentTimeMillis());
-            e.setFirstTimestamp(e.getTimestamp());
-            e.setLastTimestamp(e.getTimestamp());
+//            e.setFirstTimestamp(e.getTimestamp());
             e.setSource(m.getRemoteHost());
             e.setAlertname(a.getLabels().getOrDefault(DEvent.LBL_ALERTNAME, "-unknown-"));
             e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));

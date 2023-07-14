@@ -52,7 +52,6 @@ public class EventloggerDataProvider extends AbstractDataProvider {
             DEvent e = new DEvent();
             e.setTimestamp(System.currentTimeMillis());
             e.setFirstTimestamp(e.getTimestamp());
-            e.setLastTimestamp(e.getTimestamp());
             e.setSource(m.getRemoteHost());
             e.setAlertname(am.getAlarmName());
             e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));

@@ -127,6 +127,12 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         return event;
     }
 
+    /**
+     * This is main method that synchronizes new or sync alerts with the current state of alerts.
+     * @param alertList
+     * @param sync
+     * @return
+     */
     public boolean synchronizeAlerts(List<DEvent> alertList, boolean sync) {
 
         if (sync) {
@@ -142,15 +148,18 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
             for (DEvent e : alertList) {
                 if (activeAlerts.containsKey(e.getCorrelationId())) {
                     logger.debug("SYNC[" + providerConfig.getName() + "]: alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
-                    activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
+//                    activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
+//                    activeAlerts.get(e.getCorrelationId()).setLastTimestamp(e.getTimestamp());
+                    e.setToBeDeleted(false);
+//                    e.setFirstTimestamp(activeAlerts.get(e.getCorrelationId()).getFirstTimestamp());
+//                    activeAlerts.put(e.getCorrelationId(), e);
+                    updateActiveAlert(e);
                 } else {
                     logger.info("SYNC[" + providerConfig.getName() + "]: new alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
-                    e.setFirstTimestamp(e.getTimestamp());
-                    e.setLastTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    newAlertsList.add(e);
                     newAlertsCount++;
                 }
+                newAlertsList.add(e);
             }
 
             // collect all cids that need to be deleted from active alerts
@@ -191,8 +200,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-                    e.setFirstTimestamp(e.getTimestamp());
-                    e.setLastTimestamp(e.getTimestamp());
+//                    e.setFirstTimestamp(e.getTimestamp());
                     addActiveAlert(e);
                     logger.info("SYNC[" + providerConfig.getName() + "]: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
                 }
@@ -213,6 +221,8 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
      * @param event new event
      */
     public void addActiveAlert(DEvent event) {
+
+        event.setFirstTimestamp(event.getTimestamp());
 
         activeAlerts.put(event.getCorrelationId(), event);
         raisingEventCount++;
@@ -244,7 +254,6 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         DEvent existingEvent = activeAlerts.get(newEvent.getCorrelationId());
         // take data from existing alert and fill it into new alert
         newEvent.setFirstTimestamp(existingEvent.getFirstTimestamp());
-        newEvent.setLastTimestamp(newEvent.getTimestamp());
         newEvent.setCounter(existingEvent.getCounter() + 1);
         // replace existing with new one
         activeAlerts.put(newEvent.getCorrelationId(), newEvent);
@@ -261,8 +270,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         DEvent clearEvent = activeAlert.generateClearEvent();
         clearEvent.setClearUid(clearEvent.getUid());
 
-        activeAlert.setFirstTimestamp(activeAlert.getTimestamp());
-        activeAlert.setLastTimestamp(clearEvent.getTimestamp());
+//        activeAlert.setFirstTimestamp(activeAlert.getTimestamp());
         DAO.getInstance().getDataManager().handleAlarmClearing(clearEvent);
         activeAlerts.remove(activeAlert.getCorrelationId());
         removeObsoleteTags();

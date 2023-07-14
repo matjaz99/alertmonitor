@@ -289,6 +289,7 @@ public class MongoDbDataManager implements IDataManager {
 
             Bson filter = Filters.and(
                     Filters.eq("correlationId", clearEvent.getCorrelationId()),
+                    Filters.eq("provider", clearEvent.getProvider()),
                     Filters.eq("clearTimestamp", 0));
             Bson updateOperation1 = Updates.set("clearTimestamp", clearEvent.getClearTimestamp());
             Bson updateOperation2 = Updates.set("clearUid", clearEvent.getUid());

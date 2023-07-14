@@ -45,21 +45,17 @@ public class DEvent implements Cloneable {
 	@BsonProperty(value = "provider")
 	private String provider;
 	
-	/** Timestamp of first occurrence */
+	/** Timestamp of this occurrence */
 	@BsonProperty(value = "timestamp")
 	private long timestamp;
 	
 	/** Counter of identical events (according to NID) */
 	@BsonProperty(value = "counter")
-	private int counter = 1;
+	private int counter = 0;
 
 	/** Timestamp of first occurrence */
 	@BsonProperty(value = "firstTimestamp")
 	private long firstTimestamp;
-
-	/** Timestamp of last occurrence */
-	@BsonProperty(value = "lastTimestamp")
-	private long lastTimestamp;
 
 	/** Timestamp when alert was cleared */
 	@BsonProperty(value = "clearTimestamp")
@@ -220,12 +216,11 @@ public class DEvent implements Cloneable {
 	public String getFormatedTimestamp() {
 		return Formatter.getFormatedTimestamp(timestamp, AmDateFormat.DATE_TIME);
 	}
+
 	public String getFormatedFirstTimestamp() {
 		return Formatter.getFormatedTimestamp(firstTimestamp, AmDateFormat.DATE_TIME);
 	}
-	public String getFormatedLastTimestamp() {
-		return Formatter.getFormatedTimestamp(lastTimestamp, AmDateFormat.DATE_TIME);
-	}
+
 	public String getFormatedClearTimestamp() {
 		return Formatter.getFormatedTimestamp(clearTimestamp, AmDateFormat.DATE_TIME);
 	}
@@ -244,14 +239,6 @@ public class DEvent implements Cloneable {
 
 	public void setFirstTimestamp(long firstTimestamp) {
 		this.firstTimestamp = firstTimestamp;
-	}
-
-	public long getLastTimestamp() {
-		return lastTimestamp;
-	}
-
-	public void setLastTimestamp(long lastTimestamp) {
-		this.lastTimestamp = lastTimestamp;
 	}
 
 	public long getClearTimestamp() {
@@ -528,7 +515,7 @@ public class DEvent implements Cloneable {
 			eClone.setTimestamp(now);
 			eClone.setClearTimestamp(now);
 			eClone.setSeverity(DSeverity.CLEAR);
-			eClone.setSource("PSYNC");
+			eClone.setSource("SYNC");
 			eClone.generateUID();
 			return eClone;
 		} catch (CloneNotSupportedException ex) {
@@ -546,7 +533,6 @@ public class DEvent implements Cloneable {
 				", timestamp=" + timestamp +
 				", counter=" + counter +
 				", firstTimestamp=" + firstTimestamp +
-				", lastTimestamp=" + lastTimestamp +
 				", clearTimestamp=" + clearTimestamp +
 				", source='" + source + '\'' +
 				", userAgent='" + userAgent + '\'' +
