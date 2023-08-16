@@ -226,7 +226,6 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
 
         activeAlerts.put(event.getCorrelationId(), event);
         raisingEventCount++;
-        LogFactory.getAlertLog().write(event.toString());
 
         // parse tags from tags label
         String[] array = event.getTags().split(",");
@@ -281,7 +280,6 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         addToJournal(list);
 
         clearingEventCount++;
-        LogFactory.getAlertLog().write(activeAlert.toString());
     }
 
     /**

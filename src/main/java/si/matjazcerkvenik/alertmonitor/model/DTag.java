@@ -15,7 +15,11 @@
  */
 package si.matjazcerkvenik.alertmonitor.model;
 
-public class DTag {
+import java.io.Serializable;
+
+public class DTag implements Serializable {
+
+    private static final long serialVersionUID = 111885037L;
 
     private String name;
     private String color;

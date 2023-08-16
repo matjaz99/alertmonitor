@@ -160,6 +160,7 @@ public class MongoDbDataManager implements IDataManager {
                     .sort(Sorts.descending("timestamp"))
                     .limit(5000)
                     .into(new ArrayList<>());
+            // TODO add provider as filter
 
             logger.info("MongoDbDataManager: docsResultList size=" + docsResultList.size());
 

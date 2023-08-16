@@ -141,13 +141,49 @@ public class UiInstanceBean implements Serializable {
         // get journal alerts for this instance from db
         List<DEvent> journalEvents = getInstanceJournalAlarms();
 
-        HashMap<String, List<DEvent>> tempMap = new HashMap<>();
+        // sort series of alerts into lists by correlation id (key)
+        Map<String, List<DEvent>> journalEventsMap = new HashMap<>();
 
         for (DEvent e : journalEvents) {
-            if (e.getSeverity().equalsIgnoreCase("clear")) continue;
-            List<DEvent> list = tempMap.getOrDefault(e.getCorrelationId(), new ArrayList<>());
+            List<DEvent> list = journalEventsMap.getOrDefault(e.getCorrelationId(), new ArrayList<>());
+            System.out.println("== " + e.toString());
             list.add(e);
-            tempMap.put(e.getCorrelationId(), list);
+            journalEventsMap.put(e.getCorrelationId(), list);
+        }
+
+        // filter journal alerts:
+        // remove clear alerts
+        // if alert was cleared, leave only the first one
+        // if alert was not cleared yet, take the last one in series
+        for (String key: journalEventsMap.keySet()) {
+            List<DEvent> tempList = journalEventsMap.get(key);
+
+            Map<Long, DEvent> tempEventsMapByFirstTimestamp = new HashMap<>();
+            for (DEvent te : tempList) {
+                if (te.getSeverity().equalsIgnoreCase("clear")
+                        && te.getClearTimestamp() != 0) continue;
+                if (tempEventsMapByFirstTimestamp.containsKey(te.getFirstTimestamp())) {
+                    if (te.getCounter() > tempEventsMapByFirstTimestamp.get(te.getFirstTimestamp()).getCounter()) {
+                        tempEventsMapByFirstTimestamp.put(te.getFirstTimestamp(), te);
+                    }
+                } else {
+                    tempEventsMapByFirstTimestamp.put(te.getFirstTimestamp(), te);
+                }
+            }
+
+            for (Iterator<DEvent> it = tempList.iterator(); it.hasNext();) {
+                DEvent e = it.next();
+                // ignore clears
+                if (e.getSeverity().equalsIgnoreCase("clear")) it.remove();
+                // ignore cleared alerts (all except the first one)
+                if (e.getClearTimestamp() != 0 && e.getCounter() > 1) it.remove();
+                // ignore uncleared alerts except the last one in series (for each runtime id)
+                for (Long l : tempEventsMapByFirstTimestamp.keySet()) {
+                    if (!tempEventsMapByFirstTimestamp.get(l).getUid().equalsIgnoreCase(e.getUid())) {
+                        it.remove();
+                    }
+                }
+            }
         }
 
         // create timeline model
@@ -159,22 +195,14 @@ public class UiInstanceBean implements Serializable {
 
         long now = System.currentTimeMillis();
 
-        for (String s : tempMap.keySet()) {
+        for (String s : journalEventsMap.keySet()) {
 
-            TimelineGroup<String> group = new TimelineGroup<>(s, tempMap.get(s).get(0).getAlertname(), 1);
+            TimelineGroup<String> group = new TimelineGroup<>(s, journalEventsMap.get(s).get(0).getAlertname(), 1);
             model.addGroup(group);
 
-            for (DEvent e : tempMap.get(s)) {
+            for (DEvent e : journalEventsMap.get(s)) {
                 LocalDateTime startEvent = Instant.ofEpochMilli(e.getFirstTimestamp()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-                long endEventMillis = 0;
-                if (e.getClearTimestamp() == 0) {
-                    endEventMillis = e.getTimestamp();
-                } else if (e.getFirstTimestamp() == e.getTimestamp()) {
-                    endEventMillis = now;
-                } else {
-                    endEventMillis = e.getClearTimestamp();
-                }
-                LocalDateTime endEvent = Instant.ofEpochMilli(endEventMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                LocalDateTime endEvent = Instant.ofEpochMilli(e.getTimestamp()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 
 
                 TimelineEvent event = TimelineEvent.<DEvent>builder()

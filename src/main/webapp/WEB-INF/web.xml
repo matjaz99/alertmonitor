@@ -26,6 +26,11 @@
         <location>/error</location>
     </error-page>
 
+    <!-- Session timeout in minutes -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <!-- Define the JSF servlet (manages the request processing life cycle for JavaServer Faces) -->
     <servlet>
         <servlet-name>faces-servlet</servlet-name>
