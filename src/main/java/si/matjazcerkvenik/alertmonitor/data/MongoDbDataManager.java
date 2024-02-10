@@ -207,6 +207,7 @@ public class MongoDbDataManager implements IDataManager {
             MongoCollection<Document> collection = db.getCollection("journal");
 
             Bson filter = Filters.gte("timestamp", System.currentTimeMillis() - 3600 * 1000);
+            // TODO filter by provider?
 
             DAO.getInstance().removeWarningFromAllProviders("mongo");
             AmMetrics.alertmonitor_db_queries_total.labels("journal").inc();

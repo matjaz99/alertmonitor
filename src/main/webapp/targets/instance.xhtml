@@ -51,6 +51,10 @@
 								<h:outputText value="#{a.priority}" />
 							</p:column>
 
+							<p:column headerText="Counter">
+								<h:outputText value="#{a.counter}" />
+							</p:column>
+
 							<p:column headerText="Value">
 								<h:outputText value="#{a.currentValue}" />
 							</p:column>
@@ -94,10 +98,6 @@
 									<h:outputText value="#{j.priority}" />
 								</p:column>
 
-								<p:column headerText="Counter" sortBy="#{j.counter}">
-									<h:outputText value="#{j.counter}" />
-								</p:column>
-
 								<p:column headerText="Value" sortBy="#{j.currentValue}">
 									<h:outputText value="#{j.currentValue}" />
 								</p:column>
@@ -113,25 +113,6 @@
 							</p:dataTable>
 						</p:tab>
 					</p:accordionPanel>
-
-					<br/>
-
-					<div class="card">
-						<p:timeline id="timeline" value="#{uiInstanceBean.model}" var="event" varGroup="e"
-									editable="false" eventMargin="10" eventMarginAxis="0"
-									start="#{uiInstanceBean.start}" end="#{uiInstanceBean.end}"
-									stackEvents="false" widgetVar="timelineWdgt">
-
-							<f:facet name="loading">
-								<h3 style="color: #676767;">Loading timeline...</h3>
-							</f:facet>
-
-
-
-							<h:outputText value="#{event.info}"/>
-
-						</p:timeline>
-					</div>
 
 				</h:form>
 

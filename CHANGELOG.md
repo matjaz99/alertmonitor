@@ -2,6 +2,7 @@
 
 Working on timeline
 * [CHANGE] Removed separate alert.log (introduced in 2.3.0)
+* [ENHANCEMENT] Status of instances in report view
 
 ## 2.4.5-SNAPSHOT
 

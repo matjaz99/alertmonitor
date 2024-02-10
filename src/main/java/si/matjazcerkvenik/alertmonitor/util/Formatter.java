@@ -18,6 +18,8 @@ package si.matjazcerkvenik.alertmonitor.util;
 import com.google.gson.Gson;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -91,6 +93,12 @@ public class Formatter {
      */
     public static String convertScientificNotationToString(String scientificNumber) {
         return String.format("%.0f", Double.parseDouble(scientificNumber));
+    }
+
+    public static Double roundDouble(Double value, int decimalPlaces) {
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     /**

@@ -1,0 +1,48 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+
+				<p:panelGrid columns="4" cellspacing="5" width="100%" styleClass="ui-noborder">
+					<h:outputText value="Target: #{uiInstanceBean.target.hostname}" style="color: #444444; font-size: 18px; font-weight: bold"/>
+					<p:tag styleClass="p-mr-2" value="#{uiInstanceBean.targetType}" rounded="true"></p:tag>
+					<p:tag id="instanceStatus" styleClass="p-mr-2" severity="#{uiInstanceBean.upStatusSeverity}" value="#{uiInstanceBean.upStatus}" rounded="true"></p:tag>
+					<p:tooltip for="instanceStatus" value="#{uiInstanceBean.upStatusTooltip}" position="bottom"/>
+				</p:panelGrid>
+
+				<h:form>
+
+					<div class="card">
+						<p:timeline id="timeline" value="#{uiInstanceBean.model}" var="event" varGroup="e"
+									editable="false" eventMargin="10" eventMarginAxis="0"
+									start="#{uiInstanceBean.start}" end="#{uiInstanceBean.end}"
+									stackEvents="false" widgetVar="timelineWdgt">
+
+							<f:facet name="loading">
+								<h3 style="color: #676767;">Loading timeline...</h3>
+							</f:facet>
+
+
+
+							<h:outputText value="#{event.info}"/>
+
+						</p:timeline>
+					</div>
+
+				</h:form>
+
+			</p:panelGrid>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

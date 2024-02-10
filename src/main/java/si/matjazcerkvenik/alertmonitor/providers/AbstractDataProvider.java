@@ -148,11 +148,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
             for (DEvent e : alertList) {
                 if (activeAlerts.containsKey(e.getCorrelationId())) {
                     logger.debug("SYNC[" + providerConfig.getName() + "]: alert exists: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
-//                    activeAlerts.get(e.getCorrelationId()).setToBeDeleted(false);
-//                    activeAlerts.get(e.getCorrelationId()).setLastTimestamp(e.getTimestamp());
                     e.setToBeDeleted(false);
-//                    e.setFirstTimestamp(activeAlerts.get(e.getCorrelationId()).getFirstTimestamp());
-//                    activeAlerts.put(e.getCorrelationId(), e);
                     updateActiveAlert(e);
                 } else {
                     logger.info("SYNC[" + providerConfig.getName() + "]: new alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
@@ -170,8 +166,9 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
 
             // remove active alerts which were not received (toBeDeleted=true)
             for (String cid : cidToDelete) {
-                logger.info("SYNC[" + providerConfig.getName() + "]: removing active alert: {cid=" + cid + "}");
-                removeActiveAlert(activeAlerts.get(cid));
+                DEvent de = activeAlerts.get(cid);
+                logger.info("SYNC[" + providerConfig.getName() + "]: removing active alert: {uid=" + de.getUid() + ", cid=" + de.getCorrelationId() + ", alertname=" + de.getAlertname() + ", instance=" + de.getInstance() + "}");
+                removeActiveAlert(de);
             }
             addToJournal(newAlertsList);
 
@@ -193,16 +190,15 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
             if (activeAlerts.containsKey(e.getCorrelationId())) {
                 if (e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
                     removeActiveAlert(activeAlerts.get(e.getCorrelationId()));
-                    logger.info("SYNC[" + providerConfig.getName() + "]: clear alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: clear alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                 } else {
                     updateActiveAlert(e);
-                    logger.info("SYNC[" + providerConfig.getName() + "]: updating alert: uid=" + e.getUid() + ", counter=" + e.getCounter() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: updating alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + ", counter=" + e.getCounter() + "}");
                 }
             } else {
                 if (!e.getSeverity().equalsIgnoreCase(DSeverity.CLEAR)) {
-//                    e.setFirstTimestamp(e.getTimestamp());
                     addActiveAlert(e);
-                    logger.info("SYNC[" + providerConfig.getName() + "]: new alert: uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertName: " + e.getAlertname());
+                    logger.info("SYNC[" + providerConfig.getName() + "]: new alert: {uid=" + e.getUid() + ", cid=" + e.getCorrelationId() + ", alertname=" + e.getAlertname() + ", instance=" + e.getInstance() + "}");
                 }
             }
 
@@ -317,12 +313,11 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     }
 
     public double calculateAlertsBalanceFactor() {
-        if (activeAlerts.size() == 0) return 0;
-        double d = (5 * getActiveAlarmsList("critical").size()
+        if (activeAlerts.isEmpty()) return 0;
+        return (5 * getActiveAlarmsList("critical").size()
                 + 4 * getActiveAlarmsList("major").size()
                 + 3 * getActiveAlarmsList("minor").size()
                 + 2 * getActiveAlarmsList("warning").size()) * 1.0 / activeAlerts.size();
-        return d;
     }
 
     /**
@@ -346,10 +341,12 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
 
     }
 
-    public List<DEvent> getNumberOfAlertsInLastHour() {
-//        DAO.getInstance().getDataManager().addToJournal(events);
-        // TODO
-        return null;
+    /**
+     * Used from report.xhtml
+     * @return number of alerts in last hour
+     */
+    public int getNumberOfAlertsInLastHour() {
+        return DAO.getInstance().getDataManager().getNumberOfAlertsInLastHour();
     }
 
     /**

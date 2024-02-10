@@ -16,7 +16,7 @@
 					<am:warnings value="#{uiReportBean.adp.warnings}" />
 					<p class="m-0">
 						Alertmonitor is up #{uiConfigBean.upTime}. Since then #{uiReportBean.adp.raisingEventCount} alerts and #{uiReportBean.adp.clearingEventCount} clears were received.
-						In last hour there were uiReportBean.adp.numberOfAlertsInLastHour events.
+						In last hour there were #{uiReportBean.adp.numberOfAlertsInLastHour} events.
 						Currently, there are #{uiReportBean.adp.allActiveAlarmsCount} active alerts on #{uiReportBean.adp.activeTargets.size()} targets:
 					</p>
 					<ul>
@@ -30,14 +30,14 @@
 						<p:outputLabel value="#{uiReportBean.adp.balanceFactor}" />
 					</p>
 					<p class="m-0">
-						Periodic synchronization interval is set to #{uiReportBean.adp.syncInterval} seconds. Since start there were #{uiReportBean.adp.syncSuccessCount} successful syncs and #{uiReportBean.adp.syncFailedCount} failed.
+						Synchronization interval is set to #{uiReportBean.adp.syncInterval} seconds. Since start there were #{uiReportBean.adp.syncSuccessCount} successful syncs and #{uiReportBean.adp.syncFailedCount} failed.
 					</p>
 					<p class="m-0">
-						This provider listens for incoming requests on #{uiReportBean.adp.providerConfig.uri} webhook. So far a total of #{uiReportBean.adp.webhookRequestsReceivedCount} requests were received which contain #{uiReportBean.adp.journalCount} events. Current journal size is: #{uiReportBean.adp.journalSize}.
+						This provider listens for incoming alerts on #{uiReportBean.adp.providerConfig.uri} endpoint. So far a total of #{uiReportBean.adp.webhookRequestsReceivedCount} requests were received which contain #{uiReportBean.adp.journalCount} events. Current journal size is: #{uiReportBean.adp.journalSize}.
 					</p>
 				</p:panel>
 
-				<p:panel header="Prometheus targets" styleClass="bottom-margin">
+				<p:panel header="Prometheus" styleClass="bottom-margin">
 					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
 						<f:facet name="loading">
 							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
@@ -49,6 +49,43 @@
 							#{uiReportBean.averageTargetAvailability}%. Current liveness ratio is #{uiReportBean.targetsLiveness}%.
 						</p>
 					</p:outputPanel>
+				</p:panel>
+
+				<p:panel header="Status of instances" styleClass="bottom-margin">
+					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
+						<f:facet name="loading">
+							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
+						</f:facet>
+						<p:dataTable var="t" value="#{uiReportBean.instanceStatusesTable}">
+							<p:column headerText="Instance">
+								<h:outputText value="#{t.instance}" />
+							</p:column>
+							<p:column headerText="Job">
+								<h:outputText value="#{t.job}" />
+							</p:column>
+							<p:column headerText="Scrape interval">
+								<h:outputText value="#{t.scrapeInterval}" />
+							</p:column>
+							<p:column headerText="Status">
+								<h:outputText value="#{t.status}" style="color: #{t.statusColor}" />
+							</p:column>
+							<p:column headerText="Down time (7d)">
+								<h:outputText value="#{t.downTime}" />
+							</p:column>
+							<p:column headerText="Availability (7d)">
+								<h:outputText value="#{t.availability}" />
+							</p:column>
+							<p:column headerText="MTBF (30d)">
+								<h:outputText value="#{t.MTBF}" />
+							</p:column>
+						</p:dataTable>
+						<p style="font-style: italic; font-size: 0.7em;">
+							Remark: Down-time, Availability and MTBF metrics are reliable only if instances are continuous monitored for 7 or 30 days respectively
+						</p>
+					</p:outputPanel>
+				</p:panel>
+
+				<p:panel header="Prometheus targets" styleClass="bottom-margin">
 					<p:outputPanel deferred="true" deferredMode="visible" class="p-mt-2">
 						<f:facet name="loading">
 							<p:skeleton width="100%" height="21px" class="p-mb-4"/>
