@@ -1,0 +1,33 @@
+name: Alertmonitor Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    environment: alertmonitor_environment
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Read current version
+      run: echo "TAG=$(cat src/main/webapp/WEB-INF/version.txt)" >> $GITHUB_ENV
+    - name: Print current version
+      run: echo "Building version $TAG"
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag matjaz99/alertmonitor:$TAG
+    - name: Push the image
+      run: docker push matjaz99/alertmonitor:$TAG
+    - name: Retag to latest
+      run: if [[ $TAG != *"SNAPSHOT"* ]]; then docker tag matjaz99/alertmonitor:$TAG matjaz99/alertmonitor:latest; fi
+    - name: Push the latest image
+      run: if [[ $TAG != *"SNAPSHOT"* ]]; then docker push matjaz99/alertmonitor:latest; fi
