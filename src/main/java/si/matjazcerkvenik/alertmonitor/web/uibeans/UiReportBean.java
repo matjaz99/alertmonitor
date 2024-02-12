@@ -58,7 +58,7 @@ public class UiReportBean implements Serializable {
     private final String QUERY_TOTAL_JOBS_COUNT = "count(count(up) by (job))";
     private final String QUERY_TARGETS_CURRENT_STATUS = "probe_success OR up";
     private final String QUERY_TARGETS_DOWNTIME = "(count_over_time(up[7d]) - (sum_over_time(up[7d]))) * __SCRAPE_INTERVAL__";
-    private final String QUERY_TARGETS_AVAILABILITY_PERCENTAGE = "sum_over_time(up[7d]) / count_over_time(up[7d]) * 100";
+    private final String QUERY_TARGETS_AVAILABILITY_PERCENTAGE = "(sum_over_time(probe_success[7d]) / count_over_time(probe_success[7d]) * 100) OR (sum_over_time(up[7d]) / count_over_time(up[7d]) * 100)";
     private final String QUERY_TARGETS_MTBF = "sum_over_time(up[30d]) * __SCRAPE_INTERVAL__ / 3600 / resets(up[30d])";
     private final String QUERY_TARGETS_AVERAGE_AVAILABILITY_PERCENTAGE = "(sum(avg_over_time(up[1h])) + sum(avg_over_time(probe_success[1h])) - count(probe_success)) / (count(up) - count(probe_success)) * 100";
     private final String QUERY_TARGETS_ALIVENESS_PERCENTAGE = "count(probe_success==1 OR up==1) / count(up) * 100";
