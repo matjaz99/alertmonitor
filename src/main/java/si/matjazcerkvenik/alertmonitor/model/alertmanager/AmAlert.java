@@ -17,6 +17,9 @@ package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 
 import java.util.Map;
 
+/**
+ * This class represents individual alert from Alertmanager.
+ */
 public class AmAlert {
 	
 	private String status;

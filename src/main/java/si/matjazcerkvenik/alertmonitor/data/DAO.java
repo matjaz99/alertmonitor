@@ -92,6 +92,10 @@ public class DAO {
         return dataManager;
     }
 
+    /**
+     * Stop existing Data manager and re-initialize new one.
+     * This is typically done when a property (such as MongoDB connection string) is changed.
+     */
     public void resetDataManager() {
         TaskManager.getInstance().stopDbMaintenanceTask();
         dataManager.close();
@@ -121,6 +125,10 @@ public class DAO {
         return null;
     }
 
+    /**
+     * Return a list of all Data providers.
+     * @return list of data providers
+     */
     public List<AbstractDataProvider> getAllDataProviders() {
         return new ArrayList<>(dataProviders.values());
     }

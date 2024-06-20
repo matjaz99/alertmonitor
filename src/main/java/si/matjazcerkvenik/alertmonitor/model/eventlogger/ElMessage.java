@@ -13,19 +13,29 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package si.matjazcerkvenik.alertmonitor.data;
+package si.matjazcerkvenik.alertmonitor.model.eventlogger;
 
-import java.util.TimerTask;
+import java.util.List;
+import java.util.Map;
 
 /**
- * This thread (TimerTask) periodically executes tasks on database, such as cleaning of old records.
+ * This class represents whole message sent from Alertmanager.
  */
-public class DbMaintenanceTask extends TimerTask {
+public class ElMessage {
+	private List<ElEvent> events;
 
-    @Override
-    public void run() {
+	public List<ElEvent> getEvents() {
+		return events;
+	}
 
-        DAO.getInstance().getDataManager().cleanDB();
+	public void setEvents(List<ElEvent> events) {
+		this.events = events;
+	}
 
-    }
+	@Override
+	public String toString() {
+		return "ElMessage{" +
+				"events=" + events +
+				'}';
+	}
 }

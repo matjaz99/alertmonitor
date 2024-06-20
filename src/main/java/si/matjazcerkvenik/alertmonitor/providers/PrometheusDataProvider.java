@@ -20,7 +20,7 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.model.alertmanager.AlertmanagerProcessor;
-import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmAlertMessage;
+import si.matjazcerkvenik.alertmonitor.model.alertmanager.AmMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.*;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
@@ -49,8 +49,8 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         AmMetrics.alertmonitor_webhook_requests_received_total.labels(providerConfig.getName(), m.getRemoteHost(), m.getMethod().toUpperCase()).inc();
 
         try {
-            AmAlertMessage amAlertMessage = AlertmanagerProcessor.processWebhookMessage(m);
-            List<DEvent> eventList = AlertmanagerProcessor.convertToDevent(m, amAlertMessage);
+            AmMessage amMessage = AlertmanagerProcessor.processWebhookMessage(m);
+            List<DEvent> eventList = AlertmanagerProcessor.convertToDevent(m, amMessage);
             synchronizeAlerts(eventList, false);
             lastEventTimestamp = System.currentTimeMillis();
         } catch (Exception e) {

@@ -20,27 +20,29 @@ import com.google.gson.GsonBuilder;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DSeverity;
 import si.matjazcerkvenik.alertmonitor.model.config.ProviderConfig;
-import si.matjazcerkvenik.alertmonitor.model.config.YamlConfig;
 import si.matjazcerkvenik.alertmonitor.util.*;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 import java.util.*;
 
+/**
+ * Thic class handles (processes) the alerts message sent from Alertmanager.
+ */
 public class AlertmanagerProcessor {
 
-    public static AmAlertMessage processWebhookMessage(WebhookMessage wm) throws Exception {
+    public static AmMessage processWebhookMessage(WebhookMessage wm) throws Exception {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        AmAlertMessage am = gson.fromJson(wm.getBody(), AmAlertMessage.class);
+        AmMessage am = gson.fromJson(wm.getBody(), AmMessage.class);
         LogFactory.getLogger().debug(am.toString());
         LogFactory.getLogger().info("AlertmanagerProcessor: alerts received: " + am.getAlerts().size());
         return am;
 
     }
 
-    public static List<DEvent> convertToDevent(WebhookMessage m, AmAlertMessage am) {
+    public static List<DEvent> convertToDevent(WebhookMessage m, AmMessage am) {
 
         List<DEvent> eventList = new ArrayList<DEvent>();
 

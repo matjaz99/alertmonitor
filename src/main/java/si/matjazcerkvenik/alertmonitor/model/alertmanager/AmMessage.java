@@ -18,7 +18,10 @@ package si.matjazcerkvenik.alertmonitor.model.alertmanager;
 import java.util.List;
 import java.util.Map;
 
-public class AmAlertMessage {
+/**
+ * This class represents whole message sent from Alertmanager.
+ */
+public class AmMessage {
 	
 	private String receiver;
 	private String status;
@@ -104,7 +107,7 @@ public class AmAlertMessage {
 
 	@Override
 	public String toString() {
-		return "AmAlertMessage [receiver=" + receiver + ", status=" + status + ", alerts=" + alerts + ", groupLabels="
+		return "AmMessage [receiver=" + receiver + ", status=" + status + ", alerts=" + alerts + ", groupLabels="
 				+ groupLabels + ", commonLabels=" + commonLabels + ", commonAnnotations=" + commonAnnotations
 				+ ", externalURL=" + externalURL + ", version=" + version + ", groupKey=" + groupKey + "]";
 	}
