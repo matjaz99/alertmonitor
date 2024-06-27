@@ -48,12 +48,18 @@ public class EventloggerDataProvider extends AbstractDataProvider {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
+            Object[] obj = gson.fromJson(m.getBody(), Object[].class);
 //            ElEvent am = gson.fromJson(m.getBody(), ElEvent.class);
-            ElMessage em = gson.fromJson(m.getBody(), ElMessage.class);
+//            ElMessage em = gson.fromJson(m.getBody(), ElMessage.class);
 
             List<DEvent> list = new ArrayList<>();
 
-            for (ElEvent el : em.getEvents()) {
+            for (int i = 0; i < obj.length; i++) {
+
+                Gson gson2 = new Gson();
+                String json = gson2.toJson(obj[i]);
+                ElEvent el = gson.fromJson(json, ElEvent.class);
+
                 DEvent e = new DEvent();
                 e.setTimestamp(System.currentTimeMillis());
                 e.setFirstTimestamp(e.getTimestamp());
@@ -73,7 +79,7 @@ public class EventloggerDataProvider extends AbstractDataProvider {
                 e.setProbableCause("1024");
                 e.setCurrentValue("-");
                 e.setUrl("");
-                e.setDescription(el.getAdditionalInfo());
+                e.setDescription(el.getCustomInfo());
                 e.generateUID();
                 e.generateCID();
 

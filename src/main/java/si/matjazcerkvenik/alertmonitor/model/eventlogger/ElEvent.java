@@ -20,12 +20,13 @@ public class ElEvent {
     private String alarmId;
     private String alarmSource;
     private long timestamp = 0;
+    private String dateTime = "";
     private String alarmName = "Alarm incident";
     private int severity = 0;
     private String severityString = "indeterminate";
     private String notificationType = "alarm";
     private String sourceInfo = "";
-    private String additionalInfo = "";
+    private String customInfo = "";
 
     public String getAlarmId() {
         return alarmId;
@@ -49,6 +50,14 @@ public class ElEvent {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getAlarmName() {
@@ -91,11 +100,11 @@ public class ElEvent {
         this.sourceInfo = sourceInfo;
     }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
+    public String getCustomInfo() {
+        return customInfo;
     }
 
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public void setCustomInfo(String customInfo) {
+        this.customInfo = customInfo;
     }
 }
