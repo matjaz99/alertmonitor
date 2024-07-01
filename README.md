@@ -1,17 +1,14 @@
 # Alertmonitor for Prometheus
 
 ![GitHub Project](https://img.shields.io/badge/app-alertmonitor-crimson)
-[![Build Status](https://semaphoreci.com/api/v1/matjaz99/alertmonitor/branches/master/shields_badge.svg)](https://semaphoreci.com/matjaz99/alertmonitor)
-[![GitHub release](https://img.shields.io/github/release/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/releases/)
-[![Github all releases](https://img.shields.io/github/downloads/matjaz99/alertmonitor/total.svg)](https://GitHub.com/matjaz99/alertmonitor/releases/)
+![GitHub release](https://img.shields.io/github/v/release/matjaz99/alertmonitor)
 [![Docker Pulls](https://img.shields.io/docker/pulls/matjaz99/alertmonitor.svg)](https://hub.docker.com/r/matjaz99/alertmonitor)
 [![GitHub issues](https://img.shields.io/github/issues/matjaz99/alertmonitor.svg)](https://GitHub.com/matjaz99/alertmonitor/issues/)
 
-Alertmonitor is a webapp for displaying alerts in tabular and colorful way. Plain and simple. 
-View alerts from one or more Prometheus servers, centrally in one place. 
-Other datasources will be supported eventually.
+Alertmonitor is a webapp for displaying alerts from Prometheus or other data sources. 
+Alerts are received from Alertmanager (push notifications) or they can be retrieved directly from Prometheus (polling).
 
-
+Combination of both push and poll mechanisms assure always up-to-date state of alerts without any data loss. 
 
 Alertmonitor receives alerts from Alertmanager on the HTTP endpoint: `/alertmonitor/webhook`. 
 Alternatively, if webhook receiver is not configured, Alertmonitor can pull alerts directly from Prometheus. 

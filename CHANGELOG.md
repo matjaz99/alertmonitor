@@ -1,48 +1,34 @@
-## 2.4.6-SNAPSHOT
+## 2.4.7-SNAPSHOT
 
 Working on timeline
 * [CHANGE] Removed separate alert.log (introduced in 2.3.0)
-* [ENHANCEMENT] Status of instances in report view
-
-## 2.4.5-SNAPSHOT
-
-* [CHANGE] Moved all configuration parameters from configuration view to providers
-* [CHANGE] Removed parameter `lastTimestamp` from alerts as it seems useless
-* [FEATURE] Journal Timeline in instance view
-* [ENHANCEMENT] Added link to active alerts directly from providers
-* [ENHANCEMENT] Show targets count in targets view
-* [ENHANCEMENT] Added POJO support in MongoDB client
-* [ENHANCEMENT] Added configuration option for `ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC` and `ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC`
-* [ENHANCEMENT] Added `provider` attribute to alerts
-* [ENHANCEMENT] Added provider file path to config view
-
-## 2.4.4-SNAPSHOT
-
-* [CHANGE] Removed statistics view (content moved elsewhere)
-* [CHANGE] Internal report moved to providers. Report is now shown separately for each provider.
-* [CHANGE] Updated primefaces version 11 to 12
-* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_INTERVAL_SEC` is now deprecated, instead `ALERTMONITOR_SYNC_INTERVAL_SEC` should be used.
-* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME` to set the name of default data provider.
-* [ENHANCEMENT] Http client supports basic authentication for connection to providers
-* [ENHANCEMENT] Improved warning messages, added severity levels
-
-## 2.4.3-SNAPSHOT
-
 * [CHANGE] Wording *psync* is everywhere replaced with *sync*
 * [CHANGE] Metrics now contain additional `provider` label
 * [CHANGE] Metric `alertmonitor_webhook_messages_received_total` renamed to `alertmonitor_webhook_requests_received_total`
 * [CHANGE] Metric `alertmonitor_journal_messages_total` renamed to `alertmonitor_journal_events_total`
-* [FEATURE] Providers view with configuration
-* [FEATURE] Added environment variables `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set providers configuration file path 
-and `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection establishment timeout
-
-## 2.4.2-SNAPSHOT
-
+* [CHANGE] Environment variable `ALERTMONITOR_PSYNC_INTERVAL_SEC` is now deprecated, instead `ALERTMONITOR_SYNC_INTERVAL_SEC` should be used.
+* [CHANGE] Removed statistics view (content moved elsewhere)
+* [CHANGE] Internal report moved to providers. Report is now shown separately for each provider.
+* [CHANGE] Updated primefaces version 11 to 12
+* [CHANGE] Moved all configuration parameters from configuration view to providers
+* [CHANGE] Removed parameter `lastTimestamp` from alerts as it seems useless
 * [FEATURE] Introducing Data Providers. Until now only one Prometheus was supported; now you can have many.
-
-## 2.4.1-SNAPSHOT
-
-* [ENHANCEMENT] GUI enhancements: Targets view improved grid
+* [FEATURE] Providers view with configuration
+* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE` to set providers configuration file path 
+* [FEATURE] Added environment variable `ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME` to set the name of default data provider
+* [FEATURE] Added environment variable `ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC` to configure connection establishment timeout
+* [FEATURE] Added environment variable `ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC`
+* [FEATURE] Added environment variable `ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC`
+~~* [FEATURE] Journal Timeline in instance view (still in beta)~~
+* [ENHANCEMENT] Targets view improved grid
+* [ENHANCEMENT] Http client supports basic authentication for connection to providers
+* [ENHANCEMENT] Improved warning messages, added severity levels
+* [ENHANCEMENT] Added link to active alerts directly from providers
+* [ENHANCEMENT] Show targets count in targets view
+* [ENHANCEMENT] Added POJO support in MongoDB client
+* [ENHANCEMENT] Added `provider` attribute to alerts
+* [ENHANCEMENT] Added provider file path to config view
+* [ENHANCEMENT] Show status of instances in report view
 * [BUG] Bugfix (#17)
 
 ## 2.4.0 / 2022-10-29
