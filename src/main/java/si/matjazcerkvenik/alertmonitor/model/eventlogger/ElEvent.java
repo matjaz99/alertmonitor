@@ -15,33 +15,28 @@
  */
 package si.matjazcerkvenik.alertmonitor.model.eventlogger;
 
+import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
+import si.matjazcerkvenik.alertmonitor.util.Formatter;
+import si.matjazcerkvenik.alertmonitor.util.MD5;
+
 public class ElEvent {
 
-    private String alarmId;
-    private String alarmSource;
     private long timestamp = 0;
-    private String dateTime = "";
-    private String alarmName = "Alarm incident";
-    private int severity = 0;
-    private String severityString = "indeterminate";
-    private String notificationType = "alarm";
-    private String sourceInfo = "";
-    private String customInfo = "";
+    private String dateTime;
+    private String eventName;
+    private int severity;
+    private String severityString = "Indeterminate";
+    private String notificationType = "event";
+    private String addInfo;
+    private String remoteHost;
+    private String sourceHost;
+    private String ident;
+    private String tag;
+    private String message;
+
 
     public String getAlarmId() {
-        return alarmId;
-    }
-
-    public void setAlarmId(String alarmId) {
-        this.alarmId = alarmId;
-    }
-
-    public String getAlarmSource() {
-        return alarmSource;
-    }
-
-    public void setAlarmSource(String alarmSource) {
-        this.alarmSource = alarmSource;
+        return MD5.getChecksum(sourceHost + eventName + ident + tag);
     }
 
     public long getTimestamp() {
@@ -50,22 +45,19 @@ public class ElEvent {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+        dateTime = Formatter.getFormatedTimestamp(timestamp, AmDateFormat.DATE_TIME);
     }
 
     public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public String getEventName() {
+        return eventName;
     }
 
-    public String getAlarmName() {
-        return alarmName;
-    }
-
-    public void setAlarmName(String alarmName) {
-        this.alarmName = alarmName;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public int getSeverity() {
@@ -80,8 +72,12 @@ public class ElEvent {
         return severityString;
     }
 
-    public void setSeverityString(String severityString) {
-        this.severityString = severityString;
+    public String getAddInfo() {
+        return addInfo;
+    }
+
+    public void setAddInfo(String addInfo) {
+        this.addInfo = addInfo;
     }
 
     public String getNotificationType() {
@@ -92,19 +88,44 @@ public class ElEvent {
         this.notificationType = notificationType;
     }
 
-    public String getSourceInfo() {
-        return sourceInfo;
+    public String getRemoteHost() {
+        return remoteHost;
     }
 
-    public void setSourceInfo(String sourceInfo) {
-        this.sourceInfo = sourceInfo;
+    public void setRemoteHost(String remoteHost) {
+        this.remoteHost = remoteHost;
     }
 
-    public String getCustomInfo() {
-        return customInfo;
+    public String getSourceHost() {
+        return sourceHost;
     }
 
-    public void setCustomInfo(String customInfo) {
-        this.customInfo = customInfo;
+    public void setSourceHost(String sourceHost) {
+        this.sourceHost = sourceHost;
     }
+
+    public String getIdent() {
+        return ident;
+    }
+
+    public void setIdent(String ident) {
+        this.ident = ident;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

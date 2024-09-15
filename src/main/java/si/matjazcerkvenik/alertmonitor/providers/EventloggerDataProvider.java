@@ -64,12 +64,12 @@ public class EventloggerDataProvider extends AbstractDataProvider {
                 e.setTimestamp(System.currentTimeMillis());
                 e.setFirstTimestamp(e.getTimestamp());
                 e.setSource(m.getRemoteHost());
-                e.setAlertname(el.getAlarmName());
+                e.setAlertname(el.getEventName());
                 e.setUserAgent(m.getHeaderMap().getOrDefault("user-agent", "-"));
-                e.setInfo(el.getSourceInfo());
-                e.setInstance(el.getAlarmSource());
+                e.setInfo(el.getAddInfo());
+                e.setInstance(el.getSourceHost());
                 e.setHostname(Formatter.stripInstance(e.getInstance()));
-                e.setNodename(el.getAlarmSource());
+                e.setNodename(el.getSourceHost());
                 e.setJob("eventlogger");
                 e.setTags("eventlogger, log");
                 e.setSeverity(el.getSeverityString().toLowerCase());
@@ -79,7 +79,7 @@ public class EventloggerDataProvider extends AbstractDataProvider {
                 e.setProbableCause("1024");
                 e.setCurrentValue("-");
                 e.setUrl("");
-                e.setDescription(el.getCustomInfo());
+                e.setDescription(el.getMessage());
                 e.generateUID();
                 e.generateCID();
 
