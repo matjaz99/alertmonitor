@@ -1,3 +1,5 @@
+## 2.6.0-SNAPSHOT
+
 ## 2.5.0 / 2025-05-02
 
 Working on timeline
