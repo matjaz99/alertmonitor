@@ -254,6 +254,9 @@ A list of supported environment variables:
 | ALERTMONITOR_KAFKA_TOPIC                         | Name of topic.  Default: alertmonitor_notifications                                                    |
 | ALERTMONITOR_MONGODB_ENABLED                     | Enable or disable storing data to MongoDB. If disabled, data is stored in memory only.  Default: false | 
 | ALERTMONITOR_MONGODB_CONNECTION_STRING           | The connection string for MongoDB (username, password and host).                                       |
+| ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC         | Connection timeout for MongoDB.  Default: 5                                                            |
+| ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC            | Read timeout for MongoDB.  Default: 30                                                                 |
+
 
 
 

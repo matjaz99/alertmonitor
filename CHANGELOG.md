@@ -1,4 +1,4 @@
-## 2.4.7-SNAPSHOT
+## 2.5.0 / 2025-05-02
 
 Working on timeline
 * [CHANGE] Removed separate alert.log (introduced in 2.3.0)
@@ -60,7 +60,6 @@ Example: `cluster, region, monitor`.
 * [ENHANCEMENT] Improved error handling with Prometheus API
 * [ENHANCEMENT] A lot of refactoring
 * [BUG] Fixed (#18)
-* [BUG] Bugfix (#18)
 
 ## 2.2.0 / 2022-01-29
 
