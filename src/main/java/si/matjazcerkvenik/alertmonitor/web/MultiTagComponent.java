@@ -15,8 +15,8 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
-import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponentBase;
+import jakarta.faces.component.FacesComponent;
+import jakarta.faces.component.UIComponentBase;
 
 @FacesComponent(value="MultiTag")
 public class MultiTagComponent extends UIComponentBase {

@@ -87,7 +87,8 @@ public class AmProps {
             ALERTMONITOR_PROMETHEUS_SERVER = "https://ubuntu-vm/prometheus";
             ALERTMONITOR_MONGODB_ENABLED = true;
             //ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
-            ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@ubuntu-vm:27017/?authSource=admin";
+            //ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@ubuntu-vm:27017/?authSource=admin";
+            ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@iMac4.local:27017/?authSource=admin";
             ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor-dev";
 //            ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
             ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/Users/matjaz/Library/CloudStorage/Dropbox/monis/config/alertmonitor-providers.yml";

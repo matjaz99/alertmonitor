@@ -15,11 +15,11 @@
  */
 package si.matjazcerkvenik.alertmonitor.web;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class ErrorHandler {
 

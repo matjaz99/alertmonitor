@@ -1,1 +1,1 @@
-2.6.0-WildFly-SNAPSHOT
+3.0.0-WildFly-SNAPSHOT

@@ -34,7 +34,7 @@
     <!-- Define the JSF servlet (manages the request processing life cycle for JavaServer Faces) -->
     <servlet>
         <servlet-name>faces-servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

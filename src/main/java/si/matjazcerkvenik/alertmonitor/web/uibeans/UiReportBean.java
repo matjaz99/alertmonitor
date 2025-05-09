@@ -20,6 +20,11 @@ import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryMessage;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PQueryResult;
@@ -29,9 +34,6 @@ import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.*;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ManagedBean
+@Named("uiReportBean")
 //@RequestScoped
 //@SessionScoped
 @ViewScoped

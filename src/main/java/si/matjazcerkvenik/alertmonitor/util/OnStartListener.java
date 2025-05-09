@@ -18,8 +18,6 @@ package si.matjazcerkvenik.alertmonitor.util;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.config.ConfigReader;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -28,6 +26,9 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
+
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 public class OnStartListener implements ServletContextListener {
 

@@ -26,19 +26,19 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 
-@ManagedBean
-@SessionScoped
+@Named("uiBean")
+@RequestScoped
 @SuppressWarnings("unused")
 public class UiBean implements Serializable {
 
 	private static final long serialVersionUID = 479421012028252L;
 
-	@ManagedProperty(value="#{uiConfigBean}")
+	@Inject
 	private UiConfigBean uiConfigBean;
 
 	private List<DTag> tagList = new ArrayList<>();

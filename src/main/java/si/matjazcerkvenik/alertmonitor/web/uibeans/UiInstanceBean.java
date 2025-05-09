@@ -18,17 +18,18 @@ package si.matjazcerkvenik.alertmonitor.web.uibeans;
 import org.primefaces.model.timeline.TimelineEvent;
 import org.primefaces.model.timeline.TimelineGroup;
 import org.primefaces.model.timeline.TimelineModel;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -37,14 +38,14 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@ManagedBean
+@Named("uiInstanceBean")
 @ViewScoped
 @SuppressWarnings("unused")
 public class UiInstanceBean implements Serializable {
 
     private static final long serialVersionUID = 7961535598744624L;
 
-    @ManagedProperty(value="#{uiConfigBean}")
+    @Inject
     private UiConfigBean uiConfigBean;
 
     private DTarget target;
