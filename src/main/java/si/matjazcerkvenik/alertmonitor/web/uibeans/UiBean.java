@@ -15,20 +15,27 @@
  */
 package si.matjazcerkvenik.alertmonitor.web.uibeans;
 
-import si.matjazcerkvenik.alertmonitor.data.DAO;
-import si.matjazcerkvenik.alertmonitor.model.*;
-import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
-import si.matjazcerkvenik.alertmonitor.util.LogFactory;
-import si.matjazcerkvenik.alertmonitor.web.Growl;
-import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import si.matjazcerkvenik.alertmonitor.data.DAO;
+import si.matjazcerkvenik.alertmonitor.model.DEvent;
+import si.matjazcerkvenik.alertmonitor.model.DJob;
+import si.matjazcerkvenik.alertmonitor.model.DSeverity;
+import si.matjazcerkvenik.alertmonitor.model.DTag;
+import si.matjazcerkvenik.alertmonitor.model.DTarget;
+import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
+import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import si.matjazcerkvenik.alertmonitor.web.Growl;
+import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 
 
 @Named("uiBean")
