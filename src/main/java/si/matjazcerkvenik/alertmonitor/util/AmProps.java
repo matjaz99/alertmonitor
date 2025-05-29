@@ -35,7 +35,7 @@ public class AmProps {
     public static final String ALERTMONITOR_DEFAULT_WEBHOOK_URI = "/alertmonitor/webhook";
 
     /** Environment variables */
-    public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/alertmonitor/providers.yml";
+    public static String ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/opt/jboss/alertmonitor/providers.yml";
     public static String ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = ".default";
     public static int ALERTMONITOR_DATA_RETENTION_DAYS = 7;
     public static int ALERTMONITOR_SYNC_INTERVAL_SEC = 60;
@@ -58,7 +58,7 @@ public class AmProps {
 
         // read configuration from environment variables
         // these are defaults if nothing is configured
-        ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE", "/opt/alertmonitor/providers.yml").trim();
+        ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE", "/opt/jboss/alertmonitor/providers.yml").trim();
         ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME = System.getenv().getOrDefault("ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME", ".default").trim();
         ALERTMONITOR_DATA_RETENTION_DAYS = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_DATA_RETENTION_DAYS", "30").trim());
         ALERTMONITOR_SYNC_INTERVAL_SEC = Integer.parseInt(System.getenv().getOrDefault("ALERTMONITOR_PSYNC_INTERVAL_SEC", "60").trim());
@@ -87,8 +87,8 @@ public class AmProps {
             ALERTMONITOR_PROMETHEUS_SERVER = "https://ubuntu-vm/prometheus";
             ALERTMONITOR_MONGODB_ENABLED = true;
             //ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@elasticvm:27017/?authSource=admin";
-            //ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@ubuntu-vm:27017/?authSource=admin";
-            ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@iMac4.local:27017/?authSource=admin";
+            ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@ubuntu-vm:27017/?authSource=admin";
+            //ALERTMONITOR_MONGODB_CONNECTION_STRING = "mongodb://admin:mongodbpassword@iMac4.local:27017/?authSource=admin";
             ALERTMONITOR_MONGODB_DB_NAME = "alertmonitor-dev";
 //            ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "providers.yml";
             ALERTMONITOR_DATAPROVIDERS_CONFIG_FILE = "/Users/matjaz/Library/CloudStorage/Dropbox/monis/config/alertmonitor-providers.yml";

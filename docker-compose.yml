@@ -19,7 +19,7 @@ services:
       - monitoring_network
     environment:
       - TZ=${TZ}
-      - SIMPLELOGGER_FILENAME=/opt/alertmonitor/log/alertmonitor.log
+      - SIMPLELOGGER_FILENAME=/opt/jboss/alertmonitor/log/alertmonitor.log
       - GRAFANA_HOSTNAME=my.grafana.domain
       - ALERTMONITOR_DATA_RETENTION_DAYS=7
       - ALERTMONITOR_PSYNC_INTERVAL_SEC=900
@@ -37,7 +37,9 @@ services:
       - ALERTMONITOR_MONGODB_CONNECT_TIMEOUT_SEC="5"
       - ALERTMONITOR_MONGODB_READ_TIMEOUT_SEC="30"
     volumes:
-      - /var/log:/opt/alertmonitor/log
+      # set permissions: chown 1000:1000 /var/log/alertmonitor
+      - /var/log/alertmonitor:/opt/jboss/alertmonitor/log
+      - ./providers.yml:/opt/jboss/alertmonitor/providers.yml
     deploy:
       mode: replicated
       replicas: 1
