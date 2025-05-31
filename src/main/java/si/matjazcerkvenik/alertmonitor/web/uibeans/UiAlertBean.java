@@ -23,23 +23,23 @@ import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import si.matjazcerkvenik.alertmonitor.web.Growl;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.*;
 
-@ManagedBean
+@Named("uiAlertBean")
 @RequestScoped
 @SuppressWarnings("unused")
 public class UiAlertBean implements Serializable {
 
     private static final long serialVersionUID = 2791411831853745037L;
 
-    @ManagedProperty(value="#{uiConfigBean}")
+    @Inject
     private UiConfigBean uiConfigBean;
 
     private DEvent event;

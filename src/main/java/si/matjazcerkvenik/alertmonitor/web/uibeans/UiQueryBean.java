@@ -21,23 +21,23 @@ import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.*;
 
-@ManagedBean
+@Named("uiQueryBean")
 @SessionScoped
 @SuppressWarnings("unused")
 public class UiQueryBean implements Serializable {
 
     private static final long serialVersionUID = 34412597842163L;
 
-    @ManagedProperty(value="#{uiConfigBean}")
+    @Inject
     private UiConfigBean uiConfigBean;
 
     private String query = "up";

@@ -13,96 +13,84 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <servlet.version>3.1.0</servlet.version>
-        <jsf.version>2.2.15</jsf.version>
-<!--        <primefaces.version>6.2</primefaces.version>-->
-<!--        <primefaces.version>11.0.0</primefaces.version>-->
-        <primefaces.version>12.0.0</primefaces.version>
-<!--        <prometheus.version>0.6.0</prometheus.version>-->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <primefaces.version>14.0.0</primefaces.version>
         <gson.version>2.8.9</gson.version>
         <prometheus.version>0.12.0</prometheus.version>
         <mongodb-driver.version>3.11.3</mongodb-driver.version>
     </properties>
 
     <dependencies>
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
-<!--            <scope>provided</scope>-->
-        </dependency>
-        <!-- JSF -->
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>${jsf.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>${jsf.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- PrimeFaces -->
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>${primefaces.version}</version>
-        </dependency>
+        <!-- Jakarta EE APIs (provided by WildFly) -->
+	    <dependency>
+	      <groupId>jakarta.platform</groupId>
+	      <artifactId>jakarta.jakartaee-api</artifactId>
+	      <version>10.0.0</version>
+	      <scope>provided</scope>
+	    </dependency>
+	    
+        <!-- PrimeFaces 14 -->
+	    <dependency>
+	      <groupId>org.primefaces</groupId>
+	      <artifactId>primefaces</artifactId>
+	      <version>${primefaces.version}</version>
+	      <classifier>jakarta</classifier>
+    	</dependency>
+    
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/io.prometheus/simpleclient -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient</artifactId>
             <version>${prometheus.version}</version>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/io.prometheus/simpleclient_common -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_common</artifactId>
             <version>${prometheus.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>si.matjazcerkvenik.simplelogger</groupId>
             <artifactId>simple-logger</artifactId>
             <version>1.7.0</version>
             <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.2.2</version>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/com.squareup.okio/okio -->
         <dependency>
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
             <version>2.2.2</version>
         </dependency>
+        
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>2.5.0</version>
         </dependency>
+        
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>${mongodb-driver.version}</version>
         </dependency>
+        
 <!--        parsing yaml-->
         <dependency>
             <groupId>org.yaml</groupId>
@@ -112,43 +100,22 @@
     </dependencies>
 
     <build>
+    	<finalName>alertmonitor</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
-                    <warName>alertmonitor</warName>
-                    <!--<warSourceDirectory>src/main/webapp</warSourceDirectory>-->
-                    <!--<packagingIncludes>WEB-INF/lib/*.jar,WEB-INF/classes/**</packagingIncludes>-->
-                    <!--<packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>-->
-                    <!--<archive>-->
-                        <!--<manifest>-->
-                            <!--<addClasspath>true</addClasspath>-->
-                        <!--</manifest>-->
-                    <!--</archive>-->
-                </configuration>
-            </plugin>
-            <!-- tomcat7-maven-plugin -->
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <port>7070</port>
-                    <path>/alertmonitor</path>
-                </configuration>
-            </plugin>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <version>3.13.0</version>
+		        <configuration>
+		          <release>17</release>
+		        </configuration>
+		      </plugin>
+		      <plugin>
+		        <artifactId>maven-war-plugin</artifactId>
+		        <version>3.2.3</version>
+		        <configuration>
+		          <failOnMissingWebXml>false</failOnMissingWebXml>
+		        </configuration>
+      		</plugin>
         </plugins>
     </build>
 </project>

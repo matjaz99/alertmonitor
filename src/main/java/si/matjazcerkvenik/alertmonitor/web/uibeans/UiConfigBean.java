@@ -22,9 +22,10 @@ import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -32,8 +33,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean
-@SessionScoped
+@Named("uiConfigBean")
+@RequestScoped
 @SuppressWarnings("unused")
 public class UiConfigBean implements Serializable {
 

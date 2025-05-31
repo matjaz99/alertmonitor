@@ -19,13 +19,14 @@ import si.matjazcerkvenik.alertmonitor.data.DAO;
 import si.matjazcerkvenik.alertmonitor.model.DTag;
 import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.render.FacesRenderer;
-import javax.faces.render.Renderer;
 import java.io.IOException;
 import java.util.List;
+
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.context.ResponseWriter;
+import jakarta.faces.render.FacesRenderer;
+import jakarta.faces.render.Renderer;
 
 @FacesRenderer(componentFamily = "alertmonitor.multiTag", rendererType = "alertmonitor.MultiTagRenderer")
 public class MultiTagRenderer extends Renderer {

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Alertmonitor</title>
+	<h:outputStylesheet library="css" name="am3_styles.css" target="head"
+		position="last" />
+</h:head>
+<h:body>
+
+	<div class="title-header"><h1>Alertmonitor</h1></div>
+	
+	<div class="container">
+		<div class="nav">
+			<h2>Navigation</h2>
+			<hr/>
+			<h3>Pinned</h3>
+			<a href="#">Pinned</a>
+			<hr/>
+			<h3>Providers</h3>
+			<a href="#">Providers</a>
+			<h3>Alarms</h3>
+			<a href="#">Alarms</a>
+			<h3>Targets</h3>
+			<a href="#">Targets</a>
+			<a href="#">Custom views</a>
+			<a href="#">Filters</a>
+			<a href="#">Configuration</a>
+		</div>
+	
+		<div class="content">
+			<h1>Content Panel</h1>
+			<p>This is the main content area. You can put any text, images, or
+				components here.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+			<p:panel header="Styled Panel" styleClass="custom-panel">
+		    	This panel has a custom dashed border!
+			</p:panel>
+			<h:form>
+				<p:commandButton value="Click Me!" action="#{helloBean.sayHello}"
+					update="message" />
+				<h:outputText id="message" value="#{helloBean.message}" />
+			</h:form>
+			
+			<p:dataTable id="messagesTable" widgetVar="activeTable"
+								 value="#{uiBean.activeAlarms}" var="n"
+								 stickyHeader="true" stickyTopAt=".layout-topbar"
+								 rowStyleClass="#{n.severity}"
+								 emptyMessage="No data"
+								 cellpadding="0" cellspacing="0" width="100%">
+								 
+				<p:column headerText="Time">
+					<h:outputText value="#{n.formatedTimestamp}" />
+				</p:column>
+
+				<p:column headerText="Alert name">
+					<b>
+					<h:link value="#{n.alertname}" outcome="/alert/alert">
+						<f:param name="uid" value="#{n.uid}" />
+					</h:link>
+					</b>
+				</p:column>
+
+				<p:column headerText="Instance">
+					<h:outputText value="#{n.instance}" />
+				</p:column>
+
+				<p:column headerText="Info">
+					<h:outputText value="#{n.info}" />
+				</p:column>
+						
+				<p:column headerText="Severity">
+					<h:outputText value="#{n.severity}" />
+				</p:column>
+			</p:dataTable>
+			
+			<hr/>
+			
+			<p:dataTable value="#{uiConfigBean.allDataProviders}" var="p"
+								 cellpadding="0" cellspacing="0">
+				<p:column headerText="Provider name">
+					<h:outputText value="#{p.providerConfig.name}" />
+				</p:column>
+			</p:dataTable>
+			
+			<!-- More content to show scrolling -->
+			<p>Scroll to see how the content
+				behaves!</p>
+				
+			<div>
+				<p:panelMenu style="width:300px">
+					<p:submenu label="Options">
+						<p:menuitem value="Save (Non-Ajax)" action="#{menuView.save}"
+							ajax="false" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Navigations">
+						<p:menuitem value="Website" url="http://www.primefaces.org"
+							icon="pi pi-external-link" />
+						<p:menuitem value="Internal" outcome="/test/test"
+							icon="pi pi-upload" />
+					</p:submenu>
+				</p:panelMenu>
+			</div>
+		</div>
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+
+</h:body>
+</html>
