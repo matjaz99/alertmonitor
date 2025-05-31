@@ -11,15 +11,24 @@
 </h:head>
 <h:body>
 
-	<div class="title-header">Alertmonitor</div>
+	<div class="title-header"><h1>Alertmonitor</h1></div>
 	
 	<div class="container">
 		<div class="nav">
 			<h2>Navigation</h2>
-			<a href="#">Home</a>
-			<a href="#">About</a>
-			<a href="#">Services</a>
-			<a href="#">Contact</a>
+			<hr/>
+			<h3>Pinned</h3>
+			<a href="#">Pinned</a>
+			<hr/>
+			<h3>Providers</h3>
+			<a href="#">Providers</a>
+			<h3>Alarms</h3>
+			<a href="#">Alarms</a>
+			<h3>Targets</h3>
+			<a href="#">Targets</a>
+			<a href="#">Custom views</a>
+			<a href="#">Filters</a>
+			<a href="#">Configuration</a>
 		</div>
 	
 		<div class="content">
@@ -69,9 +78,37 @@
 				</p:column>
 			</p:dataTable>
 			
+			<hr/>
+			
+			<p:dataTable value="#{uiConfigBean.allDataProviders}" var="p"
+								 cellpadding="0" cellspacing="0">
+				<p:column headerText="Provider name">
+					<h:outputText value="#{p.providerConfig.name}" />
+				</p:column>
+			</p:dataTable>
+			
 			<!-- More content to show scrolling -->
-			<p style="margin-top: 1000px;">Scroll to see how the content
+			<p>Scroll to see how the content
 				behaves!</p>
+				
+			<div>
+				<p:panelMenu style="width:300px">
+					<p:submenu label="Options">
+						<p:menuitem value="Save (Non-Ajax)" action="#{menuView.save}"
+							ajax="false" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Navigations">
+						<p:menuitem value="Website" url="http://www.primefaces.org"
+							icon="pi pi-external-link" />
+						<p:menuitem value="Internal" outcome="/test/test"
+							icon="pi pi-upload" />
+					</p:submenu>
+				</p:panelMenu>
+			</div>
 		</div>
 	</div>
 
@@ -81,24 +118,7 @@
 
 	
 
-	<div>
-		<p:panelMenu style="width:300px">
-			<p:submenu label="Options">
-				<p:menuitem value="Save (Non-Ajax)" action="#{menuView.save}"
-					ajax="false" icon="pi pi-save" />
-				<p:menuitem value="Update" action="#{menuView.update}"
-					icon="pi pi-refresh" />
-				<p:menuitem value="Delete" action="#{menuView.delete}"
-					icon="pi pi-times" />
-			</p:submenu>
-			<p:submenu label="Navigations">
-				<p:menuitem value="Website" url="http://www.primefaces.org"
-					icon="pi pi-external-link" />
-				<p:menuitem value="Internal" outcome="/test/test"
-					icon="pi pi-upload" />
-			</p:submenu>
-		</p:panelMenu>
-	</div>
+	
 
 
 </h:body>
