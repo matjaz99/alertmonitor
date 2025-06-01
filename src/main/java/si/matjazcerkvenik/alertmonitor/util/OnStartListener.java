@@ -58,6 +58,7 @@ public class OnStartListener implements ServletContextListener {
             e.printStackTrace();
         }
 
+        // get ip address
         try {
             AmProps.LOCAL_IP_ADDRESS = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
@@ -95,14 +96,18 @@ public class OnStartListener implements ServletContextListener {
         // initialize DAO
         DAO.getInstance();
 
+        // set the build info metric
         AmMetrics.alertmonitor_build_info.labels("Alertmonitor", AmProps.RUNTIME_ID, AmProps.VERSION, System.getProperty("os.name")).set(AmProps.START_UP_TIME);
 
+        // check the latest version on Github
         AmProps.githubVersion = TaskManager.getInstance().getVersionFromGithub();
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    	
+    	DAO.getInstance().stopProviders();
 
         LogFactory.getLogger().info("#");
         LogFactory.getLogger().info("# Stopping Alertmonitor");

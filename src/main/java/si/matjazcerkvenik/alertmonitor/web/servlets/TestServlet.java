@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 )
 public class TestServlet extends HttpServlet {
 
-    @Override
+    private static final long serialVersionUID = 5614251116700689479L;
+
+	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();

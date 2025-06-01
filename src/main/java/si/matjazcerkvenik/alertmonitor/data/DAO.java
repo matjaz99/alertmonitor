@@ -87,6 +87,12 @@ public class DAO {
         }
         return instance;
     }
+    
+    public void stopProviders() {
+    	for (AbstractDataProvider adp : dataProviders.values()) {
+			adp.stopSyncTimer();
+		}
+	}
 
     public IDataManager getDataManager() {
         return dataManager;

@@ -22,7 +22,6 @@ import si.matjazcerkvenik.alertmonitor.model.DEvent;
 import si.matjazcerkvenik.alertmonitor.model.DTarget;
 import si.matjazcerkvenik.alertmonitor.model.DWarning;
 import si.matjazcerkvenik.alertmonitor.model.eventlogger.ElEvent;
-import si.matjazcerkvenik.alertmonitor.model.eventlogger.ElMessage;
 import si.matjazcerkvenik.alertmonitor.util.AmMetrics;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
@@ -32,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventloggerDataProvider extends AbstractDataProvider {
+	
+	private static final long serialVersionUID = 344648519048L;
 
     @Override
     public void init() {
@@ -129,5 +130,11 @@ public class EventloggerDataProvider extends AbstractDataProvider {
     @Override
     public void restartSyncTimer() {
         // TODO
+    }
+    
+    @Override
+    public void stopSyncTimer() {
+    	// TODO
+    	
     }
 }

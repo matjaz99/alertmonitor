@@ -30,7 +30,9 @@ import java.util.*;
 
 public class PrometheusDataProvider extends AbstractDataProvider {
 
-    private PrometheusSyncTask prometheusSyncTask = null;
+    private static final long serialVersionUID = 257181922040L;
+
+	private PrometheusSyncTask prometheusSyncTask = null;
 
     public static final String DP_PARAM_KEY_SERVER = "server";
     public static final String DP_PARAM_KEY_SYNC_INTERVAL_SEC = "syncInterval";
@@ -232,6 +234,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
 
     }
 
+    @Override
     public void stopSyncTimer() {
         if (syncTimer != null) {
             syncTimer.cancel();

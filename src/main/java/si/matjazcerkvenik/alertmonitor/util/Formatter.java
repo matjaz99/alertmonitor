@@ -54,6 +54,8 @@ public class Formatter {
             case ISO8601:
                 // TODO
                 break;
+			default:
+				break;
         }
         return sdf.format(cal.getTime());
     }

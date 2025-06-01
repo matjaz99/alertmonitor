@@ -20,7 +20,6 @@ import si.matjazcerkvenik.simplelogger.SimpleLogger;
 public class LogFactory {
 
     private static SimpleLogger logger = null;
-    private static SimpleLogger alertLog = null;
 
     {
         getLogger(); // force calling getLogger just to initialize devEnv.

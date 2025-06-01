@@ -18,8 +18,6 @@ package si.matjazcerkvenik.alertmonitor.util;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import si.matjazcerkvenik.alertmonitor.data.DAO;
-
 import java.util.Properties;
 
 public class KafkaClient {

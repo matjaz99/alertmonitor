@@ -93,6 +93,13 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
         prometheusHttpClientPool = new PrometheusHttpClientPool(this);
         restartSyncTimer();
     }
+    
+    /**
+     * Stop provider tasks.
+     */
+    public void terminateProvider() {
+		stopSyncTimer();
+	}
 
     public abstract void processIncomingEvent(WebhookMessage m);
 
@@ -402,6 +409,8 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     }
 
     public abstract void restartSyncTimer();
+    
+    public abstract void stopSyncTimer();
 
     public long getWebhookRequestsReceivedCount() {
         return webhookRequestsReceivedCount;

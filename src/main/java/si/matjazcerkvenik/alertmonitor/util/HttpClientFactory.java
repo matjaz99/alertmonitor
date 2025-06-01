@@ -16,8 +16,6 @@
 package si.matjazcerkvenik.alertmonitor.util;
 
 import okhttp3.*;
-import si.matjazcerkvenik.alertmonitor.data.DAO;
-
 import javax.net.ssl.*;
 import java.io.IOException;
 import java.security.cert.CertificateException;
