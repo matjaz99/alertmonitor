@@ -1,0 +1,96 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:am="http://alertmonitor.io/facelets">
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<p:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:form id="activeAlertsForm">
+
+					<p:panelGrid columns="1" cellspacing="0" width="100%">
+
+						<ui:repeat var="tag" value="#{uiBean.tags}">
+							<div style="float: left;">
+								<am:singletag value="#{tag}" provider="#{uiConfigBean.selectedDataProvider}">
+									<p:commandLink id="ajax" update="activeAlertsForm" action="#{uiBean.tagAction(tag)}" style="text-decoration: none;">
+										<p:outputLabel value="##{tag.name}" style="color: #222222;"/>
+									</p:commandLink>
+								</am:singletag>
+							</div>
+						</ui:repeat>
+
+					</p:panelGrid>
+					
+					<ui:repeat var="n" value="#{uiBean.activeAlarms}">
+						<div class="border #{n.severity}">
+							<b>
+							<h:link value="#{n.alertname}" outcome="/alert/alert">
+								<f:param name="uid" value="#{n.uid}" />
+							</h:link>
+							</b>
+							<h:outputText value="#{n.formatedTimestamp}" />
+							<br/>
+							<h:outputText value="#{n.instance}" />
+							<br/>
+							<h:outputText value="#{n.info}" />
+						</div>
+					</ui:repeat>
+
+					<p:dataTable id="messagesTable" widgetVar="activeTable"
+								 value="#{uiBean.activeAlarms}" var="n"
+								 stickyHeader="true" stickyTopAt=".layout-topbar"
+								 rowStyleClass="#{n.severity}"
+								 emptyMessage="No data"
+								 cellpadding="0" cellspacing="0" width="100%">
+
+						<p:column headerText="Time">
+							<h:outputText value="#{n.formatedTimestamp}" />
+						</p:column>
+
+						<p:column headerText="Alert name">
+							<b>
+							<h:link value="#{n.alertname}" outcome="/alert/alert">
+								<f:param name="uid" value="#{n.uid}" />
+							</h:link>
+							</b>
+						</p:column>
+
+						<p:column headerText="Instance">
+							<h:outputText value="#{n.instance}" />
+						</p:column>
+
+						<p:column headerText="Info">
+							<h:outputText value="#{n.info}" />
+						</p:column>
+						
+						<p:column headerText="Severity">
+							<h:outputText value="#{n.severity}" />
+						</p:column>
+
+						<p:column headerText="Value">
+							<h:outputText value="#{n.currentValue}" />
+						</p:column>
+
+						<p:column headerText="Job">
+							<h:outputText value="#{n.job}" />
+						</p:column>
+						
+						<p:column headerText="Description">
+							<h:outputText value="#{n.description}" />
+						</p:column>
+
+					</p:dataTable>
+					<p:poll interval="60" update="messagesTable" />
+				</h:form>
+			</p:panelGrid>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

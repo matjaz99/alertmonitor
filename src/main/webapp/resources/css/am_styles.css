@@ -16,6 +16,18 @@ h1 {
 /*.ui-widget, .ui-widget .ui-widget {*/
 /*    font-size: 70%;*/
 /*}*/
+.border {
+	border: 1px solid #888;
+	border-bottom-left-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-top-left-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+	font-size: 12px;
+	padding: 5px;
+	margin-right: 11px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 .plaintext {
     /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
 	/*font-size: 14px;*/

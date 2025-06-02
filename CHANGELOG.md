@@ -2,7 +2,7 @@
 
 * [CHANGE] Alertmonitor supports deployment on Wildfly server
 * [ENHANCEMENT] Added Alertmonitor logo to menubar
-* [ENHANCEMENT] Gracefully stop timer tasks when shutting down
+* [ENHANCEMENT] Gracefully stop provider tasks when shutting down
 
 
 ## 2.5.0 / 2025-05-02
