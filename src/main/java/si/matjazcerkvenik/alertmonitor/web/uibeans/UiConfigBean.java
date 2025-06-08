@@ -255,14 +255,4 @@ public class UiConfigBean implements Serializable {
         return AmProps.githubVersion;
     }
 
-    public void buttonAction(String provider) {
-        selectedDataProvider = provider;
-        System.out.println("Welcome to " + provider);
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/alertmonitor");
-        } catch (IOException e) {
-            System.out.println("IOException " + e.getMessage());
-        }
-    }
-
 }

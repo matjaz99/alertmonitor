@@ -39,14 +39,15 @@
 
 							<p:outputLabel value="Provider URI: " class="boldtext"/>
 							<p:outputLabel value="#{p.providerConfig.uri}" />
-
+							
 							<p:outputLabel value="Active alarms: " class="boldtext"/>
-							<p:commandLink type="submit" action="#{uiConfigBean.buttonAction(p.providerConfig.name)}" ajax="false"
-										   value="View alarms (#{p.allActiveAlarmsCount})"/>
+							<p:link value="View alarms (#{p.allActiveAlarmsCount})" outcome="/active.xhtml">
+								<f:param name="providerId" value="#{p.providerConfig.id}" />
+							</p:link>
 
 							<p:outputLabel value="Report: " class="boldtext"/>
 							<p:link value="View report" outcome="/report/report">
-								<f:param name="provider" value="#{p.providerConfig.id}" />
+								<f:param name="providerId" value="#{p.providerConfig.id}" />
 							</p:link>
 
 							<p:outputLabel value="Last sync time: " class="boldtext"/>

@@ -49,6 +49,8 @@ import java.util.Map;
 public class UiReportBean implements Serializable {
 
     private static final long serialVersionUID = 484765215984854L;
+    
+    private String providerId;
 
     private AbstractDataProvider adp;
 
@@ -72,12 +74,20 @@ public class UiReportBean implements Serializable {
     @PostConstruct
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = requestParameterMap.getOrDefault("provider", "null");
-        adp = DAO.getInstance().getDataProviderById(id);
+        providerId = requestParameterMap.getOrDefault("providerId", "null");
+        adp = DAO.getInstance().getDataProviderById(providerId);
         LogFactory.getLogger().info("UiReportBean: init: found provider: " + adp.getProviderConfig().getName() + "@" + adp.getProviderConfig().getUri());
 
         fillInstanceStatusesTable();
     }
+    
+    public String getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
 
     public AbstractDataProvider getAdp() {
         return adp;

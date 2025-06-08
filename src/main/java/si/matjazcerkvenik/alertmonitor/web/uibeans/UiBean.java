@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import si.matjazcerkvenik.alertmonitor.data.DAO;
@@ -47,6 +49,11 @@ public class UiBean implements Serializable {
 
 	@Inject
 	private UiConfigBean uiConfigBean;
+	
+	@Inject
+	private UiSessionBean uiSessionBean;
+	
+	private String providerId;
 
 	private List<DTag> tagList = new ArrayList<>();
 	private String searchString;
@@ -54,6 +61,18 @@ public class UiBean implements Serializable {
 
 	// result of Prometheus API call
 	private String result;
+	
+	@PostConstruct
+	public void init() {
+		Map<String, String> params = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap();
+        providerId = params.getOrDefault("providerId", null);
+        if (providerId == null) {
+        	providerId = DAO.getInstance().getDataProvider(".default").getProviderConfig().getId();
+		}
+		LogFactory.getLogger().info("UiBean.init(): " + providerId);
+	}
+	
 
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
@@ -66,6 +85,27 @@ public class UiBean implements Serializable {
 	public void setUiConfigBean(UiConfigBean uiConfigBean) {
 		this.uiConfigBean = uiConfigBean;
 	}
+	
+
+	public UiSessionBean getUiSessionBean() {
+		return uiSessionBean;
+	}
+
+	public void setUiSessionBean(UiSessionBean uiSessionBean) {
+		this.uiSessionBean = uiSessionBean;
+	}
+	
+	
+
+	public String getProviderId() {
+		return providerId;
+	}
+
+
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
+
 
 	public String getSearchString() {
 		return searchString;

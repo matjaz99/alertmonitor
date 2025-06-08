@@ -38,9 +38,8 @@ import java.util.*;
 public class UiAlertBean implements Serializable {
 
     private static final long serialVersionUID = 2791411831853745037L;
-
-    @Inject
-    private UiConfigBean uiConfigBean;
+    
+    private String providerId;
 
     private DEvent event;
 
@@ -48,7 +47,8 @@ public class UiAlertBean implements Serializable {
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String uid = requestParameterMap.getOrDefault("uid", "null");
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        providerId = requestParameterMap.getOrDefault("providerId", null);
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         event = adp.getEvent(uid);
         if (event == null) {
             Growl.showWarningGrowl("Object not found", null);
@@ -56,15 +56,17 @@ public class UiAlertBean implements Serializable {
         }
     }
 
-    public UiConfigBean getUiConfigBean() {
-        return uiConfigBean;
-    }
+    public String getProviderId() {
+		return providerId;
+	}
 
-    public void setUiConfigBean(UiConfigBean uiConfigBean) {
-        this.uiConfigBean = uiConfigBean;
-    }
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
 
-    public DEvent getEvent() {
+
+
+	public DEvent getEvent() {
         return event;
     }
 

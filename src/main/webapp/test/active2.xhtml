@@ -28,16 +28,27 @@
 					
 					<ui:repeat var="n" value="#{uiBean.activeAlarms}">
 						<div class="border #{n.severity}">
-							<b>
-							<h:link value="#{n.alertname}" outcome="/alert/alert">
-								<f:param name="uid" value="#{n.uid}" />
-							</h:link>
-							</b>
-							<h:outputText value="#{n.formatedTimestamp}" />
-							<br/>
-							<h:outputText value="#{n.instance}" />
-							<br/>
-							<h:outputText value="#{n.info}" />
+							<div class="container">
+								<div class="area">
+									<b>
+									<h:link value="#{n.alertname}" outcome="/alert/alert">
+										<f:param name="uid" value="#{n.uid}" />
+										<f:param name="providerId" value="#{uiBean.providerId}" />
+									</h:link>
+									</b>
+								</div>
+								<div class="area">
+									<h:outputText value="#{n.formatedTimestamp}" />
+									<br/>
+									<h:outputText value="#{n.instance}" />
+								</div>
+								<div class="area">
+									<h:outputText value="#{n.info}" />
+								</div>
+							</div>
+							<div>
+								<h:outputText value="#{n.description}" />
+							</div>
 						</div>
 					</ui:repeat>
 

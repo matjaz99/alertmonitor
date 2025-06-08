@@ -42,6 +42,14 @@ h1 {
 	/*font-size: 14px;*/
     /*color: #222222;*/
 }
+
+.container {
+	display: flex;
+}
+.area {
+	flex: 1;
+}
+
 #reportForm .bottom-margin {
     margin-bottom: 15px;
 }
