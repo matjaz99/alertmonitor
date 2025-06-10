@@ -41,7 +41,7 @@
 							<p:outputLabel value="#{p.providerConfig.uri}" />
 							
 							<p:outputLabel value="Active alarms: " class="boldtext"/>
-							<p:link value="View alarms (#{p.allActiveAlarmsCount})" outcome="/active.xhtml">
+							<p:link value="View alarms (#{p.allActiveAlarmsCount})" outcome="/alerts/active.xhtml">
 								<f:param name="providerId" value="#{p.providerConfig.id}" />
 							</p:link>
 
