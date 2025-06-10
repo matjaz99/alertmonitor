@@ -136,6 +136,7 @@ public class UiBean implements Serializable {
 	}
 
 
+	@Deprecated
 	public List<DEvent> getActiveAlarms() {
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
 		List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
@@ -161,6 +162,7 @@ public class UiBean implements Serializable {
 	 * @param event alert
 	 * @return true to display alert
 	 */
+	@Deprecated
 	private boolean filterEvent(DEvent event) {
 		// check if matches search field
 		if (searchString != null && searchString.length() > 0) {

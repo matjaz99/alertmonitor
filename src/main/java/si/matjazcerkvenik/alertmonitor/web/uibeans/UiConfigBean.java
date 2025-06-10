@@ -54,6 +54,7 @@ public class UiConfigBean implements Serializable {
         LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
     }
 
+    // TODO move to providersBean
     public List<String> getAllDataProviderNames() {
         allDataProviders = new ArrayList<>();
         for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {

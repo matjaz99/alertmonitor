@@ -12,8 +12,23 @@
 			<p:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form id="activeAlertsForm">
 
+					<p:panelGrid columns="1" cellspacing="0" width="100%">
+
+						<ui:repeat var="tag" value="#{uiBean.tags}">
+							<div style="float: left;">
+								<am:singletag value="#{tag}" provider="#{uiConfigBean.selectedDataProvider}">
+									<p:commandLink id="ajax" update="activeAlertsForm" action="#{uiBean.tagAction(tag)}" style="text-decoration: none;">
+										<p:outputLabel value="##{tag.name}" style="color: #222222;"/>
+									</p:commandLink>
+								</am:singletag>
+							</div>
+						</ui:repeat>
+
+					</p:panelGrid>
+
+
 					<p:dataTable id="messagesTable" widgetVar="activeTable"
-								 value="#{uiAlertsBean.activeAlarms}" var="n"
+								 value="#{uiBean.activeAlarms}" var="n"
 								 stickyHeader="true" stickyTopAt=".layout-topbar"
 								 rowStyleClass="#{n.severity}"
 								 emptyMessage="No data"
@@ -50,10 +65,6 @@
 
 						<p:column headerText="Job">
 							<h:outputText value="#{n.job}" />
-						</p:column>
-						
-						<p:column headerText="Provider">
-							<h:outputText value="#{n.provider}" />
 						</p:column>
 						
 						<p:column headerText="Description">
