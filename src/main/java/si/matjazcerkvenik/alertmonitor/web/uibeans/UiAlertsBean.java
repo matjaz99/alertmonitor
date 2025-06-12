@@ -37,7 +37,7 @@ public class UiAlertsBean implements Serializable {
 		} else {
 			// show only alerts for selected provider
 		}
-		LogFactory.getLogger().info("UiBean.init(): " + providerId);
+		LogFactory.getLogger().info("UiAlertsBean.init(): " + providerId);
 	}
 	
 	public List<DEvent> getActiveAlarms() {

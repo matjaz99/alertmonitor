@@ -19,6 +19,8 @@
 			<p:scrollTop />
 
 			<h:form id="queryForm">
+			
+				<p:outputLabel value=" [#{uiQueryBean.providerName}]"/>
 
 				<p:ajaxStatus styleClass="p-d-block p-mb-4">
 					<f:facet name="default">
@@ -38,7 +40,7 @@
 				<br/>
 
 				<p:inputText id="queryString" value="#{uiQueryBean.query}" style="width: 90%;"/>
-				<p:commandButton value="Execute"  update="display" action="#{uiQueryBean.execute}" style="width: 10%"/>
+				<p:commandButton value="Execute"  update="display, queryForm" action="#{uiQueryBean.execute}" style="width: 10%"/>
 				<br/>
 
 				<p:panel>

@@ -22,8 +22,9 @@ import si.matjazcerkvenik.alertmonitor.util.AmDateFormat;
 import si.matjazcerkvenik.alertmonitor.util.Formatter;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -31,14 +32,13 @@ import java.io.Serializable;
 import java.util.*;
 
 @Named("uiQueryBean")
-@SessionScoped
+@ViewScoped
 @SuppressWarnings("unused")
 public class UiQueryBean implements Serializable {
 
     private static final long serialVersionUID = 34412597842163L;
-
-    @Inject
-    private UiConfigBean uiConfigBean;
+    
+    private String providerId;
 
     private String query = "up";
     private String result;
@@ -47,16 +47,41 @@ public class UiQueryBean implements Serializable {
     private Date startDate;
     private Date endDate;
     private String step = "1m";
+    
+    @PostConstruct
+	public void init() {
+		Map<String, String> params = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap();
+        String query = params.getOrDefault("q", null);
+        if (query != null && query.length() > 0) {
+            this.query = query;
+        }
+        providerId = params.getOrDefault("providerId", null);
+        if (providerId == null) {
+        	// error
+		}
+		LogFactory.getLogger().info("UiQueryBean.init(): " + providerId);
+	}
+    
+    
 
-    public UiConfigBean getUiConfigBean() {
-        return uiConfigBean;
-    }
+    public String getProviderId() {
+		return providerId;
+	}
 
-    public void setUiConfigBean(UiConfigBean uiConfigBean) {
-        this.uiConfigBean = uiConfigBean;
-    }
 
-    public String getQuery() {
+
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
+	
+	public String getProviderName() {
+		return DAO.getInstance().getDataProviderById(providerId).getProviderConfig().getName();
+	}
+
+
+
+	public String getQuery() {
         return query;
     }
 
@@ -113,18 +138,9 @@ public class UiQueryBean implements Serializable {
     }
 
 
-    @PostConstruct
-    public void init() {
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String query = requestParameterMap.getOrDefault("q", null);
-        if (query != null && query.length() > 0) {
-            this.query = query;
-        }
-    }
-
 
     public void execute() {
-
+    	
         queryResult = null;
         result = null;
 
@@ -143,7 +159,7 @@ public class UiQueryBean implements Serializable {
             return;
         }
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         PrometheusHttpClient api = adp.getHttpClientPool().getClient();
         try {
             PQueryMessage msg = api.query(query);
@@ -190,7 +206,7 @@ public class UiQueryBean implements Serializable {
             return;
         }
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         PrometheusHttpClient api = adp.getHttpClientPool().getClient();
         try {
             long start = startDate.getTime() / 1000;
@@ -301,7 +317,7 @@ public class UiQueryBean implements Serializable {
         queryResult = null;
         result = null;
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         PrometheusHttpClient api = adp.getHttpClientPool().getClient();
         try {
             // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
