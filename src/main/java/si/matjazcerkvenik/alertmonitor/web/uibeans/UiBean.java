@@ -57,10 +57,7 @@ public class UiBean implements Serializable {
 
 	private List<DTag> tagList = new ArrayList<>();
 	private String searchString;
-	private boolean smartTargetsEnabled = true;
 
-	// result of Prometheus API call
-	private String result;
 	
 	@PostConstruct
 	public void init() {
@@ -116,13 +113,7 @@ public class UiBean implements Serializable {
 		LogFactory.getLogger().info("SEARCH: " + searchString);
 	}
 
-	public String getResult() {
-		return result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
-	}
+	
 
 	public List<WebhookMessage> getWebhookMessages() {
 		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
@@ -136,64 +127,6 @@ public class UiBean implements Serializable {
 	}
 
 
-	@Deprecated
-	public List<DEvent> getActiveAlarms() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-		List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
-		List<DEvent> result = list.stream()
-				.filter(notif -> filterEvent(notif))
-				.collect(Collectors.toList());
-
-		// if you sort alerts here, then sorting in columns is not working
-		// TODO how to sort?
-//		Collections.sort(result, new Comparator<DNotification>() {
-//			@Override
-//			public int compare(DNotification lhs, DNotification rhs) {
-//				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-//				return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
-//			}
-//		});
-		return result;
-	}
-
-	/**
-	 * Return true if notification satisfies conditions to be displayed in GUI.
-	 * Search field is checked and selected tags are checked.
-	 * @param event alert
-	 * @return true to display alert
-	 */
-	@Deprecated
-	private boolean filterEvent(DEvent event) {
-		// check if matches search field
-		if (searchString != null && searchString.length() > 0) {
-			if (!event.getInstance().toLowerCase().contains(searchString.toLowerCase())
-					&& !event.getAlertname().toLowerCase().contains(searchString.toLowerCase())
-					&& !event.getInfo().toLowerCase().contains(searchString.toLowerCase())
-					&& !event.getJob().toLowerCase().contains(searchString.toLowerCase())
-					&& !event.getDescription().toLowerCase().contains(searchString.toLowerCase()))
-				return false;
-		}
-
-		// read tags
-		String[] array = event.getTags().split(",");
-		for (int i = 0; i < array.length; i++) {
-			String tagName = array[i].trim();
-
-			for (DTag t : tagList) {
-				if (t.getName().equals(tagName) && t.isSelected()) {
-					return true;
-				}
-				if (t.getName().equals(event.getSeverity()) && t.isSelected()) {
-					return true;
-				}
-				if (t.getName().equals(event.getPriority()) && t.isSelected()) {
-					return true;
-				}
-			}
-
-		}
-		return false;
-	}
 
 
 
@@ -299,115 +232,8 @@ public class UiBean implements Serializable {
 
 
 
-	public boolean isSmartTargetsEnabled() {
-		return smartTargetsEnabled;
-	}
 
-	public void setSmartTargetsEnabled(boolean smartTargetsEnabled) {
-		this.smartTargetsEnabled = smartTargetsEnabled;
-	}
-
-	public List<DTarget> getTargets() {
-
-		result = null;
-
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-
-		List<DTarget> tList;
-		if (smartTargetsEnabled) {
-			tList = adp.getSmartTargets();
-		} else {
-			tList = adp.getTargets();
-		}
-
-		if (tList == null) {
-			result = "failed to retrieve targets";
-			return new ArrayList<>();
-		}
-
-		return tList.stream()
-				.filter(target -> filterTarget(target))
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Filter targets according to search criteria
-	 * @param target
-	 * @return true if matches
-	 */
-	private boolean filterTarget(DTarget target) {
-		// check if matches search field
-		if (searchString != null && searchString.length() > 0) {
-			if (!target.getHostname().toLowerCase().contains(searchString.toLowerCase())) return false;
-		}
-		return true;
-	}
-
-	public String getTargetHighestPriorityBullet(DTarget target) {
-		int critical = 0;
-		int major = 0;
-		int minor = 0;
-		int warning = 0;
-		int informational = 0;
-		int indeterminate = 0;
-		for (DEvent n : target.getAlerts()) {
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.CRITICAL)) {
-				critical++;
-			}
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.MAJOR)) {
-				major++;
-			}
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.MINOR)) {
-				minor++;
-			}
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.WARNING)) {
-				warning++;
-			}
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.INFORMATIONAL)) {
-				informational++;
-			}
-			if (n.getSeverity().equalsIgnoreCase(DSeverity.INDETERMINATE)) {
-				indeterminate++;
-			}
-		}
-
-		if (critical > 0) return "bullet_red";
-		if (major >  0) return "bullet_orange";
-		if (minor > 0) return "bullet_orange";
-		if (warning > 0) return "bullet_yellow";
-		if (informational > 0) return "bullet_blue";
-		if (indeterminate > 0) return "bullet_purple";
-		return "bullet_green";
-	}
-
-	/**
-	 * Call targets API and sort by jobs.
-	 * @return list of jobs
-	 */
-	public List<DJob> getJobs() {
-
-		result = null;
-
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
-
-		List<DTarget> tList = adp.getTargets();
-
-		if (tList == null) {
-			result = "failed to retrieve jobs";
-			return new ArrayList<>();
-		}
-
-		Map<String, DJob> jMap = new HashMap<>();
-
-		for (DTarget t : tList) {
-			DJob job = jMap.getOrDefault(t.getJob(), new DJob());
-			job.setName(t.getJob());
-			job.getTargetList().add(t);
-			jMap.put(job.getName(), job);
-		}
-
-		return new ArrayList<>(jMap.values());
-	}
+	
 
 
 }
