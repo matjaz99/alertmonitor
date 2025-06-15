@@ -68,19 +68,23 @@ public class UiTargetsBean implements Serializable {
 		
 		if (providerId == null) {
 			for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
+				List<DTarget> list;
 				if (smartTargetsEnabled) {
-					tList.addAll(adp.getSmartTargets());
+					list = adp.getSmartTargets();
 				} else {
-					tList.addAll(adp.getTargets());
+					list = adp.getTargets();
 				}
+				if (list != null) tList.addAll(list);
 			}
 		} else {
 			AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
+			List<DTarget> list;
 			if (smartTargetsEnabled) {
-				tList = adp.getSmartTargets();
+				list = adp.getSmartTargets();
 			} else {
-				tList = adp.getTargets();
+				list = adp.getTargets();
 			}
+			if (list != null) tList.addAll(list);
 		}
 		
 
