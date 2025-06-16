@@ -14,7 +14,7 @@
     </tag>
     <tag>
         <tag-name>target</tag-name>
-        <source>taglib/target.xhtml</source>
+        <source>taglib/singleTarget.xhtml</source>
     </tag>
     <tag>
         <tag-name>singletag</tag-name>

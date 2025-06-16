@@ -124,7 +124,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 probe_success_map.put(r.getMetric().get("instance"), "down");
             }
 
-            // convert from PTarget to Target
+            // convert from PTarget to DTarget
             for (PTarget pTarget : pTargets) {
                 String instance = pTarget.getLabels().get("instance");
                 DTarget t = targetsMap.getOrDefault(instance, new DTarget());
@@ -133,6 +133,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 if (probe_success_map.containsKey(instance)) t.setHealth(probe_success_map.get(instance)); // overwrite with the metric probe_success
                 t.setHostname(instance);
                 t.setJob(pTarget.getLabels().get("job"));
+                t.setProviderName(providerConfig.getName());
                 t.setId(MD5.getChecksum("host" + t.getHostname() + t.getJob()));
                 // load active alerts
                 for (DEvent n : activeAlerts.values()) {
@@ -169,7 +170,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 }
             }
 
-            // convert from PTarget to Target
+            // convert from PTarget to DTarget
             for (PTarget pTarget : pTargets) {
                 String host = Formatter.stripInstance(pTarget.getLabels().get("instance"));
                 DTarget t = targetsMap.getOrDefault(host, new DTarget());
@@ -178,6 +179,7 @@ public class PrometheusDataProvider extends AbstractDataProvider {
                 if (pTarget.getHealth().equalsIgnoreCase("up")) up = true;
                 t.setUp(up || t.isUp());
                 t.setHostname(host);
+                t.setProviderName(providerConfig.getName());
                 t.setId(MD5.getChecksum("smarthost" + t.getHostname()));
                 // load active alerts
                 for (DEvent n : activeAlerts.values()) {

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -20,7 +21,8 @@ import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 @Named("uiTargetsBean")
-@ViewScoped
+//@ViewScoped
+@RequestScoped
 @SuppressWarnings("unused")
 public class UiTargetsBean implements Serializable {
 

@@ -27,6 +27,7 @@ public class DTarget {
     private String hostname;
     private boolean smartTarget;
     private String job;
+    private String providerName;
     private boolean up;
     private Map<String, DEvent> alerts = new HashMap<>();
 
@@ -62,7 +63,15 @@ public class DTarget {
         this.job = job;
     }
 
-    public boolean isUp() {
+    public String getProviderName() {
+		return providerName;
+	}
+
+	public void setProviderName(String providerName) {
+		this.providerName = providerName;
+	}
+
+	public boolean isUp() {
         return up;
     }
 
