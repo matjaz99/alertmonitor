@@ -48,7 +48,7 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     protected Timer syncTimer = null;
 
     /** Map of warnings in this data provider. */
-    private Map<String, DWarning> warnings = new HashMap<>();
+    protected Map<String, DWarning> warnings = new HashMap<>();
 
     protected long webhookRequestsReceivedCount = 0;
     protected long journalReceivedCount = 0;

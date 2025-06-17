@@ -113,6 +113,11 @@ public class PrometheusDataProvider extends AbstractDataProvider {
      */
     @Override
     public List<DTarget> getTargets() {
+    	
+    	if (warnings.containsKey("prom_api")) {
+			return null;
+		}
+    	
         PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 
         try {
@@ -156,6 +161,11 @@ public class PrometheusDataProvider extends AbstractDataProvider {
     // the only difference is stripped hostname
     @Override
     public List<DTarget> getSmartTargets() {
+    	
+    	if (warnings.containsKey("prom_api")) {
+			return null;
+		}
+    	
         PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 
         try {
