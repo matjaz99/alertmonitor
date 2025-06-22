@@ -22,13 +22,6 @@
 				<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
 			</p:submenu>
 			<f:facet name="options">
-				<p:outputLabel value="Provider: "/>
-				<p:selectOneMenu id="selectedDataProvider"
-								 value="#{uiConfigBean.selectedDataProvider}"
-								 dynamic="true" onchange="submit()"
-								 style="margin-right: 10px;">
-					<f:selectItems value="#{uiConfigBean.allDataProviderNames}"/>
-				</p:selectOneMenu>
 				<p:inputText placeholder="Search" value="#{uiBean.searchString}"/>
 			</f:facet>
     	</p:menubar>

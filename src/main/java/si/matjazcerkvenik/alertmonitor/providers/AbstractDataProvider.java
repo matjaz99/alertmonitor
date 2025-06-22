@@ -427,6 +427,15 @@ public abstract class AbstractDataProvider implements IParamChangedCallback, Ser
     public long getLastEventTimestamp() {
         return lastEventTimestamp;
     }
+    
+    public String getLastEventTimestampFornetted() {
+    	return Formatter.getFormatedTimestamp(lastEventTimestamp, AmDateFormat.TIME);
+    }
+    
+    public String getTimeSinceLastEvent() {
+        int secUp = (int) ((System.currentTimeMillis() - lastEventTimestamp) / 1000);
+        return Formatter.convertToDHMSFormat(secUp);
+    }
 
     public long getLastSyncTimestamp() {
         return lastSyncTimestamp;

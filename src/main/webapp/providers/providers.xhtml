@@ -45,6 +45,12 @@
 								<f:param name="providerId" value="#{p.providerConfig.id}" />
 							</p:link>
 							
+							<p:outputLabel value="Last event timestamp: " class="boldtext"/>
+							<p:outputLabel value="#{p.lastEventTimestampFornetted}" />
+							
+							<p:outputLabel value="Time since last event: " class="boldtext"/>
+							<p:outputLabel value="#{p.timeSinceLastEvent}" />
+							
 							<p:outputLabel value="Query data: " class="boldtext"/>
 							<p:link value="Query data" outcome="/query/query.xhtml">
 								<f:param name="providerId" value="#{p.providerConfig.id}" />

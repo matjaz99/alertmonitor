@@ -116,13 +116,13 @@ public class UiBean implements Serializable {
 	
 
 	public List<WebhookMessage> getWebhookMessages() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
 		return adp.getWebhookMessages();
 	}
 
 
 	public List<DEvent> getJournal() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
 		return adp.getJournal();
 	}
 
@@ -132,7 +132,7 @@ public class UiBean implements Serializable {
 
 
 	public List<DTag> getTags() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
 		List<DTag> daoTagList = adp.getTags();
 		// add all from daoTagList to tagList which are not present yet
 		for (DTag dt : daoTagList) {

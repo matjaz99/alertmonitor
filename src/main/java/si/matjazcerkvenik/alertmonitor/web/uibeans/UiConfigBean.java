@@ -21,7 +21,7 @@ import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.model.prometheus.PrometheusHttpClient;
 import si.matjazcerkvenik.alertmonitor.providers.PrometheusDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.*;
-
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -32,6 +32,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Named("uiConfigBean")
 @RequestScoped
@@ -39,35 +40,57 @@ import java.util.List;
 public class UiConfigBean implements Serializable {
 
     private static final long serialVersionUID = 320547795413589L;
+    
+    private String providerId;
 
-    private String selectedDataProvider = AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME;
+//    private String selectedDataProvider = AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME;
     private String selectedLogLevel = "INFO";
 
     private List<String> allDataProviders;
-
-    public String getSelectedDataProvider() {
-        return selectedDataProvider;
+    
+    @PostConstruct
+    public void init() {
+        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        providerId = requestParameterMap.getOrDefault("providerId", null);
+        LogFactory.getLogger().info("UiConfigBean: init: " + providerId);
     }
+    
+    
 
-    public void setSelectedDataProvider(String selectedDataProvider) {
-        this.selectedDataProvider = selectedDataProvider;
-        LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
-    }
+    public String getProviderId() {
+		return providerId;
+	}
 
-    // TODO move to providersBean
-    public List<String> getAllDataProviderNames() {
-        allDataProviders = new ArrayList<>();
-        for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
-            allDataProviders.add(adp.getProviderConfig().getName());
-        }
-        return allDataProviders;
-    }
 
-    public List<AbstractDataProvider> getAllDataProviders() {
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
+    
+
+//    public String getSelectedDataProvider() {
+//        return selectedDataProvider;
+//    }
+//
+//    public void setSelectedDataProvider(String selectedDataProvider) {
+//        this.selectedDataProvider = selectedDataProvider;
+//        LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
+//    }
+//
+//    // TODO move to providersBean
+//    public List<String> getAllDataProviderNames() {
+//        allDataProviders = new ArrayList<>();
+//        for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
+//            allDataProviders.add(adp.getProviderConfig().getName());
+//        }
+//        return allDataProviders;
+//    }
+    
+
+	public List<AbstractDataProvider> getAllDataProviders() {
         return DAO.getInstance().getAllDataProviders();
     }
 
-    public String getSelectedLogLevel() {
+	public String getSelectedLogLevel() {
         return selectedLogLevel;
     }
 
@@ -207,10 +230,10 @@ public class UiConfigBean implements Serializable {
 
 
 
-    public int getAllAlarmingInstancesCount() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getActiveTargets().size();
-    }
+//    public int getAllAlarmingInstancesCount() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
+//        return adp.getActiveTargets().size();
+//    }
 
     public int getNumberOfAlertsInLastHour() {
         return DAO.getInstance().getDataManager().getNumberOfAlertsInLastHour();
@@ -229,21 +252,21 @@ public class UiConfigBean implements Serializable {
         return Formatter.convertToDHMSFormat(secUpTotal);
     }
 
-    public String getLastEventTime() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return Formatter.getFormatedTimestamp(adp.getLastEventTimestamp(), AmDateFormat.TIME);
-    }
+//    public String getLastEventTime() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
+//        return Formatter.getFormatedTimestamp(adp.getLastEventTimestamp(), AmDateFormat.TIME);
+//    }
 
-    public String getTimeSinceLastEvent() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        int secUp = (int) ((System.currentTimeMillis() - adp.getLastEventTimestamp()) / 1000);
-        return Formatter.convertToDHMSFormat(secUp);
-    }
+//    public String getTimeSinceLastEvent() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
+//        int secUp = (int) ((System.currentTimeMillis() - adp.getLastEventTimestamp()) / 1000);
+//        return Formatter.convertToDHMSFormat(secUp);
+//    }
 
-    public List<DWarning> getWarnings() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-        return adp.getWarnings();
-    }
+//    public List<DWarning> getWarnings() {
+//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
+//        return adp.getWarnings();
+//    }
 
     public String getCurrentTime() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

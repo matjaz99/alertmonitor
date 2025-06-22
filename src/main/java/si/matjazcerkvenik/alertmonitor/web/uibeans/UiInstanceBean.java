@@ -44,9 +44,8 @@ import java.util.stream.Collectors;
 public class UiInstanceBean implements Serializable {
 
     private static final long serialVersionUID = 7961535598744624L;
-
-    @Inject
-    private UiConfigBean uiConfigBean;
+    
+    private String providerId;
 
     private DTarget target;
 
@@ -54,17 +53,10 @@ public class UiInstanceBean implements Serializable {
     public void init() {
         Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = requestParameterMap.getOrDefault("target", "null");
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        providerId = requestParameterMap.getOrDefault("providerId", null);
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         target = adp.getSingleTarget(id);
         LogFactory.getLogger().info("UiInstanceBean: init: found target: " + target.toString());
-    }
-
-    public UiConfigBean getUiConfigBean() {
-        return uiConfigBean;
-    }
-
-    public void setUiConfigBean(UiConfigBean uiConfigBean) {
-        this.uiConfigBean = uiConfigBean;
     }
 
     public DTarget getTarget() {
@@ -72,7 +64,7 @@ public class UiInstanceBean implements Serializable {
     }
 
     public List<DEvent> getInstanceActiveAlarms() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
         List<DEvent> result = list.stream()
                 .filter(notif -> checkInstance(notif))
@@ -88,7 +80,7 @@ public class UiInstanceBean implements Serializable {
     }
 
     public List<DEvent> getInstanceJournalAlarms() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProvider(uiConfigBean.getSelectedDataProvider());
+        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
         List<DEvent> result = adp.getJournal().stream()
                 .filter(notif -> checkInstance(notif))
                 .collect(Collectors.toList());

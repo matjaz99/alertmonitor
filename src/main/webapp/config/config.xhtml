@@ -32,12 +32,6 @@
 					<p:outputLabel value="Up time: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.upTime}" />
 
-					<p:outputLabel value="Last event time: " class="boldtext"/>
-					<p:outputLabel value="#{uiConfigBean.lastEventTime}" />
-
-					<p:outputLabel value="Time since last event: " class="boldtext"/>
-					<p:outputLabel value="#{uiConfigBean.timeSinceLastEvent}" />
-
 					<p:outputLabel value="Events in last hour: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.numberOfAlertsInLastHour}" />
 
@@ -55,7 +49,7 @@
 						<f:selectItem itemLabel="TRACE" itemValue="TRACE"/>
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Providers file path: " class="boldtext"/>
+					<p:outputLabel value="Providers config file path: " class="boldtext"/>
 					<p:outputLabel value="#{uiConfigBean.providersFilePath}" />
 
 					<p:outputLabel value="Data retention (days): " class="boldtext">
