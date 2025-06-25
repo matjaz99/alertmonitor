@@ -13,14 +13,9 @@
             </f:facet>
 			<p:menuitem value="Providers" url="/alertmonitor/providers" icon="pi pi-fw pi-sitemap" />
 			<p:menuitem value="Alarms" url="/alertmonitor" icon="pi pi-fw pi-star" />
-			<p:submenu label="Targets" icon="pi pi-fw pi-th-large">
-				<p:menuitem value="by Instance" url="/alertmonitor/targets" icon="pi pi-fw pi-box"/>
-				<p:menuitem value="by Job" url="/alertmonitor/jobs" icon="pi pi-fw pi-bolt"/>
-			</p:submenu>
-			<p:submenu label="View" icon="pi pi-fw pi-list">
-				<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-cog" />
-				<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
-			</p:submenu>
+			<p:menuitem value="Targets" url="/alertmonitor/targets" icon="pi pi-fw pi-th-large"/>
+			<p:menuitem value="Configuration" url="/alertmonitor/config" icon="pi pi-fw pi-cog" />
+			<p:menuitem value="About" url="/alertmonitor/about" icon="pi pi-fw pi-exclamation-circle" />
 			<f:facet name="options">
 				<p:inputText placeholder="Search" value="#{uiBean.searchString}"/>
 			</f:facet>

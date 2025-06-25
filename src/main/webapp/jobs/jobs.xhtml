@@ -11,11 +11,11 @@
 
 			<h:form id="jobsForm">
 
-				<p:tag id="resultStatus" styleClass="p-mr-2" severity="danger" value="#{uiBean.result}" rendered="#{uiBean.result != null}"></p:tag>
+				<p:tag id="resultStatus" styleClass="p-mr-2" severity="danger" value="#{uiTargetsBean.result}" rendered="#{uiTargetsBean.result != null}"></p:tag>
 
 				<p:panelGrid columns="1" cellspacing="5" width="100%">
 
-					<ui:repeat var="j" value="#{uiBean.jobs}">
+					<ui:repeat var="j" value="#{uiTargetsBean.jobs}">
 						<div class="card">
 							<p:dataTable value="#{j.targetList}" var="t"
 										 cellpadding="0" cellspacing="0">

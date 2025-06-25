@@ -67,25 +67,6 @@ public class UiConfigBean implements Serializable {
 	}
     
 
-//    public String getSelectedDataProvider() {
-//        return selectedDataProvider;
-//    }
-//
-//    public void setSelectedDataProvider(String selectedDataProvider) {
-//        this.selectedDataProvider = selectedDataProvider;
-//        LogFactory.getLogger().info("UiConfigBean: set data provider: " + selectedDataProvider);
-//    }
-//
-//    // TODO move to providersBean
-//    public List<String> getAllDataProviderNames() {
-//        allDataProviders = new ArrayList<>();
-//        for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
-//            allDataProviders.add(adp.getProviderConfig().getName());
-//        }
-//        return allDataProviders;
-//    }
-    
-
 	public List<AbstractDataProvider> getAllDataProviders() {
         return DAO.getInstance().getAllDataProviders();
     }
@@ -227,13 +208,7 @@ public class UiConfigBean implements Serializable {
 
 
     /* STATISTICS */
-
-
-
-//    public int getAllAlarmingInstancesCount() {
-//        AbstractDataProvider adp = DAO.getInstance().getDataProvider(selectedDataProvider);
-//        return adp.getActiveTargets().size();
-//    }
+    
 
     public int getNumberOfAlertsInLastHour() {
         return DAO.getInstance().getDataManager().getNumberOfAlertsInLastHour();
@@ -251,22 +226,6 @@ public class UiConfigBean implements Serializable {
         int secUpTotal = (int) ((System.currentTimeMillis() - AmProps.START_UP_TIME) / 1000);
         return Formatter.convertToDHMSFormat(secUpTotal);
     }
-
-//    public String getLastEventTime() {
-//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-//        return Formatter.getFormatedTimestamp(adp.getLastEventTimestamp(), AmDateFormat.TIME);
-//    }
-
-//    public String getTimeSinceLastEvent() {
-//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-//        int secUp = (int) ((System.currentTimeMillis() - adp.getLastEventTimestamp()) / 1000);
-//        return Formatter.convertToDHMSFormat(secUp);
-//    }
-
-//    public List<DWarning> getWarnings() {
-//        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-//        return adp.getWarnings();
-//    }
 
     public String getCurrentTime() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

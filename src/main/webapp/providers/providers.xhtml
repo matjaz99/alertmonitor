@@ -60,6 +60,11 @@
 							<p:link value="Targets" outcome="/targets/targets.xhtml">
 								<f:param name="providerId" value="#{p.providerConfig.id}" />
 							</p:link>
+							
+							<p:outputLabel value="Jobs: " class="boldtext"/>
+							<p:link value="Jobs" outcome="/jobs/jobs.xhtml">
+								<f:param name="providerId" value="#{p.providerConfig.id}" />
+							</p:link>
 
 							<p:outputLabel value="Report: " class="boldtext"/>
 							<p:link value="View report" outcome="/report/report">
