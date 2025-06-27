@@ -21,14 +21,11 @@ import si.matjazcerkvenik.alertmonitor.providers.AbstractDataProvider;
 import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 
 @Named("uiTargetsBean")
-//@ViewScoped
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiTargetsBean implements Serializable {
+public class UiTargetsBean extends CommonBean implements Serializable {
 
 	private static final long serialVersionUID = 6626636171597L;
-	
-	private String providerId;
 	
 	private boolean smartTargetsEnabled = true;
 	
@@ -37,12 +34,6 @@ public class UiTargetsBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, String> params = FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap();
-        providerId = params.getOrDefault("providerId", null);
-        if (providerId == null) {
-        	// error
-		}
 		LogFactory.getLogger().info("UiTargetsBean.init(): " + providerId);
 	}
 	
@@ -79,12 +70,11 @@ public class UiTargetsBean implements Serializable {
 				if (list != null) tList.addAll(list);
 			}
 		} else {
-			AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
 			List<DTarget> list;
 			if (smartTargetsEnabled) {
-				list = adp.getSmartTargets();
+				list = dataProvider.getSmartTargets();
 			} else {
-				list = adp.getTargets();
+				list = dataProvider.getTargets();
 			}
 			if (list != null) tList.addAll(list);
 		}
@@ -159,9 +149,7 @@ public class UiTargetsBean implements Serializable {
 
 		result = null;
 
-		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-
-		List<DTarget> tList = adp.getTargets();
+		List<DTarget> tList = dataProvider.getTargets();
 
 		if (tList == null) {
 			result = "failed to retrieve jobs";

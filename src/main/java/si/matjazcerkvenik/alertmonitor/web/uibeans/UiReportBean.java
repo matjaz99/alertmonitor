@@ -46,13 +46,9 @@ import java.util.Map;
 //@SessionScoped
 @ViewScoped
 @SuppressWarnings("unused")
-public class UiReportBean implements Serializable {
+public class UiReportBean extends CommonBean implements Serializable {
 
     private static final long serialVersionUID = 484765215984854L;
-    
-    private String providerId;
-
-    private AbstractDataProvider adp;
 
     private final String QUERY_PROM_UP_TIME = "round(time()-process_start_time_seconds{job=\"prometheus\"})";
     private final String QUERY_SCRAPE_INTERVAL_SECONDS = "round((timestamp(up) - timestamp(up offset 1h)) / count_over_time({__name__=~\"up\"}[1h]))";
@@ -73,24 +69,8 @@ public class UiReportBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        providerId = requestParameterMap.getOrDefault("providerId", "null");
-        adp = DAO.getInstance().getDataProviderById(providerId);
-        LogFactory.getLogger().info("UiReportBean: init: found provider: " + adp.getProviderConfig().getName() + "@" + adp.getProviderConfig().getUri());
-
+        LogFactory.getLogger().info("UiReportBean: init: found provider: " + getProviderName() + "@" + dataProvider.getProviderConfig().getUri());
         fillInstanceStatusesTable();
-    }
-    
-    public String getProviderId() {
-		return providerId;
-	}
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
-
-    public AbstractDataProvider getAdp() {
-        return adp;
     }
 
     public String getPrometheusUpTime() {
@@ -336,26 +316,26 @@ public class UiReportBean implements Serializable {
 
 
     private PQueryMessage executeQuery(String query) {
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
         try {
             return api.query(query);
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQuery: " + query + ": exception: ", e);
         } finally {
-            adp.getHttpClientPool().returnClient(api);
+        	dataProvider.getHttpClientPool().returnClient(api);
         }
         return null;
     }
 
     private PQueryMessage executeQueryRange(String query) {
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
         try {
             long t = System.currentTimeMillis() / 1000;
             return api.queryRange(query, (t - 3600), t, "1m");
         } catch (Exception e) {
             LogFactory.getLogger().error("UiReportBean: executeQueryRange: " + query + ": exception: ", e);
         } finally {
-            adp.getHttpClientPool().returnClient(api);
+        	dataProvider.getHttpClientPool().returnClient(api);
         }
         return null;
     }

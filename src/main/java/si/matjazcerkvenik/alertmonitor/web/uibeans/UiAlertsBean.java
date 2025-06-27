@@ -19,19 +19,14 @@ import si.matjazcerkvenik.alertmonitor.util.LogFactory;
 @Named("uiAlertsBean")
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiAlertsBean implements Serializable {
+public class UiAlertsBean extends CommonBean implements Serializable {
 
 	private static final long serialVersionUID = 2676128254354495702L;
-	
-	private String providerId;
 	
 	private String searchString;
 	
 	@PostConstruct
 	public void init() {
-		Map<String, String> params = FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap();
-        providerId = params.getOrDefault("providerId", null);
         if (providerId == null) {
         	// show alerts of all providers
 		} else {
@@ -50,8 +45,7 @@ public class UiAlertsBean implements Serializable {
 			}
 		} else {
 			// show only alerts for selected provider
-			AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-			list.addAll(adp.getActiveAlerts().values());
+			list.addAll(dataProvider.getActiveAlerts().values());
 		}
 		
 		

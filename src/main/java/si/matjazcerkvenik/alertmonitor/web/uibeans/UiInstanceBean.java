@@ -41,21 +41,16 @@ import java.util.stream.Collectors;
 @Named("uiInstanceBean")
 @ViewScoped
 @SuppressWarnings("unused")
-public class UiInstanceBean implements Serializable {
+public class UiInstanceBean extends CommonBean implements Serializable {
 
     private static final long serialVersionUID = 7961535598744624L;
-    
-    private String providerId;
 
     private DTarget target;
 
     @PostConstruct
     public void init() {
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = requestParameterMap.getOrDefault("target", "null");
-        providerId = requestParameterMap.getOrDefault("providerId", null);
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        target = adp.getSingleTarget(id);
+        String id = urlParams.getOrDefault("target", "null");
+        target = dataProvider.getSingleTarget(id);
         LogFactory.getLogger().info("UiInstanceBean: init: found target: " + target.toString());
     }
 
@@ -64,8 +59,7 @@ public class UiInstanceBean implements Serializable {
     }
 
     public List<DEvent> getInstanceActiveAlarms() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        List<DEvent> list = new ArrayList<>(adp.getActiveAlerts().values());
+        List<DEvent> list = new ArrayList<>(dataProvider.getActiveAlerts().values());
         List<DEvent> result = list.stream()
                 .filter(notif -> checkInstance(notif))
                 .collect(Collectors.toList());
@@ -80,8 +74,7 @@ public class UiInstanceBean implements Serializable {
     }
 
     public List<DEvent> getInstanceJournalAlarms() {
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        List<DEvent> result = adp.getJournal().stream()
+        List<DEvent> result = dataProvider.getJournal().stream()
                 .filter(notif -> checkInstance(notif))
                 .collect(Collectors.toList());
         Collections.sort(result, new Comparator<DEvent>() {

@@ -37,34 +37,17 @@ import java.util.Map;
 @Named("uiConfigBean")
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiConfigBean implements Serializable {
+public class UiConfigBean extends CommonBean implements Serializable {
 
     private static final long serialVersionUID = 320547795413589L;
-    
-    private String providerId;
 
 //    private String selectedDataProvider = AmProps.ALERTMONITOR_DATAPROVIDERS_DEFAULT_PROVIDER_NAME;
     private String selectedLogLevel = "INFO";
-
-    private List<String> allDataProviders;
     
     @PostConstruct
     public void init() {
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        providerId = requestParameterMap.getOrDefault("providerId", null);
         LogFactory.getLogger().info("UiConfigBean: init: " + providerId);
     }
-    
-    
-
-    public String getProviderId() {
-		return providerId;
-	}
-
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
     
 
 	public List<AbstractDataProvider> getAllDataProviders() {

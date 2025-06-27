@@ -34,11 +34,9 @@ import java.util.*;
 @Named("uiQueryBean")
 @ViewScoped
 @SuppressWarnings("unused")
-public class UiQueryBean implements Serializable {
+public class UiQueryBean extends CommonBean implements Serializable {
 
     private static final long serialVersionUID = 34412597842163L;
-    
-    private String providerId;
 
     private String query = "up";
     private String result;
@@ -50,36 +48,13 @@ public class UiQueryBean implements Serializable {
     
     @PostConstruct
 	public void init() {
-		Map<String, String> params = FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap();
-        String query = params.getOrDefault("q", null);
+        String query = urlParams.getOrDefault("q", null);
         if (query != null && query.length() > 0) {
             this.query = query;
         }
-        providerId = params.getOrDefault("providerId", null);
-        if (providerId == null) {
-        	// error
-		}
 		LogFactory.getLogger().info("UiQueryBean.init(): " + providerId);
 	}
-    
-    
-
-    public String getProviderId() {
-		return providerId;
-	}
-
-
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
 	
-	public String getProviderName() {
-		return DAO.getInstance().getDataProviderById(providerId).getProviderConfig().getName();
-	}
-
-
 
 	public String getQuery() {
         return query;
@@ -159,8 +134,7 @@ public class UiQueryBean implements Serializable {
             return;
         }
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
         try {
             PQueryMessage msg = api.query(query);
 
@@ -187,7 +161,7 @@ public class UiQueryBean implements Serializable {
             LogFactory.getLogger().error("UiQueryBean: failed executing query; root cause: " + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         } finally {
-            adp.getHttpClientPool().returnClient(api);
+            dataProvider.getHttpClientPool().returnClient(api);
         }
     }
 
@@ -206,8 +180,7 @@ public class UiQueryBean implements Serializable {
             return;
         }
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
         try {
             long start = startDate.getTime() / 1000;
             long end = endDate.getTime() / 1000;
@@ -236,7 +209,7 @@ public class UiQueryBean implements Serializable {
             LogFactory.getLogger().error(e.getMessage() + e.getMessage());
             result = "failed to get result: " + e.getMessage();
         } finally {
-            adp.getHttpClientPool().returnClient(api);
+            dataProvider.getHttpClientPool().returnClient(api);
         }
     }
 
@@ -317,8 +290,7 @@ public class UiQueryBean implements Serializable {
         queryResult = null;
         result = null;
 
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        PrometheusHttpClient api = adp.getHttpClientPool().getClient();
+        PrometheusHttpClient api = dataProvider.getHttpClientPool().getClient();
         try {
             // syntax: time_of_max(alertmonitor_active_alerts_count[24h])
             //eg. time_of_max(alertmonitor_active_alerts_count[3h])
@@ -364,7 +336,7 @@ public class UiQueryBean implements Serializable {
             LogFactory.getLogger().error(e.getMessage(), e);
             result = "failed to get result: " + e.getMessage();
         } finally {
-            adp.getHttpClientPool().returnClient(api);
+            dataProvider.getHttpClientPool().returnClient(api);
         }
     }
 

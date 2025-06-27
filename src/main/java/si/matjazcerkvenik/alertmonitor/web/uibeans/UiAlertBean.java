@@ -35,35 +35,21 @@ import java.util.*;
 @Named("uiAlertBean")
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiAlertBean implements Serializable {
+public class UiAlertBean extends CommonBean implements Serializable {
 
     private static final long serialVersionUID = 2791411831853745037L;
-    
-    private String providerId;
 
     private DEvent event;
 
     @PostConstruct
     public void init() {
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String uid = requestParameterMap.getOrDefault("uid", "null");
-        providerId = requestParameterMap.getOrDefault("providerId", null);
-        AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-        event = adp.getEvent(uid);
+        String uid = urlParams.getOrDefault("uid", "null");
+        event = dataProvider.getEvent(uid);
         if (event == null) {
             Growl.showWarningGrowl("Object not found", null);
             LogFactory.getLogger().info("UiAlertBean: object not found: uid=" + uid);
         }
     }
-
-    public String getProviderId() {
-		return providerId;
-	}
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
-
 
 
 	public DEvent getEvent() {
