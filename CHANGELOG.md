@@ -1,6 +1,8 @@
 ## 3.0.0-Wildfly-SNAPSHOT
 
 * [CHANGE] Alertmonitor supports deployment on Wildfly server
+* [CHANGE] Reorganized toolbar, some options moved to provider entities
+* [CHANGE] Navigation is based on `providerId` URL parameter
 * [ENHANCEMENT] Added Alertmonitor logo to menubar
 * [ENHANCEMENT] Gracefully stop provider tasks when shutting down
 

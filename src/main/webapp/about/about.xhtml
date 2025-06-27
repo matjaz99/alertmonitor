@@ -1,5 +1,6 @@
 <ui:composition template="/templates/pageTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
@@ -34,6 +35,21 @@
 
 			<br/>
 			<hr/>
+			<div class="container">
+				<div class="area border">
+					<p:outputLabel value="Alertmonitor is up to date" rendered="#{uiConfigBean.updateVersionWarning == null}"/>
+					
+				</div>
+				<div class="area border">Github</div>
+			</div>
+			<hr/>
+			<div class="container">
+				<div class="area border">Up time</div>
+				<div class="area border">Events in last hour</div>
+				<div class="area border">Metrics</div>
+			</div>
+			<hr/>
+			
 			<br/>
 
 

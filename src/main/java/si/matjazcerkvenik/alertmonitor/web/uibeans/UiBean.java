@@ -64,9 +64,9 @@ public class UiBean implements Serializable {
 		Map<String, String> params = FacesContext.getCurrentInstance().
                 getExternalContext().getRequestParameterMap();
         providerId = params.getOrDefault("providerId", null);
-        if (providerId == null) {
-        	providerId = DAO.getInstance().getDataProvider(".default").getProviderConfig().getId();
-		}
+//        if (providerId == null) {
+//        	providerId = DAO.getInstance().getDataProvider(".default").getProviderConfig().getId();
+//		}
 		LogFactory.getLogger().info("UiBean.init(): " + providerId);
 	}
 	
