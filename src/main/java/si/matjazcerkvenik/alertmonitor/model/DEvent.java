@@ -45,6 +45,10 @@ public class DEvent implements Cloneable {
 	@BsonProperty(value = "provider")
 	private String provider;
 	
+	/** Provider ID who sent alert */
+	@BsonProperty(value = "providerId")
+	private String providerId;
+	
 	/** Timestamp of this occurrence */
 	@BsonProperty(value = "timestamp")
 	private long timestamp;
@@ -202,6 +206,14 @@ public class DEvent implements Cloneable {
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public String getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
 	}
 
 	public long getTimestamp() {

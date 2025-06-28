@@ -90,6 +90,7 @@ public class AlertmanagerProcessor {
                 for (ProviderConfig pc : AmProps.yamlConfig.getProviders()) {
                     if (pc.getUri().equalsIgnoreCase(m.getRequestUri())) {
                         e.setProvider(pc.getName());
+                        e.setProviderId(pc.getId());
                         break;
                     }
                 }

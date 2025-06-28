@@ -86,6 +86,8 @@ public class PrometheusDataProvider extends AbstractDataProvider {
         DEvent event = super.getEvent(id);
 
         if (event == null) return null;
+        
+        // FIXME if dataProvider does not exist anymore then it will throw null pointer exception
 
         PrometheusHttpClient api = prometheusHttpClientPool.getClient();
 

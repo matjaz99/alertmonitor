@@ -43,17 +43,12 @@ import si.matjazcerkvenik.alertmonitor.web.WebhookMessage;
 @Named("uiBean")
 @RequestScoped
 @SuppressWarnings("unused")
-public class UiBean implements Serializable {
+public class UiBean extends CommonBean implements Serializable {
 
 	private static final long serialVersionUID = 479421012028252L;
-
-	@Inject
-	private UiConfigBean uiConfigBean;
 	
 	@Inject
 	private UiSessionBean uiSessionBean;
-	
-	private String providerId;
 
 	private List<DTag> tagList = new ArrayList<>();
 	private String searchString;
@@ -74,14 +69,6 @@ public class UiBean implements Serializable {
 	public void addMessage() {
 		Growl.showInfoGrowl("Configuration updated", "");
 	}
-
-	public UiConfigBean getUiConfigBean() {
-		return uiConfigBean;
-	}
-
-	public void setUiConfigBean(UiConfigBean uiConfigBean) {
-		this.uiConfigBean = uiConfigBean;
-	}
 	
 
 	public UiSessionBean getUiSessionBean() {
@@ -90,17 +77,6 @@ public class UiBean implements Serializable {
 
 	public void setUiSessionBean(UiSessionBean uiSessionBean) {
 		this.uiSessionBean = uiSessionBean;
-	}
-	
-	
-
-	public String getProviderId() {
-		return providerId;
-	}
-
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
 	}
 
 
@@ -116,14 +92,18 @@ public class UiBean implements Serializable {
 	
 
 	public List<WebhookMessage> getWebhookMessages() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-		return adp.getWebhookMessages();
+		if (providerId != null) {
+			return dataProvider.getWebhookMessages();
+		}
+		return null;
 	}
 
 
 	public List<DEvent> getJournal() {
-		AbstractDataProvider adp = DAO.getInstance().getDataProviderById(providerId);
-		return adp.getJournal();
+		if (providerId != null) {
+			return dataProvider.getJournal();
+		}
+		return null;
 	}
 
 

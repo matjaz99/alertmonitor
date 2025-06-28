@@ -39,15 +39,14 @@ public class UiAlertsBean extends CommonBean implements Serializable {
 		List<DEvent> list = new ArrayList<>();
 		
 		if (providerId == null) {
-        	// show alerts of all providers
+        	// get alerts of all providers
 			for (AbstractDataProvider adp : DAO.getInstance().getAllDataProviders()) {
 				list.addAll(adp.getActiveAlerts().values());
 			}
 		} else {
-			// show only alerts for selected provider
+			// get only alerts for selected provider
 			list.addAll(dataProvider.getActiveAlerts().values());
 		}
-		
 		
 		List<DEvent> result = list.stream()
 				.filter(notif -> filterEvent(notif))

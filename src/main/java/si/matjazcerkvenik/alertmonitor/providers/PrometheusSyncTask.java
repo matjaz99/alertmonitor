@@ -100,6 +100,7 @@ public class PrometheusSyncTask extends TimerTask {
 
                 // set provider name
                 e.setProvider(dataProvider.providerConfig.getName());
+                e.setProviderId(dataProvider.providerConfig.getId());
 
                 // set all other labels
                 e.setOtherLabels(alert.getLabels());

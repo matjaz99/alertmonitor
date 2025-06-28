@@ -44,7 +44,14 @@ public class UiAlertBean extends CommonBean implements Serializable {
     @PostConstruct
     public void init() {
         String uid = urlParams.getOrDefault("uid", "null");
-        event = dataProvider.getEvent(uid);
+        if (providerId == null) {
+			// read event from DB
+        	event = DAO.getInstance().getDataManager().getEvent(uid);
+		} else {
+			// read event via dataProvider class
+			event = dataProvider.getEvent(uid);
+		}
+        
         if (event == null) {
             Growl.showWarningGrowl("Object not found", null);
             LogFactory.getLogger().info("UiAlertBean: object not found: uid=" + uid);
