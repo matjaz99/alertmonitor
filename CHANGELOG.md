@@ -5,6 +5,7 @@
 * [CHANGE] Navigation is based on `providerId` URL parameter
 * [ENHANCEMENT] Added Alertmonitor logo to menubar
 * [ENHANCEMENT] Gracefully stop provider tasks when shutting down
+* [ENHANCEMENT] Sort alerts by severity
 
 
 ## 2.5.0 / 2025-05-02

@@ -18,12 +18,20 @@ services:
     networks:
       - monitoring_network
     environment:
+      # Timezone configuration
       - TZ=${TZ}
+      # Logging configuration
       - SIMPLELOGGER_FILENAME=/opt/jboss/alertmonitor/log/alertmonitor.log
+      - SIMPLELOGGER_LEVEL=INFO
+      - SIMPLELOGGER_MAXFILESIZE=50
+      - SIMPLELOGGER_MAXBACKUPFILES=10
+      - SIMPLELOGGER_DATEFORMAT="yyyy-MM-dd'T'HH:mm:ss:SSS Z"
+      # Custom environment variables used for variable substitution
       - GRAFANA_HOSTNAME=my.grafana.domain
+      # Alertmonitor configuration
       - ALERTMONITOR_DATA_RETENTION_DAYS=7
       - ALERTMONITOR_PSYNC_INTERVAL_SEC=900
-      - ALERTMONITOR_PROMETHEUS_SERVER=http://localhost:9090
+      - ALERTMONITOR_PROMETHEUS_SERVER=http://prometheus:9090
       - ALERTMONITOR_PROMETHEUS_CLIENT_POOL_SIZE=1
       - ALERTMONITOR_HTTP_CLIENT_CONNECT_TIMEOUT_SEC=10
       - ALERTMONITOR_HTTP_CLIENT_READ_TIMEOUT_SEC=120
